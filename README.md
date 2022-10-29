@@ -1,2 +1,0 @@
-# FWB
-Furry Weapon Builder
