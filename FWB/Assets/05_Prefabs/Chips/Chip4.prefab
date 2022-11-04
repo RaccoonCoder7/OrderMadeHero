@@ -88,8 +88,7 @@ MonoBehaviour:
   chipKey: 4
   image: {fileID: 5962651337707695410}
   rectTr: {fileID: 434836036705395385}
-  colNum: 1
-  rowNum: 2
+  colNum: 2
+  rowNum: 1
   row:
-  - col: 01
-  - col: 01
+  - col: 0101

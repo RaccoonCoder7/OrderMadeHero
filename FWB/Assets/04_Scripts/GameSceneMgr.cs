@@ -188,7 +188,7 @@ public class GameSceneMgr : MonoBehaviour
                     {
                         frame.filledChip = chip;
                     }
-                    chip.rectTr.sizeDelta = new Vector2(chip.colNum, chip.rowNum) * chipSize;
+                    chip.rectTr.sizeDelta = new Vector2(chip.rowNum, chip.colNum) * chipSize;
                     chip.rectTr.anchoredPosition = new Vector3(chipSize * j, -chipSize * i, 0);
                     return;
                 }
