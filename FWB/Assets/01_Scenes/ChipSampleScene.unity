@@ -123,67 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &221856853
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 221856855}
-  - component: {fileID: 221856854}
-  m_Layer: 0
-  m_Name: GameSceneMgr
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &221856854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 221856853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39cf2040af7658447945dc50f791c4b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  csvList:
-  - {fileID: 4900000, guid: 3022eafacde93d14ca00d3339efaeb69, type: 3}
-  puzzleGrid: {fileID: 892983093}
-  chipPanelRectTr: {fileID: 555310833}
-  chipCountX: 4
-  chipCountY: 9
-  chipSize: 108
-  puzzleFrame: {fileID: 1589182173115361095, guid: ed2b062dfd152a54b91c4ec97b76d523, type: 3}
-  textureList:
-  - {fileID: 2800000, guid: 5440f09c1679c154da919673913afcbe, type: 3}
-  - {fileID: 2800000, guid: eb70f3a01b7b9bb4fa6e4c367ddc3ff6, type: 3}
-  chipList:
-  - {fileID: 8073632252546549673, guid: 84aade64292d06542a7f1a1b90bc702a, type: 3}
-  - {fileID: 5753792350700248634, guid: 7ad9241ca93810048ad8653058e5b3a2, type: 3}
-  - {fileID: 5736592617605986292, guid: 506e6cfb031a2b740b2b486f5f9ef1e2, type: 3}
-  - {fileID: 6917153948650544262, guid: 78dc74dc5dfe8154c97d977c4880446c, type: 3}
-  - {fileID: 3646497430456574729, guid: 99d616bdf29aea94f947c5dfb467181a, type: 3}
-  - {fileID: 5901132745183247225, guid: b5acc3285c20d06448452dfb4296f600, type: 3}
---- !u!4 &221856855
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 221856853}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &356355612
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +287,8 @@ GameObject:
   - component: {fileID: 555310833}
   - component: {fileID: 555310836}
   - component: {fileID: 555310835}
-  m_Layer: 5
+  - component: {fileID: 555310834}
+  m_Layer: 6
   m_Name: ChipPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +305,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7396651340782867540}
   m_Father: {fileID: 1500408543}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -374,6 +315,40 @@ RectTransform:
   m_AnchoredPosition: {x: -50, y: 0}
   m_SizeDelta: {x: 432, y: 972}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!114 &555310834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555310832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39cf2040af7658447945dc50f791c4b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  csvList:
+  - {fileID: 4900000, guid: 3022eafacde93d14ca00d3339efaeb69, type: 3}
+  puzzleGrid: {fileID: 892983093}
+  chipPanelRectTr: {fileID: 555310833}
+  es: {fileID: 1664732676}
+  canvas: {fileID: 1500408542}
+  dragImg: {fileID: 3607772434520447967}
+  chipCountX: 4
+  chipCountY: 9
+  chipSize: 108
+  puzzleFrame: {fileID: 1589182173115361095, guid: ed2b062dfd152a54b91c4ec97b76d523, type: 3}
+  textureList:
+  - {fileID: 2800000, guid: 5440f09c1679c154da919673913afcbe, type: 3}
+  - {fileID: 2800000, guid: eb70f3a01b7b9bb4fa6e4c367ddc3ff6, type: 3}
+  chipList:
+  - {fileID: 8073632252546549673, guid: 84aade64292d06542a7f1a1b90bc702a, type: 3}
+  - {fileID: 5753792350700248634, guid: 7ad9241ca93810048ad8653058e5b3a2, type: 3}
+  - {fileID: 5736592617605986292, guid: 506e6cfb031a2b740b2b486f5f9ef1e2, type: 3}
+  - {fileID: 6917153948650544262, guid: 78dc74dc5dfe8154c97d977c4880446c, type: 3}
+  - {fileID: 3646497430456574729, guid: 99d616bdf29aea94f947c5dfb467181a, type: 3}
+  - {fileID: 5901132745183247225, guid: b5acc3285c20d06448452dfb4296f600, type: 3}
+  - {fileID: 6917153948650544262, guid: c24842ea39793ad40a8aedafa4bbd0d8, type: 3}
 --- !u!114 &555310835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +475,7 @@ GameObject:
   - component: {fileID: 892983095}
   - component: {fileID: 892983094}
   - component: {fileID: 892983093}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: PuzzlePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1184,7 +1159,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
 --- !u!114 &1500408541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1482,3 +1457,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2128473268}
   m_CullTransparentMesh: 1
+--- !u!1 &563902523096760714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7396651340782867540}
+  - component: {fileID: 2632190826373230272}
+  - component: {fileID: 3607772434520447967}
+  m_Layer: 5
+  m_Name: DragImg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!222 &2632190826373230272
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563902523096760714}
+  m_CullTransparentMesh: 1
+--- !u!114 &3607772434520447967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563902523096760714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!224 &7396651340782867540
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563902523096760714}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 555310833}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0, y: 1}
