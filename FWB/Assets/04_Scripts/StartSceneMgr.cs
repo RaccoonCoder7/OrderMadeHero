@@ -31,6 +31,11 @@ public class StartSceneMgr : MonoBehaviour
         SceneManager.LoadScene("InitScene");
     }
 
+    private void ChangeToBookScene()
+    {
+        SceneManager.LoadScene("InitScene");
+    }
+
     private void OpenAlertPanel()
     {
         alertPanel.SetActive(true);
@@ -43,5 +48,13 @@ public class StartSceneMgr : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    private IEnumerator ChangeScene(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Scene2");
+        asyncLoad.allowSceneActivation = false;
+        yield return null;
+        SceneManager.LoadScene("InitScene");
     }
 }

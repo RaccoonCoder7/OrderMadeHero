@@ -20,6 +20,7 @@ public class InitSceneMgr2 : MonoBehaviour
     public GameObject alertPanel;
     public GameObject confirmPanel;
     public GameObject paws;
+    public GameObject stamp;
     public Image fadeImage;
     public float fadeSpeed;
 
@@ -32,6 +33,7 @@ public class InitSceneMgr2 : MonoBehaviour
     void Start()
     {
         alertPanel.SetActive(false);
+        confirmPanel.SetActive(false);
         alertDodgeBtn.onClick.AddListener(() => alertPanel.SetActive(false));
         backBtn.onClick.AddListener(OnClickBack);
         inputField.onEndEdit.AddListener(ValidateName);
@@ -47,6 +49,14 @@ public class InitSceneMgr2 : MonoBehaviour
         paws.SetActive(true);
         yield return StartCoroutine(FadeIn());
         paper.DOMove(new Vector3(0, 2, 0), 1);
+    }
+
+    private IEnumerator FinishIntroRoutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        stamp.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(FadeOut());
     }
 
     private IEnumerator FadeIn()
@@ -95,7 +105,7 @@ public class InitSceneMgr2 : MonoBehaviour
         OpenConfirmPanel(msg, () =>
             {
                 confirmedPlayerName = playerName;
-                // TODO: 도장, 페이드아웃 코루틴
+                StartCoroutine(FinishIntroRoutine());
             },
             () =>
             {
