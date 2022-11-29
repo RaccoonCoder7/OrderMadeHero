@@ -28,17 +28,14 @@ public class StartSceneMgr : MonoBehaviour
 
     private void ChangeToInitScene()
     {
-        SceneManager.LoadScene("InitScene");
-    }
-
-    private void ChangeToBookScene()
-    {
-        SceneManager.LoadScene("InitScene");
+        Debug.Log(1);
+        StartCoroutine(CommonTool.In.AsyncChangeScene("InitScene"));
+        Debug.Log(2);
     }
 
     private void OpenAlertPanel()
     {
-        alertPanel.SetActive(true);
+        CommonTool.In.OpenAlertPanel("현재 사용할 수 없는 기능입니다.");
     }
 
     private void Quit()
@@ -48,13 +45,5 @@ public class StartSceneMgr : MonoBehaviour
 #else
         Application.Quit();
 #endif
-    }
-
-    private IEnumerator ChangeScene(string sceneName)
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Scene2");
-        asyncLoad.allowSceneActivation = false;
-        yield return null;
-        SceneManager.LoadScene("InitScene");
     }
 }
