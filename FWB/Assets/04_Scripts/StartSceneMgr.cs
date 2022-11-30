@@ -28,9 +28,7 @@ public class StartSceneMgr : MonoBehaviour
 
     private void ChangeToInitScene()
     {
-        Debug.Log(1);
-        StartCoroutine(CommonTool.In.AsyncChangeScene("InitScene"));
-        Debug.Log(2);
+        StartCoroutine(CommonTool.In.AsyncChangeScene("IntroScene"));
     }
 
     private void OpenAlertPanel()
