@@ -20,9 +20,7 @@ public class IntroSceneMgr : MonoBehaviour
     public TextAsset ta;
     public float textDelayTime;
 
-    [SerializeField]
     private string confirmedPlayerName;
-
     private bool isOnConversation;
     private bool isTextFlowing;
     private bool skipLine;
@@ -70,19 +68,23 @@ public class IntroSceneMgr : MonoBehaviour
 
     private IEnumerator StartTextFlow()
     {
+        Debug.Log(1);
         for (int i = 0; i < lines.Count; i++)
         {
+        Debug.Log(2);
             if (lines[i].Trim().Equals("/"))
             {
                 prevText = string.Empty;
                 lineCnt++;
                 continue;
             }
+        Debug.Log(3);
 
             if (!string.IsNullOrEmpty(prevText))
             {
                 prevText = prevText + "\n";
             }
+        Debug.Log(4);
 
             isTextFlowing = true;
             for (int j = 0; j < lines[i].Length; j++)
@@ -100,14 +102,17 @@ public class IntroSceneMgr : MonoBehaviour
                     break;
                 }
             }
+        Debug.Log(5);
             prevText = prevText + lines[i];
             targetText.text = prevText;
             isTextFlowing = false;
 
+        Debug.Log(6);
             while (i >= lineCnt)
             {
                 yield return new WaitForSeconds(textDelayTime);
             }
+        Debug.Log(7);
         }
     }
 
