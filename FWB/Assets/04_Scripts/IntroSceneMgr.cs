@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using System.Linq;
 
 public class IntroSceneMgr : MonoBehaviour
 {
@@ -14,21 +15,100 @@ public class IntroSceneMgr : MonoBehaviour
     public Transform paper;
     public GameObject paws;
     public GameObject stamp;
+    [Header("Conversation")]
+    public Text targetText;
+    public TextAsset ta;
+    public float textDelayTime;
 
     [SerializeField]
     private string confirmedPlayerName;
 
+    private bool isOnConversation;
+    private bool isTextFlowing;
+    private bool skipLine;
+    private List<string> lines = new List<string>();
+    private int lineCnt = -1;
+    private string prevText;
     private Regex regex = new Regex(@"^[가-힣a-zA-Z0-9\s]{2,12}$");
     private const string playerNameRule = "한글, 영어 / 공백포함 2자 이상 12자 이하로 설정 해주세요";
 
-    void Start()
+    IEnumerator Start()
     {
         backBtn.onClick.AddListener(OnClickBack);
         inputField.onEndEdit.AddListener(ValidateName);
-        // TODO: 인트로
+        
+        lines = targetText.text.Split('\n').ToList();
+        yield return StartCoroutine(CommonTool.In.FadeIn());
+        isOnConversation = true;
+        StartCoroutine(StartTextFlow());
+        StartNextLine();
+    }
 
-        // 테스트
-        StartCoroutine(PlayerNameRoutine());
+    void Update()
+    {
+        if (!isOnConversation) return;
+
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            if (isTextFlowing)
+            {
+                SkipCurrLine();
+                StartNextLine();
+                return;
+            }
+
+            if (lines.Count <= lineCnt + 1)
+            {
+                isOnConversation = false;
+                StartCoroutine(PlayerNameRoutine());
+                return;
+            }
+
+            StartNextLine();
+        }
+    }
+
+    private IEnumerator StartTextFlow()
+    {
+        for (int i = 0; i < lines.Count; i++)
+        {
+            if (lines[i].Trim().Equals("/"))
+            {
+                prevText = string.Empty;
+                lineCnt++;
+                continue;
+            }
+
+            if (!string.IsNullOrEmpty(prevText))
+            {
+                prevText = prevText + "\n";
+            }
+
+            isTextFlowing = true;
+            for (int j = 0; j < lines[i].Length; j++)
+            {
+                targetText.text = prevText + lines[i].Substring(0, j + 1);
+                yield return new WaitForSeconds(textDelayTime);
+
+                if (skipLine)
+                {
+                    skipLine = false;
+                    if (i + 1 >= lines.Count || lines[i + 1].Trim().Equals("/"))
+                    {
+                        lineCnt--;
+                    }
+                    break;
+                }
+            }
+            prevText = prevText + lines[i];
+            targetText.text = prevText;
+            isTextFlowing = false;
+
+            while (i >= lineCnt)
+            {
+                yield return new WaitForSeconds(textDelayTime);
+            }
+        }
     }
 
     private IEnumerator PlayerNameRoutine()
@@ -44,6 +124,16 @@ public class IntroSceneMgr : MonoBehaviour
         stamp.SetActive(true);
         yield return new WaitForSeconds(1f);
         StartCoroutine(CommonTool.In.AsyncChangeScene("ChipSampleScene"));
+    }
+
+    private void SkipCurrLine()
+    {
+        skipLine = true;
+    }
+
+    private void StartNextLine()
+    {
+        lineCnt++;
     }
 
     private void ValidateName(string playerName)
