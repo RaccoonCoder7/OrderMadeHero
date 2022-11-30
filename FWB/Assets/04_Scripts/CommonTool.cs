@@ -82,23 +82,17 @@ public class CommonTool : SingletonMono<CommonTool>
 
     public IEnumerator AsyncChangeScene(string sceneName)
     {
-        Debug.Log("1-1");
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        Debug.Log("1-2");
         asyncLoad.allowSceneActivation = false;
-        Debug.Log("1-3");
 
         yield return StartCoroutine(FadeOut());
-        Debug.Log("1-4");
 
         while (asyncLoad.progress < 0.9f)
         {
-        Debug.Log("1-5");
             yield return null;
         }
-        Debug.Log("1-6");
+
         asyncLoad.allowSceneActivation = true;
         canvas.worldCamera = Camera.main;
-        Debug.Log("1-7");
     }
 }
