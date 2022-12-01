@@ -27,7 +27,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private RawImage background;
     private Puzzle currPuzzle;
     private ChipFrameData[,] chipFrameTable;
-    private Chip currentSelectedChip;
+    private ChipFrameData currentSelectedChipData;
     private GraphicRaycaster ray;
     private PointerEventData ped;
 
@@ -51,6 +51,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public class ChipFrameData
     {
         public Chip filledChip;
+        public int chipCount;
     }
 
     void Start()
@@ -176,11 +177,8 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             var chip = GetChipPrefab(key);
             if (chip)
             {
-                for (int i = 0; i < chipInventory[key]; i++)
-                {
-                    var chipInstance = Instantiate(chip, chipPanelRectTr.transform);
-                    SetChipToPanel(chipInstance);
-                }
+                var chipInstance = Instantiate(chip, chipPanelRectTr.transform);
+                SetChipToPanel(chipInstance, chipInventory[key]);
             }
         }
     }
@@ -190,23 +188,36 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         return chipList.Find(x => x.chipKey.Equals(key));
     }
 
-    private void SetChipToPanel(Chip chip)
+    private void SetChipToPanel(Chip chip, int chipCount)
     {
         for (int i = 0; i < chipCountY; i++)
         {
             for (int j = 0; j < chipCountX; j++)
             {
-                var fittableFrames = GetFittableFrameList(chip, j, i);
-                if (fittableFrames != null)
+                if (chipFrameTable[i, j].filledChip != null) continue;
+                List<ChipFrameData> fittableFrames = new List<ChipFrameData>();
+                fittableFrames.Add(chipFrameTable[i, j]);
+                foreach (var frame in fittableFrames)
                 {
-                    foreach (var frame in fittableFrames)
-                    {
-                        frame.filledChip = chip;
-                    }
-                    chip.rectTr.sizeDelta = new Vector2(chip.rowNum, chip.colNum) * chipSize;
-                    chip.rectTr.anchoredPosition = new Vector3(chipSize * j, -chipSize * i, 0);
-                    return;
+                    frame.filledChip = chip;
+                    frame.filledChip.count.text = chipCount.ToString();
+                    frame.chipCount = chipCount;
                 }
+                chip.rectTr.sizeDelta = new Vector2(chipSize, chipSize);
+                chip.rectTr.anchoredPosition = new Vector3(chipSize * j, -chipSize * i, 0);
+                return;
+
+                // var fittableFrames = GetFittableFrameList(chip, j, i);
+                // if (fittableFrames != null)
+                // {
+                //     foreach (var frame in fittableFrames)
+                //     {
+                //         frame.filledChip = chip;
+                //     }
+                //     chip.rectTr.sizeDelta = new Vector2(chip.rowNum, chip.colNum) * chipSize;
+                //     chip.rectTr.anchoredPosition = new Vector3(chipSize * j, -chipSize * i, 0);
+                //     return;
+                // }
             }
         }
         Destroy(chip.gameObject);
@@ -235,10 +246,10 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         return cfdList;
     }
 
-    private Chip GetChipAtPos(Vector2 pos)
+    private ChipFrameData GetChipAtPos(Vector2 pos)
     {
         pos /= chipSize;
-        return chipFrameTable[(int)-pos.y, (int)pos.x].filledChip;
+        return chipFrameTable[(int)-pos.y, (int)pos.x];
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -249,20 +260,30 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             return;
         }
         var chipPos = clickedPos + new Vector2(chipPanelRectTr.sizeDelta.x, chipPanelRectTr.sizeDelta.y / -2);
-        var chip = GetChipAtPos(chipPos);
-        if (chip != null)
+        var chipFrameData = GetChipAtPos(chipPos);
+        var chip = chipFrameData.filledChip;
+        if (chip != null && chipFrameData.chipCount > 0)
         {
             dragImg.texture = chip.image.texture;
-            dragImgRectTr.sizeDelta = chip.rectTr.sizeDelta;
+            dragImgRectTr.sizeDelta = new Vector2(chip.rowNum, chip.colNum) * chipSize;
             dragImgRectTr.localPosition = clickedPos + new Vector2(-chip.rectTr.sizeDelta.x, chip.rectTr.sizeDelta.y) / 2;
-            currentSelectedChip = chip;
+            currentSelectedChipData = chipFrameData;
             dragImg.gameObject.SetActive(true);
+            chipFrameData.chipCount--;
+            if (chipFrameData.chipCount <= 0)
+            {
+                chip.gameObject.SetActive(false);
+            }
+            else
+            {
+                chip.count.text = chipFrameData.chipCount.ToString();
+            }
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (currentSelectedChip != null)
+        if (currentSelectedChipData != null)
         {
             dragImgRectTr.localPosition += (Vector3)eventData.delta / canvas.scaleFactor;
         }
@@ -270,22 +291,36 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        dragImg.gameObject.SetActive(false);
-        ped.position = Input.mousePosition;
-        List<RaycastResult> results = new List<RaycastResult>();
-        ray.Raycast(ped, results);
-        if (results.Count > 0)
+        if (currentSelectedChipData != null)
         {
-            var rectTr = results[0].gameObject.GetComponent<RectTransform>();
-            if (rectTr != null)
+            dragImg.gameObject.SetActive(false);
+            ped.position = Input.mousePosition;
+            List<RaycastResult> results = new List<RaycastResult>();
+            ray.Raycast(ped, results);
+            bool success = false;
+            if (results.Count > 0)
             {
-                if (rectTr == puzzleGridRectTr)
+                var rectTr = results[0].gameObject.GetComponent<RectTransform>();
+                if (rectTr != null)
                 {
-                    Debug.Log("Good");
-                    // TODO: 패널에 칩 세팅
+                    if (rectTr == puzzleGridRectTr)
+                    {
+                        Debug.Log("Good");
+                        success = true;
+                        // TODO: 패널에 칩 세팅
+                    }
                 }
             }
+            if (!success)
+            {
+                currentSelectedChipData.chipCount++;
+                if (currentSelectedChipData.chipCount > 0)
+                {
+                    currentSelectedChipData.filledChip.gameObject.SetActive(true);
+                }
+                currentSelectedChipData.filledChip.count.text = currentSelectedChipData.chipCount.ToString();
+            }
+            currentSelectedChipData = null;
         }
-        currentSelectedChip = null;
     }
 }
