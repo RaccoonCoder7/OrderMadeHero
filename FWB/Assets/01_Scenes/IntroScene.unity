@@ -620,10 +620,10 @@ MonoBehaviour:
   paper: {fileID: 1889056517}
   paws: {fileID: 1075646201}
   stamp: {fileID: 1384712009}
+  textPanel: {fileID: 1788492027}
   targetText: {fileID: 828501666}
   ta: {fileID: 4900000, guid: 0d403615d9f51c04ab95bf0135ad73f4, type: 3}
-  textDelayTime: 0.1
-  confirmedPlayerName: 
+  textDelayTime: 0.02
 --- !u!1 &828501664
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +694,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Text
+  m_Text: '
+
+'
 --- !u!222 &828501667
 CanvasRenderer:
   m_ObjectHideFlags: 0

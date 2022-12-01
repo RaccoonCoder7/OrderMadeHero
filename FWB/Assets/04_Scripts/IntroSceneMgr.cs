@@ -16,6 +16,7 @@ public class IntroSceneMgr : MonoBehaviour
     public GameObject paws;
     public GameObject stamp;
     [Header("Conversation")]
+    public GameObject textPanel;
     public Text targetText;
     public TextAsset ta;
     public float textDelayTime;
@@ -35,7 +36,7 @@ public class IntroSceneMgr : MonoBehaviour
         backBtn.onClick.AddListener(OnClickBack);
         inputField.onEndEdit.AddListener(ValidateName);
         
-        lines = targetText.text.Split('\n').ToList();
+        lines = ta.text.Split('\n').ToList();
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
         StartCoroutine(StartTextFlow());
@@ -68,23 +69,19 @@ public class IntroSceneMgr : MonoBehaviour
 
     private IEnumerator StartTextFlow()
     {
-        Debug.Log(1);
         for (int i = 0; i < lines.Count; i++)
         {
-        Debug.Log(2);
             if (lines[i].Trim().Equals("/"))
             {
                 prevText = string.Empty;
                 lineCnt++;
                 continue;
             }
-        Debug.Log(3);
 
             if (!string.IsNullOrEmpty(prevText))
             {
                 prevText = prevText + "\n";
             }
-        Debug.Log(4);
 
             isTextFlowing = true;
             for (int j = 0; j < lines[i].Length; j++)
@@ -102,23 +99,23 @@ public class IntroSceneMgr : MonoBehaviour
                     break;
                 }
             }
-        Debug.Log(5);
             prevText = prevText + lines[i];
             targetText.text = prevText;
             isTextFlowing = false;
 
-        Debug.Log(6);
             while (i >= lineCnt)
             {
                 yield return new WaitForSeconds(textDelayTime);
             }
-        Debug.Log(7);
         }
     }
 
     private IEnumerator PlayerNameRoutine()
     {
+        yield return StartCoroutine(CommonTool.In.FadeOut());
+        textPanel.SetActive(false);
         paws.SetActive(true);
+        yield return new WaitForSeconds(0.75f);
         yield return StartCoroutine(CommonTool.In.FadeIn());
         paper.DOMove(new Vector3(0, 2, 0), 1);
     }
