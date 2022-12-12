@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class PuzzleFrame : MonoBehaviour
 {
-    public int patternNum = 0;
     public RawImage image;
-
-
-    public void SetPuzzleFrameData(GameSceneMgr.PuzzleFrameData ppd)
+    public GameSceneMgr.PuzzleFrameData pfd;
+    
+    public void SetPuzzleFrameData(GameSceneMgr.PuzzleFrameData pfd)
     {
-        patternNum = ppd.patternNum;
+        this.pfd = pfd;
     }
 }
