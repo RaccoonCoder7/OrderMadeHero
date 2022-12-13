@@ -28,7 +28,6 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private Puzzle currPuzzle;
     private Chip[,] chipFrameTable;
     private Chip currentSelectedChip;
-    private List<PuzzleFrameData> currMovingFrameList = new List<PuzzleFrameData>();
 
     private CanvasScaler canvasScaler;
     private GraphicRaycaster ray;
@@ -41,6 +40,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         public PuzzleFrameData[,] frameDataTable;
     }
 
+    [System.Serializable]
     public class PuzzleFrameData
     {
         public int patternNum = 0;
@@ -252,19 +252,16 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
                 if (targetTable[y + j, x + i].patternNum == 0)
                 {
-                    Debug.Log(1);
                     return null;
                 }
 
                 if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
                 {
-                    Debug.Log(2);
                     return null;
                 }
 
                 if (targetTable[y + j, x + i].chip != null && targetTable[y + j, x + i].chip.chipCount != 0)
                 {
-                    Debug.Log(3);
                     return null;
                 }
 
@@ -287,37 +284,23 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         es.RaycastAll(ped, results);
         if (results.Count > 0)
         {
+            Chip targetChip = null;
             foreach (var result in results)
             {
-                Debug.Log(result.gameObject.name);
-            }
-            
-            List<Chip> chipList = new List<Chip>();
-            foreach (var result in results)
-            {
-                Chip tempChip = result.gameObject.GetComponent<Chip>();
-                if (tempChip != null)
+                if (result.gameObject.name.Contains("PuzzleFrame"))
                 {
-                    chipList.Add(tempChip);
+                    targetChip = result.gameObject.GetComponent<PuzzleFrame>().pfd.chip;
+                    break;
                 }
             }
 
-            Chip targetChip = null;
-            if (chipList.Count == 1)
+            if (targetChip == null)
             {
-                targetChip = chipList[0];
-            }
-            else if (chipList.Count > 1)
-            {
-                foreach (var chipElement in chipList)
-                {
-                    // GetChipAtPos
-                }
+                targetChip = results[0].gameObject.GetComponent<Chip>();
             }
 
             if (targetChip != null && targetChip.chipCount > 0)
             {
-                Debug.Log(2);
                 dragImg.texture = targetChip.image.texture;
                 dragImgRectTr.sizeDelta = new Vector2(targetChip.rowNum, targetChip.colNum) * chipSize;
                 var offset = new Vector3(canvasScaler.referenceResolution.x, canvasScaler.referenceResolution.y, 0) / 2;
@@ -328,34 +311,6 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 targetChip.chipCount--;
                 if (targetChip.chipCount <= 0)
                 {
-                    if (results.Count > 1)
-                    {
-                        if (results[1].gameObject.name.Contains("PuzzleFrame"))
-                        {
-                            foreach (var frameData in currPuzzle.frameDataTable)
-                            {
-                                if (frameData.chip == null)
-                                {
-                                    continue;
-                                }
-                                if (frameData.chip.Equals(targetChip))
-                                {
-                                    frameData.chip = null;
-                                    currMovingFrameList.Add(frameData);
-                                }
-                            }
-                        }
-                        // else if (results[1].gameObject.name.Contains("ChipPanel"))
-                        // {
-                        //     foreach (var chipFrame in chipFrameTable)
-                        //     {
-                        //         if (chipFrame.Equals(chip))
-                        //         {
-
-                        //         }
-                        //     }
-                        // }
-                    }
                     targetChip.gameObject.SetActive(false);
                 }
                 else
@@ -405,6 +360,10 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                         chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
                         chipInstance.rectTr.anchoredPosition = Vector3.zero;
                         chipInstance.chipCount = 1;
+                        if (currentSelectedChip.chipCount <= 0)
+                        {
+                            Destroy(currentSelectedChip.gameObject);
+                        }
                         success = true;
                     }
                 }
@@ -418,14 +377,8 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                     currentSelectedChip.gameObject.SetActive(true);
                 }
                 currentSelectedChip.count.text = currentSelectedChip.chipCount.ToString();
-
-                foreach (var frame in currMovingFrameList)
-                {
-                    frame.chip = currentSelectedChip;
-                }
             }
             currentSelectedChip = null;
-            currMovingFrameList.Clear();
         }
     }
 }
