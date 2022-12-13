@@ -10,6 +10,7 @@ public class Chip : MonoBehaviour
     public RectTransform rectTr;
     public GameObject countPlate;
     public Text count;
+    public int chipCount;
     public int colNum;
     public int rowNum;
     public Col[] row;
