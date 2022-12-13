@@ -101,6 +101,31 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         // 테스트코드
     }
 
+    [ContextMenu("LogPuzzleFrameDatas")]
+    private void LogPuzzleFrameDatas()
+    {
+        StringBuilder sb2 = new StringBuilder();
+        int i = 0;
+        foreach (var frame in currPuzzle.frameDataTable)
+        {
+            if (frame.filledChip != null)
+            {
+                sb2.Append(frame.filledChip.chipKey).Append(", ");
+            }
+            else
+            {
+                sb2.Append("0, ");
+            }
+            i++;
+            if (i == 8)
+            {
+                sb2.Append("\n");
+                i = 0;
+            }
+        }
+        Debug.Log(sb2.ToString());
+    }
+
     private Puzzle GetPuzzle(int index)
     {
         Puzzle puzzle = new Puzzle();
@@ -242,11 +267,20 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                     continue;
                 }
 
-                if (targetTable[y + j, x + i].patternNum == 0) return null;
+                if (targetTable[y + j, x + i].patternNum == 0)
+                {
+                    return null;
+                }
 
-                if (x + i >= chipCountX || y + j >= chipCountY) return null;
+                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
+                {
+                    return null;
+                }
 
-                if (targetTable[y + j, x + i].filledChip != null) return null;
+                if (targetTable[y + j, x + i].filledChip != null)
+                {
+                    return null;
+                }
 
                 cfdList.Add(targetTable[y + j, x + i]);
             }
@@ -267,7 +301,6 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             return;
         }
-        Debug.Log("start: " + clickedPos);
         var chipPos = clickedPos + new Vector2(chipPanelRectTr.sizeDelta.x, chipPanelRectTr.sizeDelta.y / -2);
         var chipFrameData = GetChipAtPos(chipPos);
         var chip = chipFrameData.filledChip;
@@ -305,7 +338,8 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             dragImg.gameObject.SetActive(false);
             bool success = false;
 
-            ped.position = Input.mousePosition;
+            var offset = new Vector2(currentSelectedChipData.filledChip.rowNum - 1, currentSelectedChipData.filledChip.colNum - 1) * chipSize / 2;
+            ped.position = Input.mousePosition + new Vector3(-offset.x, offset.y, 0);
             List<RaycastResult> results = new List<RaycastResult>();
             ray.Raycast(ped, results);
             if (results.Count > 0)
@@ -322,41 +356,14 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                         {
                             ff.filledChip = chipInstance;
                         }
-                        // TODO: 크기와 위치 변경
                         chipInstance.countPlate.SetActive(false);
-                        chipInstance.transform.parent = puzzleGrid.transform;
+                        chipInstance.transform.parent = frame.transform;
                         chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
-                        chipInstance.rectTr.anchoredPosition = new Vector3(chipSize * frame.pfd.x, -chipSize * frame.pfd.y, 0);
-                        Debug.Log("Good");
+                        chipInstance.rectTr.anchoredPosition = Vector3.zero;
                         success = true;
                     }
                 }
             }
-
-            // if (RectTransformUtility.ScreenPointToLocalPointInRectangle(puzzleGridRectTr, eventData.position, eventData.pressEventCamera, out clickedPos))
-            // {
-            //     Debug.Log("end: " + clickedPos);
-            //     puzzleGrid.cellSize.x;
-
-            //     if (0 < clickedPos.x && clickedPos.x < puzzleGridRectTr.rect.width && clickedPos.y < Mathf.Abs(puzzleGridRectTr.rect.height))
-            //     {
-            //         int x = 0, y = 0;
-            //         var fittableFrames = GetFittableFrameList(currPuzzle.frameDataTable, currentSelectedChipData.filledChip, x, y);
-            //         if (fittableFrames != null)
-            //         {
-            //             var chipInstance = Instantiate(currentSelectedChipData.filledChip, chipPanelRectTr.transform);
-            //             foreach (var frame in fittableFrames)
-            //             {
-            //                 frame.filledChip = chipInstance;
-            //             }
-            //             chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
-            //             chipInstance.rectTr.anchoredPosition = new Vector3(chipSize * x, -chipSize * y, 0);
-            //             Debug.Log("Good");
-            //             success = true;
-            //         }
-            //         Debug.Log(clickedPos);
-            //     }
-            // }
 
             if (!success)
             {
