@@ -377,7 +377,12 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 }
                 else
                 {
-                    var frame = results[0].gameObject.GetComponent<PuzzleFrame>();
+                    PuzzleFrame frame = null;
+                    foreach (var result in results)
+                    {
+                        frame = result.gameObject.GetComponent<PuzzleFrame>();
+                        if (frame != null) break;
+                    }
                     if (frame != null && frame.pfd.patternNum != 0)
                     {
                         var fittableFrames = GetFittableFrameList(currPuzzle.frameDataTable, currentSelectedChip, frame.pfd.x, frame.pfd.y);
