@@ -12,6 +12,7 @@ public class IntroSceneMgr : MonoBehaviour
 {
     public InputField inputField;
     public Button backBtn;
+    public Button skipBtn;
     public Transform paper;
     public GameObject paws;
     public GameObject stamp;
@@ -20,7 +21,7 @@ public class IntroSceneMgr : MonoBehaviour
     public Text targetText;
     public TextAsset ta;
     public float textDelayTime;
-    public List<GameObject> imageList = new List<GameObject>();
+    public List<ImageData> imageList = new List<ImageData>();
 
     private string confirmedPlayerName;
     private bool isOnConversation;
@@ -32,9 +33,17 @@ public class IntroSceneMgr : MonoBehaviour
     private Regex regex = new Regex(@"^[가-힣a-zA-Z0-9\s]{2,12}$");
     private const string playerNameRule = "한글, 영어 / 공백포함 2자 이상 12자 이하로 설정 해주세요";
 
+    [System.Serializable]
+    public class ImageData
+    {
+        public string key;
+        public GameObject imageObj;
+    }
+
     IEnumerator Start()
     {
         backBtn.onClick.AddListener(OnClickBack);
+        skipBtn.onClick.AddListener(OnClickSkip);
         inputField.onEndEdit.AddListener(ValidateName);
 
         lines = ta.text.Split('\n').ToList();
@@ -75,21 +84,30 @@ public class IntroSceneMgr : MonoBehaviour
             if (lines[i].StartsWith("!"))
             {
                 var commands = lines[i].Split(' ');
-                bool doJump = false;
+                List<string> imageKeyList = new List<string>();
                 foreach (var command in commands)
                 {
-                    // TODO: 커맨드 대응, 스위치문으로 변경
-                    if (command.Trim().Equals("!next"))
+                    string com = command.Trim();
+                    if (com.Contains("!image"))
+                    {
+                        imageKeyList.Add(com.Split('_')[1]);
+                    }
+                    else if (com.Equals("!next"))
                     {
                         prevText = string.Empty;
-                        lineCnt++;
-                        doJump = true;
                     }
                 }
-                if (doJump)
+
+                if (imageKeyList.Count > 0)
                 {
-                    continue;
+                    foreach (var img in imageList)
+                    {
+                        img.imageObj.SetActive(imageKeyList.Contains(img.key));
+                    }
                 }
+
+                lineCnt++;
+                continue;
             }
 
             if (!string.IsNullOrEmpty(prevText))
@@ -127,6 +145,12 @@ public class IntroSceneMgr : MonoBehaviour
     private IEnumerator PlayerNameRoutine()
     {
         yield return StartCoroutine(CommonTool.In.FadeOut());
+        foreach (var img in imageList)
+        {
+            img.imageObj.SetActive(false);
+        }
+        backBtn.gameObject.SetActive(false);
+        skipBtn.gameObject.SetActive(false);
         textPanel.SetActive(false);
         paws.SetActive(true);
         yield return new WaitForSeconds(0.75f);
@@ -184,5 +208,11 @@ public class IntroSceneMgr : MonoBehaviour
     {
         isOnConversation = false;
         StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
+    }
+
+    private void OnClickSkip()
+    {
+        isOnConversation = false;
+        StartCoroutine(PlayerNameRoutine());
     }
 }
