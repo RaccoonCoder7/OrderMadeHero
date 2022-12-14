@@ -28,10 +28,10 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private Puzzle currPuzzle;
     private Chip[,] chipFrameTable;
     private Chip currentSelectedChip;
-
     private CanvasScaler canvasScaler;
     private GraphicRaycaster ray;
     private PointerEventData ped;
+    private bool isFromPuzzle;
 
     public class Puzzle
     {
@@ -289,6 +289,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             {
                 if (result.gameObject.name.Contains("PuzzleFrame"))
                 {
+                    isFromPuzzle = true;
                     targetChip = result.gameObject.GetComponent<PuzzleFrame>().pfd.chip;
                     break;
                 }
@@ -339,32 +340,67 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             var offset = new Vector2(currentSelectedChip.rowNum - 1, currentSelectedChip.colNum - 1) * chipSize / 2;
             ped.position = Input.mousePosition + new Vector3(-offset.x, offset.y, 0);
             List<RaycastResult> results = new List<RaycastResult>();
-            ray.Raycast(ped, results);
+            es.RaycastAll(ped, results);
             if (results.Count > 0)
             {
-                var frame = results[0].gameObject.GetComponent<PuzzleFrame>();
-                if (frame != null && frame.pfd.patternNum != 0)
+                bool isChipPanel = false;
+                foreach (var result in results)
                 {
-                    var fittableFrames = GetFittableFrameList(currPuzzle.frameDataTable, currentSelectedChip, frame.pfd.x, frame.pfd.y);
-                    if (fittableFrames != null)
+                    if (result.gameObject.name.Contains("ChipPanel"))
                     {
-                        var chipInstance = Instantiate(currentSelectedChip, chipPanelRectTr.transform);
-                        chipInstance.name = currentSelectedChip.name;
-                        chipInstance.gameObject.SetActive(true);
-                        for (int i = 0; i < fittableFrames.Count; i++)
+                        isChipPanel = true;
+                        break;
+                    }
+                }
+
+                if (isChipPanel)
+                {
+                    if (isFromPuzzle)
+                    {
+                        foreach (var c in chipFrameTable)
                         {
-                            fittableFrames[i].chip = chipInstance;
+                            if (c.chipKey.Equals(currentSelectedChip.chipKey))
+                            {
+                                c.chipCount++;
+                                c.gameObject.SetActive(true);
+                                c.count.text = c.chipCount.ToString();
+                                break;
+                            }
                         }
-                        chipInstance.countPlate.SetActive(false);
-                        chipInstance.transform.parent = frame.transform;
-                        chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
-                        chipInstance.rectTr.anchoredPosition = Vector3.zero;
-                        chipInstance.chipCount = 1;
+
                         if (currentSelectedChip.chipCount <= 0)
                         {
                             Destroy(currentSelectedChip.gameObject);
                         }
                         success = true;
+                    }
+                }
+                else
+                {
+                    var frame = results[0].gameObject.GetComponent<PuzzleFrame>();
+                    if (frame != null && frame.pfd.patternNum != 0)
+                    {
+                        var fittableFrames = GetFittableFrameList(currPuzzle.frameDataTable, currentSelectedChip, frame.pfd.x, frame.pfd.y);
+                        if (fittableFrames != null)
+                        {
+                            var chipInstance = Instantiate(currentSelectedChip, chipPanelRectTr.transform);
+                            chipInstance.name = currentSelectedChip.name;
+                            chipInstance.gameObject.SetActive(true);
+                            for (int i = 0; i < fittableFrames.Count; i++)
+                            {
+                                fittableFrames[i].chip = chipInstance;
+                            }
+                            chipInstance.countPlate.SetActive(false);
+                            chipInstance.transform.parent = frame.transform;
+                            chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
+                            chipInstance.rectTr.anchoredPosition = Vector3.zero;
+                            chipInstance.chipCount = 1;
+                            if (currentSelectedChip.chipCount <= 0 && isFromPuzzle)
+                            {
+                                Destroy(currentSelectedChip.gameObject);
+                            }
+                            success = true;
+                        }
                     }
                 }
             }
@@ -380,5 +416,6 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             }
             currentSelectedChip = null;
         }
+        isFromPuzzle = false;
     }
 }
