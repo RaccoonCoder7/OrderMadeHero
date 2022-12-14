@@ -7,7 +7,7 @@ public abstract class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T
 {
 	protected static T _instance;
 	public static T In { get { return _instance; } }
-	void Awake()
+	protected void Awake()
 	{
 		if ( _instance == null ) {
 			_instance = (T)this;

@@ -11,19 +11,18 @@ public class StartSceneMgr : MonoBehaviour
     public Button bookBtn;
     public Button settingBtn;
     public Button quitBtn;
-    public Button alertDodgeBtn;
-    public GameObject alertPanel;
 
 
     void Start()
     {
-        alertPanel.SetActive(false);
         startBtn.onClick.AddListener(ChangeToInitScene);
         continueBtn.onClick.AddListener(OpenAlertPanel);
         bookBtn.onClick.AddListener(OpenAlertPanel);
         settingBtn.onClick.AddListener(OpenAlertPanel);
         quitBtn.onClick.AddListener(Quit);
-        alertDodgeBtn.onClick.AddListener(() => alertPanel.SetActive(false));
+        GameMgr.In.initDone = true;
+
+        StartCoroutine(CommonTool.In.FadeIn());
     }
 
     private void ChangeToInitScene()

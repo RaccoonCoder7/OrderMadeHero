@@ -20,11 +20,11 @@ public class CommonTool : SingletonMono<CommonTool>
     private Canvas canvas;
 
 
-    void Start()
+    void Awake()
     {
+        base.Awake();
         canvas = GetComponent<Canvas>();
 
-        fadeImage.gameObject.SetActive(false);
         alertPanel.SetActive(false);
         confirmPanel.SetActive(false);
         alertDodgeBtn.onClick.AddListener(() => alertPanel.SetActive(false));

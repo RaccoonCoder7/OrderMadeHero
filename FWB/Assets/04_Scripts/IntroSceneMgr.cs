@@ -20,6 +20,7 @@ public class IntroSceneMgr : MonoBehaviour
     public Text targetText;
     public TextAsset ta;
     public float textDelayTime;
+    public List<GameObject> imageList = new List<GameObject>();
 
     private string confirmedPlayerName;
     private bool isOnConversation;
@@ -35,7 +36,7 @@ public class IntroSceneMgr : MonoBehaviour
     {
         backBtn.onClick.AddListener(OnClickBack);
         inputField.onEndEdit.AddListener(ValidateName);
-        
+
         lines = ta.text.Split('\n').ToList();
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
@@ -71,11 +72,24 @@ public class IntroSceneMgr : MonoBehaviour
     {
         for (int i = 0; i < lines.Count; i++)
         {
-            if (lines[i].Trim().Equals("/"))
+            if (lines[i].StartsWith("!"))
             {
-                prevText = string.Empty;
-                lineCnt++;
-                continue;
+                var commands = lines[i].Split(' ');
+                bool doJump = false;
+                foreach (var command in commands)
+                {
+                    // TODO: 커맨드 대응, 스위치문으로 변경
+                    if (command.Trim().Equals("!next"))
+                    {
+                        prevText = string.Empty;
+                        lineCnt++;
+                        doJump = true;
+                    }
+                }
+                if (doJump)
+                {
+                    continue;
+                }
             }
 
             if (!string.IsNullOrEmpty(prevText))
@@ -92,7 +106,7 @@ public class IntroSceneMgr : MonoBehaviour
                 if (skipLine)
                 {
                     skipLine = false;
-                    if (i + 1 >= lines.Count || lines[i + 1].Trim().Equals("/"))
+                    if (i + 1 >= lines.Count || lines[i + 1].Contains("!next"))
                     {
                         lineCnt--;
                     }
@@ -168,6 +182,7 @@ public class IntroSceneMgr : MonoBehaviour
 
     private void OnClickBack()
     {
+        isOnConversation = false;
         StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
     }
 }
