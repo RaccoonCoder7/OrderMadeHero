@@ -10,28 +10,46 @@ using System.Linq;
 
 public class IntroSceneMgr : MonoBehaviour
 {
+    public CustomScrollBar scrollBar;
     public InputField inputField;
-    public Button backBtn;
+    // public Button backBtn;
+    public Button autoBtn;
     public Button skipBtn;
+    public Button settingBtn;
+    public Button historyBtn;
+    public Button historyDodgeBtn;
     public Transform paper;
     public GameObject paws;
     public GameObject stamp;
     [Header("Conversation")]
     public GameObject textPanel;
+    public GameObject historyPanel;
     public Text targetText;
-    public TextAsset ta;
+    public Text historyText;
     public float textDelayTime;
     public List<ImageData> imageList = new List<ImageData>();
+    public List<Sprite> buttonImageList = new List<Sprite>();
 
-    private string confirmedPlayerName;
     private bool isOnConversation;
     private bool isTextFlowing;
     private bool skipLine;
+    private bool autoTextSkip;
     private List<string> lines = new List<string>();
     private int lineCnt = -1;
+    private float textSkipWaitTime = 1f;
     private string prevText;
+    private TextFlowType textFlowType = TextFlowType.None;
+    private IEnumerator onEndText;
+    private Coroutine textFlowCoroutine;
     private Regex regex = new Regex(@"^[가-힣a-zA-Z0-9\s]{2,12}$");
     private const string playerNameRule = "한글, 영어 / 공백포함 2자 이상 12자 이하로 설정 해주세요";
+
+    public enum TextFlowType
+    {
+        None,
+        Auto,
+        Fast
+    }
 
     [System.Serializable]
     public class ImageData
@@ -42,43 +60,49 @@ public class IntroSceneMgr : MonoBehaviour
 
     IEnumerator Start()
     {
-        backBtn.onClick.AddListener(OnClickBack);
+        // backBtn.onClick.AddListener(OnClickBack);
+        autoBtn.onClick.AddListener(OnClickAuto);
         skipBtn.onClick.AddListener(OnClickSkip);
+        settingBtn.onClick.AddListener(OnClickSetting);
+        historyBtn.onClick.AddListener(OnClickHistory);
+        historyDodgeBtn.onClick.AddListener(OnClickHistoryDodge);
         inputField.onEndEdit.AddListener(ValidateName);
 
-        lines = ta.text.Split('\n').ToList();
+        lines = CommonTool.In.GetText("Story1");
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
-        StartCoroutine(StartTextFlow());
+        onEndText = PlayerNameRoutine();
+        textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
     }
 
-    void Update()
+    public void OnClickChatBox()
     {
         if (!isOnConversation) return;
 
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (isTextFlowing)
         {
-            if (isTextFlowing)
-            {
-                SkipCurrLine();
-                StartNextLine();
-                return;
-            }
-
-            if (lines.Count <= lineCnt + 1)
-            {
-                isOnConversation = false;
-                StartCoroutine(PlayerNameRoutine());
-                return;
-            }
-
+            SkipCurrLine();
             StartNextLine();
+            return;
         }
+
+        if (lines.Count <= lineCnt + 1)
+        {
+            isOnConversation = false;
+            StartCoroutine(onEndText);
+            return;
+        }
+
+        StartNextLine();
     }
 
     private IEnumerator StartTextFlow()
     {
+        for (int i = 0; i < lines.Count; i++)
+        {
+            lines[i] = ReplaceKeyword(lines[i]);
+        }
         for (int i = 0; i < lines.Count; i++)
         {
             if (lines[i].StartsWith("!"))
@@ -95,6 +119,7 @@ public class IntroSceneMgr : MonoBehaviour
                     else if (com.Equals("!next"))
                     {
                         prevText = string.Empty;
+                        historyText.text += "\n";
                     }
                 }
 
@@ -116,10 +141,15 @@ public class IntroSceneMgr : MonoBehaviour
             }
 
             isTextFlowing = true;
+            historyText.text += lines[i] + "\n";
             for (int j = 0; j < lines[i].Length; j++)
             {
                 targetText.text = prevText + lines[i].Substring(0, j + 1);
                 yield return new WaitForSeconds(textDelayTime);
+                if (j == 0)
+                {
+                    scrollBar.AutoScrollToDown();
+                }
 
                 if (skipLine)
                 {
@@ -137,6 +167,15 @@ public class IntroSceneMgr : MonoBehaviour
 
             while (i >= lineCnt)
             {
+                if (autoTextSkip)
+                {
+                    yield return new WaitForSeconds(textSkipWaitTime);
+                    if (autoTextSkip)
+                    {
+                        lineCnt++;
+                        continue;
+                    }
+                }
                 yield return new WaitForSeconds(textDelayTime);
             }
         }
@@ -144,13 +183,20 @@ public class IntroSceneMgr : MonoBehaviour
 
     private IEnumerator PlayerNameRoutine()
     {
+        StopCoroutine(textFlowCoroutine);
+        lineCnt = 0;
+        prevText = string.Empty;
+        targetText.text = string.Empty;
+
         yield return StartCoroutine(CommonTool.In.FadeOut());
         foreach (var img in imageList)
         {
             img.imageObj.SetActive(false);
         }
-        backBtn.gameObject.SetActive(false);
+        // backBtn.gameObject.SetActive(false);
+        autoBtn.gameObject.SetActive(false);
         skipBtn.gameObject.SetActive(false);
+        historyBtn.gameObject.SetActive(false);
         textPanel.SetActive(false);
         paws.SetActive(true);
         yield return new WaitForSeconds(0.75f);
@@ -158,12 +204,40 @@ public class IntroSceneMgr : MonoBehaviour
         paper.DOMove(new Vector3(0, 2, 0), 1);
     }
 
-    private IEnumerator FinishIntroRoutine()
+    private IEnumerator FinishNamingRoutine()
     {
         yield return new WaitForSeconds(0.5f);
         stamp.SetActive(true);
         yield return new WaitForSeconds(1f);
-        StartCoroutine(CommonTool.In.AsyncChangeScene("ChipSampleScene"));
+        yield return StartCoroutine(CommonTool.In.FadeOut());
+
+        // backBtn.gameObject.SetActive(true);
+        autoBtn.gameObject.SetActive(true);
+        skipBtn.gameObject.SetActive(true);
+        historyBtn.gameObject.SetActive(true);
+        textPanel.SetActive(true);
+        paws.SetActive(false);
+        paper.gameObject.SetActive(false);
+        historyText.text = string.Empty;
+        lines = CommonTool.In.GetText("Story2");
+        StartCoroutine(StartTextFlow());
+        yield return new WaitForSeconds(0.75f);
+
+        yield return StartCoroutine(CommonTool.In.FadeIn());
+        isOnConversation = true;
+        //onEndText = GameEnd();
+        onEndText = CommonTool.In.AsyncChangeScene("GameScene");
+        StartNextLine();
+    }
+
+    private IEnumerator GameEnd()
+    {
+        yield return null;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     private void SkipCurrLine()
@@ -195,8 +269,8 @@ public class IntroSceneMgr : MonoBehaviour
         CommonTool.In.OpenConfirmPanel(msg,
         () =>
         {
-            confirmedPlayerName = playerName;
-            StartCoroutine(FinishIntroRoutine());
+            CommonTool.In.playerName = playerName;
+            StartCoroutine(FinishNamingRoutine());
         },
         () =>
         {
@@ -204,15 +278,60 @@ public class IntroSceneMgr : MonoBehaviour
         });
     }
 
-    private void OnClickBack()
+    // private void OnClickBack()
+    // {
+    //     isOnConversation = false;
+    //     historyPanel.SetActive(false);
+    //     StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
+    // }
+
+    private void OnClickAuto()
     {
-        isOnConversation = false;
-        StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
+        switch (textFlowType)
+        {
+            case TextFlowType.None:
+                autoTextSkip = true;
+                autoBtn.image.sprite = buttonImageList[1];
+                textFlowType = TextFlowType.Auto;
+                break;
+            case TextFlowType.Auto:
+                textDelayTime /= 2;
+                autoBtn.image.sprite = buttonImageList[2];
+                textFlowType = TextFlowType.Fast;
+                break;
+            case TextFlowType.Fast:
+                autoTextSkip = false;
+                textDelayTime *= 2;
+                autoBtn.image.sprite = buttonImageList[0];
+                textFlowType = TextFlowType.None;
+                break;
+        }
     }
 
     private void OnClickSkip()
     {
         isOnConversation = false;
-        StartCoroutine(PlayerNameRoutine());
+        historyPanel.SetActive(false);
+        StartCoroutine(onEndText);
+    }
+
+    private void OnClickSetting()
+    {
+        // TODO
+    }
+
+    private void OnClickHistory()
+    {
+        historyPanel.SetActive(!historyPanel.activeSelf);
+    }
+
+    private void OnClickHistoryDodge()
+    {
+        historyPanel.SetActive(false);
+    }
+
+    private string ReplaceKeyword(string line)
+    {
+        return line.Replace("{username}", CommonTool.In.playerName);
     }
 }

@@ -32,6 +32,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private GraphicRaycaster ray;
     private PointerEventData ped;
     private bool isFromPuzzle;
+    private Vector3 originDragImgRectTr;
 
     public class Puzzle
     {
@@ -98,6 +99,42 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
         Debug.Log(sb.ToString());
         // 테스트코드
+    }
+
+    void Update()
+    {
+        if (currentSelectedChip != null)
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                var angle = dragImgRectTr.localEulerAngles;
+                var pos = dragImgRectTr.localPosition;
+                if (angle.z < 1)
+                {
+                    angle.z = 270;
+                    pos.x += dragImgRectTr.rect.width;
+                }
+                else if (angle.z < 91)
+                {
+                    angle.z = 0;
+                    pos.y += dragImgRectTr.rect.height;
+                }
+                else if (angle.z < 181)
+                {
+                    angle.z = 90;
+                    pos.x -= dragImgRectTr.rect.width;
+                }
+                else if (angle.z < 271)
+                {
+                    angle.z = 180;
+                    pos.y -= dragImgRectTr.rect.height;
+                }
+                dragImgRectTr.localEulerAngles = angle;
+                dragImgRectTr.localPosition = pos;
+
+                currentSelectedChip.RotateRight();
+            }
+        }
     }
 
     [ContextMenu("LogPuzzleFrameDatas")]
@@ -279,6 +316,11 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         ped.position = eventData.pressPosition;
         List<RaycastResult> results = new List<RaycastResult>();
         es.RaycastAll(ped, results);
@@ -302,11 +344,32 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
             if (targetChip != null && targetChip.chipCount > 0)
             {
+                targetChip.SaveOriginRow();
                 dragImg.texture = targetChip.image.texture;
                 dragImgRectTr.sizeDelta = new Vector2(targetChip.rowNum, targetChip.colNum) * chipSize;
                 var offset = new Vector3(canvasScaler.referenceResolution.x, canvasScaler.referenceResolution.y, 0) / 2;
                 offset -= new Vector3(-dragImgRectTr.sizeDelta.x, dragImgRectTr.sizeDelta.y, 0) / 2;
                 dragImgRectTr.localPosition = (Vector3)eventData.position - offset;
+                dragImgRectTr.localEulerAngles = targetChip.rectTr.localEulerAngles;
+                var pos = originDragImgRectTr = dragImgRectTr.localPosition;
+                if (dragImgRectTr.localEulerAngles.z < 1)
+                {
+                }
+                else if (dragImgRectTr.localEulerAngles.z < 91)
+                {
+                    pos.y -= targetChip.rectTr.rect.height;
+                }
+                else if (dragImgRectTr.localEulerAngles.z < 181)
+                {
+                    pos.y -= targetChip.rectTr.rect.height;
+                    pos.x += targetChip.rectTr.rect.width;
+                }
+                else if (dragImgRectTr.localEulerAngles.z < 271)
+                {
+                    pos.x += targetChip.rectTr.rect.width;
+                }
+                dragImgRectTr.localPosition = pos;
+                
                 currentSelectedChip = targetChip;
                 dragImg.gameObject.SetActive(true);
                 targetChip.chipCount--;
@@ -324,6 +387,11 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         if (currentSelectedChip != null)
         {
             dragImgRectTr.localPosition += (Vector3)eventData.delta / canvas.scaleFactor;
@@ -332,6 +400,12 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
+        var angle = dragImgRectTr.localEulerAngles;
         if (currentSelectedChip != null)
         {
             dragImg.gameObject.SetActive(false);
@@ -364,6 +438,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                                 c.chipCount++;
                                 c.gameObject.SetActive(true);
                                 c.count.text = c.chipCount.ToString();
+                                c.ResetCol();
                                 break;
                             }
                         }
@@ -400,6 +475,27 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                             chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
                             chipInstance.rectTr.anchoredPosition = Vector3.zero;
                             chipInstance.chipCount = 1;
+
+                            chipInstance.rectTr.localEulerAngles = angle;
+                            var pos = chipInstance.rectTr.localPosition;
+                            if (angle.z < 1)
+                            {
+                            }
+                            else if (angle.z < 91)
+                            {
+                                pos.y -= dragImgRectTr.rect.height;
+                            }
+                            else if (angle.z < 181)
+                            {
+                                pos.y -= dragImgRectTr.rect.height;
+                                pos.x += dragImgRectTr.rect.width;
+                            }
+                            else if (angle.z < 271)
+                            {
+                                pos.x += dragImgRectTr.rect.width;
+                            }
+                            chipInstance.rectTr.localPosition = pos;
+
                             if (currentSelectedChip.chipCount <= 0 && isFromPuzzle)
                             {
                                 Destroy(currentSelectedChip.gameObject);
@@ -418,6 +514,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                     currentSelectedChip.gameObject.SetActive(true);
                 }
                 currentSelectedChip.count.text = currentSelectedChip.chipCount.ToString();
+                currentSelectedChip.ResetCol();
             }
             currentSelectedChip = null;
         }

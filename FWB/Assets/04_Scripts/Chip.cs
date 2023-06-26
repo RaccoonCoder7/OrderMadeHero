@@ -15,6 +15,8 @@ public class Chip : MonoBehaviour
     public int rowNum;
     public Col[] row;
 
+    private Col[] originRow;
+
     [System.Serializable]
     public class Col
     {
@@ -29,6 +31,44 @@ public class Chip : MonoBehaviour
         {
             row[i] = new Col();
             row[i].col = new bool[colNum];
+        }
+    }
+
+    public void SaveOriginRow()
+    {
+        originRow = (Col[])row.Clone();
+    }
+
+    public void RotateRight()
+    {
+        var newRow = new Col[colNum];
+        for (int i = 0; i < colNum; i++)
+        {
+            newRow[i] = new Col();
+            newRow[i].col = new bool[rowNum];
+        }
+
+        for (int y = 0; y < rowNum; y++)
+        {
+            for (int x = 0; x < colNum; x++)
+            {
+                newRow[x].col[y] = row[rowNum - 1 - y].col[x];
+            }
+        }
+
+        int tempRownum = rowNum;
+        rowNum = colNum;
+        colNum = tempRownum;
+        row = newRow;
+    }
+
+    public void ResetCol()
+    {
+        Debug.Log("Reset");
+        if (originRow != null)
+        {
+        Debug.Log("Reset2");
+            row = originRow;
         }
     }
 }

@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01_Scenes/IntroScene.unity
     guid: 0ca21bffc83dcc54f976b1160d8810f5
-  - enabled: 1
+  - enabled: 0
     path: Assets/01_Scenes/ChipSampleScene.unity
     guid: 6a105b871a1f43f4697c9aa7ca38a5d0
+  - enabled: 1
+    path: Assets/01_Scenes/GameScene.unity
+    guid: d4ff5b4e81647924480c599a0db5d0e2
   m_configObjects: {}

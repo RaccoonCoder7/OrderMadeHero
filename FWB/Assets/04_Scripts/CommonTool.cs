@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,18 +18,45 @@ public class CommonTool : SingletonMono<CommonTool>
     public Button cancelBtn;
     public Image fadeImage;
     public float fadeSpeed;
+    public string playerName;
+    public string mascotName;
+    public List<Script> scriptList = new List<Script>();
+    public List<AudioClip> audioClipList = new List<AudioClip>();
 
     private Canvas canvas;
+    private AudioSource audioSrc;
+
+
+    [System.Serializable]
+    public class Script
+    {
+        public string key;
+        public TextAsset ta;
+        [HideInInspector]
+        public List<string> lines = new List<string>();
+    }
 
 
     void Awake()
     {
         base.Awake();
         canvas = GetComponent<Canvas>();
+        audioSrc = GetComponent<AudioSource>();
 
         alertPanel.SetActive(false);
         confirmPanel.SetActive(false);
         alertDodgeBtn.onClick.AddListener(() => alertPanel.SetActive(false));
+
+        foreach (var script in scriptList)
+        {
+            string fileName = script.key + ".txt";
+            var path = Path.Combine(Application.persistentDataPath, script.key + ".txt");
+            if (!File.Exists(path))
+            {
+                File.WriteAllText(path, script.ta.text);
+            }
+            script.lines = File.ReadAllText(path).Split('\n').ToList();
+        }
     }
 
     public void OpenConfirmPanel(string text, Action OnConfirm, Action OnCancel)
@@ -52,6 +81,20 @@ public class CommonTool : SingletonMono<CommonTool>
     {
         alertPanel.SetActive(true);
         this.alertText.text = alertText;
+    }
+
+    public List<string> GetText(string key)
+    {
+        return scriptList.Find(x => x.key.Equals(key))?.lines;
+    }
+
+    public void PlayOneShot(string audioName)
+    {
+        var clip = audioClipList.Find(x => x.name.Equals(audioName));
+        if (clip != null)
+        {
+            audioSrc.PlayOneShot(clip);
+        }
     }
 
     public IEnumerator FadeIn()

@@ -1,0 +1,28 @@
+!speaker_마스코트 !next
+주인에게 느껴지는 시선! 아직 이 몸을 믿지 못하는 것 같다냥!!
+내가 얼마나 유능하지 알려주겠다 냥!
+!speaker_{username} !next
+묘하게 의욕적인게 불안하다. 
+제지하는 말을 하기 전에 도어벨 소리와 함께 물이 열린다
+!speaker_모브NPC !image_모브NPC !sound_Baby !next
+여기 장사하고 있나요?
+!speaker_{username} !next
+아직 준비가 되지 않았는데 어떻게 들어온거지...?
+!speaker_마스코트 !next
+내가 지나가던 손님을 잡아왔다냥! 이 몸은 역시 최고다냥!
+!speaker_{username} !next
+하지만 아무런 준비도 안했는데...
+!speaker_마스코트 !next
+내가 다 알려주겠다냥! 실전같은 연습이다냥!
+!speaker_{username} !next
+아니 연습이 아니라 실전이잖아. 
+!speaker_모브NPC !next
+저... 영업 안하면 나가봐도 될까요... 제가 무기가 꼭 필요한 건 아니라서
+!speaker_마스코트 !next
+안된다냥! 이 도시가 얼마나 치안이 안좋은지 알고있냥!? 호신용 무기는 필수다냥!
+!speaker_{username} !next
+손님은 뒷걸음 치며 슬슬 문쪽으로 다가갔지만 열려있던 문은 순식간에 닫히곤 열리지 않는다..
+!next
+손님은 체념한듯 고개를 푹 숙이며 카운터 앞으로 다시 걸어온다.
+!speaker_모브NPC !next
+알겠어요. 아무거나 만들어주세요 이왕사는거 날카로우면 좋겠어요
