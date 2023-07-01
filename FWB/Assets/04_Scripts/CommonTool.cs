@@ -11,6 +11,8 @@ public class CommonTool : SingletonMono<CommonTool>
 {
     public GameObject alertPanel;
     public GameObject confirmPanel;
+    public GameObject focusPanel;
+    public RectTransform focusRectTr;
     public Text alertText;
     public Text confirmText;
     public Button alertDodgeBtn;
@@ -19,12 +21,13 @@ public class CommonTool : SingletonMono<CommonTool>
     public Image fadeImage;
     public float fadeSpeed;
     public string playerName;
-    public string mascotName;
+    public string mascotName = "나비";
     public List<Script> scriptList = new List<Script>();
     public List<AudioClip> audioClipList = new List<AudioClip>();
 
     private Canvas canvas;
     private AudioSource audioSrc;
+    private RectTransform focusMaskRectTr;
 
 
     [System.Serializable]
@@ -42,6 +45,7 @@ public class CommonTool : SingletonMono<CommonTool>
         base.Awake();
         canvas = GetComponent<Canvas>();
         audioSrc = GetComponent<AudioSource>();
+        focusMaskRectTr = focusPanel.GetComponent<RectTransform>();
 
         alertPanel.SetActive(false);
         confirmPanel.SetActive(false);
@@ -95,6 +99,38 @@ public class CommonTool : SingletonMono<CommonTool>
         {
             audioSrc.PlayOneShot(clip);
         }
+    }
+
+    public float width;
+    public float height;
+    public float posX;
+    public float posY;
+    
+    [ContextMenu("a")]
+    public void SetFocus()
+    {
+        SetFocus(new Vector2(posX, posY), new Vector2(width, height));
+    }
+
+    public void SetFocus(Vector2 pos, Vector2 size)
+    {
+        focusPanel.SetActive(true);
+
+        var focusMaskLocalPos = focusMaskRectTr.anchoredPosition;
+        focusMaskLocalPos.x = pos.x;
+        focusMaskLocalPos.y = pos.y;
+        focusMaskRectTr.anchoredPosition = focusMaskLocalPos;
+        focusMaskRectTr.sizeDelta = size;
+
+        var focusLocalPos = focusRectTr.anchoredPosition;
+        focusLocalPos.x = -pos.x;
+        focusLocalPos.y = -pos.y;
+        focusRectTr.anchoredPosition = focusLocalPos;
+    }
+
+    public void SetFocusOff()
+    {
+        focusPanel.SetActive(false);
     }
 
     public IEnumerator FadeIn()

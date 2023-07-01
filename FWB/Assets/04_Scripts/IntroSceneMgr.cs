@@ -197,6 +197,7 @@ public class IntroSceneMgr : MonoBehaviour
         autoBtn.gameObject.SetActive(false);
         skipBtn.gameObject.SetActive(false);
         historyBtn.gameObject.SetActive(false);
+        historyPanel.gameObject.SetActive(false);
         textPanel.SetActive(false);
         paws.SetActive(true);
         yield return new WaitForSeconds(0.75f);
@@ -322,6 +323,7 @@ public class IntroSceneMgr : MonoBehaviour
 
     private void OnClickHistory()
     {
+        StartCoroutine(DelayScroll());
         historyPanel.SetActive(!historyPanel.activeSelf);
     }
 
@@ -333,5 +335,11 @@ public class IntroSceneMgr : MonoBehaviour
     private string ReplaceKeyword(string line)
     {
         return line.Replace("{username}", CommonTool.In.playerName);
+    }
+
+    private IEnumerator DelayScroll()
+    {
+        yield return null;
+        scrollBar.AutoScrollToDown();
     }
 }

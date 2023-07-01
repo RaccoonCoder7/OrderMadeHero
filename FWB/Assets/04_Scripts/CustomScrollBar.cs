@@ -33,6 +33,7 @@ public class CustomScrollBar : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         rect.localPosition = localPos;
     }
 
+    [ContextMenu("Test")]
     public void AutoScrollToDown()
     {
         scrollBar.value = 0;

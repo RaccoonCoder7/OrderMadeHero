@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,7 +59,7 @@ public class GameSceneMgr2 : MonoBehaviour
     private bool isMascotChat = false;
     private bool prevIsMascotChat = true;
     private List<string> lines = new List<string>();
-    private int lineCnt = -1;
+    private int lineCnt = 0;
     private string prevText;
     private IEnumerator onEndText;
     private Coroutine textFlowCoroutine;
@@ -298,7 +299,7 @@ public class GameSceneMgr2 : MonoBehaviour
     public void OnClickNo()
     {
         ActiveYesNoButton(false);
-        StartText("Tutorial2", EndTutorial2Routine());
+        StartText("Tutorial3", EndTutorial3Routine());
         StartNextLine();
     }
 
@@ -325,22 +326,20 @@ public class GameSceneMgr2 : MonoBehaviour
                 foreach (var command in commands)
                 {
                     string com = command.Trim();
-                    if (com.Contains("!image"))
+                    if (com.StartsWith("!image"))
                     {
                         imageKeyList.Add(com.Split('_')[1]);
                     }
-                    else if (com.Contains("!speaker"))
+                    else if (com.StartsWith("!speaker"))
                     {
                         string speaker = com.Split('_')[1];
                         if (speaker.Equals("{username}"))
                         {
                             speaker = CommonTool.In.playerName;
                         }
-                        // TODO: username이 마스코트 인 경우??
-                        if (speaker.Equals("마스코트"))
+                        if (speaker.Equals(CommonTool.In.mascotName))
                         {
                             isMascotChat = true;
-                            speaker = CommonTool.In.mascotName;
                             continue;
                         }
                         else
@@ -349,13 +348,32 @@ public class GameSceneMgr2 : MonoBehaviour
                         }
                         chatName.text = speaker;
                     }
-                    else if (com.Contains("!sound"))
+                    else if (com.StartsWith("!sound"))
                     {
                         string clipName = com.Split('_')[1];
                         CommonTool.In.PlayOneShot(clipName);
                     }
+                    else if (com.StartsWith("!focus"))
+                    {
+                        var splittedData = com.Split('_');
+                        if (splittedData.Length == 5)
+                        {
+                            int posX = int.Parse(splittedData[1]);
+                            int posY = int.Parse(splittedData[2]);
+                            int width = int.Parse(splittedData[3]);
+                            int height = int.Parse(splittedData[4]);
+                            var pos = new Vector2(posX, posY);
+                            var size = new Vector2(width, height);
+                            CommonTool.In.SetFocus(pos, size);
+                        }
+                    }
+                    else if (com.StartsWith("!focusoff"))
+                    {
+                        CommonTool.In.SetFocusOff();
+                    }
                     else if (com.Equals("!next"))
                     {
+                        lineCnt++;
                         prevText = string.Empty;
                         //historyText.text += "\n";
                     }
@@ -369,7 +387,10 @@ public class GameSceneMgr2 : MonoBehaviour
                     }
                 }
 
-                lineCnt++;
+                while (i >= lineCnt)
+                {
+                    yield return new WaitForSeconds(textDelayTime);
+                }
                 continue;
             }
 
@@ -510,12 +531,14 @@ public class GameSceneMgr2 : MonoBehaviour
         yield return null;
         EndText();
 
-        yesText.text = "Yes";
-        noText.text = "No";
-        no.interactable = false;
-        yes.onClick.RemoveAllListeners();
-        yes.onClick.AddListener(() => { mainChatPanel.gameObject.SetActive(false); });
-        ActiveYesNoButton(true);
-        // TODO: FOCUS
+        mainChatPanel.SetActive(false);
+        pcChatPanel.SetActive(false);
+        // yesText.text = "Yes";
+        // noText.text = "No";
+        // no.interactable = false;
+        // yes.onClick.RemoveAllListeners();
+        // yes.onClick.AddListener(() => { mainChatPanel.gameObject.SetActive(false); });
+        // ActiveYesNoButton(true);
+        // // TODO: FOCUS
     }
 }
