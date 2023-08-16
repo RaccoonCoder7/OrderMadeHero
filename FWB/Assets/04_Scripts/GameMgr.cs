@@ -5,4 +5,5 @@ using UnityEngine;
 public class GameMgr : SingletonMono<GameMgr>
 {
     public bool initDone;
+    public int credit;
 }

@@ -13,6 +13,7 @@ public class Chip : MonoBehaviour
     public int chipCount;
     public int colNum;
     public int rowNum;
+    public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
     public Col[] row;
 
     private Col[] originRow;
@@ -21,6 +22,19 @@ public class Chip : MonoBehaviour
     public class Col
     {
         public bool[] col;
+    }
+
+    [System.Serializable]
+    public class ChipAbility
+    {
+        public string key;
+        public int value;
+
+        public ChipAbility(string key, int value)
+        {
+            this.key = key;
+            this.value = value;
+        }
     }
 
     [ContextMenu("Set Default Table Data")]
@@ -64,10 +78,8 @@ public class Chip : MonoBehaviour
 
     public void ResetCol()
     {
-        Debug.Log("Reset");
         if (originRow != null)
         {
-        Debug.Log("Reset2");
             row = originRow;
         }
     }

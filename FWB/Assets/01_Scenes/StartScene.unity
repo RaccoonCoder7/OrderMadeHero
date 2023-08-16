@@ -2410,6 +2410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initDone: 0
+  credit: 0
 --- !u!4 &1426699170
 Transform:
   m_ObjectHideFlags: 0
@@ -2904,31 +2905,39 @@ MonoBehaviour:
   - key: Tutorial3
     ta: {fileID: 4900000, guid: d0746ed9572ae2843953d7b0321d81da, type: 3}
     lines: []
-  - key: Tutorial_City
-    ta: {fileID: 4900000, guid: 8902ba600b4ca6c4e88fc18e8148c7bf, type: 3}
+  - key: Tutorial4
+    ta: {fileID: 4900000, guid: ef2483759eebffe49a16e9496370ef44, type: 3}
     lines: []
-  - key: Tutorial_Hero
-    ta: {fileID: 4900000, guid: 56c552ee03f194d458894879be950cc8, type: 3}
+  - key: Tutorial5
+    ta: {fileID: 4900000, guid: eb1bb2f232a209d4aa961509ac9ff4a1, type: 3}
     lines: []
-  - key: Tutorial_Villain
-    ta: {fileID: 4900000, guid: 800efdf5ec8c6ee45839729f40a13d5b, type: 3}
+  - key: Tutorial6
+    ta: {fileID: 4900000, guid: faddfd5ebadb7c84cb2e84869d53f116, type: 3}
     lines: []
-  - key: Tutorial_Money
-    ta: {fileID: 4900000, guid: 2f89c2fc464dd614e8a7b3ff0be0f815, type: 3}
+  - key: Tutorial7
+    ta: {fileID: 4900000, guid: d5cd6da961409844b9d36a3beff381b1, type: 3}
     lines: []
-  - key: Tutorial_Weapon
-    ta: {fileID: 4900000, guid: fdd1f60815ae0a048811e03ca4ee3d86, type: 3}
+  - key: Tutorial8
+    ta: {fileID: 4900000, guid: 81cda3db0fa87a24da41e75921756255, type: 3}
     lines: []
-  - key: Tutorial_Fame
-    ta: {fileID: 4900000, guid: 0057685e3828a8f4e8271c440a5a9140, type: 3}
+  - key: Day2_1
+    ta: {fileID: 4900000, guid: 2d0c204369e9a8942b8f9d435b2a186d, type: 3}
     lines: []
-  - key: Tutorial_Tendency
-    ta: {fileID: 4900000, guid: b3eb2f9967b5d1b40a818506a15a16a2, type: 3}
+  - key: Day2_2
+    ta: {fileID: 4900000, guid: bcfcf0873d1e8bf4d9e1ff812b2f1912, type: 3}
+    lines: []
+  - key: Day2_3
+    ta: {fileID: 4900000, guid: faff7aaa1ad3744479af9b48dc4138b3, type: 3}
+    lines: []
+  - key: Day2_4
+    ta: {fileID: 4900000, guid: e28d55465e737b940ae08de69bb7a4de, type: 3}
     lines: []
   audioClipList:
   - {fileID: 8300000, guid: ef6edc293d43de441a47697bed82590b, type: 3}
   - {fileID: 8300000, guid: 05b2aa572a555094d9c261900ba5c709, type: 3}
   - {fileID: 8300000, guid: b90ec6568edfc194caa73eb60246f2d5, type: 3}
+  - {fileID: 8300000, guid: 7702bd192da26bc429d7d8356a9df241, type: 3}
+  - {fileID: 8300000, guid: f79e68a1ba8493f42b72fe742db78496, type: 3}
   width: 0
   height: 0
   posX: 0
@@ -3029,7 +3038,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3209,7 +3218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1628092380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3897,7 +3906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

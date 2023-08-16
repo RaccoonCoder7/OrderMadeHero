@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static Chip;
 
 public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -21,6 +22,10 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public List<Texture> textureList = new List<Texture>();
     public List<Chip> chipList = new List<Chip>();
     public Dictionary<int, int> chipInventory = new Dictionary<int, int>();
+    public Button makingDone;
+    public GameSceneMgr2 mgr2;
+    public RequiredAbilityObject requiredAbilityObject;
+    public Transform requiredAbilityTextParent;
 
     private RectTransform puzzleGridRectTr;
     private RectTransform dragImgRectTr;
@@ -33,11 +38,15 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private PointerEventData ped;
     private bool isFromPuzzle;
     private Vector3 originDragImgRectTr;
+    private List<PuzzleFrame> puzzleFrameList = new List<PuzzleFrame>();
+    private Dictionary<string, RequiredAbilityObject> requiredAbilityObjectDic = new Dictionary<string, RequiredAbilityObject>();
+    private Dictionary<string, int> currentChipDataDic = new Dictionary<string, int>();
 
     public class Puzzle
     {
         public int x;
         public int y;
+        public List<ChipAbility> requiredChipAbilityList = new List<ChipAbility>();
         public PuzzleFrameData[,] frameDataTable;
     }
 
@@ -57,8 +66,14 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
     }
 
-    void Start()
+    private bool temp;
+    void Awake()
     {
+        if (temp) return;
+        temp = true;
+
+        makingDone.onClick.AddListener(OnClickMakingDone);
+
         puzzleGridRectTr = puzzleGrid.GetComponent<RectTransform>();
         dragImgRectTr = dragImg.GetComponent<RectTransform>();
         background = puzzleGrid.GetComponent<RawImage>();
@@ -66,6 +81,10 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         canvasScaler = canvas.GetComponent<CanvasScaler>();
         ped = new PointerEventData(es);
         currPuzzle = GetPuzzle(0);
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("A", 1));
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("B", 1));
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("C", 1));
+        InstantiateRequiredAbilityText();
         var width = puzzleGridRectTr.rect.width / currPuzzle.x;
         var height = puzzleGridRectTr.rect.height / currPuzzle.y;
         var size = width < height ? width : height;
@@ -210,18 +229,22 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 continue;
             }
             frame.image.texture = textureList[frameData.patternNum];
+            puzzleFrameList.Add(frame);
         }
     }
 
     private void SetTestDataToChipInventory()
     {
-        chipInventory.Add(1, 1);
-        chipInventory.Add(2, 1);
-        chipInventory.Add(3, 2);
+        //     chipInventory.Add(1, 1);
+        //     chipInventory.Add(2, 1);
+        //     chipInventory.Add(3, 2);
+        //     chipInventory.Add(4, 1);
+        //     chipInventory.Add(5, 1);
+        //     chipInventory.Add(6, 1);
+        //     chipInventory.Add(7, 2);
+        chipInventory.Add(3, 1);
         chipInventory.Add(4, 1);
         chipInventory.Add(5, 1);
-        chipInventory.Add(6, 1);
-        chipInventory.Add(7, 2);
     }
 
     private void RefreshChipPanel()
@@ -369,7 +392,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                     pos.x += targetChip.rectTr.rect.width;
                 }
                 dragImgRectTr.localPosition = pos;
-                
+
                 currentSelectedChip = targetChip;
                 dragImg.gameObject.SetActive(true);
                 targetChip.chipCount--;
@@ -445,8 +468,9 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
                         if (currentSelectedChip.chipCount <= 0)
                         {
-                            Destroy(currentSelectedChip.gameObject);
+                            DestroyImmediate(currentSelectedChip.gameObject);
                         }
+                        RefreshWeaponPowerData();
                         success = true;
                     }
                 }
@@ -498,8 +522,9 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
                             if (currentSelectedChip.chipCount <= 0 && isFromPuzzle)
                             {
-                                Destroy(currentSelectedChip.gameObject);
+                                DestroyImmediate(currentSelectedChip.gameObject);
                             }
+                            RefreshWeaponPowerData();
                             success = true;
                         }
                     }
@@ -519,5 +544,78 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             currentSelectedChip = null;
         }
         isFromPuzzle = false;
+    }
+
+    private void InstantiateRequiredAbilityText()
+    {
+        foreach (var ability in currPuzzle.requiredChipAbilityList)
+        {
+            var obj = Instantiate(requiredAbilityObject, requiredAbilityTextParent);
+            obj.text.text = "0/" + ability.value;
+            requiredAbilityObjectDic.Add(ability.key, obj);
+        }
+    }
+
+    private void RefreshWeaponPowerData()
+    {
+        currentChipDataDic.Clear();
+        foreach (var puzzleFrame in puzzleFrameList)
+        {
+            if (puzzleFrame.transform.childCount > 0)
+            {
+                var child = puzzleFrame.transform.GetChild(0);
+                if (child)
+                {
+                    var chip = child.GetComponent<Chip>();
+                    if (chip)
+                    {
+                        foreach (var ability in chip.chipAbilityList)
+                        {
+                            if (!currentChipDataDic.ContainsKey(ability.key))
+                            {
+                                currentChipDataDic.Add(ability.key, ability.value);
+                                continue;
+                            }
+                            currentChipDataDic[ability.key] += ability.value;
+                        }
+                    }
+                }
+            }
+        }
+
+        bool success = true;
+        foreach (var key in requiredAbilityObjectDic.Keys)
+        {
+            var splittedData = requiredAbilityObjectDic[key].text.text.Split('/');
+            int targetNum = -1;
+            if (!Int32.TryParse(splittedData[1], out targetNum))
+            {
+                Debug.Log("파싱 실패: " + targetNum);
+                return;
+            }
+            int result = 0;
+            if (currentChipDataDic.ContainsKey(key))
+            {
+                result = currentChipDataDic[key];
+                if (result < targetNum)
+                {
+                    success = false;
+                }
+            }
+            else
+            {
+                result = 0;
+                success = false;
+            }
+            requiredAbilityObjectDic[key].text.text = result + "/" + splittedData[1];
+        }
+
+        makingDone.gameObject.SetActive(success);
+    }
+
+    public void OnClickMakingDone()
+    {
+        makingDone.gameObject.SetActive(false);
+        mgr2.OnMakingDone();
     }
 }

@@ -1,0 +1,14 @@
+!sound_bird !wait_200 !speaker_나비 !next
+안녕! 오늘도 잘 부탁해!
+!next
+잠은 잘 잤어?
+!next
+오늘도 힘내보자!
+!sound_baby !wait_100 !image_샤일로 !speaker_샤일로 !next 
+여어, 준비는 잘 하고 있나
+!next
+뭐, 별건 아니고 더 알려줄게 있어서말야
+!speaker_나비 !next
+이 몸이 안 알려준게 있다구!?
+!speaker_샤일로 !next
+명성치에 대해 알고 있나?

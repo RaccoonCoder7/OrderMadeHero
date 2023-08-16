@@ -93,8 +93,12 @@ MonoBehaviour:
   rectTr: {fileID: 1598743113504235525}
   countPlate: {fileID: 2086283734072847101}
   count: {fileID: 220589804502095531}
+  chipCount: 0
   colNum: 2
   rowNum: 2
+  chipAbilityList:
+  - key: B
+    value: 1
   row:
   - col: 0101
   - col: 0100
@@ -117,7 +121,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &3905192895352047939
 MonoBehaviour:

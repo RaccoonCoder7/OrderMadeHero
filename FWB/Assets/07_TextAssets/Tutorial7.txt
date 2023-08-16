@@ -1,0 +1,25 @@
+!speaker_모브NPC !next
+아니, 생각보다 괜찮은데?
+!sound_sword !next
+전혀 기대하고있지 않았는데 완전 만족이야.
+!next
+크레딧은 이정도 지불하면 될까?
+!credit_100
+!speaker_나비 !next
+감사합니다!
+!speaker_모브NPC !next
+이제 막 메테오 시티에 도착한 것 같은데 잘 버텼으면 좋겠네.
+!next
+나도 내 친구들한테 소문 좀 내줄 테니까 힘내라구.
+!sound_baby !image_no !speaker_나비 !next
+첫 손님 접대 대성공!! 
+!next
+다 이 몸 덕분인 걸 잊지 말구!
+!next
+(고로롱 거리는 소리)
+!sound_baby !wait_100 !speaker_샤일로 !image_샤일로 !next
+뭐야, 벌써 수익을 낸건가? 자네 제법 수완이 좋구만
+!next
+나도 예전에 무기를 팔았던 적이 있었지
+!next
+옛날이 생각나서 창고에서 있던 것들을 가져왔다네

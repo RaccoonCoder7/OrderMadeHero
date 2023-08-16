@@ -1,9 +1,12 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
+using System.Drawing;
 
 public class GameSceneMgr2 : MonoBehaviour
 {
@@ -14,13 +17,6 @@ public class GameSceneMgr2 : MonoBehaviour
     public Button push;
     public Button save;
     public Button load;
-    public Button city;
-    public Button hero;
-    public Button villain;
-    public Button money;
-    public Button weapon;
-    public Button fame;
-    public Button tendency;
     public Button ok;
     public Button yes;
     public Button no;
@@ -28,47 +24,83 @@ public class GameSceneMgr2 : MonoBehaviour
     public Button gotoMain;
     public Button popupYes;
     public Button popupNo;
+    public Button setting;
     public List<Button> saveLoadButtons = new List<Button>();
     public List<Button> weaponSlotButtons = new List<Button>();
     public List<Text> weaponSlotTexts = new List<Text>();
     public Button weaponBack;
     public Button weaponFront;
     public Button dodgeMainPanel;
+    public Button alertDodge;
+    public Button creditDodge;
     public Text chatName;
     public Text weaponExplanation;
     public GameObject mainChatPanel;
     public GameObject pcChatPanel;
+    public GameObject popupChatPanel;
     public GameObject mainPanel;
     public GameObject mainUI;
     public GameObject weaponUI;
     public GameObject stick;
     public GameObject saveLoadPanel;
     public GameObject saveLoadPopup;
+    public GameObject day;
+    public GameObject renom;
+    public GameObject tendency;
+    public GameObject gold;
+    public GameObject gamePanel;
+    public GameObject cursor;
+    public GameObject alertPanel;
+    public GameObject creditPanel;
     public Text mainChatText;
     public Text mascotChatText;
+    public Text popupChatText;
     public Text yesText;
     public Text noText;
+    public Text dateText;
+    public Text dateMessage;
+    public Text goldText;
     public float textDelayTime;
     public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
 
     private int page;
+    private int fadeSpeed = 1;
     private List<EventTrigger> eventTriggerList = new List<EventTrigger>();
     private bool isOnConversation;
     private bool isTextFlowing;
     private bool skipLine;
-    private bool isMascotChat = false;
-    private bool prevIsMascotChat = true;
+    private bool isWaitingForText;
+    private ChatTarget chatTarget = ChatTarget.Main;
+    private ChatTarget prevChatTarget = ChatTarget.None;
     private List<string> lines = new List<string>();
     private int lineCnt = 0;
     private string prevText;
     private IEnumerator onEndText;
     private Coroutine textFlowCoroutine;
     private Text chatTargetText;
+    private RectTransform popupChatPanelRect;
+    private Point cursorPos = new Point();
+    private bool visible;
     // private AudioSource audioSrc;
 
+    [DllImport("user32.dll")]
+    public static extern bool SetCursorPos(int X, int Y);
+    [DllImport("user32.dll")]
+    public static extern bool GetCursorPos(out Point pos);
+
+
+    public enum ChatTarget
+    {
+        None,
+        Main,
+        Mascot,
+        Popup
+    }
 
     IEnumerator Start()
     {
+        popupChatPanelRect = popupChatPanel.GetComponent<RectTransform>();
+
         pc.onClick.AddListener(OnClickPC);
         pcChatWork.onClick.AddListener(OnClickPCChatWork);
         mainBack.onClick.AddListener(OnClickDodgeMainPanel);
@@ -83,19 +115,13 @@ public class GameSceneMgr2 : MonoBehaviour
         returnBtn.onClick.AddListener(OnClickReturn);
         gotoMain.onClick.AddListener(OnClickGoToMain);
         popupYes.onClick.AddListener(OnClickPopupYes);
+        setting.onClick.AddListener(OnClickSetting);
         popupNo.onClick.AddListener(OnClickPopupNo);
         foreach (var btn in saveLoadButtons)
         {
             btn.onClick.AddListener(OnClickSlot);
         }
 
-        city.onClick.AddListener(OnClickCity);
-        hero.onClick.AddListener(OnClickHero);
-        villain.onClick.AddListener(OnClickVillain);
-        money.onClick.AddListener(OnClickMoney);
-        weapon.onClick.AddListener(OnClickWeapon);
-        fame.onClick.AddListener(OnClickFame);
-        tendency.onClick.AddListener(OnClickTendency);
         ok.onClick.AddListener(OnClickOK);
         yes.onClick.AddListener(OnClickYes);
         no.onClick.AddListener(OnClickNo);
@@ -129,7 +155,7 @@ public class GameSceneMgr2 : MonoBehaviour
 
     public void OnClickPC()
     {
-        pcChatPanel.SetActive(true);
+        // pcChatPanel.SetActive(true);
     }
 
     public void OnClickPCChatWork()
@@ -212,6 +238,22 @@ public class GameSceneMgr2 : MonoBehaviour
         saveLoadPopup.SetActive(false);
     }
 
+    public void OnClickSetting()
+    {
+        GetCursorPos(out cursorPos);
+        Cursor.visible = visible;
+        visible = !visible;
+        cursor.SetActive(visible);
+    }
+
+    private void FixedUpdate()
+    {
+        if (visible)
+        {
+            SetCursorPos(cursorPos.X, cursorPos.Y);
+        }
+    }
+
     public void OnClickPopupNo()
     {
         saveLoadPopup.SetActive(false);
@@ -220,6 +262,7 @@ public class GameSceneMgr2 : MonoBehaviour
     public void OnClickChatBox()
     {
         if (!isOnConversation) return;
+        if (isWaitingForText) return;
 
         if (isTextFlowing)
         {
@@ -236,48 +279,6 @@ public class GameSceneMgr2 : MonoBehaviour
         }
 
         StartNextLine();
-    }
-
-    public void OnClickCity()
-    {
-        lines = CommonTool.In.GetText("Tutorial_City");
-        OnClickTutorialButton();
-    }
-
-    public void OnClickHero()
-    {
-        lines = CommonTool.In.GetText("Tutorial_Hero");
-        OnClickTutorialButton();
-    }
-
-    public void OnClickVillain()
-    {
-        lines = CommonTool.In.GetText("Tutorial_Villain");
-        OnClickTutorialButton();
-    }
-
-    public void OnClickMoney()
-    {
-        lines = CommonTool.In.GetText("Tutorial_Money");
-        OnClickTutorialButton();
-    }
-
-    public void OnClickWeapon()
-    {
-        lines = CommonTool.In.GetText("Tutorial_Weapon");
-        OnClickTutorialButton();
-    }
-
-    public void OnClickFame()
-    {
-        lines = CommonTool.In.GetText("Tutorial_Fame");
-        OnClickTutorialButton();
-    }
-
-    public void OnClickTendency()
-    {
-        lines = CommonTool.In.GetText("Tutorial_Tendency");
-        OnClickTutorialButton();
     }
 
     public void OnClickOK()
@@ -298,17 +299,23 @@ public class GameSceneMgr2 : MonoBehaviour
 
     public void OnClickNo()
     {
+        day.SetActive(true);
+        tendency.SetActive(true);
+        gold.SetActive(true);
+        StartCoroutine(FadeInOutDateMessage());
+
         ActiveYesNoButton(false);
         StartText("Tutorial3", EndTutorial3Routine());
         StartNextLine();
     }
 
-    private void OnClickTutorialButton()
+    public void OnMakingDone()
     {
-        isOnConversation = true;
-        TutorialButtonsSetActive(false);
-        onEndText = EndTutorialRoutine();
-        textFlowCoroutine = StartCoroutine(StartTextFlow());
+        mainChatText.text = string.Empty;
+        gamePanel.SetActive(false);
+
+        StartText("Tutorial7", EndTutorial7Routine());
+        StartNextLine();
     }
 
     private IEnumerator StartTextFlow()
@@ -332,26 +339,35 @@ public class GameSceneMgr2 : MonoBehaviour
                     }
                     else if (com.StartsWith("!speaker"))
                     {
-                        string speaker = com.Split('_')[1];
-                        if (speaker.Equals("{username}"))
+                        var splittedCom = com.Split('_');
+                        string speaker = splittedCom[1];
+                        if (speaker.Trim().Equals("popup") && splittedCom.Length == 3)
                         {
-                            speaker = CommonTool.In.playerName;
+                            chatTarget = ChatTarget.Popup;
+                            // TODO: speaker에 따라서 이미지 변경
                         }
-                        if (speaker.Equals(CommonTool.In.mascotName))
+                        else if (speaker.Equals(CommonTool.In.mascotName))
                         {
-                            isMascotChat = true;
-                            continue;
+                            chatTarget = ChatTarget.Mascot;
                         }
                         else
                         {
-                            isMascotChat = false;
+                            chatTarget = ChatTarget.Main;
+                            if (speaker.Equals("{username}"))
+                            {
+                                speaker = CommonTool.In.playerName;
+                            }
+                            chatName.text = speaker;
                         }
-                        chatName.text = speaker;
                     }
                     else if (com.StartsWith("!sound"))
                     {
                         string clipName = com.Split('_')[1];
                         CommonTool.In.PlayOneShot(clipName);
+                    }
+                    else if (com.StartsWith("!focusoff"))
+                    {
+                        CommonTool.In.SetFocusOff();
                     }
                     else if (com.StartsWith("!focus"))
                     {
@@ -367,9 +383,23 @@ public class GameSceneMgr2 : MonoBehaviour
                             CommonTool.In.SetFocus(pos, size);
                         }
                     }
-                    else if (com.StartsWith("!focusoff"))
+                    else if (com.StartsWith("!credit"))
                     {
-                        CommonTool.In.SetFocusOff();
+                        string creditText = com.Split('_')[1];
+                        int credit = int.Parse(creditText);
+                        if (credit != 0)
+                        {
+                            GameMgr.In.credit += credit;
+                            goldText.text = GameMgr.In.credit + " G";
+                        }
+                    }
+                    else if (com.StartsWith("!wait"))
+                    {
+                        var splittedData = com.Split('_');
+                        int time = int.Parse(splittedData[1]);
+                        isWaitingForText = true;
+                        yield return new WaitForSeconds(time / 100);
+                        isWaitingForText = false;
                     }
                     else if (com.Equals("!next"))
                     {
@@ -394,12 +424,28 @@ public class GameSceneMgr2 : MonoBehaviour
                 continue;
             }
 
-            if (prevIsMascotChat != isMascotChat)
+            if (prevChatTarget != chatTarget)
             {
-                mainChatPanel.SetActive(!isMascotChat);
-                pcChatPanel.SetActive(isMascotChat);
-                chatTargetText = isMascotChat ? mascotChatText : mainChatText;
-                prevIsMascotChat = isMascotChat;
+                switch (chatTarget)
+                {
+                    case ChatTarget.Main:
+                        mainChatPanel.SetActive(true);
+                        pcChatPanel.SetActive(false);
+                        popupChatPanel.SetActive(false);
+                        chatTargetText = mainChatText;
+                        break;
+                    case ChatTarget.Mascot:
+                        mainChatPanel.SetActive(false);
+                        pcChatPanel.SetActive(true);
+                        popupChatPanel.SetActive(false);
+                        chatTargetText = mascotChatText;
+                        break;
+                    case ChatTarget.Popup:
+                        popupChatPanel.SetActive(true);
+                        chatTargetText = popupChatText;
+                        break;
+                }
+                prevChatTarget = chatTarget;
             }
 
             if (!string.IsNullOrEmpty(prevText))
@@ -463,20 +509,6 @@ public class GameSceneMgr2 : MonoBehaviour
         weaponExplanation.text = weaponSlotTexts[num].text + " slot";
     }
 
-    private void TutorialButtonsSetActive(bool isActive)
-    {
-        // city.gameObject.SetActive(isActive);
-        // hero.gameObject.SetActive(isActive);
-        // villain.gameObject.SetActive(isActive);
-        // money.gameObject.SetActive(isActive);
-        // weapon.gameObject.SetActive(isActive);
-        // fame.gameObject.SetActive(isActive);
-        // tendency.gameObject.SetActive(isActive);
-        // ok.gameObject.SetActive(isActive);
-        // yes.gameObject.SetActive(true);
-        // no.gameObject.SetActive(true);
-    }
-
     private void ActiveYesNoButton(bool isActive)
     {
         yes.gameObject.SetActive(isActive);
@@ -515,30 +547,197 @@ public class GameSceneMgr2 : MonoBehaviour
         OnClickNo();
     }
 
-    private IEnumerator EndTutorial2Routine()
-    {
-        yield return null;
-        EndText();
+    // private IEnumerator EndTutorial2Routine()
+    // {
+    //     yield return null;
+    //     EndText();
 
-        // TODO: UI 표시 시작
+    //     // TODO: UI 표시 시작
 
-        StartText("Tutorial3", EndTutorial3Routine());
-        StartNextLine();
-    }
+    //     StartText("Tutorial3", EndTutorial3Routine());
+    //     StartNextLine();
+    // }
 
     private IEnumerator EndTutorial3Routine()
     {
         yield return null;
+        StopCoroutine(textFlowCoroutine);
+        lineCnt = -1;
+        prevText = string.Empty;
+
+        yesText.text = "Yes";
+        noText.text = "No";
+        yes.interactable = false;
+        no.interactable = false;
+        ActiveYesNoButton(true);
+        CommonTool.In.SetFocus(new Vector2(1400, 500), new Vector2(180, 100));
+
+        StartText("Tutorial4", EndTutorial4Routine());
+        StartNextLine();
+    }
+
+    private IEnumerator EndTutorial4Routine()
+    {
+        yield return null;
+
+        popupChatPanel.SetActive(false);
+        yes.interactable = true;
+        yes.onClick.RemoveAllListeners();
+        yes.onClick.AddListener(() =>
+        {
+            EndText();
+
+            no.interactable = true;
+            ActiveYesNoButton(false);
+            CommonTool.In.SetFocusOff();
+            mainPanel.SetActive(true);
+            weaponUI.SetActive(true);
+            var pos = popupChatPanelRect.anchoredPosition;
+            pos.x = 150;
+            popupChatPanelRect.anchoredPosition = pos;
+            popupChatPanel.SetActive(true);
+            StartText("Tutorial5", EndTutorial5Routine());
+            StartNextLine();
+        });
+    }
+
+    private IEnumerator EndTutorial5Routine()
+    {
+        yield return null;
+        EndText();
+        popupChatPanel.SetActive(false);
+
+        weaponSlotButtons[0].onClick.AddListener(() =>
+        {
+            mainPanel.SetActive(false);
+            weaponUI.SetActive(false);
+            gamePanel.SetActive(true);
+            popupChatPanel.SetActive(true);
+            StartText("Tutorial6", EndTutorial6Routine());
+            StartNextLine();
+        });
+    }
+
+    private IEnumerator EndTutorial6Routine()
+    {
+        yield return null;
+        popupChatPanel.SetActive(false);
+        EndText();
+    }
+
+    private IEnumerator EndTutorial7Routine()
+    {
+        yield return null;
         EndText();
 
-        mainChatPanel.SetActive(false);
+        alertPanel.SetActive(true);
+        alertDodge.onClick.RemoveAllListeners();
+        alertDodge.onClick.AddListener(() =>
+        {
+            alertPanel.SetActive(false);
+            StartText("Tutorial8", EndTutorial8Routine());
+            StartNextLine();
+        });
+    }
+
+    private IEnumerator EndTutorial8Routine()
+    {
+        yield return null;
+        EndText();
         pcChatPanel.SetActive(false);
-        // yesText.text = "Yes";
-        // noText.text = "No";
-        // no.interactable = false;
-        // yes.onClick.RemoveAllListeners();
-        // yes.onClick.AddListener(() => { mainChatPanel.gameObject.SetActive(false); });
-        // ActiveYesNoButton(true);
-        // // TODO: FOCUS
+        CommonTool.In.SetFocusOff();
+
+        pc.onClick.RemoveAllListeners();
+        pc.onClick.AddListener(() =>
+        {
+            creditPanel.SetActive(true);
+            creditDodge.onClick.RemoveAllListeners();
+            creditDodge.onClick.AddListener(() =>
+            {
+                creditPanel.SetActive(false);
+                dateText.text = "1주차\n화요일";
+                prevChatTarget = ChatTarget.None;
+                StartText("Day2_1", EndDay2_1Routine());
+                StartNextLine();
+                creditDodge.onClick.RemoveAllListeners();
+            });
+            pc.onClick.RemoveAllListeners();
+        });
+    }
+
+    private IEnumerator EndDay2_1Routine()
+    {
+        yield return null;
+        EndText();
+
+        yes.onClick.RemoveAllListeners();
+        yes.onClick.AddListener(() =>
+        {
+            ActiveYesNoButton(false);
+            StartText("Day2_2", EndDay2_2Routine());
+            StartNextLine();
+        });
+
+        no.onClick.RemoveAllListeners();
+        no.onClick.AddListener(() =>
+        {
+            ActiveYesNoButton(false);
+            StartText("Day2_3", EndDay2_3Routine());
+            StartNextLine();
+        });
+
+        ActiveYesNoButton(true);
+    }
+
+    private IEnumerator EndDay2_2Routine()
+    {
+        yield return null;
+        EndText();
+
+        renom.SetActive(true);
+
+        StartText("Day2_4", EndDay2_4Routine());
+        StartNextLine();
+    }
+
+    private IEnumerator EndDay2_3Routine()
+    {
+        yield return null;
+        EndText();
+
+        renom.SetActive(true);
+
+        StartText("Day2_4", EndDay2_4Routine());
+        StartNextLine();
+    }
+    
+    private IEnumerator EndDay2_4Routine()
+    {
+        yield return null;
+        EndText();
+
+        prevChatTarget = ChatTarget.None;
+        pcChatPanel.SetActive(false);
+
+        // TODO
+    }
+
+    private IEnumerator FadeInOutDateMessage()
+    {
+        float fadeValue = 0;
+        float actualSpeed = fadeSpeed * 0.01f;
+        while (fadeValue < 1)
+        {
+            fadeValue += actualSpeed;
+            dateMessage.color = new UnityEngine.Color(0, 0, 0, fadeValue);
+            yield return new WaitForSeconds(actualSpeed);
+        }
+        yield return new WaitForSeconds(2);
+        while (fadeValue > 0)
+        {
+            fadeValue -= actualSpeed;
+            dateMessage.color = new UnityEngine.Color(0, 0, 0, fadeValue);
+            yield return new WaitForSeconds(actualSpeed);
+        }
     }
 }

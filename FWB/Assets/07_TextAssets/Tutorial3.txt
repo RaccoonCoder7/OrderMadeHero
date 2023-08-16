@@ -1,7 +1,7 @@
-!speaker_나비 !next
+!image_no !speaker_나비 !next
 으음..! 주인에게 느껴지는 시선! 
 아직 이 몸을 믿지 못하는 것 같아!
-!speaker_모브NPC !image_모브NPC !sound_baby !next
+!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
 여기 장사하고 있나요?
 !speaker_나비 !next
 내가 지나가던 손님을 잡아왔어! 

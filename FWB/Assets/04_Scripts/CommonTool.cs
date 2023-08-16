@@ -81,10 +81,22 @@ public class CommonTool : SingletonMono<CommonTool>
             });
     }
 
-    public void OpenAlertPanel(string alertText)
+    public void OpenAlertPanel(string alertText, Action OnDodge = null)
     {
         alertPanel.SetActive(true);
         this.alertText.text = alertText;
+
+        if (OnDodge != null)
+        {
+            alertDodgeBtn.onClick.RemoveAllListeners();
+            alertDodgeBtn.onClick.AddListener(() =>
+            {
+                OnDodge.Invoke();
+                alertPanel.SetActive(false);
+                alertDodgeBtn.onClick.RemoveAllListeners();
+                alertDodgeBtn.onClick.AddListener(() => { alertPanel.SetActive(false); });
+            });
+        }
     }
 
     public List<string> GetText(string key)
@@ -105,8 +117,8 @@ public class CommonTool : SingletonMono<CommonTool>
     public float height;
     public float posX;
     public float posY;
-    
-    [ContextMenu("a")]
+
+    [ContextMenu("SetFocus")]
     public void SetFocus()
     {
         SetFocus(new Vector2(posX, posY), new Vector2(width, height));
