@@ -1,0 +1,9 @@
+!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+{청사진} 하나, 젓지 말고 흔들어서
+@
+......
+@
+맘에 드는군
+@
+...... 이게 아니야
+@

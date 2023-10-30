@@ -16,7 +16,8 @@ public class Chip : MonoBehaviour
     public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
     public Col[] row;
 
-    private Col[] originRow;
+    [HideInInspector]
+    public Col[] originRow;
 
     [System.Serializable]
     public class Col
@@ -80,7 +81,9 @@ public class Chip : MonoBehaviour
     {
         if (originRow != null)
         {
-            row = originRow;
+            row = (Col[])originRow.Clone();
+            rowNum = originRow.Length;
+            colNum = originRow[0].col.Length;
         }
     }
 }

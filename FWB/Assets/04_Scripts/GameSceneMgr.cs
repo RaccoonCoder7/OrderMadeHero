@@ -23,9 +23,11 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public List<Chip> chipList = new List<Chip>();
     public Dictionary<int, int> chipInventory = new Dictionary<int, int>();
     public Button makingDone;
+    public Button skip;
     public GameSceneMgr2 mgr2;
     public RequiredAbilityObject requiredAbilityObject;
     public Transform requiredAbilityTextParent;
+    public Action OnMakingDone;
 
     private RectTransform puzzleGridRectTr;
     private RectTransform dragImgRectTr;
@@ -66,13 +68,10 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
     }
 
-    private bool temp;
     void Awake()
     {
-        if (temp) return;
-        temp = true;
-
         makingDone.onClick.AddListener(OnClickMakingDone);
+        skip.onClick.AddListener(OnClickSkip);
 
         puzzleGridRectTr = puzzleGrid.GetComponent<RectTransform>();
         dragImgRectTr = dragImg.GetComponent<RectTransform>();
@@ -80,43 +79,28 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         ray = canvas.GetComponent<GraphicRaycaster>();
         canvasScaler = canvas.GetComponent<CanvasScaler>();
         ped = new PointerEventData(es);
-        currPuzzle = GetPuzzle(0);
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("A", 1));
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("B", 1));
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("C", 1));
-        InstantiateRequiredAbilityText();
-        var width = puzzleGridRectTr.rect.width / currPuzzle.x;
-        var height = puzzleGridRectTr.rect.height / currPuzzle.y;
-        var size = width < height ? width : height;
-        puzzleGrid.cellSize = new Vector2(size, size);
-        puzzleGrid.constraintCount = currPuzzle.x;
-        InstantiateFrames(currPuzzle.frameDataTable);
-        background.texture = textureList[0];
-
-        SetTestDataToChipInventory();
-        RefreshChipPanel();
 
         // 테스트코드
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        foreach (var chipframe in chipFrameTable)
-        {
-            if (chipframe != null)
-            {
-                sb.Append(chipframe.chipKey).Append(", ");
-            }
-            else
-            {
-                sb.Append("0, ");
-            }
-            i++;
-            if (i == 4)
-            {
-                sb.Append("\n");
-                i = 0;
-            }
-        }
-        Debug.Log(sb.ToString());
+        // StringBuilder sb = new StringBuilder();
+        // int i = 0;
+        // foreach (var chipframe in chipFrameTable)
+        // {
+        //     if (chipframe != null)
+        //     {
+        //         sb.Append(chipframe.chipKey).Append(", ");
+        //     }
+        //     else
+        //     {
+        //         sb.Append("0, ");
+        //     }
+        //     i++;
+        //     if (i == 4)
+        //     {
+        //         sb.Append("\n");
+        //         i = 0;
+        //     }
+        // }
+        // Debug.Log(sb.ToString());
         // 테스트코드
     }
 
@@ -131,22 +115,26 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 if (angle.z < 1)
                 {
                     angle.z = 270;
-                    pos.x += dragImgRectTr.rect.width;
+                    pos.x = pos.x + (dragImgRectTr.sizeDelta.x + dragImgRectTr.sizeDelta.y) / 2;
+                    pos.y = pos.y + (-dragImgRectTr.sizeDelta.y + dragImgRectTr.sizeDelta.x) / 2;
                 }
                 else if (angle.z < 91)
                 {
                     angle.z = 0;
-                    pos.y += dragImgRectTr.rect.height;
+                    pos.x = pos.x + (dragImgRectTr.sizeDelta.y - dragImgRectTr.sizeDelta.x) / 2;
+                    pos.y = pos.y + (dragImgRectTr.sizeDelta.x + dragImgRectTr.sizeDelta.y) / 2;
                 }
                 else if (angle.z < 181)
                 {
                     angle.z = 90;
-                    pos.x -= dragImgRectTr.rect.width;
+                    pos.x = pos.x + (-dragImgRectTr.sizeDelta.x - dragImgRectTr.sizeDelta.y) / 2;
+                    pos.y = pos.y + (dragImgRectTr.sizeDelta.y - dragImgRectTr.sizeDelta.x) / 2;
                 }
                 else if (angle.z < 271)
                 {
                     angle.z = 180;
-                    pos.y -= dragImgRectTr.rect.height;
+                    pos.x = pos.x + (-dragImgRectTr.sizeDelta.y + dragImgRectTr.sizeDelta.x) / 2;
+                    pos.y = pos.y + (-dragImgRectTr.sizeDelta.x - dragImgRectTr.sizeDelta.y) / 2;
                 }
                 dragImgRectTr.localEulerAngles = angle;
                 dragImgRectTr.localPosition = pos;
@@ -154,6 +142,43 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 currentSelectedChip.RotateRight();
             }
         }
+    }
+
+    public void StartPuzzle1()
+    {
+        makingDone.gameObject.SetActive(false);
+        currPuzzle = GetPuzzle(1);
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
+        InstantiateRequiredAbilityText();
+        SetPuzzle();
+        SetPuzzle1DataChipInventory();
+        RefreshChipPanel();
+    }
+
+    public void StartPuzzle2()
+    {
+        chipSize = 108;
+        currPuzzle = GetPuzzle(0);
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
+        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
+        InstantiateRequiredAbilityText();
+        SetPuzzle();
+        SetPuzzle1DataChipInventory();
+        RefreshChipPanel();
+    }
+
+    private void SetPuzzle()
+    {
+        var width = puzzleGridRectTr.rect.width / currPuzzle.x;
+        var height = puzzleGridRectTr.rect.height / currPuzzle.y;
+        var size = width < height ? width : height;
+        puzzleGrid.cellSize = new Vector2(size, size);
+        puzzleGrid.constraintCount = currPuzzle.x;
+        InstantiateFrames(currPuzzle.frameDataTable);
+        background.texture = textureList[0];
     }
 
     [ContextMenu("LogPuzzleFrameDatas")]
@@ -223,28 +248,30 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             var frame = Instantiate(puzzleFrame, puzzleGrid.transform);
             frame.SetPuzzleFrameData(frameData);
+            puzzleFrameList.Add(frame);
             if (frame.pfd.patternNum == 0)
             {
-                frame.image.enabled = false;
+                var color = frame.image.color;
+                color.a = 0;
+                frame.image.color = color;
                 continue;
             }
             frame.image.texture = textureList[frameData.patternNum];
-            puzzleFrameList.Add(frame);
         }
     }
 
-    private void SetTestDataToChipInventory()
+    private void SetPuzzle1DataChipInventory()
     {
-        //     chipInventory.Add(1, 1);
-        //     chipInventory.Add(2, 1);
-        //     chipInventory.Add(3, 2);
-        //     chipInventory.Add(4, 1);
-        //     chipInventory.Add(5, 1);
-        //     chipInventory.Add(6, 1);
-        //     chipInventory.Add(7, 2);
-        chipInventory.Add(3, 1);
-        chipInventory.Add(4, 1);
-        chipInventory.Add(5, 1);
+        // chipInventory.Add(1, 1);
+        // chipInventory.Add(2, 1);
+        // chipInventory.Add(3, 2);
+        // chipInventory.Add(4, 1);
+        // chipInventory.Add(5, 1);
+        // chipInventory.Add(6, 1);
+        // chipInventory.Add(7, 2);
+        chipInventory.Add(8, 1);
+        chipInventory.Add(9, 1);
+        chipInventory.Add(11, 1);
     }
 
     private void RefreshChipPanel()
@@ -367,29 +394,44 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
             if (targetChip != null && targetChip.chipCount > 0)
             {
-                targetChip.SaveOriginRow();
+                if (!isFromPuzzle)
+                {
+                    targetChip.SaveOriginRow();
+                }
                 dragImg.texture = targetChip.image.texture;
-                dragImgRectTr.sizeDelta = new Vector2(targetChip.rowNum, targetChip.colNum) * chipSize;
+                if (targetChip.originRow.Length == targetChip.rowNum)
+                {
+                    dragImgRectTr.sizeDelta = new Vector2(targetChip.rowNum, targetChip.colNum) * chipSize;
+                }
+                else
+                {
+                    dragImgRectTr.sizeDelta = new Vector2(targetChip.colNum, targetChip.rowNum) * chipSize;
+                }
+
                 var offset = new Vector3(canvasScaler.referenceResolution.x, canvasScaler.referenceResolution.y, 0) / 2;
-                offset -= new Vector3(-dragImgRectTr.sizeDelta.x, dragImgRectTr.sizeDelta.y, 0) / 2;
                 dragImgRectTr.localPosition = (Vector3)eventData.position - offset;
                 dragImgRectTr.localEulerAngles = targetChip.rectTr.localEulerAngles;
+                var angle = dragImgRectTr.localEulerAngles;
                 var pos = originDragImgRectTr = dragImgRectTr.localPosition;
-                if (dragImgRectTr.localEulerAngles.z < 1)
+                if (angle.z < 1)
                 {
+                    pos.x = pos.x + (-dragImgRectTr.sizeDelta.x) / 2;
+                    pos.y = pos.y + (+dragImgRectTr.sizeDelta.y) / 2;
                 }
-                else if (dragImgRectTr.localEulerAngles.z < 91)
+                else if (angle.z < 91)
                 {
-                    pos.y -= targetChip.rectTr.rect.height;
+                    pos.x = pos.x + (-dragImgRectTr.sizeDelta.y) / 2;
+                    pos.y = pos.y + (-dragImgRectTr.sizeDelta.x) / 2;
                 }
-                else if (dragImgRectTr.localEulerAngles.z < 181)
+                else if (angle.z < 181)
                 {
-                    pos.y -= targetChip.rectTr.rect.height;
-                    pos.x += targetChip.rectTr.rect.width;
+                    pos.x = pos.x + (dragImgRectTr.sizeDelta.x) / 2;
+                    pos.y = pos.y + (-dragImgRectTr.sizeDelta.y) / 2;
                 }
-                else if (dragImgRectTr.localEulerAngles.z < 271)
+                else if (angle.z < 271)
                 {
-                    pos.x += targetChip.rectTr.rect.width;
+                    pos.x = pos.x + (dragImgRectTr.sizeDelta.y) / 2;
+                    pos.y = pos.y + (dragImgRectTr.sizeDelta.x) / 2;
                 }
                 dragImgRectTr.localPosition = pos;
 
@@ -434,7 +476,8 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             dragImg.gameObject.SetActive(false);
             bool success = false;
 
-            var offset = new Vector2(currentSelectedChip.rowNum - 1, currentSelectedChip.colNum - 1) * chipSize / 2;
+            var x = (currentSelectedChip.rowNum - 1) / 2;
+            var offset = (new Vector2(currentSelectedChip.rowNum - 1, currentSelectedChip.colNum - 1) * chipSize) / 2;
             ped.position = Input.mousePosition + new Vector3(-offset.x, offset.y, 0);
             List<RaycastResult> results = new List<RaycastResult>();
             es.RaycastAll(ped, results);
@@ -470,7 +513,10 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                         {
                             DestroyImmediate(currentSelectedChip.gameObject);
                         }
-                        RefreshWeaponPowerData();
+                        if (GetWeaponPowerResult())
+                        {
+                            makingDone.gameObject.SetActive(true);
+                        }
                         success = true;
                     }
                 }
@@ -482,7 +528,8 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                         frame = result.gameObject.GetComponent<PuzzleFrame>();
                         if (frame != null) break;
                     }
-                    if (frame != null && frame.pfd.patternNum != 0)
+
+                    if (frame != null)
                     {
                         var fittableFrames = GetFittableFrameList(currPuzzle.frameDataTable, currentSelectedChip, frame.pfd.x, frame.pfd.y);
                         if (fittableFrames != null)
@@ -496,7 +543,14 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                             }
                             chipInstance.countPlate.SetActive(false);
                             chipInstance.transform.parent = frame.transform;
-                            chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
+                            if (chipInstance.originRow.Length == currentSelectedChip.rowNum)
+                            {
+                                chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
+                            }
+                            else
+                            {
+                                chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.colNum, chipInstance.rowNum) * chipSize;
+                            }
                             chipInstance.rectTr.anchoredPosition = Vector3.zero;
                             chipInstance.chipCount = 1;
 
@@ -507,7 +561,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                             }
                             else if (angle.z < 91)
                             {
-                                pos.y -= dragImgRectTr.rect.height;
+                                pos.y -= dragImgRectTr.rect.height * (chipInstance.colNum * 1f / chipInstance.rowNum);
                             }
                             else if (angle.z < 181)
                             {
@@ -516,7 +570,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                             }
                             else if (angle.z < 271)
                             {
-                                pos.x += dragImgRectTr.rect.width;
+                                pos.x += dragImgRectTr.rect.width * (chipInstance.rowNum * 1f / chipInstance.colNum);
                             }
                             chipInstance.rectTr.localPosition = pos;
 
@@ -524,13 +578,15 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                             {
                                 DestroyImmediate(currentSelectedChip.gameObject);
                             }
-                            RefreshWeaponPowerData();
+                            if (GetWeaponPowerResult())
+                            {
+                                makingDone.gameObject.SetActive(true);
+                            }
                             success = true;
                         }
                     }
                 }
             }
-
             if (!success)
             {
                 currentSelectedChip.chipCount++;
@@ -556,7 +612,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
     }
 
-    private void RefreshWeaponPowerData()
+    private bool GetWeaponPowerResult()
     {
         currentChipDataDic.Clear();
         foreach (var puzzleFrame in puzzleFrameList)
@@ -591,7 +647,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             if (!Int32.TryParse(splittedData[1], out targetNum))
             {
                 Debug.Log("파싱 실패: " + targetNum);
-                return;
+                return false;
             }
             int result = 0;
             if (currentChipDataDic.ContainsKey(key))
@@ -610,12 +666,36 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             requiredAbilityObjectDic[key].text.text = result + "/" + splittedData[1];
         }
 
-        makingDone.gameObject.SetActive(success);
+        return success;
     }
 
     public void OnClickMakingDone()
     {
-        makingDone.gameObject.SetActive(false);
-        mgr2.OnMakingDone();
+        mgr2.popupChatPanel.SetActive(false);
+
+        mgr2.orderState = GetWeaponPowerResult() ? GameSceneMgr2.OrderState.Succeed : GameSceneMgr2.OrderState.Failed;
+        if (OnMakingDone != null)
+        {
+            OnMakingDone.Invoke();
+            OnMakingDone = null;
+        }
+
+        foreach (var key in requiredAbilityObjectDic.Keys)
+        {
+            Destroy(requiredAbilityObjectDic[key].gameObject);
+        }
+        requiredAbilityObjectDic.Clear();
+
+        foreach (var obj in puzzleFrameList)
+        {
+            Destroy(obj.gameObject);
+        }
+        puzzleFrameList.Clear();
+        chipInventory.Clear();
+    }
+
+    public void OnClickSkip()
+    {
+        mgr2.OnClickSkip();
     }
 }

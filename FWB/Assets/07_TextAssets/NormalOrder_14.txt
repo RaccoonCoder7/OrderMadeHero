@@ -1,0 +1,9 @@
+!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+{청사진} 하나 부탁해요
+@
+할 수 있는게 뭐에요?
+@
+고마워요
+@
+이런 것도 못만들어요?
+@
