@@ -97,11 +97,12 @@ MonoBehaviour:
   colNum: 2
   rowNum: 2
   chipAbilityList:
-  - key: weight
-    value: 1
+  - abilityKey: a_weight
+    count: 1
   row:
   - col: 0101
   - col: 0101
+  originRow: []
 --- !u!223 &-5095075142960466397
 Canvas:
   m_ObjectHideFlags: 0

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static AbilityTable;
+using static ChipTable;
 
-public class Chip : MonoBehaviour
+public class ChipObj : MonoBehaviour
 {
     public int chipKey;
     public RawImage image;
@@ -25,18 +27,6 @@ public class Chip : MonoBehaviour
         public bool[] col;
     }
 
-    [System.Serializable]
-    public class ChipAbility
-    {
-        public string key;
-        public int value;
-
-        public ChipAbility(string key, int value)
-        {
-            this.key = key;
-            this.value = value;
-        }
-    }
 
     [ContextMenu("Set Default Table Data")]
     public void SetDefaultTableData()

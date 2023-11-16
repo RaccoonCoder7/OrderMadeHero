@@ -97,12 +97,13 @@ MonoBehaviour:
   colNum: 3
   rowNum: 3
   chipAbilityList:
-  - key: durability
-    value: 1
+  - abilityKey: a_durability
+    count: 1
   row:
   - col: 000100
   - col: 010101
   - col: 000100
+  originRow: []
 --- !u!223 &-6009393525916514690
 Canvas:
   m_ObjectHideFlags: 0

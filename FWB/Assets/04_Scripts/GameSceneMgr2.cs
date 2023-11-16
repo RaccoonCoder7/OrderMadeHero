@@ -27,7 +27,7 @@ public class GameSceneMgr2 : MonoBehaviour
     public Button setting;
     public Button skip;
     public List<Button> saveLoadButtons = new List<Button>();
-    public List<Button> weaponSlotButtons = new List<Button>();
+    public List<BluePrintSlot> bluePrintSlot = new List<BluePrintSlot>();
     public List<Text> weaponSlotTexts = new List<Text>();
     public Button weaponBack;
     public Button weaponFront;
@@ -155,24 +155,24 @@ public class GameSceneMgr2 : MonoBehaviour
 
         // audioSrc = GetComponent<AudioSource>();
 
-        for (int i = 0; i < weaponSlotButtons.Count; i++)
-        {
-            weaponSlotButtons[i].onClick.AddListener(() =>
-            {
-                //weaponExplanation.text = weaponSlotTexts[tempNum].text + " Slot";
-            });
+        // for (int i = 0; i < weaponSlotButtons.Count; i++)
+        // {
+        //     weaponSlotButtons[i].onClick.AddListener(() =>
+        //     {
+        //         //weaponExplanation.text = weaponSlotTexts[tempNum].text + " Slot";
+        //     });
 
-            eventTriggerList.Add(weaponSlotButtons[i].gameObject.GetComponent<EventTrigger>());
-        }
+        //     eventTriggerList.Add(weaponSlotButtons[i].gameObject.GetComponent<EventTrigger>());
+        // }
 
-        for (int i = 0; i < eventTriggerList.Count; i++)
-        {
-            int tempNum = i;
-            EventTrigger.Entry entry = new EventTrigger.Entry();
-            entry.eventID = EventTriggerType.PointerEnter;
-            entry.callback.AddListener((eventData) => { OnPointerEnterForButton(eventTriggerList[tempNum], tempNum); });
-            eventTriggerList[i].triggers.Add(entry);
-        }
+        // for (int i = 0; i < eventTriggerList.Count; i++)
+        // {
+        //     int tempNum = i;
+        //     EventTrigger.Entry entry = new EventTrigger.Entry();
+        //     entry.eventID = EventTriggerType.PointerEnter;
+        //     entry.callback.AddListener((eventData) => { OnPointerEnterForButton(eventTriggerList[tempNum], tempNum); });
+        //     eventTriggerList[i].triggers.Add(entry);
+        // }
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
         StartText("Tutorial", EndTutorialRoutine());
@@ -516,6 +516,10 @@ public class GameSceneMgr2 : MonoBehaviour
                     break;
                 }
             }
+            if (currentLineIdex >= lines.Count)
+            {
+                currentLineIdex = lines.Count - 1;
+            }
             prevText = prevText + lines[currentLineIdex];
             chatTargetText.text = prevText;
             isTextFlowing = false;
@@ -614,6 +618,30 @@ public class GameSceneMgr2 : MonoBehaviour
         creditRevenue.text = GameMgr.In.dayRevenue + " C";
     }
 
+    private void SetBlueprintButton()
+    {
+        for (int i = 0; i < bluePrintSlot.Count; i++)
+        {
+            int tempNum = i;
+            bluePrintSlot[tempNum].button.onClick.AddListener(() =>
+            {
+                mainPanel.SetActive(false);
+                weaponUI.SetActive(false);
+                gamePanel.SetActive(true);
+                gameSceneMgr.OnMakingDone += () =>
+                {
+                    mainChatText.text = string.Empty;
+                    gamePanel.SetActive(false);
+                };
+                var key = bluePrintSlot[tempNum].bluePrintKey;
+                Debug.Log(key);
+                GameMgr.In.currentBluePrint = GameMgr.In.bluePrintTable.bluePrintList.Find(x => x.bluePrintKey.Equals(key));
+                Debug.Log(GameMgr.In.currentBluePrint);
+                gameSceneMgr.StartPuzzle2();
+            });
+        }
+    }
+
     private IEnumerator EndTutorialRoutine()
     {
         yield return null;
@@ -705,7 +733,7 @@ public class GameSceneMgr2 : MonoBehaviour
         EndText();
         popupChatPanel.SetActive(false);
 
-        weaponSlotButtons[0].onClick.AddListener(() =>
+        bluePrintSlot[0].button.onClick.AddListener(() =>
         {
             mainPanel.SetActive(false);
             weaponUI.SetActive(false);
@@ -716,7 +744,9 @@ public class GameSceneMgr2 : MonoBehaviour
             onSkip = SkipTutorial6Routine();
             gameSceneMgr.OnMakingDone += OnMakingDone;
 
+            GameMgr.In.currentBluePrint = GameMgr.In.bluePrintTable.bluePrintList.Find(x => x.bluePrintKey.Equals("sword"));
             gameSceneMgr.StartPuzzle1();
+            bluePrintSlot[0].button.onClick.RemoveAllListeners();
         });
     }
 
@@ -890,6 +920,7 @@ public class GameSceneMgr2 : MonoBehaviour
         prevChatTarget = ChatTarget.None;
         pcChatPanel.SetActive(false);
 
+        SetBlueprintButton();
         StartCoroutine(StartNormalRoutine(5, EndDay2_5Routine()));
     }
 
@@ -994,8 +1025,9 @@ public class GameSceneMgr2 : MonoBehaviour
             var failTextList = new List<string>();
 
             int targetNumber = GetTargetNumber();
-            string normalOrderTextName = "NormalOrder_" + targetNumber;
-            lines = CommonTool.In.GetText(normalOrderTextName);
+            string orderKey = "NormalOrder_" + targetNumber;
+            var order = GameMgr.In.orderTable.GetNewOrder(orderKey);
+            lines = order.ta.text.Split('\n').ToList();
 
             normalOrderLineIndex = 0;
             normalOrderPrevLineIndex = 0;
@@ -1076,8 +1108,8 @@ public class GameSceneMgr2 : MonoBehaviour
         mainPanel.SetActive(true);
         weaponUI.SetActive(true);
 
-        weaponSlotButtons[0].onClick.RemoveAllListeners();
-        weaponSlotButtons[0].onClick.AddListener(() =>
+        bluePrintSlot[0].button.onClick.RemoveAllListeners();
+        bluePrintSlot[0].button.onClick.AddListener(() =>
         {
             mainPanel.SetActive(false);
             weaponUI.SetActive(false);

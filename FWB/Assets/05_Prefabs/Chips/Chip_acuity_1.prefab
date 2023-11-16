@@ -69,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: faf73dd969bc07145bf62ff88cac7e62, type: 3}
+  m_Texture: {fileID: 2800000, guid: 6ddc6e4f999b3f848b211728205a75ee, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -95,13 +95,13 @@ MonoBehaviour:
   count: {fileID: 3551062005047089157}
   chipCount: 0
   colNum: 1
-  rowNum: 2
+  rowNum: 1
   chipAbilityList:
-  - key: acuity
-    value: 1
+  - abilityKey: a_acuity
+    count: 1
   row:
   - col: 01
-  - col: 01
+  originRow: []
 --- !u!223 &-8048948362030477058
 Canvas:
   m_ObjectHideFlags: 0

@@ -97,8 +97,8 @@ MonoBehaviour:
   colNum: 1
   rowNum: 2
   chipAbilityList:
-  - key: attack
-    value: 1
+  - abilityKey: a_attack
+    count: 1
   row:
   - col: 01
   - col: 01

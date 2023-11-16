@@ -676,7 +676,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2AC\uB86F 0"
+  m_Text: "\uBABD\uB465\uC774"
 --- !u!222 &84595890
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2619,6 +2619,7 @@ GameObject:
   - component: {fileID: 336304943}
   - component: {fileID: 336304942}
   - component: {fileID: 336304945}
+  - component: {fileID: 336304946}
   m_Layer: 5
   m_Name: WeaponSlot (4)
   m_TagString: Untagged
@@ -2741,6 +2742,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &336304946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336304940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a5b9c122dfeeb4ba9d75c490713567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bluePrintKey: ax
+  button: {fileID: 336304942}
 --- !u!1 &341145693
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,6 +3242,7 @@ GameObject:
   - component: {fileID: 484427892}
   - component: {fileID: 484427891}
   - component: {fileID: 484427894}
+  - component: {fileID: 484427895}
   m_Layer: 5
   m_Name: WeaponSlot (1)
   m_TagString: Untagged
@@ -3349,6 +3365,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &484427895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484427889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a5b9c122dfeeb4ba9d75c490713567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bluePrintKey: club
+  button: {fileID: 484427891}
 --- !u!1 &507577547
 GameObject:
   m_ObjectHideFlags: 0
@@ -3540,7 +3570,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2AC\uB86F 0"
+  m_Text: "\uB3C4\uB07C"
 --- !u!222 &509082910
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5309,7 +5339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a872d77a54299340ba5d13301b76818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 100
 --- !u!114 &718795592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5407,13 +5436,13 @@ MonoBehaviour:
   - {fileID: 1583650530}
   - {fileID: 1447514206}
   - {fileID: 1062921407}
-  weaponSlotButtons:
-  - {fileID: 1872556533}
-  - {fileID: 484427891}
-  - {fileID: 1346626470}
-  - {fileID: 861346616}
-  - {fileID: 336304942}
-  - {fileID: 2141023057}
+  bluePrintSlot:
+  - {fileID: 1872556537}
+  - {fileID: 484427895}
+  - {fileID: 1346626474}
+  - {fileID: 861346620}
+  - {fileID: 336304946}
+  - {fileID: 2141023061}
   weaponSlotTexts:
   - {fileID: 754334634}
   - {fileID: 84595889}
@@ -5829,7 +5858,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2AC\uB86F 0"
+  m_Text: "\uB300\uAC80"
 --- !u!222 &754334635
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6043,6 +6072,7 @@ GameObject:
   - component: {fileID: 861346617}
   - component: {fileID: 861346616}
   - component: {fileID: 861346619}
+  - component: {fileID: 861346620}
   m_Layer: 5
   m_Name: WeaponSlot (3)
   m_TagString: Untagged
@@ -6165,6 +6195,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &861346620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861346614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a5b9c122dfeeb4ba9d75c490713567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bluePrintKey: staff
+  button: {fileID: 861346616}
 --- !u!1 &867119537
 GameObject:
   m_ObjectHideFlags: 0
@@ -7324,7 +7368,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2AC\uB86F 0"
+  m_Text: "\uB9DD\uCE58"
 --- !u!222 &1013000932
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7602,7 +7646,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2AC\uB86F 0"
+  m_Text: "\uC9C0\uD321\uC774"
 --- !u!222 &1037869177
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10828,6 +10872,7 @@ GameObject:
   - component: {fileID: 1346626471}
   - component: {fileID: 1346626470}
   - component: {fileID: 1346626473}
+  - component: {fileID: 1346626474}
   m_Layer: 5
   m_Name: WeaponSlot (2)
   m_TagString: Untagged
@@ -10950,6 +10995,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &1346626474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346626468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a5b9c122dfeeb4ba9d75c490713567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bluePrintKey: dagger
+  button: {fileID: 1346626470}
 --- !u!1 &1347093684
 GameObject:
   m_ObjectHideFlags: 0
@@ -15723,6 +15782,7 @@ GameObject:
   - component: {fileID: 1872556534}
   - component: {fileID: 1872556533}
   - component: {fileID: 1872556536}
+  - component: {fileID: 1872556537}
   m_Layer: 5
   m_Name: WeaponSlot
   m_TagString: Untagged
@@ -15845,6 +15905,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &1872556537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872556531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a5b9c122dfeeb4ba9d75c490713567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bluePrintKey: sword
+  button: {fileID: 1872556533}
 --- !u!1 &1876549018
 GameObject:
   m_ObjectHideFlags: 0
@@ -16439,7 +16513,7 @@ MonoBehaviour:
     ta: {fileID: 4900000, guid: f0fb8ea7968f99a43ba5f3913ab77478, type: 3}
     lines: []
   - key: Tutorial_Explain
-    ta: {fileID: 4900000, guid: b415a3748155bf44ebdc0b09979ce5f4, type: 3}
+    ta: {fileID: 4900000, guid: 59cd4892250710a46b5103fc732f9984, type: 3}
     lines: []
   - key: Tutorial2
     ta: {fileID: 4900000, guid: 6a1d838f1fb309a4e9a7c5dcd984fa85, type: 3}
@@ -16473,63 +16547,6 @@ MonoBehaviour:
     lines: []
   - key: Day2_4
     ta: {fileID: 4900000, guid: e28d55465e737b940ae08de69bb7a4de, type: 3}
-    lines: []
-  - key: NormalOrder_0
-    ta: {fileID: 4900000, guid: b36890be4b612ec4fa2e2e2883e8523d, type: 3}
-    lines: []
-  - key: NormalOrder_1
-    ta: {fileID: 4900000, guid: be0946e071481b545be3ee2af48bcfc4, type: 3}
-    lines: []
-  - key: NormalOrder_2
-    ta: {fileID: 4900000, guid: fb56e721e59d23b43bae5a9697c49b3d, type: 3}
-    lines: []
-  - key: NormalOrder_3
-    ta: {fileID: 4900000, guid: a66c0b5a2b030084fa7318187af6187b, type: 3}
-    lines: []
-  - key: NormalOrder_4
-    ta: {fileID: 4900000, guid: 5c833dca39530b049a1056b9002b9ce2, type: 3}
-    lines: []
-  - key: NormalOrder_5
-    ta: {fileID: 4900000, guid: 2a9dbad8756f0ad4eaae4362755690dd, type: 3}
-    lines: []
-  - key: NormalOrder_6
-    ta: {fileID: 4900000, guid: 93949d4a75c7dbd438e6c22165e46194, type: 3}
-    lines: []
-  - key: NormalOrder_7
-    ta: {fileID: 4900000, guid: 685f14596ca2e214391eff0dc2248766, type: 3}
-    lines: []
-  - key: NormalOrder_8
-    ta: {fileID: 4900000, guid: 282791ae4f6b5ff4d88e37cfcd06265f, type: 3}
-    lines: []
-  - key: NormalOrder_9
-    ta: {fileID: 4900000, guid: ac01a335a302fe647b0a856f5018766b, type: 3}
-    lines: []
-  - key: NormalOrder_10
-    ta: {fileID: 4900000, guid: 0ed15894b47487e42be90380585280d9, type: 3}
-    lines: []
-  - key: NormalOrder_11
-    ta: {fileID: 4900000, guid: ea1e3371aa02cdb4cb3f76a5f39dde7d, type: 3}
-    lines: []
-  - key: NormalOrder_12
-    ta: {fileID: 4900000, guid: 52200c3ce46cdfa4ea53017c8d7e924b, type: 3}
-    lines: []
-  - key: NormalOrder_13
-    ta: {fileID: 4900000, guid: 0ef39d7a06b45f148828a8456f1018d0, type: 3}
-    lines: []
-  - key: NormalOrder_14
-    ta: {fileID: 4900000, guid: 0712313a61cb0cb4e9b3997fd7e1b2cf, type: 3}
-    lines: []
-  - key: NormalOrder_15
-    ta: {fileID: 4900000, guid: 24a9f75b81dd96b48adbedce03b9f7c3, type: 3}
-    lines: []
-  - key: NormalOrder_16
-    ta: {fileID: 4900000, guid: 66831247d3bc55b45b1b37edefcf383f, type: 3}
-    lines: []
-  - key: NormalOrder_17
-    ta: {fileID: 4900000, guid: b1b76f49395e59945b254fb514c8f6c5, type: 3}
-    lines: []
-  - key: NormalOrder_18
-    ta: {fileID: 4900000, guid: 8d7d38c656efc4148a6e5441dfdb1944, type: 3}
     lines: []
   audioClipList:
   - {fileID: 8300000, guid: ef6edc293d43de441a47697bed82590b, type: 3}
@@ -16707,6 +16724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1913406542}
   - component: {fileID: 1913406541}
+  - component: {fileID: 1913406543}
   m_Layer: 0
   m_Name: GameManager (1)
   m_TagString: Untagged
@@ -16734,6 +16752,14 @@ MonoBehaviour:
   dayStoreCost: 0
   dayRentCost: 0
   dayRevenue: 0
+  bluePrintTable: {fileID: 11400000, guid: 42a2add5b5a37bf4f8bb6b8ce79b5e1f, type: 2}
+  orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
+  chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
+  abilityTable: {fileID: 11400000, guid: a557d9e88e93460438f18b64a9323ef8, type: 2}
+  currentBluePrint:
+    bluePrintKey: 
+    name: 
+    requiredChipAbilityList: []
 --- !u!4 &1913406542
 Transform:
   m_ObjectHideFlags: 0
@@ -16748,6 +16774,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1913406543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913406540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee5429ed0a2d474da56171d7980225b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ta: {fileID: 0}
 --- !u!1 &1918344927
 GameObject:
   m_ObjectHideFlags: 0
@@ -16818,7 +16857,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2AC\uB86F 0"
+  m_Text: "\uB2E8\uAC80"
 --- !u!222 &1918344930
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18367,6 +18406,7 @@ GameObject:
   - component: {fileID: 2141023058}
   - component: {fileID: 2141023057}
   - component: {fileID: 2141023060}
+  - component: {fileID: 2141023061}
   m_Layer: 5
   m_Name: WeaponSlot (5)
   m_TagString: Untagged
@@ -18489,3 +18529,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &2141023061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141023055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a5b9c122dfeeb4ba9d75c490713567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bluePrintKey: hammer
+  button: {fileID: 2141023057}

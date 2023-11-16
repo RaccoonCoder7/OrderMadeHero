@@ -5,7 +5,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static Chip;
+using static AbilityTable;
+using static ChipObj;
 
 public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -20,7 +21,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public float chipSize;
     public PuzzleFrame puzzleFrame;
     public List<Texture> textureList = new List<Texture>();
-    public List<Chip> chipList = new List<Chip>();
+    public List<ChipObj> chipList = new List<ChipObj>();
     public Dictionary<int, int> chipInventory = new Dictionary<int, int>();
     public Button makingDone;
     public Button skip;
@@ -33,8 +34,8 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private RectTransform dragImgRectTr;
     private RawImage background;
     private Puzzle currPuzzle;
-    private Chip[,] chipFrameTable;
-    private Chip currentSelectedChip;
+    private ChipObj[,] chipFrameTable;
+    private ChipObj currentSelectedChip;
     private CanvasScaler canvasScaler;
     private GraphicRaycaster ray;
     private PointerEventData ped;
@@ -43,12 +44,13 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private List<PuzzleFrame> puzzleFrameList = new List<PuzzleFrame>();
     private Dictionary<string, RequiredAbilityObject> requiredAbilityObjectDic = new Dictionary<string, RequiredAbilityObject>();
     private Dictionary<string, int> currentChipDataDic = new Dictionary<string, int>();
+    private List<GameObject> instantiatedChipList = new List<GameObject>();
 
     public class Puzzle
     {
         public int x;
         public int y;
-        public List<ChipAbility> requiredChipAbilityList = new List<ChipAbility>();
+        public List<Ability> requiredChipAbilityList = new List<Ability>();
         public PuzzleFrameData[,] frameDataTable;
     }
 
@@ -58,7 +60,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         public int patternNum = 0;
         public int x;
         public int y;
-        public Chip chip;
+        public ChipObj chip;
 
         public PuzzleFrameData(int patternNum, int x, int y)
         {
@@ -148,9 +150,9 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         makingDone.gameObject.SetActive(false);
         currPuzzle = GetPuzzle(1);
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
+        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
+        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
+        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
         InstantiateRequiredAbilityText();
         SetPuzzle();
         SetPuzzle1DataChipInventory();
@@ -161,9 +163,9 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         chipSize = 108;
         currPuzzle = GetPuzzle(0);
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
-        currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
+        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
+        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
+        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
         InstantiateRequiredAbilityText();
         SetPuzzle();
         SetPuzzle1DataChipInventory();
@@ -269,9 +271,10 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         // chipInventory.Add(5, 1);
         // chipInventory.Add(6, 1);
         // chipInventory.Add(7, 2);
-        chipInventory.Add(8, 1);
-        chipInventory.Add(9, 1);
-        chipInventory.Add(11, 1);
+        chipInventory.Add(8, 3);
+        chipInventory.Add(9, 3);
+        chipInventory.Add(10, 3);
+        chipInventory.Add(11, 3);
     }
 
     private void RefreshChipPanel()
@@ -280,12 +283,12 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         var sizeY = chipSize * chipCountY;
         chipPanelRectTr.sizeDelta = new Vector2(sizeX, sizeY);
 
-        chipFrameTable = new Chip[chipCountY, chipCountX];
+        chipFrameTable = new ChipObj[chipCountY, chipCountX];
         for (int i = 0; i < chipCountY; i++)
         {
             for (int j = 0; j < chipCountX; j++)
             {
-                chipFrameTable[i, j] = new Chip();
+                chipFrameTable[i, j] = new ChipObj();
             }
         }
 
@@ -296,17 +299,18 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             {
                 var chipInstance = Instantiate(chip, chipPanelRectTr.transform);
                 chipInstance.name = chip.name;
+                instantiatedChipList.Add(chipInstance.gameObject);
                 SetChipToPanel(chipInstance, chipInventory[key]);
             }
         }
     }
 
-    private Chip GetChipPrefab(int key)
+    private ChipObj GetChipPrefab(int key)
     {
         return chipList.Find(x => x.chipKey.Equals(key));
     }
 
-    private void SetChipToPanel(Chip chip, int chipCount)
+    private void SetChipToPanel(ChipObj chip, int chipCount)
     {
         for (int i = 0; i < chipCountY; i++)
         {
@@ -324,7 +328,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         Destroy(chip.gameObject);
     }
 
-    private List<PuzzleFrameData> GetFittableFrameList(PuzzleFrameData[,] targetTable, Chip chip, int x, int y)
+    private List<PuzzleFrameData> GetFittableFrameList(PuzzleFrameData[,] targetTable, ChipObj chip, int x, int y)
     {
         List<PuzzleFrameData> pfdList = new List<PuzzleFrameData>();
         var table = chip.row;
@@ -358,7 +362,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         return pfdList;
     }
 
-    private Chip GetChipAtPos(Vector2 pos)
+    private ChipObj GetChipAtPos(Vector2 pos)
     {
         pos /= chipSize;
         return chipFrameTable[(int)-pos.y, (int)pos.x];
@@ -376,7 +380,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         es.RaycastAll(ped, results);
         if (results.Count > 0)
         {
-            Chip targetChip = null;
+            ChipObj targetChip = null;
             foreach (var result in results)
             {
                 if (result.gameObject.name.Contains("PuzzleFrame"))
@@ -389,7 +393,7 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
             if (targetChip == null)
             {
-                targetChip = results[0].gameObject.GetComponent<Chip>();
+                targetChip = results[0].gameObject.GetComponent<ChipObj>();
             }
 
             if (targetChip != null && targetChip.chipCount > 0)
@@ -604,11 +608,11 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private void InstantiateRequiredAbilityText()
     {
-        foreach (var ability in currPuzzle.requiredChipAbilityList)
+        foreach (var ability in GameMgr.In.currentBluePrint.requiredChipAbilityList)
         {
             var obj = Instantiate(requiredAbilityObject, requiredAbilityTextParent);
-            obj.text.text = "0/" + ability.value;
-            requiredAbilityObjectDic.Add(ability.key, obj);
+            obj.text.text = "0/" + ability.count;
+            requiredAbilityObjectDic.Add(ability.abilityKey, obj);
         }
     }
 
@@ -622,17 +626,17 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 var child = puzzleFrame.transform.GetChild(0);
                 if (child)
                 {
-                    var chip = child.GetComponent<Chip>();
+                    var chip = child.GetComponent<ChipObj>();
                     if (chip)
                     {
                         foreach (var ability in chip.chipAbilityList)
                         {
-                            if (!currentChipDataDic.ContainsKey(ability.key))
+                            if (!currentChipDataDic.ContainsKey(ability.abilityKey))
                             {
-                                currentChipDataDic.Add(ability.key, ability.value);
+                                currentChipDataDic.Add(ability.abilityKey, ability.count);
                                 continue;
                             }
-                            currentChipDataDic[ability.key] += ability.value;
+                            currentChipDataDic[ability.abilityKey] += ability.count;
                         }
                     }
                 }
@@ -690,6 +694,12 @@ public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             Destroy(obj.gameObject);
         }
+
+        foreach (var obj in instantiatedChipList)
+        {
+            Destroy(obj);
+        }
+
         puzzleFrameList.Clear();
         chipInventory.Clear();
     }

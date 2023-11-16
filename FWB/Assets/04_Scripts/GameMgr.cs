@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static BluePrintTable;
+using static OrderTable;
 
 public class GameMgr : SingletonMono<GameMgr>
 {
@@ -12,6 +14,11 @@ public class GameMgr : SingletonMono<GameMgr>
     public int dayStoreCost;
     public int dayRentCost;
     public int dayRevenue;
+    public BluePrintTable bluePrintTable;
+    public OrderTable orderTable;
+    public ChipTable chipTable;
+    public AbilityTable abilityTable;
+    public BluePrint currentBluePrint;
 
     public void ResetDayData()
     {

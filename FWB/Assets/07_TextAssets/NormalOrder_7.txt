@@ -1,5 +1,5 @@
 !sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
-주인장, 여기 {요구사항1}{청사진} 하나.
+주인장, 여기 {조건}{청사진} 하나.
 @
 크흠... 
 @

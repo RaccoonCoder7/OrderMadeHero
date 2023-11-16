@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a567cf8a090bc2845a5dac86a36c473a, type: 3}
+  m_Name: BluePrintTable
+  m_EditorClassIdentifier: 
+  bluePrintList:
+  - bluePrintKey: sword
+    name: "\uC7A5\uAC80"
+    requiredChipAbilityList:
+    - abilityKey: a_attack
+      count: 1
+    - abilityKey: a_acuity
+      count: 1
+  - bluePrintKey: club
+    name: "\uBABD\uB465\uC774"
+    requiredChipAbilityList:
+    - abilityKey: a_weight
+      count: 3
+    - abilityKey: a_durability
+      count: 1
+  - bluePrintKey: dagger
+    name: "\uB2E8\uAC80"
+    requiredChipAbilityList:
+    - abilityKey: a_attack
+      count: 1
+  - bluePrintKey: staff
+    name: "\uC9C0\uD321\uC774"
+    requiredChipAbilityList:
+    - abilityKey: a_attack
+      count: 2
+  - bluePrintKey: ax
+    name: "\uB3C4\uB07C"
+    requiredChipAbilityList:
+    - abilityKey: a_acuity
+      count: 1
+  - bluePrintKey: hammer
+    name: "\uB9DD\uCE58"
+    requiredChipAbilityList:
+    - abilityKey: a_weight
+      count: 1
