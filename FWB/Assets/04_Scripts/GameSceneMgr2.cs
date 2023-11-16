@@ -823,6 +823,7 @@ public class GameSceneMgr2 : MonoBehaviour
     {
         yield return null;
         EndText();
+        prevChatTarget = ChatTarget.None;
         pcChatPanel.SetActive(false);
         CommonTool.In.SetFocusOff();
 
@@ -919,6 +920,7 @@ public class GameSceneMgr2 : MonoBehaviour
 
         prevChatTarget = ChatTarget.None;
         pcChatPanel.SetActive(false);
+        onSkip = null;
 
         SetBlueprintButton();
         StartCoroutine(StartNormalRoutine(5, EndDay2_5Routine()));
