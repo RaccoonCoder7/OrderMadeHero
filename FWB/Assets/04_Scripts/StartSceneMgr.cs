@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// 시작 씬의 동작을 관리
+/// </summary>
 public class StartSceneMgr : MonoBehaviour
 {
     public Button startBtn;

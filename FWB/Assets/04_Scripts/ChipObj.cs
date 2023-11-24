@@ -1,25 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static AbilityTable;
 using static ChipTable;
 
+/// <summary>
+/// 칩의 정보와 연결된 컴포넌트를 저장하는 매니저 컴포넌트
+/// </summary>
 public class ChipObj : MonoBehaviour
 {
     public int chipKey;
+    public int chipCount;
+    public int colNum;
+    public int rowNum;
     public RawImage image;
     public RectTransform rectTr;
     public GameObject countPlate;
     public Text count;
-    public int chipCount;
-    public int colNum;
-    public int rowNum;
     public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
     public Col[] row;
-
     [HideInInspector]
     public Col[] originRow;
+
 
     [System.Serializable]
     public class Col
@@ -27,7 +28,9 @@ public class ChipObj : MonoBehaviour
         public bool[] col;
     }
 
-
+    /// <summary>
+    /// 칩의 정보를 세팅하기 위한 ContextMenu
+    /// </summary>
     [ContextMenu("Set Default Table Data")]
     public void SetDefaultTableData()
     {

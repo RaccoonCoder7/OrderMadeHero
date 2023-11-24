@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
-using System;
-using System.Linq;
 
+/// <summary>
+/// 프롤로그 씬의 동작을 관리
+/// </summary>
 public class IntroSceneMgr : MonoBehaviour
 {
     public CustomScrollBar scrollBar;
     public InputField inputField;
-    // public Button backBtn;
     public Button autoBtn;
     public Button skipBtn;
     public Button settingBtn;
@@ -44,6 +43,7 @@ public class IntroSceneMgr : MonoBehaviour
     private Regex regex = new Regex(@"^[가-힣a-zA-Z0-9\s]{2,12}$");
     private const string playerNameRule = "한글, 영어 / 공백포함 2자 이상 12자 이하로 설정 해주세요";
 
+
     public enum TextFlowType
     {
         None,
@@ -58,9 +58,9 @@ public class IntroSceneMgr : MonoBehaviour
         public GameObject imageObj;
     }
 
+
     IEnumerator Start()
     {
-        // backBtn.onClick.AddListener(OnClickBack);
         autoBtn.onClick.AddListener(OnClickAuto);
         skipBtn.onClick.AddListener(OnClickSkip);
         settingBtn.onClick.AddListener(OnClickSetting);
@@ -193,7 +193,6 @@ public class IntroSceneMgr : MonoBehaviour
         {
             img.imageObj.SetActive(false);
         }
-        // backBtn.gameObject.SetActive(false);
         autoBtn.gameObject.SetActive(false);
         skipBtn.gameObject.SetActive(false);
         historyBtn.gameObject.SetActive(false);
@@ -212,7 +211,6 @@ public class IntroSceneMgr : MonoBehaviour
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(CommonTool.In.FadeOut());
 
-        // backBtn.gameObject.SetActive(true);
         autoBtn.gameObject.SetActive(true);
         skipBtn.gameObject.SetActive(true);
         historyBtn.gameObject.SetActive(true);
@@ -226,19 +224,8 @@ public class IntroSceneMgr : MonoBehaviour
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
-        //onEndText = GameEnd();
         onEndText = CommonTool.In.AsyncChangeScene("GameScene");
         StartNextLine();
-    }
-
-    private IEnumerator GameEnd()
-    {
-        yield return null;
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
     }
 
     private void SkipCurrLine()
@@ -279,13 +266,6 @@ public class IntroSceneMgr : MonoBehaviour
         });
     }
 
-    // private void OnClickBack()
-    // {
-    //     isOnConversation = false;
-    //     historyPanel.SetActive(false);
-    //     StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
-    // }
-
     private void OnClickAuto()
     {
         switch (textFlowType)
@@ -318,7 +298,7 @@ public class IntroSceneMgr : MonoBehaviour
 
     private void OnClickSetting()
     {
-        // TODO
+        // TODO: 기능이 정의된 후 CommonTool에서 제어할 듯
     }
 
     private void OnClickHistory()

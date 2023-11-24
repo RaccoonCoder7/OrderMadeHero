@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// 마우스가 스프라이트메쉬 위에 올려졌을 때 반응하도록 만듦
+/// </summary>
 public class InteractableImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Vector3 moveOffset;

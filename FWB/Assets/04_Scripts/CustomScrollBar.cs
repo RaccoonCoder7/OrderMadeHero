@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// UGUI로 구현할 수 없는 기능을 구현하기 위한 커스텀 스크롤바
+/// </summary>
 public class CustomScrollBar : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Scrollbar scrollBar;
@@ -33,7 +34,6 @@ public class CustomScrollBar : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         rect.localPosition = localPos;
     }
 
-    [ContextMenu("Test")]
     public void AutoScrollToDown()
     {
         scrollBar.value = 0;

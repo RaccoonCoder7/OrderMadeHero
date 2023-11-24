@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static AbilityTable;
-using static ChipObj;
 using static ChipTable;
 
+/// <summary>
+/// 청사진에 대한 정보를 저장하는 SO
+/// </summary>
 [CreateAssetMenu(fileName = "BluePrintTable", menuName = "SO/BluePrintTable", order = 0)]
 public class BluePrintTable : ScriptableObject
 {

@@ -7,6 +7,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// 앱 전반적으로 흔히 사용 될만한 기능을 모아둔 공용 툴
+/// </summary>
 public class CommonTool : SingletonMono<CommonTool>
 {
     public GameObject alertPanel;
@@ -63,24 +66,35 @@ public class CommonTool : SingletonMono<CommonTool>
         }
     }
 
+    /// <summary>
+    /// 사용자의 Yes/No 응답을 받는 패널을 열음
+    /// </summary>
+    /// <param name="text">패널에 띄울 메세지</param>
+    /// <param name="OnConfirm">Yes 선택 시 동작할 Action</param>
+    /// <param name="OnCancel">No 선택 시 동작할 Action</param>
     public void OpenConfirmPanel(string text, Action OnConfirm, Action OnCancel)
     {
         confirmPanel.SetActive(true);
         confirmText.text = text;
         confirmBtn.onClick.RemoveAllListeners();
         confirmBtn.onClick.AddListener(() =>
-            {
-                confirmPanel.SetActive(false);
-                OnConfirm.Invoke();
-            });
+        {
+            confirmPanel.SetActive(false);
+            OnConfirm.Invoke();
+        });
         cancelBtn.onClick.RemoveAllListeners();
         cancelBtn.onClick.AddListener(() =>
-            {
-                confirmPanel.SetActive(false);
-                OnCancel.Invoke();
-            });
+        {
+            confirmPanel.SetActive(false);
+            OnCancel.Invoke();
+        });
     }
 
+    /// <summary>
+    /// 알림 패널을 열음
+    /// </summary>
+    /// <param name="alertText">알림 메세지</param>
+    /// <param name="OnDodge">창이 닫혔을 경우 동작할 Action</param>
     public void OpenAlertPanel(string alertText, Action OnDodge = null)
     {
         alertPanel.SetActive(true);
@@ -99,11 +113,19 @@ public class CommonTool : SingletonMono<CommonTool>
         }
     }
 
+    /// <summary>
+    /// 스크립트(대화)를 List<string> 형태로 가져옴 
+    /// </summary>
+    /// <param name="key">스크립트 키</param>
     public List<string> GetText(string key)
     {
         return scriptList.Find(x => x.key.Equals(key))?.lines;
     }
 
+    /// <summary>
+    /// 오디오를 1회 플레이 함
+    /// </summary>
+    /// <param name="audioName">오디오클립 이름</param>
     public void PlayOneShot(string audioName)
     {
         var clip = audioClipList.Find(x => x.name.Equals(audioName));
@@ -113,17 +135,9 @@ public class CommonTool : SingletonMono<CommonTool>
         }
     }
 
-    public float width;
-    public float height;
-    public float posX;
-    public float posY;
-
-    [ContextMenu("SetFocus")]
-    public void SetFocus()
-    {
-        SetFocus(new Vector2(posX, posY), new Vector2(width, height));
-    }
-
+    /// <summary>
+    /// 화면에 포커스를 줌
+    /// </summary>
     public void SetFocus(Vector2 pos, Vector2 size)
     {
         focusPanel.SetActive(true);
@@ -140,6 +154,9 @@ public class CommonTool : SingletonMono<CommonTool>
         focusRectTr.anchoredPosition = focusLocalPos;
     }
 
+    /// <summary>
+    /// 포커스 효과를 없앰
+    /// </summary>
     public void SetFocusOff()
     {
         focusPanel.SetActive(false);

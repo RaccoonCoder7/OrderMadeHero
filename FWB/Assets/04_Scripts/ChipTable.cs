@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static AbilityTable;
-using static ChipObj;
 
+/// <summary>
+/// 칩의 정보를 저장하는 SO
+/// </summary>
 [CreateAssetMenu(fileName = "ChipTable", menuName = "SO/ChipTable", order = 2)]
 public class ChipTable : ScriptableObject
 {

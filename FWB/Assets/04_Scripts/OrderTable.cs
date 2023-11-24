@@ -1,10 +1,11 @@
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ChipObj;
 using static AbilityTable;
 
+/// <summary>
+/// 주문에 대한 정보를 저장하는 SO
+/// </summary>
 [CreateAssetMenu(fileName = "OrderTable", menuName = "SO/OrderTable", order = 1)]
 public class OrderTable : ScriptableObject
 {
@@ -34,7 +35,11 @@ public class OrderTable : ScriptableObject
         }
     }
 
-
+    /// <summary>
+    /// 주문정보를 새로 생성하여 반환함
+    /// </summary>
+    /// <param name="orderKey">주문 키</param>
+    /// <returns>새로 생성 된 주문정보</returns>
     public Order GetNewOrder(string orderKey)
     {
         var targetOrder = orderList.Find(x => x.orderKey.Equals(orderKey));
