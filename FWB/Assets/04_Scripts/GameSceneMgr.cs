@@ -1,711 +1,854 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static AbilityTable;
-using static ChipObj;
+using System.Runtime.InteropServices;
+using System.Drawing;
 
-public class GameSceneMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+/// <summary>
+/// 게임 씬의 UI와 동작(메인 게임 플로우)를 관리
+/// </summary>
+public class GameSceneMgr : MonoBehaviour
 {
-    public List<TextAsset> csvList;
-    public GridLayoutGroup puzzleGrid;
-    public RectTransform chipPanelRectTr;
-    public EventSystem es;
-    public Canvas canvas;
-    public RawImage dragImg;
-    public int chipCountX;
-    public int chipCountY;
-    public float chipSize;
-    public PuzzleFrame puzzleFrame;
-    public List<Texture> textureList = new List<Texture>();
-    public List<ChipObj> chipList = new List<ChipObj>();
-    public Dictionary<int, int> chipInventory = new Dictionary<int, int>();
-    public Button makingDone;
+    [Header("UI")]
+    public Button pc;
+    public Button pcChatWork;
+    public Button mainBack;
+    public Button weaponBook;
+    public Button push;
+    public Button save;
+    public Button load;
+    public Button ok;
+    public Button yes;
+    public Button no;
+    public Button returnBtn;
+    public Button gotoMain;
+    public Button popupYes;
+    public Button popupNo;
+    public Button setting;
     public Button skip;
-    public GameSceneMgr2 mgr2;
-    public RequiredAbilityObject requiredAbilityObject;
-    public Transform requiredAbilityTextParent;
-    public Action OnMakingDone;
+    public List<Button> saveLoadButtons = new List<Button>();
+    public List<BluePrintSlot> bluePrintSlot = new List<BluePrintSlot>();
+    public List<Text> weaponSlotTexts = new List<Text>();
+    public Button weaponBack;
+    public Button weaponFront;
+    public Button dodgeMainPanel;
+    public Button alertDodge;
+    public Button creditDodge;
+    public Text chatName;
+    public Text weaponExplanation;
+    public GameObject mainChatPanel;
+    public GameObject pcChatPanel;
+    public GameObject popupChatPanel;
+    public GameObject mainPanel;
+    public GameObject mainUI;
+    public GameObject weaponUI;
+    public GameObject stick;
+    public GameObject saveLoadPanel;
+    public GameObject saveLoadPopup;
+    public GameObject day;
+    public GameObject renom;
+    public GameObject tendency;
+    public GameObject gold;
+    public GameObject gamePanel;
+    public GameObject cursor;
+    public GameObject alertPanel;
+    public GameObject creditPanel;
+    public Text mainChatText;
+    public Text mascotChatText;
+    public Text popupChatText;
+    public Text yesText;
+    public Text noText;
+    public Text dateText;
+    public Text dateMessage;
+    public Text goldText;
+    public Text creditTitle;
+    public Text creditTotalRevenue;
+    public Text creditMaterialCost;
+    public Text creditStore;
+    public Text creditRentCost;
+    public Text creditRevenue;
+    public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
+    [HideInInspector]
+    public Text chatTargetText;
+    [HideInInspector]
+    public RectTransform popupChatPanelRect;
+    [Header("Data")]
+    public float textDelayTime;
+    [HideInInspector]
+    public bool isEventFlowing;
+    [HideInInspector]
+    public bool isNormalOrdering;
+    [HideInInspector]
+    public OrderState orderState = OrderState.None;
+    [HideInInspector]
+    public ChatTarget chatTarget = ChatTarget.Main;
+    [HideInInspector]
+    public ChatTarget prevChatTarget = ChatTarget.None;
 
-    private RectTransform puzzleGridRectTr;
-    private RectTransform dragImgRectTr;
-    private RawImage background;
-    private Puzzle currPuzzle;
-    private ChipObj[,] chipFrameTable;
-    private ChipObj currentSelectedChip;
-    private CanvasScaler canvasScaler;
-    private GraphicRaycaster ray;
-    private PointerEventData ped;
-    private bool isFromPuzzle;
-    private Vector3 originDragImgRectTr;
-    private List<PuzzleFrame> puzzleFrameList = new List<PuzzleFrame>();
-    private Dictionary<string, RequiredAbilityObject> requiredAbilityObjectDic = new Dictionary<string, RequiredAbilityObject>();
-    private Dictionary<string, int> currentChipDataDic = new Dictionary<string, int>();
-    private List<GameObject> instantiatedChipList = new List<GameObject>();
+    [HideInInspector]
+    public PuzzleMgr puzzleMgr;
 
-    public class Puzzle
+    private int page;
+    private int fadeSpeed = 1;
+    private List<EventTrigger> eventTriggerList = new List<EventTrigger>();
+    private bool isOnConversation;
+    private bool isTextFlowing;
+    private bool skipLine;
+    private bool isWaitingForText;
+    private List<string> lines = new List<string>();
+    private int lineCnt = 0;
+    private int prevOrderTextNumber = -1;
+    private int normalOrderLineIndex = 0;
+    private int normalOrderPrevLineIndex = 0;
+    private string prevText;
+    private Action onEndText;
+    private Action onSkip;
+    private Coroutine textFlowCoroutine;
+    private Point cursorPos = new Point();
+    private bool visible;
+    private List<EventFlow> eventFlowList = new List<EventFlow>();
+
+    [DllImport("user32.dll")]
+    public static extern bool SetCursorPos(int X, int Y);
+    [DllImport("user32.dll")]
+    public static extern bool GetCursorPos(out Point pos);
+
+    public enum ChatTarget
     {
-        public int x;
-        public int y;
-        public List<Ability> requiredChipAbilityList = new List<Ability>();
-        public PuzzleFrameData[,] frameDataTable;
+        None,
+        Main,
+        Mascot,
+        Popup
     }
 
-    [System.Serializable]
-    public class PuzzleFrameData
+    public enum OrderState
     {
-        public int patternNum = 0;
-        public int x;
-        public int y;
-        public ChipObj chip;
+        None,
+        Ordering,
+        Accepted,
+        Rejected,
+        Succeed,
+        Failed,
+        Finished
+    }
 
-        public PuzzleFrameData(int patternNum, int x, int y)
+
+    private void FixedUpdate()
+    {
+        if (visible)
         {
-            this.patternNum = patternNum;
-            this.x = x;
-            this.y = y;
+            SetCursorPos(cursorPos.X, cursorPos.Y);
         }
     }
 
-    void Awake()
+    private IEnumerator Start()
     {
-        makingDone.onClick.AddListener(OnClickMakingDone);
+        puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
+        popupChatPanelRect = popupChatPanel.GetComponent<RectTransform>();
+
+        //TODO: 추후 기능개발시 참고
+        // pc.onClick.AddListener(OnClickPC);
+        // pcChatWork.onClick.AddListener(OnClickPCChatWork);
+        // weaponBook.onClick.AddListener(OnClickWeaponBook);
+        // weaponBack.onClick.AddListener(OnClickWeaponBack);
+        // weaponFront.onClick.AddListener(OnClickWeaponFront);
+        // ok.onClick.AddListener(OnClickOK);
+        mainBack.onClick.AddListener(OnClickDodgeMainPanel);
+        dodgeMainPanel.onClick.AddListener(OnClickDodgeMainPanel);
+        save.onClick.AddListener(OnClickSave);
+        load.onClick.AddListener(OnClickSave);
+        returnBtn.onClick.AddListener(OnClickReturn);
+        gotoMain.onClick.AddListener(OnClickGoToMain);
+        popupYes.onClick.AddListener(OnClickPopupYes);
+        popupNo.onClick.AddListener(OnClickPopupNo);
+        setting.onClick.AddListener(OnClickSetting);
         skip.onClick.AddListener(OnClickSkip);
 
-        puzzleGridRectTr = puzzleGrid.GetComponent<RectTransform>();
-        dragImgRectTr = dragImg.GetComponent<RectTransform>();
-        background = puzzleGrid.GetComponent<RawImage>();
-        ray = canvas.GetComponent<GraphicRaycaster>();
-        canvasScaler = canvas.GetComponent<CanvasScaler>();
-        ped = new PointerEventData(es);
-
-        // 테스트코드
-        // StringBuilder sb = new StringBuilder();
-        // int i = 0;
-        // foreach (var chipframe in chipFrameTable)
-        // {
-        //     if (chipframe != null)
-        //     {
-        //         sb.Append(chipframe.chipKey).Append(", ");
-        //     }
-        //     else
-        //     {
-        //         sb.Append("0, ");
-        //     }
-        //     i++;
-        //     if (i == 4)
-        //     {
-        //         sb.Append("\n");
-        //         i = 0;
-        //     }
-        // }
-        // Debug.Log(sb.ToString());
-        // 테스트코드
-    }
-
-    void Update()
-    {
-        if (currentSelectedChip != null)
+        foreach (var btn in saveLoadButtons)
         {
-            if (Input.GetKeyUp(KeyCode.Mouse1))
-            {
-                var angle = dragImgRectTr.localEulerAngles;
-                var pos = dragImgRectTr.localPosition;
-                if (angle.z < 1)
-                {
-                    angle.z = 270;
-                    pos.x = pos.x + (dragImgRectTr.sizeDelta.x + dragImgRectTr.sizeDelta.y) / 2;
-                    pos.y = pos.y + (-dragImgRectTr.sizeDelta.y + dragImgRectTr.sizeDelta.x) / 2;
-                }
-                else if (angle.z < 91)
-                {
-                    angle.z = 0;
-                    pos.x = pos.x + (dragImgRectTr.sizeDelta.y - dragImgRectTr.sizeDelta.x) / 2;
-                    pos.y = pos.y + (dragImgRectTr.sizeDelta.x + dragImgRectTr.sizeDelta.y) / 2;
-                }
-                else if (angle.z < 181)
-                {
-                    angle.z = 90;
-                    pos.x = pos.x + (-dragImgRectTr.sizeDelta.x - dragImgRectTr.sizeDelta.y) / 2;
-                    pos.y = pos.y + (dragImgRectTr.sizeDelta.y - dragImgRectTr.sizeDelta.x) / 2;
-                }
-                else if (angle.z < 271)
-                {
-                    angle.z = 180;
-                    pos.x = pos.x + (-dragImgRectTr.sizeDelta.y + dragImgRectTr.sizeDelta.x) / 2;
-                    pos.y = pos.y + (-dragImgRectTr.sizeDelta.x - dragImgRectTr.sizeDelta.y) / 2;
-                }
-                dragImgRectTr.localEulerAngles = angle;
-                dragImgRectTr.localPosition = pos;
-
-                currentSelectedChip.RotateRight();
-            }
+            btn.onClick.AddListener(OnClickSlot);
         }
-    }
 
-    public void StartPuzzle1()
-    {
-        makingDone.gameObject.SetActive(false);
-        currPuzzle = GetPuzzle(1);
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
-        InstantiateRequiredAbilityText();
-        SetPuzzle();
-        SetPuzzle1DataChipInventory();
-        RefreshChipPanel();
-    }
-
-    public void StartPuzzle2()
-    {
-        chipSize = 108;
-        currPuzzle = GetPuzzle(0);
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
-        InstantiateRequiredAbilityText();
-        SetPuzzle();
-        SetPuzzle1DataChipInventory();
-        RefreshChipPanel();
-    }
-
-    private void SetPuzzle()
-    {
-        var width = puzzleGridRectTr.rect.width / currPuzzle.x;
-        var height = puzzleGridRectTr.rect.height / currPuzzle.y;
-        var size = width < height ? width : height;
-        puzzleGrid.cellSize = new Vector2(size, size);
-        puzzleGrid.constraintCount = currPuzzle.x;
-        InstantiateFrames(currPuzzle.frameDataTable);
-        background.texture = textureList[0];
-    }
-
-    [ContextMenu("LogPuzzleFrameDatas")]
-    private void LogPuzzleFrameDatas()
-    {
-        StringBuilder sb2 = new StringBuilder();
-        int i = 0;
-        foreach (var frame in currPuzzle.frameDataTable)
+        eventFlowList = GetComponents<EventFlow>().ToList();
+        foreach (var eventflow in eventFlowList)
         {
-            if (frame != null && frame.chip != null)
+            eventflow.mgr = this;
+        }
+
+        yield return StartCoroutine(CommonTool.In.FadeIn());
+
+        // TODO: day limit 추가
+        for (int i = 1; i <= 5; i++)
+        {
+            string eventKey = "day" + i;
+            var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+            isEventFlowing = true;
+            if (targetEvent)
             {
-                sb2.Append(frame.chip.chipKey).Append(", ");
+                yield return StartCoroutine(StartEventFlow(targetEvent));
             }
             else
             {
-                sb2.Append("0, ");
+                yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
             }
-            i++;
-            if (i == 8)
+
+            if (isEventFlowing)
             {
-                sb2.Append("\n");
-                i = 0;
+                yield return null;
             }
-        }
-        Debug.Log(sb2.ToString());
-    }
 
-    private Puzzle GetPuzzle(int index)
-    {
-        Puzzle puzzle = new Puzzle();
-        var lines = csvList[index].text.Split('\n');
-        var lineList = new List<string>();
-        foreach (var line in lines)
-        {
-            var trimLine = line.Trim();
-            if (!string.IsNullOrEmpty(trimLine))
+            if (i < 5)
             {
-                lineList.Add(trimLine);
-            }
-        }
-        puzzle.y = lineList.Count;
-        puzzle.x = lineList[0].Split(',').Length;
-        puzzle.frameDataTable = new PuzzleFrameData[puzzle.y, puzzle.x];
-        for (int i = 0; i < lineList.Count; i++)
-        {
-            var elements = lineList[i].Split(',');
-            if (i == 0) puzzle.x = elements.Length;
-
-            for (int j = 0; j < elements.Length; j++)
-            {
-                int targetNum = 0;
-                if (!Int32.TryParse(elements[j], out targetNum))
-                {
-                    Debug.Log("퍼즐조각정보 로드 실패. puzzle" + index + ": " + i + ", " + j);
-                    return null;
-                }
-                puzzle.frameDataTable[i, j] = new PuzzleFrameData(targetNum, j, i);
-            }
-        }
-
-        return puzzle;
-    }
-
-    private void InstantiateFrames(PuzzleFrameData[,] frameDataTable)
-    {
-        foreach (var frameData in frameDataTable)
-        {
-            var frame = Instantiate(puzzleFrame, puzzleGrid.transform);
-            frame.SetPuzzleFrameData(frameData);
-            puzzleFrameList.Add(frame);
-            if (frame.pfd.patternNum == 0)
-            {
-                var color = frame.image.color;
-                color.a = 0;
-                frame.image.color = color;
-                continue;
-            }
-            frame.image.texture = textureList[frameData.patternNum];
-        }
-    }
-
-    private void SetPuzzle1DataChipInventory()
-    {
-        // chipInventory.Add(1, 1);
-        // chipInventory.Add(2, 1);
-        // chipInventory.Add(3, 2);
-        // chipInventory.Add(4, 1);
-        // chipInventory.Add(5, 1);
-        // chipInventory.Add(6, 1);
-        // chipInventory.Add(7, 2);
-        chipInventory.Add(8, 3);
-        chipInventory.Add(9, 3);
-        chipInventory.Add(10, 3);
-        chipInventory.Add(11, 3);
-    }
-
-    private void RefreshChipPanel()
-    {
-        var sizeX = chipSize * chipCountX;
-        var sizeY = chipSize * chipCountY;
-        chipPanelRectTr.sizeDelta = new Vector2(sizeX, sizeY);
-
-        chipFrameTable = new ChipObj[chipCountY, chipCountX];
-        for (int i = 0; i < chipCountY; i++)
-        {
-            for (int j = 0; j < chipCountX; j++)
-            {
-                chipFrameTable[i, j] = new ChipObj();
-            }
-        }
-
-        foreach (var key in chipInventory.Keys)
-        {
-            var chip = GetChipPrefab(key);
-            if (chip)
-            {
-                var chipInstance = Instantiate(chip, chipPanelRectTr.transform);
-                chipInstance.name = chip.name;
-                instantiatedChipList.Add(chipInstance.gameObject);
-                SetChipToPanel(chipInstance, chipInventory[key]);
+                NextDay();
             }
         }
     }
 
-    private ChipObj GetChipPrefab(int key)
+    //TODO: 추후 기능개발시 참고
+    // public void OnClickPCChatWork()
+    // {
+    //     pcChatPanel.SetActive(false);
+    //     mainPanel.SetActive(true);
+    //     mainUI.SetActive(true);
+    //     dodgeMainPanel.gameObject.SetActive(true);
+    // }
+
+    // public void OnClickWeaponBook()
+    // {
+    //     mainUI.SetActive(false);
+    //     weaponUI.SetActive(true);
+    //     RefreshWeaponSlots();
+    // }
+
+    // public void OnClickWeaponBack()
+    // {
+    //     if (page <= 0) return;
+
+    //     page--;
+    //     RefreshWeaponSlots();
+    // }
+
+    // public void OnClickWeaponFront()
+    // {
+    //     page++;
+    //     RefreshWeaponSlots();
+    // }
+
+    // public void OnClickOK()
+    // {
+    //     foreach (var img in imageList)
+    //     {
+    //         img.imageObj.SetActive(false);
+    //     }
+    //     mainChatPanel.SetActive(false);
+    // }
+
+    public void OnClickDodgeMainPanel()
     {
-        return chipList.Find(x => x.chipKey.Equals(key));
+        weaponUI.SetActive(false);
+        mainUI.SetActive(false);
+        mainPanel.SetActive(false);
+        dodgeMainPanel.gameObject.SetActive(false);
     }
 
-    private void SetChipToPanel(ChipObj chip, int chipCount)
+    public void OnClickSave()
     {
-        for (int i = 0; i < chipCountY; i++)
-        {
-            for (int j = 0; j < chipCountX; j++)
-            {
-                if (chipFrameTable[i, j] != null) continue;
-                chipFrameTable[i, j] = chip;
-                chip.count.text = chipCount.ToString();
-                chip.chipCount = chipCount;
-                chip.rectTr.sizeDelta = new Vector2(chipSize, chipSize);
-                chip.rectTr.anchoredPosition = new Vector3(chipSize * j, -chipSize * i, 0);
-                return;
-            }
-        }
-        Destroy(chip.gameObject);
+        saveLoadPanel.SetActive(true);
     }
 
-    private List<PuzzleFrameData> GetFittableFrameList(PuzzleFrameData[,] targetTable, ChipObj chip, int x, int y)
+    public void OnClickReturn()
     {
-        List<PuzzleFrameData> pfdList = new List<PuzzleFrameData>();
-        var table = chip.row;
-        for (int i = 0; i < table.Length; i++)
-        {
-            for (int j = 0; j < table[i].col.Length; j++)
-            {
-                if (!table[i].col[j])
-                {
-                    continue;
-                }
-
-                if (targetTable[y + j, x + i].patternNum == 0)
-                {
-                    return null;
-                }
-
-                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
-                {
-                    return null;
-                }
-
-                if (targetTable[y + j, x + i].chip != null && targetTable[y + j, x + i].chip.chipCount != 0)
-                {
-                    return null;
-                }
-
-                pfdList.Add(targetTable[y + j, x + i]);
-            }
-        }
-        return pfdList;
+        saveLoadPanel.SetActive(false);
     }
 
-    private ChipObj GetChipAtPos(Vector2 pos)
+    public void OnClickGoToMain()
     {
-        pos /= chipSize;
-        return chipFrameTable[(int)-pos.y, (int)pos.x];
+        StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnClickSlot()
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
-        {
-            return;
-        }
-
-        ped.position = eventData.pressPosition;
-        List<RaycastResult> results = new List<RaycastResult>();
-        es.RaycastAll(ped, results);
-        if (results.Count > 0)
-        {
-            ChipObj targetChip = null;
-            foreach (var result in results)
-            {
-                if (result.gameObject.name.Contains("PuzzleFrame"))
-                {
-                    isFromPuzzle = true;
-                    targetChip = result.gameObject.GetComponent<PuzzleFrame>().pfd.chip;
-                    break;
-                }
-            }
-
-            if (targetChip == null)
-            {
-                targetChip = results[0].gameObject.GetComponent<ChipObj>();
-            }
-
-            if (targetChip != null && targetChip.chipCount > 0)
-            {
-                if (!isFromPuzzle)
-                {
-                    targetChip.SaveOriginRow();
-                }
-                dragImg.texture = targetChip.image.texture;
-                if (targetChip.originRow.Length == targetChip.rowNum)
-                {
-                    dragImgRectTr.sizeDelta = new Vector2(targetChip.rowNum, targetChip.colNum) * chipSize;
-                }
-                else
-                {
-                    dragImgRectTr.sizeDelta = new Vector2(targetChip.colNum, targetChip.rowNum) * chipSize;
-                }
-
-                var offset = new Vector3(canvasScaler.referenceResolution.x, canvasScaler.referenceResolution.y, 0) / 2;
-                dragImgRectTr.localPosition = (Vector3)eventData.position - offset;
-                dragImgRectTr.localEulerAngles = targetChip.rectTr.localEulerAngles;
-                var angle = dragImgRectTr.localEulerAngles;
-                var pos = originDragImgRectTr = dragImgRectTr.localPosition;
-                if (angle.z < 1)
-                {
-                    pos.x = pos.x + (-dragImgRectTr.sizeDelta.x) / 2;
-                    pos.y = pos.y + (+dragImgRectTr.sizeDelta.y) / 2;
-                }
-                else if (angle.z < 91)
-                {
-                    pos.x = pos.x + (-dragImgRectTr.sizeDelta.y) / 2;
-                    pos.y = pos.y + (-dragImgRectTr.sizeDelta.x) / 2;
-                }
-                else if (angle.z < 181)
-                {
-                    pos.x = pos.x + (dragImgRectTr.sizeDelta.x) / 2;
-                    pos.y = pos.y + (-dragImgRectTr.sizeDelta.y) / 2;
-                }
-                else if (angle.z < 271)
-                {
-                    pos.x = pos.x + (dragImgRectTr.sizeDelta.y) / 2;
-                    pos.y = pos.y + (dragImgRectTr.sizeDelta.x) / 2;
-                }
-                dragImgRectTr.localPosition = pos;
-
-                currentSelectedChip = targetChip;
-                dragImg.gameObject.SetActive(true);
-                targetChip.chipCount--;
-                if (targetChip.chipCount <= 0)
-                {
-                    targetChip.gameObject.SetActive(false);
-                }
-                else
-                {
-                    targetChip.count.text = targetChip.chipCount.ToString();
-                }
-            }
-        }
+        saveLoadPopup.SetActive(true);
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnClickPopupYes()
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
-        {
-            return;
-        }
-
-        if (currentSelectedChip != null)
-        {
-            dragImgRectTr.localPosition += (Vector3)eventData.delta / canvas.scaleFactor;
-        }
+        saveLoadPopup.SetActive(false);
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnClickSetting()
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
-        {
-            return;
-        }
-
-        var angle = dragImgRectTr.localEulerAngles;
-        if (currentSelectedChip != null)
-        {
-            dragImg.gameObject.SetActive(false);
-            bool success = false;
-
-            var x = (currentSelectedChip.rowNum - 1) / 2;
-            var offset = (new Vector2(currentSelectedChip.rowNum - 1, currentSelectedChip.colNum - 1) * chipSize) / 2;
-            ped.position = Input.mousePosition + new Vector3(-offset.x, offset.y, 0);
-            List<RaycastResult> results = new List<RaycastResult>();
-            es.RaycastAll(ped, results);
-            if (results.Count > 0)
-            {
-                bool isChipPanel = false;
-                foreach (var result in results)
-                {
-                    if (result.gameObject.name.Contains("ChipPanel"))
-                    {
-                        isChipPanel = true;
-                        break;
-                    }
-                }
-
-                if (isChipPanel)
-                {
-                    if (isFromPuzzle)
-                    {
-                        foreach (var c in chipFrameTable)
-                        {
-                            if (c.chipKey.Equals(currentSelectedChip.chipKey))
-                            {
-                                c.chipCount++;
-                                c.gameObject.SetActive(true);
-                                c.count.text = c.chipCount.ToString();
-                                c.ResetCol();
-                                break;
-                            }
-                        }
-
-                        if (currentSelectedChip.chipCount <= 0)
-                        {
-                            DestroyImmediate(currentSelectedChip.gameObject);
-                        }
-                        if (GetWeaponPowerResult())
-                        {
-                            makingDone.gameObject.SetActive(true);
-                        }
-                        success = true;
-                    }
-                }
-                else
-                {
-                    PuzzleFrame frame = null;
-                    foreach (var result in results)
-                    {
-                        frame = result.gameObject.GetComponent<PuzzleFrame>();
-                        if (frame != null) break;
-                    }
-
-                    if (frame != null)
-                    {
-                        var fittableFrames = GetFittableFrameList(currPuzzle.frameDataTable, currentSelectedChip, frame.pfd.x, frame.pfd.y);
-                        if (fittableFrames != null)
-                        {
-                            var chipInstance = Instantiate(currentSelectedChip, chipPanelRectTr.transform);
-                            chipInstance.name = currentSelectedChip.name;
-                            chipInstance.gameObject.SetActive(true);
-                            for (int i = 0; i < fittableFrames.Count; i++)
-                            {
-                                fittableFrames[i].chip = chipInstance;
-                            }
-                            chipInstance.countPlate.SetActive(false);
-                            chipInstance.transform.parent = frame.transform;
-                            if (chipInstance.originRow.Length == currentSelectedChip.rowNum)
-                            {
-                                chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
-                            }
-                            else
-                            {
-                                chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.colNum, chipInstance.rowNum) * chipSize;
-                            }
-                            chipInstance.rectTr.anchoredPosition = Vector3.zero;
-                            chipInstance.chipCount = 1;
-
-                            chipInstance.rectTr.localEulerAngles = angle;
-                            var pos = chipInstance.rectTr.localPosition;
-                            if (angle.z < 1)
-                            {
-                            }
-                            else if (angle.z < 91)
-                            {
-                                pos.y -= dragImgRectTr.rect.height * (chipInstance.colNum * 1f / chipInstance.rowNum);
-                            }
-                            else if (angle.z < 181)
-                            {
-                                pos.y -= dragImgRectTr.rect.height;
-                                pos.x += dragImgRectTr.rect.width;
-                            }
-                            else if (angle.z < 271)
-                            {
-                                pos.x += dragImgRectTr.rect.width * (chipInstance.rowNum * 1f / chipInstance.colNum);
-                            }
-                            chipInstance.rectTr.localPosition = pos;
-
-                            if (currentSelectedChip.chipCount <= 0 && isFromPuzzle)
-                            {
-                                DestroyImmediate(currentSelectedChip.gameObject);
-                            }
-                            if (GetWeaponPowerResult())
-                            {
-                                makingDone.gameObject.SetActive(true);
-                            }
-                            success = true;
-                        }
-                    }
-                }
-            }
-            if (!success)
-            {
-                currentSelectedChip.chipCount++;
-                if (currentSelectedChip.chipCount > 0)
-                {
-                    currentSelectedChip.gameObject.SetActive(true);
-                }
-                currentSelectedChip.count.text = currentSelectedChip.chipCount.ToString();
-                currentSelectedChip.ResetCol();
-            }
-            currentSelectedChip = null;
-        }
-        isFromPuzzle = false;
-    }
-
-    private void InstantiateRequiredAbilityText()
-    {
-        foreach (var ability in GameMgr.In.currentBluePrint.requiredChipAbilityList)
-        {
-            var obj = Instantiate(requiredAbilityObject, requiredAbilityTextParent);
-            obj.text.text = "0/" + ability.count;
-            requiredAbilityObjectDic.Add(ability.abilityKey, obj);
-        }
-    }
-
-    private bool GetWeaponPowerResult()
-    {
-        currentChipDataDic.Clear();
-        foreach (var puzzleFrame in puzzleFrameList)
-        {
-            if (puzzleFrame.transform.childCount > 0)
-            {
-                var child = puzzleFrame.transform.GetChild(0);
-                if (child)
-                {
-                    var chip = child.GetComponent<ChipObj>();
-                    if (chip)
-                    {
-                        foreach (var ability in chip.chipAbilityList)
-                        {
-                            if (!currentChipDataDic.ContainsKey(ability.abilityKey))
-                            {
-                                currentChipDataDic.Add(ability.abilityKey, ability.count);
-                                continue;
-                            }
-                            currentChipDataDic[ability.abilityKey] += ability.count;
-                        }
-                    }
-                }
-            }
-        }
-
-        bool success = true;
-        foreach (var key in requiredAbilityObjectDic.Keys)
-        {
-            var splittedData = requiredAbilityObjectDic[key].text.text.Split('/');
-            int targetNum = -1;
-            if (!Int32.TryParse(splittedData[1], out targetNum))
-            {
-                Debug.Log("파싱 실패: " + targetNum);
-                return false;
-            }
-            int result = 0;
-            if (currentChipDataDic.ContainsKey(key))
-            {
-                result = currentChipDataDic[key];
-                if (result < targetNum)
-                {
-                    success = false;
-                }
-            }
-            else
-            {
-                result = 0;
-                success = false;
-            }
-            requiredAbilityObjectDic[key].text.text = result + "/" + splittedData[1];
-        }
-
-        return success;
-    }
-
-    public void OnClickMakingDone()
-    {
-        mgr2.popupChatPanel.SetActive(false);
-
-        mgr2.orderState = GetWeaponPowerResult() ? GameSceneMgr2.OrderState.Succeed : GameSceneMgr2.OrderState.Failed;
-        if (OnMakingDone != null)
-        {
-            OnMakingDone.Invoke();
-            OnMakingDone = null;
-        }
-
-        foreach (var key in requiredAbilityObjectDic.Keys)
-        {
-            Destroy(requiredAbilityObjectDic[key].gameObject);
-        }
-        requiredAbilityObjectDic.Clear();
-
-        foreach (var obj in puzzleFrameList)
-        {
-            Destroy(obj.gameObject);
-        }
-
-        foreach (var obj in instantiatedChipList)
-        {
-            Destroy(obj);
-        }
-
-        puzzleFrameList.Clear();
-        chipInventory.Clear();
+        GetCursorPos(out cursorPos);
+        Cursor.visible = visible;
+        visible = !visible;
+        cursor.SetActive(visible);
     }
 
     public void OnClickSkip()
     {
-        mgr2.OnClickSkip();
+        if (onSkip != null)
+        {
+            var tempOnSkip = onSkip;
+            tempOnSkip.Invoke();
+            if (tempOnSkip == onSkip)
+            {
+                onSkip = null;
+            }
+        }
+    }
+
+    public void OnClickPopupNo()
+    {
+        saveLoadPopup.SetActive(false);
+    }
+
+    public void OnClickChatBox()
+    {
+        if (!isOnConversation) return;
+        if (isWaitingForText) return;
+
+        if (isTextFlowing)
+        {
+            SkipCurrLine();
+            StartNextLine();
+            return;
+        }
+
+        if (lines.Count <= lineCnt + 1)
+        {
+            isOnConversation = false;
+            onEndText.Invoke();
+            return;
+        }
+
+        StartNextLine();
+    }
+
+    public void ActiveYesNoButton(bool isActive)
+    {
+        yes.gameObject.SetActive(isActive);
+        no.gameObject.SetActive(isActive);
+    }
+
+    public void StartText(string textName, Action onEndText, Action onSkip = null)
+    {
+        lineCnt = -1;
+        lines = CommonTool.In.GetText(textName);
+        isOnConversation = true;
+        this.onEndText = onEndText;
+        this.onSkip = onSkip;
+        textFlowCoroutine = StartCoroutine(StartTextFlow());
+        StartNextLine();
+    }
+
+    public void EndText(bool clearText = true)
+    {
+        StopCoroutine(textFlowCoroutine);
+        lineCnt = -1;
+        prevText = string.Empty;
+        if (clearText)
+        {
+            chatTargetText.text = string.Empty;
+        }
+    }
+
+    public void RefreshCreditPanel()
+    {
+        creditTitle.text = GameMgr.In.week + "주차\n" + GameMgr.In.day + "요일";
+        creditTotalRevenue.text = GameMgr.In.credit + " C";
+        creditMaterialCost.text = GameMgr.In.dayMaterialCost + " C";
+        creditStore.text = GameMgr.In.dayStoreCost + " C";
+        creditRentCost.text = GameMgr.In.dayRentCost + " C";
+        creditRevenue.text = GameMgr.In.dayRevenue + " C";
+    }
+
+    public void SetBlueprintButton()
+    {
+        for (int i = 0; i < bluePrintSlot.Count; i++)
+        {
+            int tempNum = i;
+            bluePrintSlot[tempNum].button.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
+            {
+                mainPanel.SetActive(false);
+                weaponUI.SetActive(false);
+                gamePanel.SetActive(true);
+                puzzleMgr.OnMakingDone += () =>
+                {
+                    mainChatText.text = string.Empty;
+                    gamePanel.SetActive(false);
+                };
+                var key = bluePrintSlot[tempNum].bluePrintKey;
+                GameMgr.In.currentBluePrint = GameMgr.In.bluePrintTable.bluePrintList.Find((Predicate<BluePrintTable.BluePrint>)(x => x.bluePrintKey.Equals(key)));
+                puzzleMgr.StartPuzzle();
+            }));
+        }
+    }
+
+    public void EndNormalOrderRoutine()
+    {
+        EndText();
+        isNormalOrdering = false;
+
+        pc.onClick.RemoveAllListeners();
+        pc.onClick.AddListener(() =>
+        {
+            RefreshCreditPanel();
+            creditPanel.SetActive(true);
+            creditDodge.onClick.RemoveAllListeners();
+            creditDodge.onClick.AddListener(() =>
+            {
+                isEventFlowing = false;
+            });
+            pc.onClick.RemoveAllListeners();
+        });
+    }
+
+    public void SkipToLastLine()
+    {
+        if (currentLineIdex < lines.Count - 1)
+        {
+            lineCnt = currentLineIdex = lines.Count - 1;
+            StartNextLine();
+        }
+
+        if (chatTargetText)
+        {
+            chatTargetText.text = lines[lines.Count - 1];
+        }
+    }
+
+    //TODO: 추후 기능개발시 참고
+    // private void RefreshWeaponSlots()
+    // {
+    //     for (int i = 1; i < weaponSlotTexts.Count + 1; i++)
+    //     {
+    //         weaponSlotTexts[i - 1].text = "slot " + (6 * page + i);
+    //     }
+    // }
+
+    // private void OnPointerEnterForButton(EventTrigger et, int num)
+    // {
+    //     weaponExplanation.text = weaponSlotTexts[num].text + " slot";
+    // }
+
+    private void SkipCurrLine()
+    {
+        skipLine = true;
+    }
+
+    private void StartNextLine()
+    {
+        lineCnt++;
+    }
+
+    private string ReplaceKeyword(string line)
+    {
+        return line.Replace("{username}", CommonTool.In.playerName);
+    }
+
+    private int GetTargetNumber()
+    {
+        // TODO: 아래 최대범위 숫자를 주문타입 갯수로 바꾸기
+        int value = UnityEngine.Random.Range(0, 19);
+        if (value == prevOrderTextNumber)
+        {
+            value = GetTargetNumber();
+        }
+        prevOrderTextNumber = value;
+        return value;
+    }
+
+    private void EndOrderText()
+    {
+        StopCoroutine(textFlowCoroutine);
+        lineCnt = -1;
+        prevText = string.Empty;
+
+        yes.onClick.RemoveAllListeners();
+        yes.onClick.AddListener(() =>
+        {
+            ActiveYesNoButton(false);
+            orderState = OrderState.Accepted;
+        });
+
+        no.onClick.RemoveAllListeners();
+        no.onClick.AddListener(() =>
+        {
+            ActiveYesNoButton(false);
+            orderState = OrderState.Rejected;
+        });
+
+        ActiveYesNoButton(true);
+    }
+
+    private void EndOrder()
+    {
+        EndText();
+
+        orderState = OrderState.Finished;
+    }
+
+    private void NextDay()
+    {
+        creditPanel.SetActive(false);
+        GameMgr.In.ResetDayData();
+        GameMgr.In.SetNextDayData();
+        string day = GameMgr.In.day.ToString();
+        dateText.text = day;
+        dateMessage.text = GameMgr.In.week + "주차\n" + day + "요일";
+        prevChatTarget = ChatTarget.None;
+        CommonTool.In.PlayOneShot("bird");
+        creditDodge.onClick.RemoveAllListeners();
+        StartCoroutine(FadeInOutDateMessage());
+    }
+
+    private List<string> SetOrderTextList(List<string> list)
+    {
+        for (normalOrderPrevLineIndex = normalOrderLineIndex; normalOrderLineIndex < lines.Count; normalOrderLineIndex++)
+        {
+            if (lines[normalOrderLineIndex].Contains("@"))
+            {
+                list = lines.GetRange(normalOrderPrevLineIndex, normalOrderLineIndex - normalOrderPrevLineIndex);
+                normalOrderLineIndex++;
+                break;
+            }
+        }
+        return list;
+    }
+
+    // private void EndDay3Routine()
+    // {
+    //     EndText();
+    //     isNormalOrdering = false;
+
+    //     pc.onClick.RemoveAllListeners();
+    //     pc.onClick.AddListener(() =>
+    //     {
+    //         RefreshCreditPanel();
+    //         creditPanel.SetActive(true);
+    //         creditDodge.onClick.RemoveAllListeners();
+    //         creditDodge.onClick.AddListener(() =>
+    //         {
+    //             creditPanel.SetActive(false);
+    //             GameMgr.In.day = "목";
+    //             dateText.text = GameMgr.In.day;
+    //             prevChatTarget = ChatTarget.None;
+    //             CommonTool.In.PlayOneShot("bird");
+    //             // StartCoroutine(StartNormalRoutine(5, EndDay3Routine()));
+    //             creditDodge.onClick.RemoveAllListeners();
+    //             GameMgr.In.ResetDayData();
+    //             dateMessage.text = "1주차\n목요일";
+    //             StartCoroutine(FadeInOutDateMessage());
+    //         });
+    //         pc.onClick.RemoveAllListeners();
+    //     });
+    // }
+
+    public IEnumerator FadeInOutDateMessage()
+    {
+        float fadeValue = 0;
+        float actualSpeed = fadeSpeed * 0.01f;
+        while (fadeValue < 1)
+        {
+            fadeValue += actualSpeed;
+            dateMessage.color = new UnityEngine.Color(0, 0, 0, fadeValue);
+            yield return new WaitForSeconds(actualSpeed);
+        }
+        yield return new WaitForSeconds(2);
+        while (fadeValue > 0)
+        {
+            fadeValue -= actualSpeed;
+            dateMessage.color = new UnityEngine.Color(0, 0, 0, fadeValue);
+            yield return new WaitForSeconds(actualSpeed);
+        }
+    }
+
+    public IEnumerator StartNormalRoutine(int customerCnt, Action onEndRoutine)
+    {
+        for (int i = 0; i < customerCnt; i++)
+        {
+            var orderTextList = new List<string>();
+            var rejectTextList = new List<string>();
+            var successTextList = new List<string>();
+            var failTextList = new List<string>();
+
+            int targetNumber = GetTargetNumber();
+            string orderKey = "NormalOrder_" + targetNumber;
+            var order = GameMgr.In.orderTable.GetNewOrder(orderKey);
+            lines = order.ta.text.Split('\n').ToList();
+
+            normalOrderLineIndex = 0;
+            normalOrderPrevLineIndex = 0;
+            orderTextList = SetOrderTextList(orderTextList);
+            rejectTextList = SetOrderTextList(rejectTextList);
+            successTextList = SetOrderTextList(successTextList);
+            failTextList = SetOrderTextList(failTextList);
+
+            lineCnt = -1;
+            lines = orderTextList;
+            isOnConversation = true;
+            isNormalOrdering = true;
+            orderState = OrderState.Ordering;
+            this.onEndText = EndOrderText;
+            prevChatTarget = ChatTarget.None;
+            textFlowCoroutine = StartCoroutine(StartTextFlow());
+            StartNextLine();
+
+            while (orderState == OrderState.Ordering)
+            {
+                yield return null;
+            }
+
+            switch (orderState)
+            {
+                case OrderState.Accepted:
+                    StartPuzzleProcess();
+                    break;
+                case OrderState.Rejected:
+                    lineCnt = -1;
+                    lines = rejectTextList;
+                    isOnConversation = true;
+                    this.onEndText = EndOrder;
+                    textFlowCoroutine = StartCoroutine(StartTextFlow());
+                    StartNextLine();
+                    break;
+                default:
+                    Debug.Log("Exception");
+                    yield break;
+            }
+
+            bool processDone = false;
+            while (!processDone)
+            {
+                if (orderState == OrderState.Succeed || orderState == OrderState.Failed)
+                {
+                    if (!isOnConversation)
+                    {
+                        isOnConversation = true;
+                        lineCnt = -1;
+                        lines = orderState == OrderState.Succeed ? successTextList : failTextList;
+                        this.onEndText = EndOrder;
+                        textFlowCoroutine = StartCoroutine(StartTextFlow());
+                        StartNextLine();
+                    }
+                }
+                else if (orderState == OrderState.Finished)
+                {
+                    foreach (var image in imageList)
+                    {
+                        image.imageObj.SetActive(false);
+                    }
+                    mainChatPanel.SetActive(false);
+                    chatTarget = ChatTarget.None;
+                    processDone = true;
+                }
+                yield return null;
+            }
+        }
+        onEndRoutine.Invoke();
+    }
+
+    private int currentLineIdex;
+    private IEnumerator StartTextFlow()
+    {
+        for (int i = 0; i < lines.Count; i++)
+        {
+            lines[i] = ReplaceKeyword(lines[i]);
+        }
+        for (currentLineIdex = 0; currentLineIdex < lines.Count; currentLineIdex++)
+        {
+            if (lines[currentLineIdex].StartsWith("!"))
+            {
+                var commands = lines[currentLineIdex].Split(' ');
+                List<string> imageKeyList = new List<string>();
+                foreach (var command in commands)
+                {
+                    string com = command.Trim();
+                    if (com.StartsWith("!image"))
+                    {
+                        imageKeyList.Add(com.Split('_')[1]);
+                    }
+                    else if (com.StartsWith("!speaker"))
+                    {
+                        var splittedCom = com.Split('_');
+                        string speaker = splittedCom[1];
+                        if (speaker.Trim().Equals("popup") && splittedCom.Length == 3)
+                        {
+                            chatTarget = ChatTarget.Popup;
+                            // TODO: speaker에 따라서 이미지 변경
+                        }
+                        else if (speaker.Equals(CommonTool.In.mascotName))
+                        {
+                            chatTarget = ChatTarget.Mascot;
+                        }
+                        else
+                        {
+                            chatTarget = ChatTarget.Main;
+                            if (speaker.Equals("{username}"))
+                            {
+                                speaker = CommonTool.In.playerName;
+                            }
+                            chatName.text = speaker;
+                        }
+                    }
+                    else if (com.StartsWith("!sound"))
+                    {
+                        string clipName = com.Split('_')[1];
+                        CommonTool.In.PlayOneShot(clipName);
+                    }
+                    else if (com.StartsWith("!focusoff"))
+                    {
+                        CommonTool.In.SetFocusOff();
+                    }
+                    else if (com.StartsWith("!focus"))
+                    {
+                        var splittedData = com.Split('_');
+                        if (splittedData.Length == 5)
+                        {
+                            int posX = int.Parse(splittedData[1]);
+                            int posY = int.Parse(splittedData[2]);
+                            int width = int.Parse(splittedData[3]);
+                            int height = int.Parse(splittedData[4]);
+                            var pos = new Vector2(posX, posY);
+                            var size = new Vector2(width, height);
+                            CommonTool.In.SetFocus(pos, size);
+                        }
+                    }
+                    else if (com.StartsWith("!credit"))
+                    {
+                        string creditText = com.Split('_')[1];
+                        int credit = int.Parse(creditText);
+                        if (credit != 0)
+                        {
+                            GameMgr.In.credit += credit;
+                            GameMgr.In.dayRevenue += credit;
+                            goldText.text = GameMgr.In.credit.ToString();
+                        }
+                    }
+                    else if (com.StartsWith("!wait"))
+                    {
+                        var splittedData = com.Split('_');
+                        int time = int.Parse(splittedData[1]);
+                        isWaitingForText = true;
+                        yield return new WaitForSeconds(time / 100);
+                        isWaitingForText = false;
+                    }
+                    else if (com.Equals("!next"))
+                    {
+                        lineCnt++;
+                        prevText = string.Empty;
+                        //historyText.text += "\n";
+                    }
+                }
+
+                if (imageKeyList.Count > 0)
+                {
+                    foreach (var img in imageList)
+                    {
+                        img.imageObj.SetActive(imageKeyList.Contains(img.key));
+                    }
+                }
+
+                while (currentLineIdex >= lineCnt)
+                {
+                    yield return new WaitForSeconds(textDelayTime);
+                }
+                continue;
+            }
+
+            if (prevChatTarget != chatTarget)
+            {
+                switch (chatTarget)
+                {
+                    case ChatTarget.Main:
+                        mainChatPanel.SetActive(true);
+                        pcChatPanel.SetActive(false);
+                        popupChatPanel.SetActive(false);
+                        chatTargetText = mainChatText;
+                        break;
+                    case ChatTarget.Mascot:
+                        mainChatPanel.SetActive(false);
+                        pcChatPanel.SetActive(true);
+                        popupChatPanel.SetActive(false);
+                        chatTargetText = mascotChatText;
+                        break;
+                    case ChatTarget.Popup:
+                        popupChatPanel.SetActive(true);
+                        chatTargetText = popupChatText;
+                        break;
+                }
+                prevChatTarget = chatTarget;
+            }
+
+            if (!string.IsNullOrEmpty(prevText))
+            {
+                prevText = prevText + "\n";
+            }
+
+            isTextFlowing = true;
+            //historyText.text += lines[i] + "\n";
+            for (int j = 0; j < lines[currentLineIdex].Length; j++)
+            {
+                chatTargetText.text = prevText + lines[currentLineIdex].Substring(0, j + 1);
+                yield return new WaitForSeconds(textDelayTime);
+
+                if (skipLine)
+                {
+                    skipLine = false;
+                    if (currentLineIdex + 1 >= lines.Count || lines[currentLineIdex + 1].Contains("!next"))
+                    {
+                        lineCnt--;
+                    }
+                    break;
+                }
+            }
+            if (currentLineIdex >= lines.Count)
+            {
+                currentLineIdex = lines.Count - 1;
+            }
+            prevText = prevText + lines[currentLineIdex];
+            chatTargetText.text = prevText;
+            isTextFlowing = false;
+
+            while (currentLineIdex >= lineCnt)
+            {
+                yield return new WaitForSeconds(textDelayTime);
+            }
+        }
+    }
+
+    private void StartPuzzleProcess()
+    {
+        EndText();
+
+        mainPanel.SetActive(true);
+        weaponUI.SetActive(true);
+
+        bluePrintSlot[0].button.onClick.RemoveAllListeners();
+        bluePrintSlot[0].button.onClick.AddListener(() =>
+        {
+            mainPanel.SetActive(false);
+            weaponUI.SetActive(false);
+            gamePanel.SetActive(true);
+            puzzleMgr.OnMakingDone += () =>
+            {
+                mainChatText.text = string.Empty;
+                gamePanel.SetActive(false);
+            };
+            puzzleMgr.StartPuzzle();
+        });
+    }
+
+    private IEnumerator StartEventFlow(EventFlow targetEvent)
+    {
+        targetEvent.StartFlow();
+        while (isEventFlowing)
+        {
+            yield return null;
+        }
     }
 }

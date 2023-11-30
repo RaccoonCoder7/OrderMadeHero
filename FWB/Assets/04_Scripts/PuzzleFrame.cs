@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class PuzzleFrame : MonoBehaviour
 {
     public RawImage image;
-    public GameSceneMgr.PuzzleFrameData pfd;
+    public PuzzleMgr.PuzzleFrameData pfd;
 
-    public void SetPuzzleFrameData(GameSceneMgr.PuzzleFrameData pfd)
+    public void SetPuzzleFrameData(PuzzleMgr.PuzzleFrameData pfd)
     {
         this.pfd = pfd;
     }

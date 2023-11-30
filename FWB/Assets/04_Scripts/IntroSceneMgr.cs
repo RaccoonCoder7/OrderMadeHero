@@ -298,7 +298,7 @@ public class IntroSceneMgr : MonoBehaviour
 
     private void OnClickSetting()
     {
-        // TODO: 기능이 정의된 후 CommonTool에서 제어할 듯
+        // TODO: 기능이 정의된 후 CommonTool에서 제어
     }
 
     private void OnClickHistory()

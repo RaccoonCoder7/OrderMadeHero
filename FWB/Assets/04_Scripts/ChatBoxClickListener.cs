@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class ChatBoxClickListener : MonoBehaviour, IPointerClickHandler
 {
     public IntroSceneMgr manager;
-    public GameSceneMgr2 manager2;
+    public GameSceneMgr manager2;
 
     public void OnPointerClick(PointerEventData eventData)
     {

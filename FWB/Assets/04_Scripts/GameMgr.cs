@@ -1,3 +1,4 @@
+using UnityEngine;
 using static BluePrintTable;
 
 /// <summary>
@@ -6,7 +7,7 @@ using static BluePrintTable;
 public class GameMgr : SingletonMono<GameMgr>
 {
     public bool initDone;
-    public string day = "월";
+    public Day day = Day.월;
     public int week = 1;
     public int credit;
     public int dayMaterialCost;
@@ -19,6 +20,15 @@ public class GameMgr : SingletonMono<GameMgr>
     public AbilityTable abilityTable;
     public BluePrint currentBluePrint;
 
+    public enum Day
+    {
+        월 = 1,
+        화 = 2,
+        수 = 3,
+        목 = 4,
+        금 = 5,
+    }
+
     /// <summary>
     /// 하루가 지났을 때에 리셋해야하는 정보들을 리셋함
     /// </summary>
@@ -28,5 +38,18 @@ public class GameMgr : SingletonMono<GameMgr>
         dayStoreCost = 0;
         dayRentCost = 0;
         dayRevenue = 0;
+    }
+
+    /// <summary>
+    /// 하루가 지났을 때에 변경해줘야 하는 정보들을 세팅함
+    /// </summary>
+    public void SetNextDayData()
+    {
+        day++;
+        if ((int)day > 5)
+        {
+            week++;
+            day = (Day)1;
+        }
     }
 }

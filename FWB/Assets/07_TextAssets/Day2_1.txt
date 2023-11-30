@@ -1,4 +1,4 @@
-!sound_bird !wait_200 !speaker_나비 !next
+!wait_200 !speaker_나비 !next
 안녕! 오늘도 잘 부탁해!
 !next
 잠은 잘 잤어?
