@@ -4727,11 +4727,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
+    m_Font: {fileID: 12800000, guid: 184bb00d4b104014682f20bfda107a04, type: 3}
+    m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -5411,6 +5411,8 @@ GameObject:
   - component: {fileID: 723337248}
   - component: {fileID: 723337247}
   - component: {fileID: 723337249}
+  - component: {fileID: 723337251}
+  - component: {fileID: 723337250}
   m_Layer: 0
   m_Name: GameSceneMgr
   m_TagString: Untagged
@@ -5633,6 +5635,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &723337250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723337246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb14fda309b8cb40b21cae7a9d989f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventKey: day2
+  mgr: {fileID: 0}
+--- !u!114 &723337251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723337246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ea3079dfc7bd4d408e16879c4c5ad0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventKey: day1
+  mgr: {fileID: 0}
 --- !u!1 &728199289
 GameObject:
   m_ObjectHideFlags: 0
@@ -14427,7 +14457,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 184bb00d4b104014682f20bfda107a04, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -16820,7 +16850,7 @@ GameObject:
   - component: {fileID: 1901095118}
   - component: {fileID: 1901095117}
   m_Layer: 5
-  m_Name: CommonTool (1)
+  m_Name: CommonTool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17165,9 +17195,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1913406542}
   - component: {fileID: 1913406541}
-  - component: {fileID: 1913406543}
   m_Layer: 0
-  m_Name: GameManager (1)
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17186,7 +17215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initDone: 0
-  day: 0
+  day: 1
   week: 1
   credit: 0
   dayMaterialCost: 0
@@ -17215,22 +17244,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1913406543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1913406540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee5429ed0a2d474da56171d7980225b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  width: 0
-  height: 0
-  posX: 0
-  posY: 0
 --- !u!1 &1918344927
 GameObject:
   m_ObjectHideFlags: 0

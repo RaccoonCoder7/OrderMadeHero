@@ -56,7 +56,7 @@ public class EventFlowDay1 : EventFlow
         mgr.yes.interactable = false;
         mgr.no.interactable = false;
         mgr.ActiveYesNoButton(true);
-        CommonTool.In.SetFocus(new Vector2(1352, 602), new Vector2(155, 70));
+        CommonTool.In.SetFocus(new Vector2(1352, 555), new Vector2(155, 70));
 
         mgr.StartText("Tutorial4", EndTutorial4Routine, EndTutorial4Routine);
     }
