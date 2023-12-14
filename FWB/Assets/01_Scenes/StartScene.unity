@@ -385,9 +385,6 @@ MonoBehaviour:
   - key: Tutorial7
     ta: {fileID: 4900000, guid: d5cd6da961409844b9d36a3beff381b1, type: 3}
     lines: []
-  - key: Tutorial8
-    ta: {fileID: 4900000, guid: 81cda3db0fa87a24da41e75921756255, type: 3}
-    lines: []
   - key: Day2_1
     ta: {fileID: 4900000, guid: 2d0c204369e9a8942b8f9d435b2a186d, type: 3}
     lines: []
@@ -406,10 +403,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b90ec6568edfc194caa73eb60246f2d5, type: 3}
   - {fileID: 8300000, guid: 7702bd192da26bc429d7d8356a9df241, type: 3}
   - {fileID: 8300000, guid: f79e68a1ba8493f42b72fe742db78496, type: 3}
-  width: 0
-  height: 0
-  posX: 0
-  posY: 0
 --- !u!114 &145025744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1721,7 +1714,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee5429ed0a2d474da56171d7980225b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ta: {fileID: 0}
+  width: 0
+  height: 0
+  posX: 0
+  posY: 0
 --- !u!114 &1041785517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,7 +1731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initDone: 0
-  day: "\uC6D4"
+  day: 0
   week: 1
   credit: 0
   dayMaterialCost: 0

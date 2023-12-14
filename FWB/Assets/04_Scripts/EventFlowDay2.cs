@@ -62,7 +62,7 @@ public class EventFlowDay2 : EventFlow
         mgr.prevChatTarget = GameSceneMgr.ChatTarget.None;
         mgr.pcChatPanel.SetActive(false);
         mgr.SetBlueprintButton();
-        StartCoroutine(mgr.StartNormalRoutine(5, mgr.EndNormalOrderRoutine));
+        StartCoroutine(mgr.StartNormalRoutine(4, mgr.EndNormalOrderRoutine));
     }
 
     private void SkipDay2_4Routine()

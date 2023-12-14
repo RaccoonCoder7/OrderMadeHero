@@ -12447,7 +12447,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uB4E3\uACE0\uC2F6\uC5B4\uC694"
+  m_Text: "\uC88B\uC544\uC694"
 --- !u!222 &1423730128
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17007,9 +17007,6 @@ MonoBehaviour:
     lines: []
   - key: Tutorial7
     ta: {fileID: 4900000, guid: d5cd6da961409844b9d36a3beff381b1, type: 3}
-    lines: []
-  - key: Tutorial8
-    ta: {fileID: 4900000, guid: 81cda3db0fa87a24da41e75921756255, type: 3}
     lines: []
   - key: Day2_1
     ta: {fileID: 4900000, guid: 2d0c204369e9a8942b8f9d435b2a186d, type: 3}

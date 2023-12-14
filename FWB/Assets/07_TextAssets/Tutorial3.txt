@@ -1,22 +1,19 @@
-!image_no !speaker_나비 !next
-으음..! 주인에게 느껴지는 시선! 
-아직 이 몸을 믿지 못하는 것 같아!
+!image_no !sound_baby !speaker_나비 !next
+우리, 오늘부터 1일이야.
+잘해보자고, 주인님!
+!next
+보자, 그럼 간단하게 가게를
+운영하는 방법을 알려 줄…….
 !sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
-여기 장사하고 있나요?
+여긴 새로 생긴 무기점이네, 가게 열었나요?
 !speaker_나비 !next
-내가 지나가던 손님을 잡아왔어! 
-역시 이 몸은 최고야!
-!next
-지금은 NAVI가 이것저것 알려줄꺼니까 
-실전 같은 연습이야!
+헉, 큰일 났다!
+아직 아무것도 안 알려 줬는데!
 !speaker_모브NPC !next
-영업 안하면 나가봐도 될까... 무기가 꼭 필요한 건 아니라서
+뭐야, 장사 안 할 거예요?
 !speaker_나비 !next
-절대 안돼!! 들어온 이상... 못나가!
-!image_no
-!sound_run
-!sound_door
-!image_모브NPC !speaker_모브NPC !next
-하아 운도 지지리 없지
-!next
-알겠어요. 아무거나 만들어주세요 이왕사는거 날카로우면 좋겠어요
+주인님, 일단 거절하지 말고 받아!
+받고 생각해! 내가 알려줄 테니까!
+!speaker_모브NPC !next
+아, 장사하는구나. 이건 최신형 AI네.
+날무기 하나 줄래요? 좀 날카로운 걸로.
