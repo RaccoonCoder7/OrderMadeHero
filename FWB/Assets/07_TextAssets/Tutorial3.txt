@@ -4,12 +4,12 @@
 !next
 보자, 그럼 간단하게 가게를
 운영하는 방법을 알려 줄…….
-!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+!speaker_모브NPC !next
 여긴 새로 생긴 무기점이네, 가게 열었나요?
 !speaker_나비 !next
 헉, 큰일 났다!
 아직 아무것도 안 알려 줬는데!
-!speaker_모브NPC !next
+!sound_baby !wait_100 !image_모브NPC !speaker_모브NPC !next
 뭐야, 장사 안 할 거예요?
 !speaker_나비 !next
 주인님, 일단 거절하지 말고 받아!
