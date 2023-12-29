@@ -20,6 +20,9 @@ public class IntroSceneMgr : MonoBehaviour
     public Transform paper;
     public GameObject paws;
     public GameObject stamp;
+    public GameObject multiply; //add
+    public GameObject hardLight; //add
+    public GameObject storyBackground; //add
     [Header("Conversation")]
     public GameObject textPanel;
     public GameObject historyPanel;
@@ -197,11 +200,14 @@ public class IntroSceneMgr : MonoBehaviour
         skipBtn.gameObject.SetActive(false);
         historyBtn.gameObject.SetActive(false);
         historyPanel.gameObject.SetActive(false);
+        storyBackground.SetActive(false);
         textPanel.SetActive(false);
         paws.SetActive(true);
+        multiply.SetActive(true);
+        hardLight.SetActive(true);
         yield return new WaitForSeconds(0.75f);
         yield return StartCoroutine(CommonTool.In.FadeIn());
-        paper.DOMove(new Vector3(0, 2, 0), 1);
+        paper.DOMove(new Vector3(0, 1, 0), 1);
     }
 
     private IEnumerator FinishNamingRoutine()
@@ -216,6 +222,8 @@ public class IntroSceneMgr : MonoBehaviour
         historyBtn.gameObject.SetActive(true);
         textPanel.SetActive(true);
         paws.SetActive(false);
+        multiply.SetActive(false);
+        hardLight.SetActive(false);
         paper.gameObject.SetActive(false);
         historyText.text = string.Empty;
         lines = CommonTool.In.GetText("Story2");
