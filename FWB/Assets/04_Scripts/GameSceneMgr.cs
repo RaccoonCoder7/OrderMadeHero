@@ -30,6 +30,9 @@ public class GameSceneMgr : MonoBehaviour
     public Button popupNo;
     public Button setting;
     public Button skip;
+    public Button shop;
+    public Button collection;
+    public Button news;
     public List<Button> saveLoadButtons = new List<Button>();
     public List<BluePrintSlot> bluePrintSlot = new List<BluePrintSlot>();
     public List<Text> weaponSlotTexts = new List<Text>();
@@ -71,7 +74,15 @@ public class GameSceneMgr : MonoBehaviour
     public Text creditStore;
     public Text creditRentCost;
     public Text creditRevenue;
+    public Image bgImg;
+    public List<Sprite> bgImgList = new List<Sprite>();
     public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
+    [Header("For Test")]
+    public int startDay = 1;
+    public Button chipSet;
+    public Button buy;
+    public Button exitStore;
+    public Text saleStatus;
     [HideInInspector]
     public Text chatTargetText;
     [HideInInspector]
@@ -182,7 +193,7 @@ public class GameSceneMgr : MonoBehaviour
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
         // TODO: day limit 추가
-        for (int i = 1; i <= 5; i++)
+        for (int i = startDay; i <= 5; i++)
         {
             string eventKey = "day" + i;
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
@@ -350,6 +361,7 @@ public class GameSceneMgr : MonoBehaviour
         StopCoroutine(textFlowCoroutine);
         lineCnt = -1;
         prevText = string.Empty;
+        prevChatTarget = ChatTarget.None;
         if (clearText)
         {
             chatTargetText.text = string.Empty;

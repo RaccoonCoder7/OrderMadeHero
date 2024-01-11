@@ -139,6 +139,7 @@ public class OrderTable : ScriptableObject
 
         newOrder.ta = new TextAsset(text);
         newAbilityList.AddRange(targetOrder.requiredChipAbilityList);
+        // TODO: 교체가 아니라 concat으로 해야 함 (요구사항이 고정+변동 주문의 경우)
         newOrder.requiredChipAbilityList = newAbilityList;
         return newOrder;
     }
