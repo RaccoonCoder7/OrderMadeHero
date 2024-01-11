@@ -13,14 +13,14 @@
 무기 제작 능력이 이 정도면, 충분히 이 도시에서
 살아남을 수 있을 거예요. 친구들한테도 소문을 좀
 내 줄게요. 그럼, 나중에 또 올게요!
-!sound_baby !image_no !speaker_나비 !next
+!sound_doorbell !image_no !speaker_나비 !next
 첫 손님 접대, 대성공!
 !next
 주인님, 어때?
 이 몸의 능력, 대단하지?
 !next
 (고로롱 거리는 소리)
-!sound_baby !wait_100 !speaker_샤일로 !image_샤일로 !next
+!sound_doorbell !wait_100 !speaker_샤일로 !image_샤일로 !next
 뭐야, 잠깐 사이에 무기를 판 거냐?
 보기보다 실력이 더 괜찮은가 보군.
 !next

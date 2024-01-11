@@ -1,4 +1,4 @@
-!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
 소문듣고 찾아왔어요. {청사진}을/를 사고싶어요.
 @
 아니, 멀리서 왔다니까요??

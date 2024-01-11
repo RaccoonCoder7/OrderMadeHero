@@ -1,4 +1,4 @@
-!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
 피를.. 피를 원해...
 @
 네 피라도 내놔..!

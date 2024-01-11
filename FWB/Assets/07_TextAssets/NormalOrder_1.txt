@@ -1,4 +1,4 @@
-!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
 {청사진} 줘! 빨리! 급해!
 @
 여긴 뭐 있는게 없네!

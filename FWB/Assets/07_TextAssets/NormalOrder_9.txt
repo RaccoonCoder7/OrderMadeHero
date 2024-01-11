@@ -1,4 +1,4 @@
-!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
 내 마음은 뭘까 {청사진} 아니면 {청사진2}?
 @
 당신은 손님 마음을 모르는군

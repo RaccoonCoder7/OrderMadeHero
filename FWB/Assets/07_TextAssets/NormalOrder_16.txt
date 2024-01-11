@@ -1,4 +1,4 @@
-!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
 여기서 가장 유명한 무기로 부탁해요
 @
 내가 누군지 알고 거절하는거에요?

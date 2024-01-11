@@ -605,16 +605,34 @@ MonoBehaviour:
   - key: Day3_1
     ta: {fileID: 4900000, guid: 1db3283709097b74998ccc514fef15e4, type: 3}
     lines: []
+  - key: Day3_2
+    ta: {fileID: 4900000, guid: e55398ee4e8f89f4dbe4f1987b976674, type: 3}
+    lines: []
+  - key: Day3_3
+    ta: {fileID: 4900000, guid: 9199d7aaa8d08484195dd64f6856c0db, type: 3}
+    lines: []
+  - key: Day3_4
+    ta: {fileID: 4900000, guid: 9d64874e4f8473c4badcdb025533f1dd, type: 3}
+    lines: []
+  - key: Day4_1
+    ta: {fileID: 4900000, guid: 57473496fb69eae46b20ce695d1b0794, type: 3}
+    lines: []
+  - key: Day5_1
+    ta: {fileID: 4900000, guid: 95836e379c3b8a54ab5ab95b733d4545, type: 3}
+    lines: []
   - key: Dummy
     ta: {fileID: 4900000, guid: 76842090dce760a40bbb050d59301a1f, type: 3}
     lines: []
   audioClipList:
-  - {fileID: 8300000, guid: ef6edc293d43de441a47697bed82590b, type: 3}
-  - {fileID: 8300000, guid: 05b2aa572a555094d9c261900ba5c709, type: 3}
   - {fileID: 8300000, guid: b90ec6568edfc194caa73eb60246f2d5, type: 3}
   - {fileID: 8300000, guid: 7702bd192da26bc429d7d8356a9df241, type: 3}
   - {fileID: 8300000, guid: f79e68a1ba8493f42b72fe742db78496, type: 3}
   - {fileID: 8300000, guid: 46e1a509218b0f64195cb13312f5531b, type: 3}
+  - {fileID: 8300000, guid: a787e49d6cb8f1a4bb81075619608da7, type: 3}
+  - {fileID: 8300000, guid: 46e1a509218b0f64195cb13312f5531b, type: 3}
+  - {fileID: 8300000, guid: 46e1a509218b0f64195cb13312f5531b, type: 3}
+  - {fileID: 8300000, guid: 148d07ff961a2b84ab37c1d8aa9c0aee, type: 3}
+  - {fileID: 8300000, guid: d0c61382eb4a758499195ca1189e414a, type: 3}
 --- !u!82 &3087253590899327246
 AudioSource:
   m_ObjectHideFlags: 0
@@ -627,7 +645,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

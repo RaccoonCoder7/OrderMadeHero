@@ -2,7 +2,7 @@
 안녕, 주인님! 잠은 잘 잤어?
 !next
 자아, 오늘도 잘 해보자고!
-!sound_baby !wait_100 !image_샤일로 !speaker_샤일로 !next 
+!sound_doorbell !wait_100 !image_샤일로 !speaker_샤일로 !next 
 여어, 준비는 잘 하고 있나? 
 내가 길을 가다가 우연히 들었는데,
 누가 사람들한테 이 가게 얘길 하고 있더군.

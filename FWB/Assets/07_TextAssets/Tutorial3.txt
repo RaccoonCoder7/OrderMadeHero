@@ -1,4 +1,4 @@
-!image_no !sound_baby !speaker_나비 !next
+!image_no !sound_doorbell !speaker_나비 !next
 우리, 오늘부터 1일이야.
 잘해보자고, 주인님!
 !next
@@ -9,7 +9,7 @@
 !speaker_나비 !next
 헉, 큰일 났다!
 아직 아무것도 안 알려 줬는데!
-!sound_baby !wait_100 !image_모브NPC !speaker_모브NPC !next
+!sound_doorbell !wait_100 !image_모브NPC !speaker_모브NPC !next
 뭐야, 장사 안 할 거예요?
 !speaker_나비 !next
 주인님, 일단 거절하지 말고 받아!

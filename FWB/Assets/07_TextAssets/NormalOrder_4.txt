@@ -1,4 +1,4 @@
-!sound_baby !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
 나 알죠? 흔해 빠진 무기로는 만족 못하는거?
 @
 내 수준에 맞추기에 당신의 실력이 부족할 수 있죠

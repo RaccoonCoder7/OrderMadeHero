@@ -7,7 +7,7 @@ public class EventFlowDay4 : EventFlow
 {
     public override void StartFlow()
     {
-        mgr.StartText("Dummy", EndDay4_1Routine, EndDay4_1Routine);
+        mgr.StartText("Day4_1", EndDay4_1Routine, EndDay4_1Routine);
     }
 
     private void EndDay4_1Routine()

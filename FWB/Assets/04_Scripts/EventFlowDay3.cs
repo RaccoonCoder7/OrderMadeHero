@@ -23,7 +23,7 @@ public class EventFlowDay3 : EventFlow
             mgr.chipSet.gameObject.SetActive(true);
             mgr.buy.gameObject.SetActive(true);
             mgr.exitStore.gameObject.SetActive(true);
-            mgr.StartText("Dummy", EndDay3_2Routine, EndDay3_2Routine);
+            mgr.StartText("Day3_2", EndDay3_2Routine, EndDay3_2Routine);
         });
     }
 
@@ -38,7 +38,7 @@ public class EventFlowDay3 : EventFlow
         mgr.chipSet.onClick.AddListener(() =>
         {
             CommonTool.In.SetFocusOff();
-            mgr.StartText("Dummy", EndDay3_3Routine, EndDay3_3Routine);
+            mgr.StartText("Day3_3", EndDay3_3Routine, EndDay3_3Routine);
             mgr.chipSet.onClick.RemoveAllListeners();
         });
     }
@@ -53,7 +53,7 @@ public class EventFlowDay3 : EventFlow
         mgr.buy.onClick.AddListener(() =>
         {
             mgr.saleStatus.text = "Sold Out";
-            mgr.StartText("Dummy", EndDay3_4Routine, EndDay3_4Routine);
+            mgr.StartText("Day3_4", EndDay3_4Routine, EndDay3_4Routine);
             mgr.buy.onClick.RemoveAllListeners();
         });
     }
