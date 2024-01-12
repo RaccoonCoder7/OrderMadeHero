@@ -24,6 +24,7 @@ public class EventFlowDay3 : EventFlow
             mgr.buy.gameObject.SetActive(true);
             mgr.exitStore.gameObject.SetActive(true);
             mgr.StartText("Day3_2", EndDay3_2Routine, EndDay3_2Routine);
+            mgr.shop.onClick.RemoveAllListeners();
         });
     }
 
@@ -72,6 +73,7 @@ public class EventFlowDay3 : EventFlow
             mgr.bgImg.sprite = mgr.bgImgList[0];
             mgr.imageList.Find(x => x.key.Equals("매드")).imageObj.SetActive(false);
             StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
+            mgr.exitStore.onClick.RemoveAllListeners();
         });
     }
 }

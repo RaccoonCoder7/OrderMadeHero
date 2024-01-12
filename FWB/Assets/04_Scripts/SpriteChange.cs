@@ -15,6 +15,11 @@ public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         img = GetComponent<Image>();
     }
 
+    private void OnDisable()
+    {
+        img.sprite = offSprite;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         img.sprite = onSprite;

@@ -293,10 +293,11 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickSetting()
     {
-        GetCursorPos(out cursorPos);
-        Cursor.visible = visible;
-        visible = !visible;
-        cursor.SetActive(visible);
+        // 필요시 사용
+        // GetCursorPos(out cursorPos);
+        // Cursor.visible = visible;
+        // visible = !visible;
+        // cursor.SetActive(visible);
     }
 
     public void OnClickSkip()
@@ -567,14 +568,14 @@ public class GameSceneMgr : MonoBehaviour
         while (fadeValue < 1)
         {
             fadeValue += actualSpeed;
-            dateMessage.color = new UnityEngine.Color(0, 0, 0, fadeValue);
+            dateMessage.color = new UnityEngine.Color(1, 1, 1, fadeValue);
             yield return new WaitForSeconds(actualSpeed);
         }
         yield return new WaitForSeconds(2);
         while (fadeValue > 0)
         {
             fadeValue -= actualSpeed;
-            dateMessage.color = new UnityEngine.Color(0, 0, 0, fadeValue);
+            dateMessage.color = new UnityEngine.Color(1, 1, 1, fadeValue);
             yield return new WaitForSeconds(actualSpeed);
         }
     }
