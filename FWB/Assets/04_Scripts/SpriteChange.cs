@@ -8,24 +8,50 @@ public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public Sprite onSprite;
     public Sprite offSprite;
-    private Image img;
+    public SpriteChangeType type = SpriteChangeType.OnFocus;
+    public Image img;
+
+    public enum SpriteChangeType
+    {
+        OnFocus,
+        OnClick
+    }
 
     private void Start()
     {
-        img = GetComponent<Image>();
+        img ??= GetComponent<Image>();
     }
 
     private void OnDisable()
     {
-        img.sprite = offSprite;
+        if (type == SpriteChangeType.OnFocus)
+        {
+            SetOffSprite();
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        img.sprite = onSprite;
+        if (type == SpriteChangeType.OnFocus)
+        {
+            SetOnSprite();
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        if (type == SpriteChangeType.OnFocus)
+        {
+            SetOffSprite();
+        }
+    }
+
+    public void SetOnSprite()
+    {
+        img.sprite = onSprite;
+    }
+
+    public void SetOffSprite()
     {
         img.sprite = offSprite;
     }

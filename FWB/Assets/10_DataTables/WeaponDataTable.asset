@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b43f5183cf53d949b85c425daa6b85e, type: 3}
+  m_Name: WeaponDataTable
+  m_EditorClassIdentifier: 
+  bluePrintCategoryList:
+  - categoryKey: c_sword
+    name: "\uB3C4\uAC80\uB958"
+    onSprite: {fileID: 21300000, guid: d9cd21a3094dc004daf3ca95fd9e451d, type: 3}
+    offSprite: {fileID: 21300000, guid: 09bb6f43e78967341bca8cb67925b4ed, type: 3}
+    bluePrintList:
+    - bluePrintKey: b_sword
+      name: "\uC7A5\uAC80"
+      comment: "\uC9E7\uB2E4\uACE0 \uBB34\uC2DC\uD558\uC9C0 \uB9D0\uC790."
+      howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
+      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_attack
+        count: 1
+    - bluePrintKey: b_sword2
+      name: "\uC7A5\uAC802"
+      comment: "\uAC80\uC744 \uC5B4\uB514\uAE4C\uC9C0 \uB298\uB9B4 \uC218 \uC788\uC744\uAE4C? "
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_attack
+        count: 1
+      - abilityKey: a_acuity
+        count: 1
+  - categoryKey: c_blunt
+    name: "\uB454\uAE30\uB958"
+    onSprite: {fileID: 21300000, guid: 6a5be7610ea54074dae1a49701dc434a, type: 3}
+    offSprite: {fileID: 21300000, guid: 72c43700cb77b1c42a282d20629d9867, type: 3}
+    bluePrintList:
+    - bluePrintKey: b_blunt
+      name: "\uB3C4\uB07C"
+      comment: "\uC774\uAC78\uB85C \uB098\uBB34\uB294 \uBCA8 \uC218 \uC788\uC73C\uB824\uB098"
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_weight
+        count: 1
+  - categoryKey: c_gun
+    name: "\uCD1D\uAE30\uB958"
+    onSprite: {fileID: 21300000, guid: c2e6f36731d776f4c8b81fb1f5532986, type: 3}
+    offSprite: {fileID: 21300000, guid: 26674cdf0d3948043a0914035f724bc0, type: 3}
+    bluePrintList: []
+  - categoryKey: c_bow
+    name: "\uD65C\uB958"
+    onSprite: {fileID: 21300000, guid: edde638cc30226e46a352c781042360e, type: 3}
+    offSprite: {fileID: 21300000, guid: ff7c522357180734d842cbeea383bca1, type: 3}
+    bluePrintList: []
+  - categoryKey: c_staff
+    name: "\uC9C0\uD321\uC774\uB958"
+    onSprite: {fileID: 21300000, guid: 09ae8f26a1209ef4d924abaf32d2a9cf, type: 3}
+    offSprite: {fileID: 21300000, guid: 453e5a47dd2d0b849829b9f8f182d030, type: 3}
+    bluePrintList: []
+  - categoryKey: c_special
+    name: "\uD2B9\uC218\uBB34\uAE30\uB958"
+    onSprite: {fileID: 21300000, guid: 7ec9ae169bb62674487503e83524207c, type: 3}
+    offSprite: {fileID: 21300000, guid: 8ec612357f3abf847ab286aacb4c442d, type: 3}
+    bluePrintList: []

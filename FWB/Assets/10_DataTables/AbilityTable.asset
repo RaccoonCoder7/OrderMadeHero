@@ -14,18 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityList:
   - abilityKey: a_acuity
-    name: 
+    name: "\uC608\uB9AC\uD568"
     desc: "\uC608\uB9AC\uD55C"
-    value: 1
   - abilityKey: a_durability
-    name: 
+    name: "\uB0B4\uAD6C\uB3C4"
     desc: "\uD2BC\uD2BC\uD55C"
-    value: 1
   - abilityKey: a_weight
-    name: 
+    name: "\uBB34\uAC8C"
     desc: "\uBB34\uAC70\uC6B4"
-    value: 1
   - abilityKey: a_attack
-    name: 
+    name: "\uACF5\uACA9\uB825"
     desc: "\uD0C0\uACA9\uAC10"
-    value: 1

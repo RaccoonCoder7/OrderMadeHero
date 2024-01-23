@@ -990,7 +990,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1041785518}
   - component: {fileID: 1041785517}
-  - component: {fileID: 1041785516}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -998,22 +997,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1041785516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041785515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee5429ed0a2d474da56171d7980225b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  width: 0
-  height: 0
-  posX: 0
-  posY: 0
 --- !u!114 &1041785517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,20 +1010,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initDone: 0
-  day: 0
+  day: 1
   week: 1
   credit: 0
   dayMaterialCost: 0
   dayStoreCost: 0
   dayRentCost: 0
   dayRevenue: 0
-  bluePrintTable: {fileID: 11400000, guid: 42a2add5b5a37bf4f8bb6b8ce79b5e1f, type: 2}
+  weaponDataTable: {fileID: 11400000, guid: 5e69e9e400c87c44f948125ac3ad41c1, type: 2}
   orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
   chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
   abilityTable: {fileID: 11400000, guid: a557d9e88e93460438f18b64a9323ef8, type: 2}
   currentBluePrint:
     bluePrintKey: 
     name: 
+    comment: 
+    howToGet: 
+    blueprintSprite: {fileID: 0}
+    onIcon: {fileID: 0}
+    offIcon: {fileID: 0}
     requiredChipAbilityList: []
 --- !u!4 &1041785518
 Transform:

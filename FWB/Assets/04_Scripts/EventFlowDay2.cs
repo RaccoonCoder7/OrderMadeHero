@@ -61,7 +61,6 @@ public class EventFlowDay2 : EventFlow
         mgr.EndText();
         mgr.prevChatTarget = GameSceneMgr.ChatTarget.None;
         mgr.pcChatPanel.SetActive(false);
-        mgr.SetBlueprintButton();
         StartCoroutine(mgr.StartNormalRoutine(4, mgr.EndNormalOrderRoutine));
     }
 

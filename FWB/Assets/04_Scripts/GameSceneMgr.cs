@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using static SpriteChange;
 
 /// <summary>
 /// 게임 씬의 UI와 동작(메인 게임 플로우)를 관리
@@ -15,10 +16,7 @@ public class GameSceneMgr : MonoBehaviour
 {
     [Header("UI")]
     public Button pc;
-    public Button pcChatWork;
-    public Button mainBack;
-    public Button weaponBook;
-    public Button push;
+    public Button popupDodge;
     public Button save;
     public Button load;
     public Button ok;
@@ -33,23 +31,17 @@ public class GameSceneMgr : MonoBehaviour
     public Button shop;
     public Button collection;
     public Button news;
+    public Button weaponLeft;
+    public Button weaponRight;
+    public Button weaponCreate;
     public List<Button> saveLoadButtons = new List<Button>();
-    public List<BluePrintSlot> bluePrintSlot = new List<BluePrintSlot>();
-    public List<Text> weaponSlotTexts = new List<Text>();
-    public Button weaponBack;
-    public Button weaponFront;
-    public Button dodgeMainPanel;
     public Button alertDodge;
     public Button creditDodge;
     public Text chatName;
-    public Text weaponExplanation;
     public GameObject mainChatPanel;
     public GameObject pcChatPanel;
     public GameObject popupChatPanel;
-    public GameObject mainPanel;
-    public GameObject mainUI;
-    public GameObject weaponUI;
-    public GameObject stick;
+    public GameObject popupPanel;
     public GameObject saveLoadPanel;
     public GameObject saveLoadPopup;
     public GameObject day;
@@ -57,9 +49,10 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject tendency;
     public GameObject gold;
     public GameObject gamePanel;
-    public GameObject cursor;
+    // public GameObject cursor;
     public GameObject alertPanel;
     public GameObject creditPanel;
+    public UISlot uiSlotPrefab;
     public Text mainChatText;
     public Text mascotChatText;
     public Text popupChatText;
@@ -74,15 +67,26 @@ public class GameSceneMgr : MonoBehaviour
     public Text creditStore;
     public Text creditRentCost;
     public Text creditRevenue;
+    public Text weaponName;
+    public Text popupOrderText;
+    public Text comment;
+    public Text essentialCondition;
+    public Text specialGimmick;
+    public Text weaponCategory;
+    public Text howToGet;
     public Image bgImg;
+    public Image blueprintImg;
     public List<Sprite> bgImgList = new List<Sprite>();
     public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
+    public List<UISlot> bluePrintSlotList = new List<UISlot>();
     [Header("For Test")]
     public int startDay = 1;
     public Button chipSet;
     public Button buy;
     public Button exitStore;
     public Text saleStatus;
+    public Transform weaponCategoryParentTr;
+    public Sprite blankSlotSprite;
     [HideInInspector]
     public Text chatTargetText;
     [HideInInspector]
@@ -99,6 +103,8 @@ public class GameSceneMgr : MonoBehaviour
     public ChatTarget chatTarget = ChatTarget.Main;
     [HideInInspector]
     public ChatTarget prevChatTarget = ChatTarget.None;
+    [HideInInspector]
+    public List<UISlot> bluePrintCategorySlotList = new List<UISlot>();
 
     [HideInInspector]
     public PuzzleMgr puzzleMgr;
@@ -115,7 +121,10 @@ public class GameSceneMgr : MonoBehaviour
     private int prevOrderTextNumber = -1;
     private int normalOrderLineIndex = 0;
     private int normalOrderPrevLineIndex = 0;
+    private int currentSelectedWeaponIndex = -1;
     private string prevText;
+    private string currentSelectedWeaponCategoryKey;
+    private string currentOrderText;
     private Action onEndText;
     private Action onSkip;
     private Coroutine textFlowCoroutine;
@@ -161,15 +170,10 @@ public class GameSceneMgr : MonoBehaviour
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
         popupChatPanelRect = popupChatPanel.GetComponent<RectTransform>();
 
-        //TODO: 추후 기능개발시 참고
-        // pc.onClick.AddListener(OnClickPC);
-        // pcChatWork.onClick.AddListener(OnClickPCChatWork);
-        // weaponBook.onClick.AddListener(OnClickWeaponBook);
-        // weaponBack.onClick.AddListener(OnClickWeaponBack);
-        // weaponFront.onClick.AddListener(OnClickWeaponFront);
-        // ok.onClick.AddListener(OnClickOK);
-        mainBack.onClick.AddListener(OnClickDodgeMainPanel);
-        dodgeMainPanel.onClick.AddListener(OnClickDodgeMainPanel);
+        popupDodge.onClick.AddListener(OnClickDodgePopup);
+        weaponLeft.onClick.AddListener(OnClickWeaponLeft);
+        weaponRight.onClick.AddListener(OnClickWeaponRight);
+        weaponCreate.onClick.AddListener(OnClickWeaponCreate);
         save.onClick.AddListener(OnClickSave);
         load.onClick.AddListener(OnClickSave);
         returnBtn.onClick.AddListener(OnClickReturn);
@@ -189,6 +193,8 @@ public class GameSceneMgr : MonoBehaviour
         {
             eventflow.mgr = this;
         }
+
+        RefreshWeaponCategoryButtons();
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
@@ -219,51 +225,44 @@ public class GameSceneMgr : MonoBehaviour
         }
     }
 
-    //TODO: 추후 기능개발시 참고
-    // public void OnClickPCChatWork()
-    // {
-    //     pcChatPanel.SetActive(false);
-    //     mainPanel.SetActive(true);
-    //     mainUI.SetActive(true);
-    //     dodgeMainPanel.gameObject.SetActive(true);
-    // }
-
-    // public void OnClickWeaponBook()
-    // {
-    //     mainUI.SetActive(false);
-    //     weaponUI.SetActive(true);
-    //     RefreshWeaponSlots();
-    // }
-
-    // public void OnClickWeaponBack()
-    // {
-    //     if (page <= 0) return;
-
-    //     page--;
-    //     RefreshWeaponSlots();
-    // }
-
-    // public void OnClickWeaponFront()
-    // {
-    //     page++;
-    //     RefreshWeaponSlots();
-    // }
-
-    // public void OnClickOK()
-    // {
-    //     foreach (var img in imageList)
-    //     {
-    //         img.imageObj.SetActive(false);
-    //     }
-    //     mainChatPanel.SetActive(false);
-    // }
-
-    public void OnClickDodgeMainPanel()
+    public void OnClickDodgePopup()
     {
-        weaponUI.SetActive(false);
-        mainUI.SetActive(false);
-        mainPanel.SetActive(false);
-        dodgeMainPanel.gameObject.SetActive(false);
+        popupPanel.SetActive(false);
+    }
+
+    public void OnClickWeaponLeft()
+    {
+        if (currentSelectedWeaponIndex <= 0)
+        {
+            return;
+        }
+
+        bluePrintSlotList[currentSelectedWeaponIndex - 1].button.onClick.Invoke();
+    }
+
+    public void OnClickWeaponRight()
+    {
+        if (currentSelectedWeaponIndex + 1 >= bluePrintSlotList.Count
+         || string.IsNullOrEmpty(bluePrintSlotList[currentSelectedWeaponIndex + 1].key))
+        {
+            return;
+        }
+
+        bluePrintSlotList[currentSelectedWeaponIndex + 1].button.onClick.Invoke();
+    }
+
+    public void OnClickWeaponCreate()
+    {
+        popupPanel.SetActive(false);
+        gamePanel.SetActive(true);
+        puzzleMgr.OnMakingDone += () =>
+        {
+            mainChatText.text = string.Empty;
+            gamePanel.SetActive(false);
+        };
+        var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
+        GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
+        puzzleMgr.StartPuzzle();
     }
 
     public void OnClickSave()
@@ -379,25 +378,87 @@ public class GameSceneMgr : MonoBehaviour
         creditRevenue.text = GameMgr.In.dayRevenue + " C";
     }
 
-    public void SetBlueprintButton()
+    public void RefreshPopupPanel()
     {
-        for (int i = 0; i < bluePrintSlot.Count; i++)
+        if (!string.IsNullOrEmpty(mainChatText.text))
+        {
+            popupOrderText.text = mainChatText.text;
+        }
+
+        if (bluePrintCategorySlotList.Count > 0)
+        {
+            bluePrintCategorySlotList[0].button.onClick.Invoke();
+            if (bluePrintSlotList.Count >= 0)
+            {
+                bluePrintSlotList[0].button.onClick.Invoke();
+            }
+        }
+    }
+
+    public void RefreshWeaponCategoryButtons()
+    {
+        var categoryList = GameMgr.In.weaponDataTable.bluePrintCategoryList;
+        int j = 0;
+        for (int i = 0; i < categoryList.Count; i++)
         {
             int tempNum = i;
-            bluePrintSlot[tempNum].button.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
+            var category = categoryList[tempNum];
+            var weaponCategorySlot = Instantiate(uiSlotPrefab, weaponCategoryParentTr);
+            weaponCategorySlot.key = category.categoryKey;
+            weaponCategorySlot.spriteChange.onSprite = category.onSprite;
+            weaponCategorySlot.spriteChange.offSprite = category.offSprite;
+            weaponCategorySlot.spriteChange.SetOffSprite();
+            weaponCategorySlot.spriteChange.type = SpriteChangeType.OnClick;
+            if (category.bluePrintList.Count > 0)
             {
-                mainPanel.SetActive(false);
-                weaponUI.SetActive(false);
-                gamePanel.SetActive(true);
-                puzzleMgr.OnMakingDone += () =>
+                weaponCategorySlot.button.onClick.AddListener(() =>
                 {
-                    mainChatText.text = string.Empty;
-                    gamePanel.SetActive(false);
-                };
-                var key = bluePrintSlot[tempNum].bluePrintKey;
-                GameMgr.In.currentBluePrint = GameMgr.In.bluePrintTable.bluePrintList.Find((Predicate<BluePrintTable.BluePrint>)(x => x.bluePrintKey.Equals(key)));
-                puzzleMgr.StartPuzzle();
-            }));
+                    OnClickWeaponCategoryButton(tempNum);
+                    currentSelectedWeaponCategoryKey = category.categoryKey;
+                    currentSelectedWeaponIndex = -1;
+                    RefreshWeaponButtons();
+                });
+            }
+            if (i == 0)
+            {
+                weaponCategorySlot.spriteChange.SetOnSprite();
+                weaponCategorySlot.button.onClick.Invoke();
+            }
+
+            bluePrintCategorySlotList.Add(weaponCategorySlot);
+        }
+    }
+
+    public void RefreshWeaponButtons()
+    {
+        var category = GameMgr.In.GetWeaponCategory(currentSelectedWeaponCategoryKey);
+        for (int i = 0; i < 9; i++)
+        {
+            int tempNum = i;
+            if (category.bluePrintList.Count <= i)
+            {
+                bluePrintSlotList[i].key = string.Empty;
+                bluePrintSlotList[i].spriteChange.onSprite = null;
+                bluePrintSlotList[i].spriteChange.offSprite = null;
+                bluePrintSlotList[i].image.sprite = blankSlotSprite;
+                bluePrintSlotList[i].button.onClick.RemoveAllListeners();
+                continue;
+            }
+
+            var bp = category.bluePrintList[i];
+            bluePrintSlotList[i].key = bp.bluePrintKey;
+            bluePrintSlotList[i].spriteChange.onSprite = bp.onIcon;
+            bluePrintSlotList[i].spriteChange.offSprite = bp.offIcon;
+            bluePrintSlotList[i].spriteChange.SetOffSprite();
+            bluePrintSlotList[i].button.onClick.AddListener(() =>
+            {
+                OnClickWeaponButton(tempNum);
+            });
+            if (i == 0)
+            {
+                bluePrintSlotList[i].spriteChange.SetOnSprite();
+                bluePrintSlotList[i].button.onClick.Invoke();
+            }
         }
     }
 
@@ -433,20 +494,6 @@ public class GameSceneMgr : MonoBehaviour
             chatTargetText.text = lines[lines.Count - 1];
         }
     }
-
-    //TODO: 추후 기능개발시 참고
-    // private void RefreshWeaponSlots()
-    // {
-    //     for (int i = 1; i < weaponSlotTexts.Count + 1; i++)
-    //     {
-    //         weaponSlotTexts[i - 1].text = "slot " + (6 * page + i);
-    //     }
-    // }
-
-    // private void OnPointerEnterForButton(EventTrigger et, int num)
-    // {
-    //     weaponExplanation.text = weaponSlotTexts[num].text + " slot";
-    // }
 
     private void SkipCurrLine()
     {
@@ -838,22 +885,75 @@ public class GameSceneMgr : MonoBehaviour
     {
         EndText();
 
-        mainPanel.SetActive(true);
-        weaponUI.SetActive(true);
+        popupPanel.SetActive(true);
+        RefreshPopupPanel();
+    }
 
-        bluePrintSlot[0].button.onClick.RemoveAllListeners();
-        bluePrintSlot[0].button.onClick.AddListener(() =>
+    private void OnClickWeaponCategoryButton(int targetNum)
+    {
+        for (int i = 0; i < bluePrintCategorySlotList.Count; i++)
         {
-            mainPanel.SetActive(false);
-            weaponUI.SetActive(false);
-            gamePanel.SetActive(true);
-            puzzleMgr.OnMakingDone += () =>
+            if (i == targetNum)
             {
-                mainChatText.text = string.Empty;
-                gamePanel.SetActive(false);
-            };
-            puzzleMgr.StartPuzzle();
-        });
+                bluePrintCategorySlotList[i].spriteChange.SetOnSprite();
+            }
+            else
+            {
+                bluePrintCategorySlotList[i].spriteChange.SetOffSprite();
+            }
+        }
+    }
+
+    private void OnClickWeaponButton(int targetNum)
+    {
+        if (currentSelectedWeaponIndex == targetNum) return;
+        currentSelectedWeaponIndex = targetNum;
+
+        for (int i = 0; i < bluePrintSlotList.Count; i++)
+        {
+            if (string.IsNullOrEmpty(bluePrintSlotList[i].key))
+            {
+                break;
+            }
+
+            if (i == targetNum)
+            {
+                bluePrintSlotList[i].spriteChange.SetOnSprite();
+            }
+            else
+            {
+                bluePrintSlotList[i].spriteChange.SetOffSprite();
+            }
+        }
+
+        var key = bluePrintSlotList[targetNum].key;
+        var weapon = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
+        RefreshWeaponData(weapon);
+    }
+
+    private void RefreshWeaponData(WeaponDataTable.BluePrint weapon)
+    {
+        if (weapon.blueprintSprite != null)
+        {
+            blueprintImg.sprite = weapon.blueprintSprite;
+        }
+        weaponName.text = weapon.name;
+        comment.text = weapon.comment;
+        weaponCategory.text = GameMgr.In.GetWeaponCategory(currentSelectedWeaponCategoryKey).name;
+        howToGet.text = weapon.howToGet;
+
+        string result = string.Empty;
+        var abilityList = GameMgr.In.abilityTable.abilityList;
+        foreach (var ability in weapon.requiredChipAbilityList)
+        {
+            var abilityData = GameMgr.In.GetAbility(ability.abilityKey);
+            if (abilityData != null)
+            {
+                result += abilityData.name + "+" + ability.count + "  ";
+            }
+        }
+        essentialCondition.text = result;
+        // specialGimmick.text = weapon.name;
     }
 
     private IEnumerator StartEventFlow(EventFlow targetEvent)
@@ -864,5 +964,5 @@ public class GameSceneMgr : MonoBehaviour
             yield return null;
         }
     }
-    
+
 }

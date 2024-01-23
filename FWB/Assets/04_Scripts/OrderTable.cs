@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static AbilityTable;
+using static WeaponDataTable;
 
 /// <summary>
 /// 주문에 대한 정보를 저장하는 SO
@@ -99,7 +100,14 @@ public class OrderTable : ScriptableObject
             switch (matchedData.mappingType)
             {
                 case MappingText.MappingType.BluePrint:
-                    var bluePrintList = GameMgr.In.bluePrintTable.bluePrintList;
+                    var bluePrintList = new List<BluePrint>();
+                    foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                    {
+                        foreach (var bp in bpc.bluePrintList)
+                        {
+                            bluePrintList.Add(bp);
+                        }
+                    }
                     while (true)
                     {
                         var bluePrint = bluePrintList[UnityEngine.Random.Range(0, bluePrintList.Count)];

@@ -1,5 +1,6 @@
 using UnityEngine;
 using static BluePrintTable;
+using static WeaponDataTable;
 
 /// <summary>
 /// 게임 중 사용되는 데이터를 관리하는 매니저 컴포넌트
@@ -14,11 +15,11 @@ public class GameMgr : SingletonMono<GameMgr>
     public int dayStoreCost;
     public int dayRentCost;
     public int dayRevenue;
-    public BluePrintTable bluePrintTable;
+    public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
     public AbilityTable abilityTable;
-    public BluePrint currentBluePrint;
+    public WeaponDataTable.BluePrint currentBluePrint;
 
     public enum Day
     {
@@ -51,5 +52,30 @@ public class GameMgr : SingletonMono<GameMgr>
             week++;
             day = (Day)1;
         }
+    }
+
+    /// <summary>
+    /// 키 값에 맞는 무기카테고리정보를 반환
+    /// </summary>
+    public BluePrintCategory GetWeaponCategory(string categoryKey)
+    {
+        return GameMgr.In.weaponDataTable.bluePrintCategoryList.Find(x => x.categoryKey.Equals(categoryKey));
+    }
+
+    /// <summary>
+    /// 키 값에 맞는 무기정보를 반환
+    /// </summary>
+    public WeaponDataTable.BluePrint GetWeapon(string categoryKey, string key)
+    {
+        var category = GetWeaponCategory(categoryKey);
+        return category.bluePrintList.Find(x => x.bluePrintKey.Equals(key));
+    }
+
+    /// <summary>
+    /// 키 값에 맞는 능력치 정보를 반환
+    /// </summary>
+    public AbilityTable.Ability GetAbility(string abilityKey)
+    {
+        return abilityTable.abilityList.Find(x => x.abilityKey.Equals(abilityKey));
     }
 }

@@ -13,37 +13,43 @@ MonoBehaviour:
   m_Name: BluePrintTable
   m_EditorClassIdentifier: 
   bluePrintList:
-  - bluePrintKey: sword
+  - bluePrintKey: b_sword
+    categoryKey: c_sword
     name: "\uC7A5\uAC80"
     requiredChipAbilityList:
     - abilityKey: a_attack
       count: 1
     - abilityKey: a_acuity
       count: 1
-  - bluePrintKey: club
+  - bluePrintKey: b_blunt
+    categoryKey: c_blunt
     name: "\uBABD\uB465\uC774"
     requiredChipAbilityList:
     - abilityKey: a_weight
       count: 3
     - abilityKey: a_durability
       count: 1
-  - bluePrintKey: dagger
-    name: "\uB2E8\uAC80"
+  - bluePrintKey: b_gun
+    categoryKey: c_gun
+    name: "\uCD1D"
     requiredChipAbilityList:
     - abilityKey: a_attack
       count: 1
-  - bluePrintKey: staff
+  - bluePrintKey: b_bow
+    categoryKey: c_bow
+    name: "\uD65C"
+    requiredChipAbilityList:
+    - abilityKey: a_acuity
+      count: 1
+  - bluePrintKey: b_staff
+    categoryKey: c_staff
     name: "\uC9C0\uD321\uC774"
     requiredChipAbilityList:
     - abilityKey: a_attack
       count: 2
-  - bluePrintKey: ax
-    name: "\uB3C4\uB07C"
-    requiredChipAbilityList:
-    - abilityKey: a_acuity
-      count: 1
-  - bluePrintKey: hammer
-    name: "\uB9DD\uCE58"
+  - bluePrintKey: b_special
+    categoryKey: c_special
+    name: "\uD2B9\uC218\uB2A5\uB825"
     requiredChipAbilityList:
     - abilityKey: a_weight
       count: 1

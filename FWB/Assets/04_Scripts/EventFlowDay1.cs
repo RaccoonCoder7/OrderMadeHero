@@ -68,8 +68,8 @@ public class EventFlowDay1 : EventFlow
         {
             mgr.no.interactable = true;
             mgr.ActiveYesNoButton(false);
-            mgr.mainPanel.SetActive(true);
-            mgr.weaponUI.SetActive(true);
+            mgr.popupPanel.SetActive(true);
+            mgr.RefreshPopupPanel();
             var pos = mgr.popupChatPanelRect.anchoredPosition;
             pos.x = 150;
             mgr.popupChatPanelRect.anchoredPosition = pos;
@@ -97,20 +97,7 @@ public class EventFlowDay1 : EventFlow
     {
         mgr.EndText();
         mgr.popupChatPanel.SetActive(false);
-
-        mgr.bluePrintSlot[0].button.onClick.AddListener(() =>
-        {
-            mgr.mainPanel.SetActive(false);
-            mgr.weaponUI.SetActive(false);
-            mgr.gamePanel.SetActive(true);
-            mgr.popupChatPanel.SetActive(true);
-            mgr.StartText("Tutorial5", EndTutorial5Routine, EndTutorial5Routine);
-
-            mgr.puzzleMgr.OnMakingDone += OnMakingDone;
-            GameMgr.In.currentBluePrint = GameMgr.In.bluePrintTable.bluePrintList.Find(x => x.bluePrintKey.Equals("sword"));
-            mgr.puzzleMgr.StartTutorialPuzzle();
-            mgr.bluePrintSlot[0].button.onClick.RemoveAllListeners();
-        });
+        mgr.puzzleMgr.OnMakingDone += OnMakingDone;
     }
 
     // private void EndTutorial5Routine()
@@ -142,9 +129,8 @@ public class EventFlowDay1 : EventFlow
 
     private void OnMakingDone()
     {
-        mgr.mainChatText.text = string.Empty;
-        mgr.gamePanel.SetActive(false);
         mgr.StartText("Tutorial6", EndTutorial6Routine, SkipTutorial6Routine);
+        mgr.puzzleMgr.OnMakingDone -= OnMakingDone;
     }
 
     private void EndTutorial6Routine()
@@ -164,6 +150,7 @@ public class EventFlowDay1 : EventFlow
     {
         mgr.imageList.Find(x => x.key.Equals("모브NPC")).imageObj.SetActive(false);
         mgr.imageList.Find(x => x.key.Equals("샤일로")).imageObj.SetActive(true);
+        mgr.pcChatPanel.SetActive(false);
         mgr.chatName.text = "샤일로";
         EndTutorial6Routine();
     }

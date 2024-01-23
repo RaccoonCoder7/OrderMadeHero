@@ -25,11 +25,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public List<ChipObj> chipList = new List<ChipObj>();
     public Dictionary<int, int> chipInventory = new Dictionary<int, int>();
     public Button makingDone;
-    public Button skip;
     public GameSceneMgr mgr2;
     public RequiredAbilityObject requiredAbilityObject;
     public Transform requiredAbilityTextParent;
     public Action OnMakingDone;
+    [HideInInspector]
+    public bool isTutorial = true;
 
     private RectTransform puzzleGridRectTr;
     private RectTransform dragImgRectTr;
@@ -74,7 +75,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     void Awake()
     {
         makingDone.onClick.AddListener(OnClickMakingDone);
-        skip.onClick.AddListener(OnClickSkip);
 
         puzzleGridRectTr = puzzleGrid.GetComponent<RectTransform>();
         dragImgRectTr = dragImg.GetComponent<RectTransform>();
@@ -147,24 +147,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
     }
 
-    public void StartTutorialPuzzle()
-    {
-        makingDone.gameObject.SetActive(false);
-        currPuzzle = GetPuzzle(1);
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
-        InstantiateRequiredAbilityText();
-        SetPuzzle();
-        AddChipToInventory_ForTest();
-        RefreshChipPanel();
-    }
-
     public void StartPuzzle()
     {
         // TODO: 청사진 정보에 맞게 chipSize, currPuzzle 세팅하기
         chipSize = 108;
-        currPuzzle = GetPuzzle(0);
+        currPuzzle = GetPuzzle(0); // TODO: 청사진에 맞는 데이터 불러오기
         // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
         // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
         // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
@@ -203,11 +190,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         puzzleFrameList.Clear();
         chipInventory.Clear();
-    }
-
-    public void OnClickSkip()
-    {
-        mgr2.OnClickSkip();
+        isTutorial = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -359,9 +342,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                         {
                             DestroyImmediate(currentSelectedChip.gameObject);
                         }
-                        if (GetWeaponPowerResult())
+                        var result = GetWeaponPowerResult();
+                        if (isTutorial)
                         {
-                            makingDone.gameObject.SetActive(true);
+                            makingDone.gameObject.SetActive(result);
                         }
                         success = true;
                     }
@@ -424,9 +408,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             {
                                 DestroyImmediate(currentSelectedChip.gameObject);
                             }
-                            if (GetWeaponPowerResult())
+                            var result = GetWeaponPowerResult();
+                            if (isTutorial)
                             {
-                                makingDone.gameObject.SetActive(true);
+                                makingDone.gameObject.SetActive(result);
                             }
                             success = true;
                         }
