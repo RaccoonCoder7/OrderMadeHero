@@ -27,6 +27,7 @@ public class WeaponDataTable : ScriptableObject
         public string name;
         public string comment;
         public string howToGet;
+        public int price;
         public Sprite blueprintSprite;
         public Sprite onIcon;
         public Sprite offIcon;

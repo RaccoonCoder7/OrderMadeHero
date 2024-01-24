@@ -18,20 +18,22 @@ MonoBehaviour:
     onSprite: {fileID: 21300000, guid: d9cd21a3094dc004daf3ca95fd9e451d, type: 3}
     offSprite: {fileID: 21300000, guid: 09bb6f43e78967341bca8cb67925b4ed, type: 3}
     bluePrintList:
-    - bluePrintKey: b_sword
-      name: "\uC7A5\uAC80"
+    - bluePrintKey: b_dagger
+      name: "\uB2E8\uAC80"
       comment: "\uC9E7\uB2E4\uACE0 \uBB34\uC2DC\uD558\uC9C0 \uB9D0\uC790."
       howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
+      price: 100
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
       offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
         count: 1
-    - bluePrintKey: b_sword2
-      name: "\uC7A5\uAC802"
+    - bluePrintKey: b_longSword
+      name: "\uC7A5\uAC80"
       comment: "\uAC80\uC744 \uC5B4\uB514\uAE4C\uC9C0 \uB298\uB9B4 \uC218 \uC788\uC744\uAE4C? "
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 150
       blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
       onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
       offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
@@ -40,20 +42,113 @@ MonoBehaviour:
         count: 1
       - abilityKey: a_acuity
         count: 1
+    - bluePrintKey: b_katana
+      name: "\uCE74\uD0C0\uB098"
+      comment: "\uC774 \uAC80\uC744 \uC544\uC8FC \uBE60\uB974\uAC8C \uBF51\uC744
+        \uC218 \uC788\uB294 \uC0AC\uB78C\uC774 \uC788\uB2E4\uB358\uB370"
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 200
+      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 1
+    - bluePrintKey: b_bayonet
+      name: "\uB300\uAC80"
+      comment: "\uD070\uAC8C \uCD5C\uACE0\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 250
+      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_attack
+        count: 2
+      - abilityKey: a_weight
+        count: 1
+    - bluePrintKey: b_rapier
+      name: "\uC7A5\uAC80"
+      comment: "\uAC80\uC744 \uC5B4\uB514\uAE4C\uC9C0 \uB298\uB9B4 \uC218 \uC788\uC744\uAE4C? "
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 0
+      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_attack
+        count: 1
+      - abilityKey: a_penetrate
+        count: 1
   - categoryKey: c_blunt
     name: "\uB454\uAE30\uB958"
     onSprite: {fileID: 21300000, guid: 6a5be7610ea54074dae1a49701dc434a, type: 3}
     offSprite: {fileID: 21300000, guid: 72c43700cb77b1c42a282d20629d9867, type: 3}
     bluePrintList:
-    - bluePrintKey: b_blunt
+    - bluePrintKey: b_ax
       name: "\uB3C4\uB07C"
       comment: "\uC774\uAC78\uB85C \uB098\uBB34\uB294 \uBCA8 \uC218 \uC788\uC73C\uB824\uB098"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 0
       blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
       onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
       offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_weight
+        count: 1
+    - bluePrintKey: b_blunt
+      name: "\uB9DD\uCE58"
+      comment: "\uB9DD\uCE58 \uB098\uAC00\uC2E0\uB2E4!\\n[\uB9DD\uCE58\uB2D8\uC774
+        \uAC8C\uC784\uC744 \uB5A0\uB098\uC168\uC2B5\uB2C8\uB2E4.]"
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 0
+      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_weight
+        count: 1
+    - bluePrintKey: b_ceremonialAx
+      name: "\uC758\uC2DD\uC6A9 \uB3C4\uB07C"
+      comment: "\uC774\uC0C1\uD558\uAC8C \uAC00\uBCBC\uC6B4 \uB3C4\uB07C, \uBA4B\uC2A4\uB7EC\uC6B4\uAC8C
+        \uD2B9\uC9D5.\\n\uB3C8\uAE4C\uC2A4 \uB9DD\uCE58\uAC00 \uB354 \uC544\uD50C
+        \uAC83 \uAC19\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 0
+      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_cool
+        count: 3
+    - bluePrintKey: b_battleAx
+      name: "\uC804\uD22C \uB3C4\uB07C"
+      comment: "\uC774\uB984\uC744 \uBD99\uC5EC\uC8FC\uACE0 \uB0A0\uC744 \uB9E4\uC77C\uB9E4\uC77C
+        \uAC08\uC544\uC904\uAEBC\uC57C"
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 0
+      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_attack
+        count: 2
+      - abilityKey: a_weight
+        count: 1
+    - bluePrintKey: b_morningStar
+      name: "\uBAA8\uB2DD\uC2A4\uD0C0"
+      comment: "\uC544\uCE68\uC5D0 \uC77C\uC5B4\uB09C \uC2A4\uD0C0\uB294? \uBAA8\uB2DD\uC2A4\uD0C0"
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 0
+      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      onIcon: {fileID: 21300000, guid: 61bcced56dcca3948b879ca141df8ff2, type: 3}
+      offIcon: {fileID: 21300000, guid: f30f0bfa16f759d44931775f24aafbae, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_weight
+        count: 1
+      - abilityKey: a_attack
+        count: 1
+      - abilityKey: a_penetrate
         count: 1
   - categoryKey: c_gun
     name: "\uCD1D\uAE30\uB958"
