@@ -62,11 +62,14 @@ public class GameSceneMgr : MonoBehaviour
     public Text dateMessage;
     public Text goldText;
     public Text creditTitle;
-    public Text creditTotalRevenue;
-    public Text creditMaterialCost;
-    public Text creditStore;
-    public Text creditRentCost;
     public Text creditRevenue;
+    public Text creditBonusRevenue;
+    public Text creditChipsetCost;
+    public Text creditRentCost;
+    public Text creditTotalRevenue;
+    public Text creditCustomerCnt;
+    public Text creditRenom;
+    public Text creditTendency;
     public Text weaponName;
     public Text popupOrderText;
     public Text comment;
@@ -370,12 +373,16 @@ public class GameSceneMgr : MonoBehaviour
 
     public void RefreshCreditPanel()
     {
-        creditTitle.text = GameMgr.In.week + "주차\n" + GameMgr.In.day + "요일";
-        creditTotalRevenue.text = GameMgr.In.credit + " C";
-        creditMaterialCost.text = GameMgr.In.dayMaterialCost + " C";
-        creditStore.text = GameMgr.In.dayStoreCost + " C";
-        creditRentCost.text = GameMgr.In.dayRentCost + " C";
-        creditRevenue.text = GameMgr.In.dayRevenue + " C";
+        creditTitle.text = GameMgr.In.week + "주차 " + GameMgr.In.day + "요일";
+        creditRevenue.text = "무기판매 +" + GameMgr.In.dayRevenue;
+        creditBonusRevenue.text = "완성보너스 +" + GameMgr.In.dayBonusRevenue;
+        creditChipsetCost.text = "칩셋구입 -" + GameMgr.In.dayChipsetCost;
+        creditRentCost.text = "임대료 -" + GameMgr.In.dayRentCost;
+        var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.dayChipsetCost;
+        creditTotalRevenue.text = totalRevenue + " 크레딧";
+        creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
+        creditRenom.text = GameMgr.In.dayRenom.ToString();
+        creditTendency.text = GameMgr.In.dayTendency.ToString();
     }
 
     public void RefreshPopupPanel()
