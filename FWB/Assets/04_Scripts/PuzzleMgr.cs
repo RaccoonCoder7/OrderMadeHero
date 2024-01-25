@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static AbilityTable;
+using static UnityEngine.Networking.UnityWebRequest;
 
 /// <summary>
 /// 퍼즐 플레이에 관련된 기능을 관리
@@ -17,18 +19,24 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public EventSystem es;
     public Canvas canvas;
     public RawImage dragImg;
+    public RawImage NotEnoughCredit;//추가
     public int chipCountX;
     public int chipCountY;
     public float chipSize;
     public PuzzleFrame puzzleFrame;
     public List<Texture> textureList = new List<Texture>();
+    public int totalCost = 0; //추가
+    public Text ReturnCost; //추가
+
     public List<ChipObj> chipList = new List<ChipObj>();
     public Dictionary<int, int> chipInventory = new Dictionary<int, int>();
     public Button makingDone;
+    public Button Reset; //추가
     public GameSceneMgr mgr2;
     public RequiredAbilityObject requiredAbilityObject;
     public Transform requiredAbilityTextParent;
     public Action OnMakingDone;
+    public Action OnReset;//추가
     [HideInInspector]
     public bool isTutorial = true;
 
@@ -75,6 +83,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     void Awake()
     {
         makingDone.onClick.AddListener(OnClickMakingDone);
+        Reset.onClick.AddListener(OnClickReset);// 추가
 
         puzzleGridRectTr = puzzleGrid.GetComponent<RectTransform>();
         dragImgRectTr = dragImg.GetComponent<RectTransform>();
@@ -82,7 +91,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         ray = canvas.GetComponent<GraphicRaycaster>();
         canvasScaler = canvas.GetComponent<CanvasScaler>();
         ped = new PointerEventData(es);
-
+        //여기써도 되는지 물어보기
+        NotEnoughCredit.gameObject.SetActive(false);
+        makingDone.gameObject.SetActive(false);
+        Reset.gameObject.SetActive(false);
         // 테스트코드
         // StringBuilder sb = new StringBuilder();
         // int i = 0;
@@ -163,34 +175,16 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnClickMakingDone()
     {
-        mgr2.popupChatPanel.SetActive(false);
+        bool isPuzzleSuccess = GetWeaponPowerResult();
+        mgr2.orderState = isPuzzleSuccess ? GameSceneMgr.OrderState.Succeed : GameSceneMgr.OrderState.Failed;
 
-        mgr2.orderState = GetWeaponPowerResult() ? GameSceneMgr.OrderState.Succeed : GameSceneMgr.OrderState.Failed;
-        if (OnMakingDone != null)
-        {
-            OnMakingDone.Invoke();
-            OnMakingDone = null;
+        if (isPuzzleSuccess && CreditCheck()) {
+            CommonTool.In.OpenConfirmPanel("제작을 완료하시겠습니까?", ExecuteMakingDone, CloseCompleteMaking);
+        }
+        else {
+            NoCreditUI();
         }
 
-        foreach (var key in requiredAbilityObjectDic.Keys)
-        {
-            Destroy(requiredAbilityObjectDic[key].gameObject);
-        }
-        requiredAbilityObjectDic.Clear();
-
-        foreach (var obj in puzzleFrameList)
-        {
-            Destroy(obj.gameObject);
-        }
-
-        foreach (var obj in instantiatedChipList)
-        {
-            Destroy(obj);
-        }
-
-        puzzleFrameList.Clear();
-        chipInventory.Clear();
-        isTutorial = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -346,8 +340,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                         if (isTutorial)
                         {
                             makingDone.gameObject.SetActive(result);
+                            Reset.gameObject.SetActive(result);
                         }
                         success = true;
+                        //<by_honeydora>
+                        CreditAdd(-100);
                     }
                 }
                 else
@@ -412,8 +409,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             if (isTutorial)
                             {
                                 makingDone.gameObject.SetActive(result);
+                                Reset.gameObject.SetActive(result);
                             }
                             success = true;
+                            //<by_honeydora>
+                            CreditAdd(+100);
                         }
                     }
                 }
@@ -508,10 +508,13 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // chipInventory.Add(5, 1);
         // chipInventory.Add(6, 1);
         // chipInventory.Add(7, 2);
-        chipInventory.Add(8, 3);
-        chipInventory.Add(9, 3);
-        chipInventory.Add(10, 3);
-        chipInventory.Add(11, 3);
+
+        int[] chip_arr = new int[] { 8, 9, 10, 11 };
+        int initialCount = 3; // 초기 개수 설정
+
+        foreach (int key in chip_arr) {
+            chipInventory[key] = initialCount; 
+        }
     }
 
     private void RefreshChipPanel()
@@ -695,5 +698,154 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         }
         Debug.Log(sb2.ToString());
+    }
+
+    /// <추가기능>
+    /// 제작중.
+    /// </by_hondora>
+    //초기화 로직--
+
+    public void OnClickReset()
+    {
+        mgr2.popupChatPanel.SetActive(false);
+
+        if (OnReset != null) {
+            OnReset.Invoke();
+            OnReset = null;
+        }
+        makingDone.gameObject.SetActive(false);
+        Reset.gameObject.SetActive(false);
+        //퍼즐 리스타트
+        RemakePuzzle();
+
+    }
+
+    private void RemakePuzzle()
+    {
+        ClearPuzzleGrid();
+        StartPuzzle();
+    }
+
+    private void ClearPuzzleGrid()
+    {
+        //필요능력과 퍼즐 제거
+        foreach (var key in requiredAbilityObjectDic.Keys) {
+            Destroy(requiredAbilityObjectDic[key].gameObject);
+        }
+        requiredAbilityObjectDic.Clear();
+
+        foreach (var obj in puzzleFrameList) {
+            Destroy(obj.gameObject);
+        }
+        puzzleFrameList.Clear();
+        foreach (var obj in instantiatedChipList) {
+            Destroy(obj);
+        }
+        chipInventory.Clear();
+        CreditReset();
+    }
+
+    //필요 크레딧!--
+
+    //크레딧 체크하는 함수
+    private bool CreditCheck()
+    {
+        int currentCredits = GameMgr.In.credit;//추가
+        currentCredits += 200; //test
+        return currentCredits >= CreditNeed() ? true : false;
+    }
+    //필요 크레딧 계산 
+
+    //현재는 Drag Drob할때마다 추가됨
+    //CreditAdd(칩셋cost) 또는 칩셋 계산해서 가격 Add하면됨
+    //TODO: 기획 듣고 칩셋 가격 관련 로직 바꿀필요!
+    private void CreditAdd(int value)
+    {
+        totalCost += value;
+        if(totalCost <= 0) {
+            totalCost = 0;
+        }
+        CreditText();
+    }
+
+    // totalCost 초기화 함수
+    private void CreditReset()
+    {
+        totalCost = 0;
+        CreditText();
+    }
+
+    // 필요 크레딧을 반환 함수
+    private int CreditNeed()
+    {
+        return totalCost;
+    }
+
+    private void CreditText()
+    {
+        if (CreditCheck()) {
+            ReturnCost.color = Color.white;
+        }
+        else {
+            ReturnCost.color = Color.red;
+        }
+        ReturnCost.text = " " + CreditNeed().ToString();
+    }
+
+    //돈 부족 UI
+    IEnumerator ShowNoCreditUI()
+    {
+        NotEnoughCredit.gameObject.SetActive(true); // UI 활성화
+        //TODO: audio 삐 - 소리 추가 필요
+        yield return new WaitForSeconds(1); // 1초 대기
+        NotEnoughCredit.gameObject.SetActive(false); // UI 비활성화
+    }
+
+    private void NoCreditUI()
+    {
+        if (canvas.gameObject.activeInHierarchy) {
+            StartCoroutine(ShowNoCreditUI()); 
+        }
+        else {
+            canvas.gameObject.SetActive(true);
+            StartCoroutine(ShowNoCreditUI());
+        }
+    }
+
+    //취소: 필요없을듯
+    private void CloseCompleteMaking()
+    {
+    }
+
+    // 진짜 제작 완료 로직 실행
+    private void ExecuteMakingDone()
+    {
+        foreach (var key in requiredAbilityObjectDic.Keys) {
+            Destroy(requiredAbilityObjectDic[key].gameObject);
+        }
+        requiredAbilityObjectDic.Clear();
+
+        foreach (var obj in puzzleFrameList) {
+            Destroy(obj.gameObject);
+        }
+
+        foreach (var obj in instantiatedChipList) {
+            Destroy(obj);
+        }
+
+        puzzleFrameList.Clear();
+        chipInventory.Clear();
+        isTutorial = false;
+
+        if (OnMakingDone != null) {
+            OnMakingDone.Invoke();
+            OnMakingDone = null;
+        }
+
+
+        //상점 크레딧 -= totalCost;
+        //totalCost=0;
+        NotEnoughCredit.gameObject.SetActive(false);
+        mgr2.popupChatPanel.SetActive(false);
     }
 }
