@@ -2539,6 +2539,7 @@ MonoBehaviour:
   bookBtn: {fileID: 1466357749}
   settingBtn: {fileID: 242976161}
   quitBtn: {fileID: 889420618}
+  sa: {fileID: 1772910464}
 --- !u!4 &2079271668
 Transform:
   m_ObjectHideFlags: 0

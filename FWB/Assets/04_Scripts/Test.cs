@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,10 +14,13 @@ public class Test : MonoBehaviour
     public float height;
     public float posX;
     public float posY;
+    public float testValue;
     public BluePrintTable bluePrintTable;
     public WeaponDataTable weaponDataTable;
     public Image testImg;
+    public Image testImg2;
     public AnimationCurve curve;
+    public SpriteAnimation sa;
 
 
     /// <summary>
@@ -55,21 +59,49 @@ public class Test : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            testImg.transform.DOLocalMoveY(200, 1).SetEase(Ease.InExpo);
+            StartCoroutine(StartShopInAnim());
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            testImg.transform.DOLocalMoveY(-200, 1).SetEase(Ease.InExpo);
+            StartCoroutine(StartShopOutAnim());
         }
-        if (Input.GetKeyDown(KeyCode.D))
+    }
+
+    private IEnumerator StartShopInAnim()
+    {
+        StartCoroutine(sa.StartAnim());
+
+        while (sa.textureIndex < (sa.textureList.Count / 3))
         {
-            testImg.transform.DOLocalMoveY(200, 1).SetEase(Ease.InCubic);
+            yield return null;
         }
-        if (Input.GetKeyDown(KeyCode.F))
+
+        testImg.transform.DOLocalMoveY(-770, 0.5f).SetEase(Ease.InOutQuart);
+
+        while (sa.textureIndex < (sa.textureList.Count * 2 / 3))
         {
-            testImg.transform.DOLocalMoveY(-200, 1).SetEase(Ease.InCubic);
+            yield return null;
         }
+
+        testImg2.gameObject.SetActive(true);
+        testImg2.transform.DOScale(Vector3.one, 0.5f);
+    }
+
+    private IEnumerator StartShopOutAnim()
+    {
+        StartCoroutine(sa.StartAnim(true));
+
+        while (sa.textureIndex >= (sa.textureList.Count * 2 / 3))
+        {
+            yield return null;
+        }
+
+        testImg2.transform.DOScale(Vector3.zero, 0.5f);
+        testImg.transform.DOLocalMoveY(-540, 0.5f).SetEase(Ease.OutQuad).OnComplete(() =>
+            {
+                testImg2.gameObject.SetActive(false);
+            });
     }
 }

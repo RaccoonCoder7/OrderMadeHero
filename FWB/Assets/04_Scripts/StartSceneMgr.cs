@@ -11,6 +11,7 @@ public class StartSceneMgr : MonoBehaviour
     public Button bookBtn;
     public Button settingBtn;
     public Button quitBtn;
+    public SpriteAnimation sa;
 
 
     void Start()
@@ -23,6 +24,7 @@ public class StartSceneMgr : MonoBehaviour
         GameMgr.In.initDone = true;
 
         StartCoroutine(CommonTool.In.FadeIn());
+        StartCoroutine(sa.StartLoopAnim());
     }
 
     private void ChangeToInitScene()
