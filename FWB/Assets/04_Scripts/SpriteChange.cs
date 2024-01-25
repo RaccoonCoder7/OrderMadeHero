@@ -48,11 +48,20 @@ public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void SetOnSprite()
     {
+        if (!offSprite)
+        {
+            img.color = Vector4.one;
+        }
         img.sprite = onSprite;
     }
 
     public void SetOffSprite()
     {
+        if (!offSprite)
+        {
+            img.color = Vector4.zero;
+            return;
+        }
         img.sprite = offSprite;
     }
 }
