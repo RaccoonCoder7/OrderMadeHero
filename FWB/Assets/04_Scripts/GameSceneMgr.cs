@@ -256,16 +256,24 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickWeaponCreate()
     {
-        popupPanel.SetActive(false);
-        gamePanel.SetActive(true);
-        puzzleMgr.OnMakingDone += () =>
+        CommonTool.In.OpenConfirmPanel("이 청사진으로 제작 하시겠습니까?",
+        () =>
         {
-            mainChatText.text = string.Empty;
-            gamePanel.SetActive(false);
-        };
-        var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
-        GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
-        puzzleMgr.StartPuzzle();
+            popupPanel.SetActive(false);
+            gamePanel.SetActive(true);
+            puzzleMgr.OnMakingDone += () =>
+            {
+                mainChatText.text = string.Empty;
+                gamePanel.SetActive(false);
+            };
+            var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
+            GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
+            puzzleMgr.StartPuzzle();
+        },
+        () =>
+        {
+            return;
+        });
     }
 
     public void OnClickSave()
