@@ -18798,6 +18798,7 @@ MonoBehaviour:
   orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
   chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
   abilityTable: {fileID: 11400000, guid: a557d9e88e93460438f18b64a9323ef8, type: 2}
+  requestTable: {fileID: 11400000, guid: f62973c6bba330a48910905620f51f05, type: 2}
   currentBluePrint:
     bluePrintKey: 
     name: 

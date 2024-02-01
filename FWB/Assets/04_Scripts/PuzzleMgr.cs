@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static AbilityTable;
+using static RequestTable;
 using static UnityEngine.Networking.UnityWebRequest;
 
 /// <summary>

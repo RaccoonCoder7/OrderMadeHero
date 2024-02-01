@@ -16,87 +16,105 @@ MonoBehaviour:
   - orderKey: NormalOrder_0
     ta: {fileID: 4900000, guid: b36890be4b612ec4fa2e2e2883e8523d, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_1
     ta: {fileID: 4900000, guid: be0946e071481b545be3ee2af48bcfc4, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_2
     ta: {fileID: 4900000, guid: fb56e721e59d23b43bae5a9697c49b3d, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_3
     ta: {fileID: 4900000, guid: a66c0b5a2b030084fa7318187af6187b, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_4
     ta: {fileID: 4900000, guid: 5c833dca39530b049a1056b9002b9ce2, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_5
     ta: {fileID: 4900000, guid: 2a9dbad8756f0ad4eaae4362755690dd, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_6
     ta: {fileID: 4900000, guid: 93949d4a75c7dbd438e6c22165e46194, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_7
     ta: {fileID: 4900000, guid: 685f14596ca2e214391eff0dc2248766, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_8
     ta: {fileID: 4900000, guid: 282791ae4f6b5ff4d88e37cfcd06265f, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_9
     ta: {fileID: 4900000, guid: ac01a335a302fe647b0a856f5018766b, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_10
     ta: {fileID: 4900000, guid: 0ed15894b47487e42be90380585280d9, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_11
     ta: {fileID: 4900000, guid: ea1e3371aa02cdb4cb3f76a5f39dde7d, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_12
     ta: {fileID: 4900000, guid: 52200c3ce46cdfa4ea53017c8d7e924b, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList:
     - abilityKey: acuity
       name: 
       desc: 
-      value: 3
   - orderKey: NormalOrder_13
     ta: {fileID: 4900000, guid: 0ef39d7a06b45f148828a8456f1018d0, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_14
     ta: {fileID: 4900000, guid: 0712313a61cb0cb4e9b3997fd7e1b2cf, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_15
     ta: {fileID: 4900000, guid: 24a9f75b81dd96b48adbedce03b9f7c3, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_16
     ta: {fileID: 4900000, guid: 66831247d3bc55b45b1b37edefcf383f, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_17
     ta: {fileID: 4900000, guid: b1b76f49395e59945b254fb514c8f6c5, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   - orderKey: NormalOrder_18
     ta: {fileID: 4900000, guid: 8d7d38c656efc4148a6e5441dfdb1944, type: 3}
     requiredBlueprintKeyList: []
+    requiredRequestList: []
     requiredChipAbilityList: []
   mappingTextList:
   - mappingKey: "\uCCAD\uC0AC\uC9C4"
     mappingType: 0
-  - mappingKey: "\uC694\uAD6C\uC0AC\uD56D"
+  - mappingKey: "\uC694\uAD6C\uC0AC\uD56D1"
     mappingType: 1
-  - mappingKey: "\uC870\uAC74"
+  - mappingKey: "\uC694\uAD6C\uC0AC\uD56D2"
     mappingType: 2

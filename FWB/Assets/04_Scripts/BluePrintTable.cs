@@ -16,5 +16,6 @@ public class BluePrintTable : ScriptableObject
         public string bluePrintKey;
         public string name;
         public List<ChipAbility> requiredChipAbilityList = new List<ChipAbility>();
+        
     }
 }
