@@ -29,8 +29,7 @@ public class WeaponDataTable : ScriptableObject
         public string howToGet;
         public int price;
         public Sprite blueprintSprite;
-        public Sprite onIcon;
-        public Sprite offIcon;
+        public Sprite icon;
         public List<ChipAbility> requiredChipAbilityList = new List<ChipAbility>();
     }
 }

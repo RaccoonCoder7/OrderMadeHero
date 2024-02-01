@@ -9,5 +9,6 @@ public class UISlot : MonoBehaviour
     public string key;
     public Button button;
     public Image image;
+    public Image innerImage;
     public SpriteChange spriteChange;
 }

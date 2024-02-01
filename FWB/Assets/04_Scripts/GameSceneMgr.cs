@@ -453,8 +453,7 @@ public class GameSceneMgr : MonoBehaviour
             if (category.bluePrintList.Count <= i)
             {
                 bluePrintSlotList[i].key = string.Empty;
-                bluePrintSlotList[i].spriteChange.onSprite = null;
-                bluePrintSlotList[i].spriteChange.offSprite = null;
+                bluePrintSlotList[i].innerImage.color = Vector4.zero;
                 bluePrintSlotList[i].image.sprite = blankSlotSprite;
                 bluePrintSlotList[i].button.onClick.RemoveAllListeners();
                 continue;
@@ -462,8 +461,8 @@ public class GameSceneMgr : MonoBehaviour
 
             var bp = category.bluePrintList[i];
             bluePrintSlotList[i].key = bp.bluePrintKey;
-            bluePrintSlotList[i].spriteChange.onSprite = bp.onIcon;
-            bluePrintSlotList[i].spriteChange.offSprite = bp.offIcon;
+            bluePrintSlotList[i].innerImage.sprite = bp.icon;
+            bluePrintSlotList[i].innerImage.color = Vector4.one;
             bluePrintSlotList[i].spriteChange.SetOffSprite();
             bluePrintSlotList[i].button.onClick.AddListener(() =>
             {
