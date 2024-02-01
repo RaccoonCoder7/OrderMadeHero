@@ -94,8 +94,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         ped = new PointerEventData(es);
         //여기써도 되는지 물어보기
         NotEnoughCredit.gameObject.SetActive(false);
-        makingDone.gameObject.SetActive(false);
-        Reset.gameObject.SetActive(false);
         // 테스트코드
         // StringBuilder sb = new StringBuilder();
         // int i = 0;
@@ -338,14 +336,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             DestroyImmediate(currentSelectedChip.gameObject);
                         }
                         var result = GetWeaponPowerResult();
-                        if (isTutorial)
-                        {
-                            makingDone.gameObject.SetActive(result);
-                            Reset.gameObject.SetActive(result);
-                        }
                         success = true;
                         //<by_honeydora>
-                        CreditAdd(-100);
+                        CreditAdd(-50);
                     }
                 }
                 else
@@ -407,14 +400,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 DestroyImmediate(currentSelectedChip.gameObject);
                             }
                             var result = GetWeaponPowerResult();
-                            if (isTutorial)
-                            {
-                                makingDone.gameObject.SetActive(result);
-                                Reset.gameObject.SetActive(result);
-                            }
                             success = true;
                             //<by_honeydora>
-                            CreditAdd(+100);
+                            CreditAdd(+50);
                         }
                     }
                 }
@@ -714,11 +702,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             OnReset.Invoke();
             OnReset = null;
         }
-        makingDone.gameObject.SetActive(false);
-        Reset.gameObject.SetActive(false);
         //퍼즐 리스타트
         RemakePuzzle();
-
     }
 
     private void RemakePuzzle()
@@ -729,6 +714,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void ClearPuzzleGrid()
     {
+        CreditReset();
         //필요능력과 퍼즐 제거
         foreach (var key in requiredAbilityObjectDic.Keys) {
             Destroy(requiredAbilityObjectDic[key].gameObject);
@@ -743,7 +729,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(obj);
         }
         chipInventory.Clear();
-        CreditReset();
+        
     }
 
     //필요 크레딧!--
@@ -752,7 +738,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private bool CreditCheck()
     {
         int currentCredits = GameMgr.In.credit;//추가
-        currentCredits += 200; //test
         return currentCredits >= CreditNeed() ? true : false;
     }
     //필요 크레딧 계산 
@@ -784,13 +769,14 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void CreditText()
     {
+        ReturnCost.text = " " + CreditNeed().ToString();
         if (CreditCheck()) {
             ReturnCost.color = Color.white;
         }
         else {
             ReturnCost.color = Color.red;
         }
-        ReturnCost.text = " " + CreditNeed().ToString();
+        
     }
 
     //돈 부족 UI
@@ -844,8 +830,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
 
-        //상점 크레딧 -= totalCost;
-        //totalCost=0;
+        GameMgr.In.credit -= totalCost;
+        totalCost =0;
         NotEnoughCredit.gameObject.SetActive(false);
         mgr2.popupChatPanel.SetActive(false);
     }
