@@ -10,11 +10,15 @@ public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Sprite offSprite;
     public SpriteChangeType type = SpriteChangeType.OnFocus;
     public Image img;
+    public float SecPerAutoChange;
+
+    private Coroutine routine;
 
     public enum SpriteChangeType
     {
         OnFocus,
-        OnClick
+        OnClick,
+        Auto
     }
 
     private void Start()
@@ -22,8 +26,22 @@ public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         img ??= GetComponent<Image>();
     }
 
+    private void OnEnable()
+    {
+        if (type == SpriteChangeType.Auto)
+        {
+            routine = StartCoroutine(StartMove());
+        }
+    }
+
     private void OnDisable()
     {
+        if (type == SpriteChangeType.Auto)
+        {
+            SetOnSprite();
+            StopCoroutine(routine);
+        }
+
         if (type == SpriteChangeType.OnFocus)
         {
             SetOffSprite();
@@ -63,5 +81,23 @@ public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             return;
         }
         img.sprite = offSprite;
+    }
+
+    private IEnumerator StartMove()
+    {
+        bool isOriginImg = true;
+        while (true)
+        {
+            yield return new WaitForSeconds(SecPerAutoChange);
+            if (isOriginImg)
+            {
+                SetOffSprite();
+            }
+            else
+            {
+                SetOnSprite();
+            }
+            isOriginImg = !isOriginImg;
+        }
     }
 }
