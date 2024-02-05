@@ -111,7 +111,7 @@ MonoBehaviour:
       blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
       icon: {fileID: 21300000, guid: 966e383b443b47e40b745912701681ed, type: 3}
       requiredChipAbilityList:
-      - abilityKey: a_cool
+      - abilityKey: a_speed
         count: 3
     - bluePrintKey: b_battleAx
       name: "\uC804\uD22C \uB3C4\uB07C"

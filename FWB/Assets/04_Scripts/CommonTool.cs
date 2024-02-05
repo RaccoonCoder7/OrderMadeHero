@@ -15,6 +15,7 @@ public class CommonTool : SingletonMono<CommonTool>
     public GameObject alertPanel;
     public GameObject confirmPanel;
     public GameObject focusPanel;
+    public ShopFollowUI shopFollowUI;
     public RectTransform focusRectTr;
     public Text alertText;
     public Text confirmText;

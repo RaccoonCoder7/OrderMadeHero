@@ -34,6 +34,12 @@ public class GameMgr : SingletonMono<GameMgr>
         금 = 5,
     }
 
+    protected override void OnApplicationQuit()
+    {
+        base.OnApplicationQuit();
+        PlayerPrefs.DeleteAll();
+    }
+
     /// <summary>
     /// 하루가 지났을 때에 리셋해야하는 정보들을 리셋함
     /// </summary>

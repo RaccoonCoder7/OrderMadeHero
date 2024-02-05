@@ -1,3 +1,4 @@
+using System.Text;
 using System.Linq;
 using System;
 using System.Collections;
@@ -8,6 +9,8 @@ using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using static SpriteChange;
+using DG.Tweening;
+using static WeaponDataTable;
 
 /// <summary>
 /// 게임 씬의 UI와 동작(메인 게임 플로우)를 관리
@@ -34,6 +37,9 @@ public class GameSceneMgr : MonoBehaviour
     public Button weaponLeft;
     public Button weaponRight;
     public Button weaponCreate;
+    public Button shopBlueprintTab;
+    public Button shopChipsetTab;
+    public Button shopDodge;
     public List<Button> saveLoadButtons = new List<Button>();
     public Button alertDodge;
     public Button creditDodge;
@@ -52,7 +58,13 @@ public class GameSceneMgr : MonoBehaviour
     // public GameObject cursor;
     public GameObject alertPanel;
     public GameObject creditPanel;
+    public GameObject shopUiSlotNoItemPrefab;
+    public GameObject shopDrMadChat;
+    public ShopUISlot shopUiSlotPrefab;
+    public ShopUISlot shopUiSlotSoldOutPrefab;
     public UISlot uiSlotPrefab;
+    public ShopFollowUI shopFollowUI;
+    public ShopPopupUI shopPopupUI;
     public Text mainChatText;
     public Text mascotChatText;
     public Text popupChatText;
@@ -77,19 +89,19 @@ public class GameSceneMgr : MonoBehaviour
     public Text specialGimmick;
     public Text weaponCategory;
     public Text howToGet;
-    public Image bgImg;
     public Image blueprintImg;
     public List<Sprite> bgImgList = new List<Sprite>();
     public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
     public List<UISlot> bluePrintSlotList = new List<UISlot>();
     [Header("For Test")]
     public int startDay = 1;
-    public Button chipSet;
-    public Button buy;
-    public Button exitStore;
-    public Text saleStatus;
     public Transform weaponCategoryParentTr;
+    public Transform deskTr;
+    public Transform shopPanelTr;
+    public Transform shopItemParentTr;
     public Sprite blankSlotSprite;
+    public List<Sprite> shopTabSpriteList;
+    public SpriteAnimation shopSpriteAnim;
     [HideInInspector]
     public Text chatTargetText;
     [HideInInspector]
@@ -133,7 +145,10 @@ public class GameSceneMgr : MonoBehaviour
     private Coroutine textFlowCoroutine;
     private Point cursorPos = new Point();
     private bool visible;
+    private Image shopBlueprintTabImg;
+    private Image shopChipsetTabImg;
     private List<EventFlow> eventFlowList = new List<EventFlow>();
+    private ShopTab currentShopTab = ShopTab.None;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -159,6 +174,13 @@ public class GameSceneMgr : MonoBehaviour
         Finished
     }
 
+    public enum ShopTab
+    {
+        None,
+        Blueprint,
+        Chipset
+    }
+
 
     private void FixedUpdate()
     {
@@ -172,6 +194,9 @@ public class GameSceneMgr : MonoBehaviour
     {
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
         popupChatPanelRect = popupChatPanel.GetComponent<RectTransform>();
+        shopBlueprintTabImg = (Image)shopBlueprintTab.targetGraphic;
+        shopChipsetTabImg = (Image)shopChipsetTab.targetGraphic;
+        CommonTool.In.shopFollowUI = shopFollowUI;
 
         popupDodge.onClick.AddListener(OnClickDodgePopup);
         weaponLeft.onClick.AddListener(OnClickWeaponLeft);
@@ -185,6 +210,9 @@ public class GameSceneMgr : MonoBehaviour
         popupNo.onClick.AddListener(OnClickPopupNo);
         setting.onClick.AddListener(OnClickSetting);
         skip.onClick.AddListener(OnClickSkip);
+        shopBlueprintTab.onClick.AddListener(OnClickShopBlueprintTab);
+        shopChipsetTab.onClick.AddListener(OnClickShopChipsetTab);
+        shopDodge.onClick.AddListener(OnClickShopDodge);
 
         foreach (var btn in saveLoadButtons)
         {
@@ -350,6 +378,29 @@ public class GameSceneMgr : MonoBehaviour
         StartNextLine();
     }
 
+    public void OnClickShopBlueprintTab()
+    {
+        if (currentShopTab == ShopTab.Blueprint) return;
+        shopBlueprintTabImg.sprite = shopTabSpriteList[1];
+        shopChipsetTabImg.sprite = shopTabSpriteList[2];
+        currentShopTab = ShopTab.Blueprint;
+        RefreshShopUI();
+    }
+
+    public void OnClickShopChipsetTab()
+    {
+        if (currentShopTab == ShopTab.Chipset) return;
+        shopChipsetTabImg.sprite = shopTabSpriteList[3];
+        shopBlueprintTabImg.sprite = shopTabSpriteList[0];
+        currentShopTab = ShopTab.Chipset;
+        RefreshShopUI();
+    }
+
+    public void OnClickShopDodge()
+    {
+        StartCoroutine(StartShopOutAnim());
+    }
+
     public void ActiveYesNoButton(bool isActive)
     {
         yes.gameObject.SetActive(isActive);
@@ -506,6 +557,111 @@ public class GameSceneMgr : MonoBehaviour
         if (chatTargetText)
         {
             chatTargetText.text = lines[lines.Count - 1];
+        }
+    }
+
+    public void RefreshShopUI()
+    {
+        foreach (Transform tr in shopItemParentTr)
+        {
+            Destroy(tr.gameObject);
+        }
+
+        int listCnt = 0;
+        if (currentShopTab == ShopTab.Blueprint)
+        {
+            List<BluePrint> bluePrintList = new List<BluePrint>();
+            foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+            {
+                foreach (var bp in category.bluePrintList)
+                {
+                    if (bp.howToGet.Equals("상점구매"))
+                    {
+                        bluePrintList.Add(bp);
+                    }
+                }
+            }
+            listCnt = bluePrintList.Count;
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (i < listCnt)
+                {
+                    var state = PlayerPrefs.GetInt(bluePrintList[i].bluePrintKey);
+                    bool isSellable = state < 3;
+                    ShopUISlot targetSlotPrefab = isSellable ? shopUiSlotPrefab : shopUiSlotSoldOutPrefab;
+                    ShopUISlot item = Instantiate(targetSlotPrefab, shopItemParentTr);
+
+                    item.contentImg.sprite = bluePrintList[i].blueprintSprite;
+                    item.contentName.text = bluePrintList[i].name;
+
+                    var targetSprite = bluePrintList[i].blueprintSprite;
+                    var ratio = targetSprite.rect.size.x / targetSprite.rect.size.y;
+                    Vector2 size = Vector2.zero;
+                    if (targetSprite.rect.size.x <= targetSprite.rect.size.y)
+                    {
+                        size = new Vector2(128 * ratio, 128);
+                    }
+                    else
+                    {
+                        size = new Vector2(128, 128 / ratio);
+                    }
+
+                    item.contentImg.rectTransform.sizeDelta = size;
+                    item.price = bluePrintList[i].price;
+
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var ability in bluePrintList[i].requiredChipAbilityList)
+                    {
+                        var targetAbility = GameMgr.In.abilityTable.abilityList.Find(x => x.abilityKey.Equals(ability.abilityKey));
+                        sb.Append(targetAbility.name).Append("+ ").Append(ability.count).Append("\n");
+                    }
+                    sb.Length--;
+                    item.itemData = sb.ToString();
+
+                    if (isSellable)
+                    {
+                        item.priceText.text = item.price.ToString();
+
+                        int tempNum = i;
+                        item.button.onClick.AddListener(() =>
+                        {
+                            shopPopupUI.gameObject.SetActive(true);
+                            shopPopupUI.itemName.text = item.contentName.text;
+                            shopPopupUI.no.onClick.AddListener(() => { shopPopupUI.gameObject.SetActive(false); });
+                            shopPopupUI.yes.onClick.AddListener(() =>
+                            {
+                                // TODO: 실제로 크레딧을 차감시키는 로직 필요
+                                PlayerPrefs.SetInt(bluePrintList[tempNum].bluePrintKey, 3);
+                                StartCoroutine(DrMadChatRoutine());
+                                shopPopupUI.gameObject.SetActive(false);
+                                RefreshShopUI();
+                            });
+                        });
+                    }
+                    continue;
+                }
+
+                Instantiate(shopUiSlotNoItemPrefab, shopItemParentTr);
+            }
+        }
+        else if (currentShopTab == ShopTab.Chipset)
+        {
+            var chipList = GameMgr.In.chipTable.chipList.FindAll(x => x.howToGet.Equals("상점구매"));
+            if (chipList != null)
+            {
+                listCnt = chipList.Count;
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                if (i < listCnt)
+                {
+                    //TODO: instantiate prefab (sellable or soldOut)
+                    continue;
+                }
+
+                Instantiate(shopUiSlotNoItemPrefab, shopItemParentTr);
+            }
         }
     }
 
@@ -724,6 +880,42 @@ public class GameSceneMgr : MonoBehaviour
             }
         }
         onEndRoutine.Invoke();
+    }
+
+    public IEnumerator StartShopInAnim()
+    {
+        StartCoroutine(shopSpriteAnim.StartAnim());
+
+        while (shopSpriteAnim.textureIndex < (shopSpriteAnim.textureList.Count / 3))
+        {
+            yield return null;
+        }
+
+        deskTr.transform.DOLocalMoveY(-770, 0.5f).SetEase(Ease.InOutQuart);
+
+        while (shopSpriteAnim.textureIndex < (shopSpriteAnim.textureList.Count * 2 / 3))
+        {
+            yield return null;
+        }
+
+        shopPanelTr.gameObject.SetActive(true);
+        shopPanelTr.transform.DOScale(Vector3.one, 0.5f);
+    }
+
+    public IEnumerator StartShopOutAnim()
+    {
+        StartCoroutine(shopSpriteAnim.StartAnim(true));
+
+        while (shopSpriteAnim.textureIndex >= (shopSpriteAnim.textureList.Count * 2 / 3))
+        {
+            yield return null;
+        }
+
+        shopPanelTr.transform.DOScale(Vector3.zero, 0.5f);
+        deskTr.transform.DOLocalMoveY(-540, 0.5f).SetEase(Ease.OutQuad).OnComplete(() =>
+        {
+            shopPanelTr.gameObject.SetActive(false);
+        });
     }
 
     private int currentLineIdex;
@@ -979,4 +1171,10 @@ public class GameSceneMgr : MonoBehaviour
         }
     }
 
+    private IEnumerator DrMadChatRoutine()
+    {
+        shopDrMadChat.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        shopDrMadChat.SetActive(false);
+    }
 }

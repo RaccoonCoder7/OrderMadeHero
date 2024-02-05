@@ -1,4 +1,4 @@
-!speaker_매드 !image_매드 !next
+!speaker_매드 !next
 어서오세요! 없는 게 없는 만물 상점 'Evil works'입니다!
 !speaker_나비 !next
 이 상점이 메테오 시티에서

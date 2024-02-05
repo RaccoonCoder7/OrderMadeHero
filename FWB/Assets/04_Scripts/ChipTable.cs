@@ -15,6 +15,7 @@ public class ChipTable : ScriptableObject
         public string chipKey;
         public string chipName;
         public string desc;
+        public string howToGet;
         public int price;
         public List<ChipAbility> abilityList = new List<ChipAbility>();
     }

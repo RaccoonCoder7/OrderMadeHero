@@ -19,61 +19,62 @@ public class EventFlowDay3 : EventFlow
         mgr.shop.onClick.RemoveAllListeners();
         mgr.shop.onClick.AddListener(() =>
         {
-            mgr.bgImg.sprite = mgr.bgImgList[1];
-            mgr.chipSet.gameObject.SetActive(true);
-            mgr.buy.gameObject.SetActive(true);
-            mgr.exitStore.gameObject.SetActive(true);
-            mgr.StartText("Day3_2", EndDay3_2Routine, EndDay3_2Routine);
-            mgr.shop.onClick.RemoveAllListeners();
+            mgr.OnClickShopBlueprintTab();
+            mgr.StartCoroutine(mgr.StartShopInAnim());
         });
+        mgr.shop.onClick.AddListener(OnClickShop);
+    }
+
+    private void OnClickShop()
+    {
+        mgr.StartText("Day3_2", EndDay3_2Routine, EndDay3_2Routine);
+        mgr.shop.onClick.RemoveListener(OnClickShop);
     }
 
     private void EndDay3_2Routine()
     {
         mgr.EndText();
+        mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
         mgr.chatTarget = GameSceneMgr.ChatTarget.None;
         //TODO: CommonTool.In.SetFocus();
+        mgr.shopChipsetTab.onClick.AddListener(OnClickShopChipsetTab);
+    }
 
-        mgr.chipSet.onClick.RemoveAllListeners();
-        mgr.chipSet.onClick.AddListener(() =>
-        {
-            CommonTool.In.SetFocusOff();
-            mgr.StartText("Day3_3", EndDay3_3Routine, EndDay3_3Routine);
-            mgr.chipSet.onClick.RemoveAllListeners();
-        });
+    private void OnClickShopChipsetTab()
+    {
+        CommonTool.In.SetFocusOff();
+        mgr.StartText("Day3_3", EndDay3_3Routine, EndDay3_3Routine);
+        mgr.shopChipsetTab.onClick.RemoveListener(OnClickShopChipsetTab);
     }
 
     private void EndDay3_3Routine()
     {
         mgr.EndText();
+        mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
         mgr.chatTarget = GameSceneMgr.ChatTarget.None;
+        mgr.shopPopupUI.yes.onClick.AddListener(OnClickPopupYes);
+    }
 
-        mgr.buy.onClick.RemoveAllListeners();
-        mgr.buy.onClick.AddListener(() =>
-        {
-            mgr.saleStatus.text = "Sold Out";
-            mgr.StartText("Day3_4", EndDay3_4Routine, EndDay3_4Routine);
-            mgr.buy.onClick.RemoveAllListeners();
-        });
+    private void OnClickPopupYes()
+    {
+        mgr.StartText("Day3_4", EndDay3_4Routine, EndDay3_4Routine);
+        mgr.shopPopupUI.yes.onClick.RemoveListener(OnClickPopupYes);
     }
 
     private void EndDay3_4Routine()
     {
         mgr.EndText();
+        mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
 
-        mgr.exitStore.onClick.RemoveAllListeners();
-        mgr.exitStore.onClick.AddListener(() =>
-        {
-            mgr.chipSet.gameObject.SetActive(false);
-            mgr.buy.gameObject.SetActive(false);
-            mgr.exitStore.gameObject.SetActive(false);
-            mgr.bgImg.sprite = mgr.bgImgList[0];
-            mgr.imageList.Find(x => x.key.Equals("매드")).imageObj.SetActive(false);
-            StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
-            mgr.exitStore.onClick.RemoveAllListeners();
-        });
+        mgr.shopDodge.onClick.AddListener(OnClickShopDodge);
+    }
+
+    private void OnClickShopDodge()
+    {
+        StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
+        mgr.shopDodge.onClick.RemoveListener(OnClickShopDodge);
     }
 }
