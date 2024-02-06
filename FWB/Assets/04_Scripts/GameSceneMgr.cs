@@ -60,6 +60,7 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject creditPanel;
     public GameObject shopUiSlotNoItemPrefab;
     public GameObject shopDrMadChat;
+    public GameObject deskNavi;
     public ShopUISlot shopUiSlotPrefab;
     public ShopUISlot shopUiSlotSoldOutPrefab;
     public UISlot uiSlotPrefab;
@@ -99,13 +100,12 @@ public class GameSceneMgr : MonoBehaviour
     public Transform deskTr;
     public Transform shopPanelTr;
     public Transform shopItemParentTr;
+    public RectTransform popupChatPanelRect;
     public Sprite blankSlotSprite;
     public List<Sprite> shopTabSpriteList;
     public SpriteAnimation shopSpriteAnim;
     [HideInInspector]
     public Text chatTargetText;
-    [HideInInspector]
-    public RectTransform popupChatPanelRect;
     [Header("Data")]
     public float textDelayTime;
     [HideInInspector]
@@ -127,6 +127,7 @@ public class GameSceneMgr : MonoBehaviour
     private int page;
     private int fadeSpeed = 1;
     private List<EventTrigger> eventTriggerList = new List<EventTrigger>();
+    [SerializeField]
     private bool isOnConversation;
     private bool isTextFlowing;
     private bool skipLine;
@@ -192,8 +193,9 @@ public class GameSceneMgr : MonoBehaviour
 
     private IEnumerator Start()
     {
+        CommonTool.In.canvas.worldCamera = Camera.main;
+
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
-        popupChatPanelRect = popupChatPanel.GetComponent<RectTransform>();
         shopBlueprintTabImg = (Image)shopBlueprintTab.targetGraphic;
         shopChipsetTabImg = (Image)shopChipsetTab.targetGraphic;
         CommonTool.In.shopFollowUI = shopFollowUI;
@@ -291,7 +293,6 @@ public class GameSceneMgr : MonoBehaviour
             gamePanel.SetActive(true);
             puzzleMgr.OnMakingDone += () =>
             {
-                mainChatText.text = string.Empty;
                 gamePanel.SetActive(false);
             };
             var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
@@ -532,9 +533,12 @@ public class GameSceneMgr : MonoBehaviour
         EndText();
         isNormalOrdering = false;
 
+        var coroutine = StartCoroutine(BlinkNavi());
         pc.onClick.RemoveAllListeners();
         pc.onClick.AddListener(() =>
         {
+            StopCoroutine(coroutine);
+            deskNavi.SetActive(true);
             RefreshCreditPanel();
             creditPanel.SetActive(true);
             creditDodge.onClick.RemoveAllListeners();
@@ -926,6 +930,15 @@ public class GameSceneMgr : MonoBehaviour
         {
             shopPanelTr.gameObject.SetActive(false);
         });
+    }
+
+    public IEnumerator BlinkNavi()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            deskNavi.SetActive(!deskNavi.activeSelf);
+        }
     }
 
     private int currentLineIdex;

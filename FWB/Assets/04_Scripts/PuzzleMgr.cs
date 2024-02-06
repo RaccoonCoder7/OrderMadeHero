@@ -174,10 +174,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnClickMakingDone()
     {
-        bool isPuzzleSuccess = GetWeaponPowerResult();
-        mgr2.orderState = isPuzzleSuccess ? GameSceneMgr.OrderState.Succeed : GameSceneMgr.OrderState.Failed;
-
-        if (isPuzzleSuccess && CreditCheck()) {
+        if (CreditCheck()) {
             CommonTool.In.OpenConfirmPanel("제작을 완료하시겠습니까?", ExecuteMakingDone, CloseCompleteMaking);
         }
         else {
@@ -807,6 +804,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     // 진짜 제작 완료 로직 실행
     private void ExecuteMakingDone()
     {
+        bool isPuzzleSuccess = GetWeaponPowerResult();
+        mgr2.orderState = isPuzzleSuccess ? GameSceneMgr.OrderState.Succeed : GameSceneMgr.OrderState.Failed;
+
         foreach (var key in requiredAbilityObjectDic.Keys) {
             Destroy(requiredAbilityObjectDic[key].gameObject);
         }

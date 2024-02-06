@@ -122,6 +122,7 @@ public class EventFlowDay1 : EventFlow
     private void OnClickWeaponCreate()
     {
         CommonTool.In.SetFocusOff();
+        CommonTool.In.cancelBtn.interactable = false;
         CommonTool.In.confirmBtn.onClick.AddListener(OnClickConfirm);
         mgr.weaponCreate.onClick.RemoveListener(OnClickWeaponCreate);
     }
@@ -129,6 +130,7 @@ public class EventFlowDay1 : EventFlow
     private void OnClickConfirm()
     {
         mgr.StartText("Tutorial5_2", EndTutorial5_2Routine, EndTutorial5_2Routine);
+        CommonTool.In.cancelBtn.interactable = true;
     }
 
     private void EndTutorial5_2Routine()
@@ -174,9 +176,12 @@ public class EventFlowDay1 : EventFlow
         mgr.pcChatPanel.SetActive(false);
         CommonTool.In.SetFocusOff();
 
+        var coroutine = StartCoroutine(mgr.BlinkNavi());
         mgr.pc.onClick.RemoveAllListeners();
         mgr.pc.onClick.AddListener(() =>
         {
+            StopCoroutine(coroutine);
+            mgr.deskNavi.SetActive(true);
             mgr.RefreshCreditPanel();
             mgr.creditPanel.SetActive(true);
             mgr.creditDodge.onClick.RemoveAllListeners();

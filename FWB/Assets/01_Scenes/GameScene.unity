@@ -570,6 +570,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommonTool
       objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327245, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327250, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: m_Camera
       value: 
@@ -7573,7 +7577,7 @@ MonoBehaviour:
   chatName: {fileID: 728199291}
   mainChatPanel: {fileID: 987962768}
   pcChatPanel: {fileID: 1614477683}
-  popupChatPanel: {fileID: 1704322165}
+  popupChatPanel: {fileID: 1950004940}
   popupPanel: {fileID: 254959815}
   saveLoadPanel: {fileID: 1868761794}
   saveLoadPopup: {fileID: 1154308766}
@@ -7586,6 +7590,7 @@ MonoBehaviour:
   creditPanel: {fileID: 1618480966}
   shopUiSlotNoItemPrefab: {fileID: 7741667515985903056, guid: 2ea83e0d7c78a4545bdf7fff8b67e89f, type: 3}
   shopDrMadChat: {fileID: 693814759}
+  deskNavi: {fileID: 442005017}
   shopUiSlotPrefab: {fileID: 3233679599511996476, guid: 325f23704a883ae4d92eb67ef86c4562, type: 3}
   shopUiSlotSoldOutPrefab: {fileID: 1099400301182730004, guid: 0540378274237fc499961cbe2586481f, type: 3}
   uiSlotPrefab: {fileID: 7195133987532191358, guid: 873c84ae4a1ebb542984e4d7704d19ac, type: 3}
@@ -7651,6 +7656,7 @@ MonoBehaviour:
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
   shopItemParentTr: {fileID: 1525436930}
+  popupChatPanelRect: {fileID: 1704322166}
   blankSlotSprite: {fileID: 21300000, guid: af7783a1978f63b4bbf6ea7aa0efb16c, type: 3}
   shopTabSpriteList:
   - {fileID: 21300000, guid: 2bff80af57925d146b2694631e008ac4, type: 3}
@@ -7659,7 +7665,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1b23502b3f4eef24fbc78eedcdb1479d, type: 3}
   shopSpriteAnim: {fileID: 464999222}
   chatTargetText: {fileID: 0}
-  popupChatPanelRect: {fileID: 0}
   textDelayTime: 0.02
   isEventFlowing: 0
   isNormalOrdering: 0
@@ -7668,6 +7673,7 @@ MonoBehaviour:
   prevChatTarget: 0
   bluePrintCategorySlotList: []
   puzzleMgr: {fileID: 0}
+  isOnConversation: 0
 --- !u!4 &723337248
 Transform:
   m_ObjectHideFlags: 0
@@ -8030,9 +8036,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1614477684}
-  - {fileID: 1704322166}
+  - {fileID: 1950004941}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -18702,12 +18708,12 @@ GameObject:
   - component: {fileID: 1704322167}
   - component: {fileID: 1704322169}
   m_Layer: 5
-  m_Name: PopupChatPanel
+  m_Name: ChatPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1704322166
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18715,15 +18721,15 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704322165}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1373238439}
   - {fileID: 257476027}
   - {fileID: 1410464212}
-  m_Father: {fileID: 736543421}
-  m_RootOrder: 1
+  m_Father: {fileID: 1950004941}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -21013,7 +21019,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1924181480
 GameObject:
@@ -21229,7 +21235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1928966725
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21262,14 +21268,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fc2db95a4fc678740a7c13c50914b84b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21444,6 +21450,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933321229}
+  m_CullTransparentMesh: 1
+--- !u!1 &1950004940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1950004941}
+  - component: {fileID: 1950004943}
+  - component: {fileID: 1950004942}
+  m_Layer: 5
+  m_Name: PopupChatPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1950004941
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950004940}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1704322166}
+  m_Father: {fileID: 736543421}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1950004942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950004940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1950004943
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950004940}
   m_CullTransparentMesh: 1
 --- !u!1 &1985961284
 GameObject:

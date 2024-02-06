@@ -1132,11 +1132,14 @@ MonoBehaviour:
   initDone: 0
   day: 1
   week: 1
-  credit: 0
-  dayMaterialCost: 0
-  dayStoreCost: 0
+  credit: 9000
+  dayChipsetCost: 0
+  dayBonusRevenue: 0
   dayRentCost: 0
   dayRevenue: 0
+  dayCustomerCnt: 0
+  dayRenom: 0
+  dayTendency: 0
   weaponDataTable: {fileID: 11400000, guid: 5e69e9e400c87c44f948125ac3ad41c1, type: 2}
   orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
   chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
@@ -1149,8 +1152,7 @@ MonoBehaviour:
     howToGet: 
     price: 0
     blueprintSprite: {fileID: 0}
-    onIcon: {fileID: 0}
-    offIcon: {fileID: 0}
+    icon: {fileID: 0}
     requiredChipAbilityList: []
 --- !u!4 &1041785518
 Transform:
@@ -2211,6 +2213,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 83616531bb3f7484cae3c3f0d6164746, type: 3}
   - {fileID: 21300000, guid: 66570375be2914e409d9260d01b74ef1, type: 3}
   - {fileID: 21300000, guid: 1c4011b495459384998e8d03c7aa5dd3, type: 3}
+  textureIndex: 0
 --- !u!222 &1772910465
 CanvasRenderer:
   m_ObjectHideFlags: 0

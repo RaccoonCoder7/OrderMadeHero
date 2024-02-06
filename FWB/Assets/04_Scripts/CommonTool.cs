@@ -17,6 +17,11 @@ public class CommonTool : SingletonMono<CommonTool>
     public GameObject focusPanel;
     public ShopFollowUI shopFollowUI;
     public RectTransform focusRectTr;
+    public RectTransform focusMaskRectTr;
+    public RectTransform focusMaskRectTr_Left;
+    public RectTransform focusMaskRectTr_Right;
+    public RectTransform focusMaskRectTr_Top;
+    public RectTransform focusMaskRectTr_Bottom;
     public Text alertText;
     public Text confirmText;
     public Button alertDodgeBtn;
@@ -28,10 +33,9 @@ public class CommonTool : SingletonMono<CommonTool>
     public string mascotName = "나비";
     public List<Script> scriptList = new List<Script>();
     public List<AudioClip> audioClipList = new List<AudioClip>();
+    public Canvas canvas;
 
-    private Canvas canvas;
     private AudioSource audioSrc;
-    private RectTransform focusMaskRectTr;
 
 
     [System.Serializable]
@@ -49,7 +53,6 @@ public class CommonTool : SingletonMono<CommonTool>
         base.Awake();
         canvas = GetComponent<Canvas>();
         audioSrc = GetComponent<AudioSource>();
-        focusMaskRectTr = focusPanel.GetComponent<RectTransform>();
 
         alertPanel.SetActive(false);
         confirmPanel.SetActive(false);
@@ -153,6 +156,11 @@ public class CommonTool : SingletonMono<CommonTool>
         focusLocalPos.x = -pos.x;
         focusLocalPos.y = -pos.y;
         focusRectTr.anchoredPosition = focusLocalPos;
+
+        focusMaskRectTr_Left.sizeDelta = new Vector2(pos.x, 1080);
+        focusMaskRectTr_Right.sizeDelta = new Vector2(1920 - (pos.x + size.x), 1080);
+        focusMaskRectTr_Top.sizeDelta = new Vector2(1920, 1080 - (pos.y + size.y));
+        focusMaskRectTr_Bottom.sizeDelta = new Vector2(1920, pos.y);
     }
 
     /// <summary>
@@ -202,6 +210,5 @@ public class CommonTool : SingletonMono<CommonTool>
         }
 
         asyncLoad.allowSceneActivation = true;
-        canvas.worldCamera = Camera.main;
     }
 }
