@@ -20979,7 +20979,7 @@ MonoBehaviour:
   initDone: 0
   day: 1
   week: 1
-  credit: 0
+  credit: 300
   dayChipsetCost: 0
   dayBonusRevenue: 0
   dayRentCost: 0

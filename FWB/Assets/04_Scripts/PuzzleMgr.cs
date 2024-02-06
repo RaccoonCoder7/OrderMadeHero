@@ -831,6 +831,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 
         GameMgr.In.credit -= totalCost;
+        mgr2.goldText.text = GameMgr.In.credit.ToString();
         totalCost =0;
         NotEnoughCredit.gameObject.SetActive(false);
         mgr2.popupChatPanel.SetActive(false);
