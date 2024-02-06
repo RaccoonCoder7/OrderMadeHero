@@ -626,17 +626,27 @@ public class GameSceneMgr : MonoBehaviour
                         int tempNum = i;
                         item.button.onClick.AddListener(() =>
                         {
-                            shopPopupUI.gameObject.SetActive(true);
                             shopPopupUI.itemName.text = item.contentName.text;
                             shopPopupUI.no.onClick.AddListener(() => { shopPopupUI.gameObject.SetActive(false); });
-                            shopPopupUI.yes.onClick.AddListener(() =>
+                            if (item.price <= GameMgr.In.credit)
                             {
-                                // TODO: 실제로 크레딧을 차감시키는 로직 필요
-                                PlayerPrefs.SetInt(bluePrintList[tempNum].bluePrintKey, 3);
-                                StartCoroutine(DrMadChatRoutine());
-                                shopPopupUI.gameObject.SetActive(false);
-                                RefreshShopUI();
-                            });
+                                shopPopupUI.yes.interactable = true;
+                                shopPopupUI.yes.onClick.AddListener(() =>
+                                {
+                                    GameMgr.In.credit -= item.price;
+                                    goldText.text = GameMgr.In.credit.ToString();
+                                    PlayerPrefs.SetInt(bluePrintList[tempNum].bluePrintKey, 3);
+                                    StartCoroutine(DrMadChatRoutine());
+                                    shopPopupUI.gameObject.SetActive(false);
+                                    RefreshShopUI();
+                                    shopPopupUI.yes.onClick.RemoveAllListeners();
+                                });
+                            }
+                            else
+                            {
+                                shopPopupUI.yes.interactable = false;
+                            }
+                            shopPopupUI.gameObject.SetActive(true);
                         });
                     }
                     continue;
