@@ -14,8 +14,8 @@ public class EventFlowDay5 : EventFlow
     {
         mgr.EndText();
         mgr.mainChatPanel.SetActive(false);
+        mgr.pcChatPanel.SetActive(false);
 
-        mgr.imageList.Find(x => x.key.Equals("매드")).imageObj.SetActive(false);
         StartCoroutine(mgr.StartNormalRoutine(8, mgr.EndNormalOrderRoutine));
     }
 }
