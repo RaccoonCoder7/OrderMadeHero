@@ -127,19 +127,19 @@ public class OrderTable : ScriptableObject
                 // TODO: 컨디션 분리
                 // TODO: desc, value 쓰는게 아니라 RequestTable을 만들어서 딕셔너리 밸류값이랑 어빌리티값 넣게 해야함
                 // TODO: 조건이 >, < 등 여러가지가 될 수 있게 RequestTable을 만들어야 함
-                    var requestList = GameMgr.In.requestTable.requestList;
-                    while (true)
-                    {
-                        var request = requestList[Random.Range(0, requestList.Count)];
-                        if (keyDic.ContainsValue(request.requestName))
-                        {
-                            continue;
-                        }
-                        keyDic[keys[i]] = request.requestName;
-                        newRequestList.Add(request);
-                        break;
-                    }
-                    break;
+                    // var requestList = GameMgr.In.requestTable.requestList;
+                    // while (true)
+                    // {
+                    //     var request = requestList[Random.Range(0, requestList.Count)];
+                    //     if (keyDic.ContainsValue(request.requestName))
+                    //     {
+                    //         continue;
+                    //     }
+                    //     keyDic[keys[i]] = request.requestName;
+                    //     newRequestList.Add(request);
+                    //     break;
+                    // }
+                    // break;
                 case MappingText.MappingType.Condition:
                     var abilityList = GameMgr.In.abilityTable.abilityList;
                     while (true)
