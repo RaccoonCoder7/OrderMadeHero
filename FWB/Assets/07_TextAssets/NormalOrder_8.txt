@@ -1,4 +1,4 @@
-    !sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
 여기 {청사진} 있나요??
 @
 누나 한테 혼나겠다...
