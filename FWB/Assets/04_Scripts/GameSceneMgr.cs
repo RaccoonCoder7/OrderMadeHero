@@ -556,7 +556,7 @@ public class GameSceneMgr : MonoBehaviour
 
         if (chatTargetText)
         {
-            chatTargetText.text = lines[lines.Count - 1];
+            chatTargetText.text = lines[lines.Count - 1] + " ▼";
         }
     }
 
@@ -1062,7 +1062,7 @@ public class GameSceneMgr : MonoBehaviour
 
             if (!string.IsNullOrEmpty(prevText))
             {
-                prevText = prevText + "\n";
+                prevText = prevText.Replace(" ▼", string.Empty) + "\n";
             }
 
             isTextFlowing = true;
@@ -1086,7 +1086,7 @@ public class GameSceneMgr : MonoBehaviour
             {
                 currentLineIdex = lines.Count - 1;
             }
-            prevText = prevText + lines[currentLineIdex];
+            prevText = prevText + lines[currentLineIdex] + " ▼";
             chatTargetText.text = prevText;
             isTextFlowing = false;
 
