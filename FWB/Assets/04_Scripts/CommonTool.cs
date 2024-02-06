@@ -77,17 +77,17 @@ public class CommonTool : SingletonMono<CommonTool>
     {
         confirmPanel.SetActive(true);
         confirmText.text = text;
-        confirmBtn.onClick.RemoveAllListeners();
         confirmBtn.onClick.AddListener(() =>
         {
             confirmPanel.SetActive(false);
             OnConfirm.Invoke();
+            confirmBtn.onClick.RemoveAllListeners();
         });
-        cancelBtn.onClick.RemoveAllListeners();
         cancelBtn.onClick.AddListener(() =>
         {
             confirmPanel.SetActive(false);
             OnCancel.Invoke();
+            cancelBtn.onClick.RemoveAllListeners();
         });
     }
 

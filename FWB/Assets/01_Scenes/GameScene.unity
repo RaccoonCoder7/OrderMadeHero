@@ -566,17 +566,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3087253590565496315, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 451.00003
-      objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327245, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: m_Name
       value: CommonTool
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327245, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327250, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: m_Camera
@@ -666,14 +658,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3087253591863596092, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253591863596092, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 2d7259becd3eff84094c5816486f0b42, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
 --- !u!1 &54989994
@@ -7662,7 +7646,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 3
+  startDay: 1
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}

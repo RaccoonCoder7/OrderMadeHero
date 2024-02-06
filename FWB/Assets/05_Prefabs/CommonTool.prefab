@@ -188,7 +188,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 451, y: -258}
+  m_AnchoredPosition: {x: 451.00003, y: -258}
   m_SizeDelta: {x: 136, y: 51}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3087253590565496317
@@ -289,6 +289,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 55e225c41c0cdc84e9c3a0385f3c7ea6, type: 3}
   type: 0
   img: {fileID: 0}
+  SecPerAutoChange: 0
 --- !u!1 &3087253590759356328
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +567,7 @@ MonoBehaviour:
   alertPanel: {fileID: 3087253590562744095}
   confirmPanel: {fileID: 3087253591644620840}
   focusPanel: {fileID: 3087253591861489591}
+  shopFollowUI: {fileID: 0}
   focusRectTr: {fileID: 3087253592139653219}
   alertText: {fileID: 3087253591335596372}
   confirmText: {fileID: 3087253590767613929}
@@ -598,7 +600,10 @@ MonoBehaviour:
   - key: Tutorial4
     ta: {fileID: 4900000, guid: ef2483759eebffe49a16e9496370ef44, type: 3}
     lines: []
-  - key: Tutorial5
+  - key: Tutorial5_1
+    ta: {fileID: 4900000, guid: f42e2140d73b541429c2b264a6af0b08, type: 3}
+    lines: []
+  - key: Tutorial5_2
     ta: {fileID: 4900000, guid: eb1bb2f232a209d4aa961509ac9ff4a1, type: 3}
     lines: []
   - key: Tutorial6
@@ -1397,6 +1402,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 55e225c41c0cdc84e9c3a0385f3c7ea6, type: 3}
   type: 0
   img: {fileID: 0}
+  SecPerAutoChange: 0
 --- !u!1 &3087253591861489591
 GameObject:
   m_ObjectHideFlags: 0

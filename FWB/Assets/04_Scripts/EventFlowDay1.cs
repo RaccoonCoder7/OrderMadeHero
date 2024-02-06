@@ -97,34 +97,45 @@ public class EventFlowDay1 : EventFlow
     {
         mgr.EndText();
         mgr.popupChatPanel.SetActive(false);
-        mgr.puzzleMgr.OnMakingDone += OnMakingDone;
+        CommonTool.In.SetFocus(new Vector2(285, 620), new Vector2(60, 60));
+
+        // TODO: 다른 버튼에 대한 조작을 막는 방법??
+        mgr.bluePrintSlotList[0].button.onClick.AddListener(OnClickBlueprintSlot);
     }
 
-    // private void EndTutorial5Routine()
-    // {
-    //     mgr.EndText();
-    //     mgr.popupChatPanel.SetActive(false);
+    private void OnClickBlueprintSlot()
+    {
+        CommonTool.In.SetFocusOff();
+        mgr.StartText("Tutorial5_1", EndTutorial5_1Routine, EndTutorial5_1Routine);
+        mgr.bluePrintSlotList[0].button.onClick.RemoveListener(OnClickBlueprintSlot);
+    }
 
-    //     mgr.bluePrintSlot[0].button.onClick.AddListener(() =>
-    //     {
-    //         mgr.mainPanel.SetActive(false);
-    //         mgr.weaponUI.SetActive(false);
-    //         mgr.gamePanel.SetActive(true);
-    //         mgr.popupChatPanel.SetActive(true);
-    //         mgr.StartText("Tutorial6", EndTutorial6Routine, SkipTutorial6Routine);
+    private void EndTutorial5_1Routine()
+    {
+        mgr.EndText();
+        mgr.popupChatPanel.SetActive(false);
+        CommonTool.In.SetFocus(new Vector2(950, 170), new Vector2(280, 90));
+        mgr.weaponCreate.onClick.AddListener(OnClickWeaponCreate);
+    }
 
-    //         mgr.puzzleMgr.OnMakingDone += OnMakingDone;
-    //         GameMgr.In.currentBluePrint = GameMgr.In.bluePrintTable.bluePrintList.Find(x => x.bluePrintKey.Equals("sword"));
-    //         mgr.puzzleMgr.StartTutorialPuzzle();
-    //         mgr.bluePrintSlot[0].button.onClick.RemoveAllListeners();
-    //     });
-    // }
+    private void OnClickWeaponCreate()
+    {
+        CommonTool.In.SetFocusOff();
+        CommonTool.In.confirmBtn.onClick.AddListener(OnClickConfirm);
+        mgr.weaponCreate.onClick.RemoveListener(OnClickWeaponCreate);
+    }
 
-    private void EndTutorial5Routine()
+    private void OnClickConfirm()
+    {
+        mgr.StartText("Tutorial5_2", EndTutorial5_2Routine, EndTutorial5_2Routine);
+    }
+
+    private void EndTutorial5_2Routine()
     {
         mgr.EndText();
         CommonTool.In.SetFocusOff();
         mgr.popupChatPanel.SetActive(false);
+        mgr.puzzleMgr.OnMakingDone += OnMakingDone;
     }
 
     private void OnMakingDone()
