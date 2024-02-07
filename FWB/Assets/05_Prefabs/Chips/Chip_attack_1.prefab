@@ -89,13 +89,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chipKey: 11
+  chipCount: 0
+  price: 10
+  colNum: 1
+  rowNum: 2
   image: {fileID: 5962651337707695410}
   rectTr: {fileID: 434836036705395385}
   countPlate: {fileID: 3367462540455584851}
   count: {fileID: 3551062005047089157}
-  chipCount: 0
-  colNum: 1
-  rowNum: 2
   chipAbilityList:
   - abilityKey: a_attack
     count: 1

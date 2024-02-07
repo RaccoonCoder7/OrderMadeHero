@@ -10,6 +10,7 @@ public class ChipObj : MonoBehaviour
 {
     public int chipKey;
     public int chipCount;
+    public int price;
     public int colNum;
     public int rowNum;
     public RawImage image;
@@ -79,4 +80,13 @@ public class ChipObj : MonoBehaviour
             colNum = originRow[0].col.Length;
         }
     }
+
+    public void SetChipData(int count, ChipObj originalChip)
+    {
+        this.chipCount = count;
+        this.count.text = count.ToString();
+    }
+
+
+
 }
