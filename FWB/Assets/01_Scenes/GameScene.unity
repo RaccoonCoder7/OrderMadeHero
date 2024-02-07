@@ -7557,7 +7557,7 @@ MonoBehaviour:
   setting: {fileID: 1337264435}
   skip: {fileID: 784977804}
   shop: {fileID: 1113431978}
-  collection: {fileID: 964835834}
+  index: {fileID: 964835834}
   news: {fileID: 1436772919}
   weaponLeft: {fileID: 186704639}
   weaponRight: {fileID: 1051691287}
@@ -7651,7 +7651,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 1
+  startDay: 3
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -9869,7 +9869,7 @@ GameObject:
   - component: {fileID: 964835834}
   - component: {fileID: 964835837}
   m_Layer: 5
-  m_Name: Collection
+  m_Name: Index
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

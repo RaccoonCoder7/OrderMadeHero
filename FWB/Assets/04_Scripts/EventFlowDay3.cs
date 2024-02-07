@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -27,8 +28,7 @@ public class EventFlowDay3 : EventFlow
 
     private void OnClickShop()
     {
-        mgr.StartText("Day3_2", EndDay3_2Routine, EndDay3_2Routine);
-        mgr.shop.onClick.RemoveListener(OnClickShop);
+        StartCoroutine(DelayFlow());
     }
 
     private void EndDay3_2Routine()
@@ -76,5 +76,12 @@ public class EventFlowDay3 : EventFlow
     {
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         mgr.shopDodge.onClick.RemoveListener(OnClickShopDodge);
+    }
+
+    private IEnumerator DelayFlow()
+    {
+        mgr.shop.onClick.RemoveListener(OnClickShop);
+        yield return new WaitForSeconds(1.5f);
+        mgr.StartText("Day3_2", EndDay3_2Routine, EndDay3_2Routine);
     }
 }

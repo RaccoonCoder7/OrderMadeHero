@@ -32,7 +32,7 @@ public class GameSceneMgr : MonoBehaviour
     public Button setting;
     public Button skip;
     public Button shop;
-    public Button collection;
+    public Button index;
     public Button news;
     public Button weaponLeft;
     public Button weaponRight;
@@ -261,6 +261,7 @@ public class GameSceneMgr : MonoBehaviour
     public void OnClickDodgePopup()
     {
         popupPanel.SetActive(false);
+        index.onClick.AddListener(OnClickIndex);
     }
 
     public void OnClickWeaponLeft()
@@ -764,33 +765,11 @@ public class GameSceneMgr : MonoBehaviour
         return list;
     }
 
-    // private void EndDay3Routine()
-    // {
-    //     EndText();
-    //     isNormalOrdering = false;
-
-    //     pc.onClick.RemoveAllListeners();
-    //     pc.onClick.AddListener(() =>
-    //     {
-    //         RefreshCreditPanel();
-    //         creditPanel.SetActive(true);
-    //         creditDodge.onClick.RemoveAllListeners();
-    //         creditDodge.onClick.AddListener(() =>
-    //         {
-    //             creditPanel.SetActive(false);
-    //             GameMgr.In.day = "목";
-    //             dateText.text = GameMgr.In.day;
-    //             prevChatTarget = ChatTarget.None;
-    //             CommonTool.In.PlayOneShot("bird");
-    //             // StartCoroutine(StartNormalRoutine(5, EndDay3Routine()));
-    //             creditDodge.onClick.RemoveAllListeners();
-    //             GameMgr.In.ResetDayData();
-    //             dateMessage.text = "1주차\n목요일";
-    //             StartCoroutine(FadeInOutDateMessage());
-    //         });
-    //         pc.onClick.RemoveAllListeners();
-    //     });
-    // }
+    private void OnClickIndex()
+    {
+        popupPanel.SetActive(true);
+        index.onClick.RemoveAllListeners();
+    }
 
     public IEnumerator FadeInOutDateMessage()
     {
@@ -1112,7 +1091,7 @@ public class GameSceneMgr : MonoBehaviour
 
     private void StartPuzzleProcess()
     {
-        EndText();
+        EndText(false);
 
         popupPanel.SetActive(true);
         RefreshPopupPanel();
