@@ -154,6 +154,7 @@ public class GameSceneMgr : MonoBehaviour
     private Image shopChipsetTabImg;
     private List<EventFlow> eventFlowList = new List<EventFlow>();
     private ShopTab currentShopTab = ShopTab.None;
+    private List<GameObject> activatedObjList = new List<GameObject>();
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -413,7 +414,7 @@ public class GameSceneMgr : MonoBehaviour
         yes.gameObject.SetActive(isActive);
         no.gameObject.SetActive(isActive);
     }
-    
+
     public void ActiveEventButton(bool isActive)
     {
         eventBtn1.gameObject.SetActive(isActive);
@@ -698,6 +699,39 @@ public class GameSceneMgr : MonoBehaviour
 
     private void OnClickShop()
     {
+        switch (chatTarget)
+        {
+            case ChatTarget.Main:
+                if (mainChatPanel.activeSelf)
+                {
+                    mainChatPanel.SetActive(false);
+                    activatedObjList.Add(mainChatPanel);
+                }
+                break;
+            case ChatTarget.Mascot:
+                if (mainChatPanel.activeSelf)
+                {
+                    pcChatPanel.SetActive(false);
+                    activatedObjList.Add(pcChatPanel);
+                }
+                break;
+            case ChatTarget.Popup:
+                if (mainChatPanel.activeSelf)
+                {
+                    popupChatPanel.SetActive(false);
+                    activatedObjList.Add(popupChatPanel);
+                }
+                break;
+        }
+        foreach (var img in imageList)
+        {
+            if (img.imageObj.activeSelf)
+            {
+                img.imageObj.SetActive(false);
+                activatedObjList.Add(img.imageObj);
+            }
+        }
+
         OnClickShopBlueprintTab();
         StartCoroutine(StartShopInAnim());
         shop.onClick.RemoveListener(OnClickShop);
@@ -932,6 +966,13 @@ public class GameSceneMgr : MonoBehaviour
         {
             shopPanelTr.gameObject.SetActive(false);
             SetShopButtonListener();
+
+            foreach (var obj in activatedObjList)
+            {
+                obj.SetActive(true);
+            }
+            activatedObjList.Clear();
+
             isShopAnimating = false;
         });
     }

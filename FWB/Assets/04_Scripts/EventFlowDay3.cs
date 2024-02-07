@@ -59,6 +59,7 @@ public class EventFlowDay3 : EventFlow
     private void OnClickPopupYes()
     {
         mgr.shopPopupUI.no.interactable = true;
+        mgr.shopControlBlockingPanel.SetActive(true);
         mgr.StartText("Day3_4", EndDay3_4Routine, EndDay3_4Routine);
         mgr.shopPopupUI.yes.onClick.RemoveListener(OnClickPopupYes);
     }
@@ -68,13 +69,13 @@ public class EventFlowDay3 : EventFlow
         mgr.EndText();
         mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
-
+        mgr.shopControlBlockingPanel.SetActive(false);
         mgr.shopDodge.onClick.AddListener(OnClickShopDodge);
+        mgr.shopDodge.onClick.AddListener(mgr.OnClickShopDodge);
     }
 
     private void OnClickShopDodge()
     {
-        mgr.shopDodge.onClick.AddListener(mgr.OnClickShopDodge);
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         mgr.shopDodge.onClick.RemoveListener(OnClickShopDodge);
     }
