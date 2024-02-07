@@ -17,17 +17,13 @@ public class EventFlowDay3 : EventFlow
         mgr.pcChatPanel.SetActive(false);
         CommonTool.In.SetFocusOff();
 
-        mgr.shop.onClick.RemoveAllListeners();
-        mgr.shop.onClick.AddListener(() =>
-        {
-            mgr.OnClickShopBlueprintTab();
-            mgr.StartCoroutine(mgr.StartShopInAnim());
-        });
+        mgr.SetShopButtonListener();
         mgr.shop.onClick.AddListener(OnClickShop);
     }
 
     private void OnClickShop()
     {
+        mgr.shopControlBlockingPanel.SetActive(true);
         StartCoroutine(DelayFlow());
     }
 
@@ -37,7 +33,8 @@ public class EventFlowDay3 : EventFlow
         mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
         mgr.chatTarget = GameSceneMgr.ChatTarget.None;
-        //TODO: CommonTool.In.SetFocus();
+        mgr.shopControlBlockingPanel.SetActive(false);
+        CommonTool.In.SetFocus(new Vector2(875, 820), new Vector2(240, 70));
         mgr.shopChipsetTab.onClick.AddListener(OnClickShopChipsetTab);
     }
 
@@ -53,12 +50,15 @@ public class EventFlowDay3 : EventFlow
         mgr.EndText();
         mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
+        // TODO: Focus
         mgr.chatTarget = GameSceneMgr.ChatTarget.None;
+        mgr.shopPopupUI.no.interactable = false;
         mgr.shopPopupUI.yes.onClick.AddListener(OnClickPopupYes);
     }
 
     private void OnClickPopupYes()
     {
+        mgr.shopPopupUI.no.interactable = true;
         mgr.StartText("Day3_4", EndDay3_4Routine, EndDay3_4Routine);
         mgr.shopPopupUI.yes.onClick.RemoveListener(OnClickPopupYes);
     }
@@ -74,6 +74,7 @@ public class EventFlowDay3 : EventFlow
 
     private void OnClickShopDodge()
     {
+        mgr.shopDodge.onClick.AddListener(mgr.OnClickShopDodge);
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         mgr.shopDodge.onClick.RemoveListener(OnClickShopDodge);
     }

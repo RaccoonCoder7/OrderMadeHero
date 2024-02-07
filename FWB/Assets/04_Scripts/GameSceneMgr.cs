@@ -60,6 +60,7 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject creditPanel;
     public GameObject shopUiSlotNoItemPrefab;
     public GameObject shopDrMadChat;
+    public GameObject shopControlBlockingPanel;
     public GameObject deskNavi;
     public ShopUISlot shopUiSlotPrefab;
     public ShopUISlot shopUiSlotSoldOutPrefab;
@@ -146,6 +147,7 @@ public class GameSceneMgr : MonoBehaviour
     private Coroutine textFlowCoroutine;
     private Point cursorPos = new Point();
     private bool visible;
+    private bool isShopAnimating;
     private Image shopBlueprintTabImg;
     private Image shopChipsetTabImg;
     private List<EventFlow> eventFlowList = new List<EventFlow>();
@@ -214,7 +216,6 @@ public class GameSceneMgr : MonoBehaviour
         skip.onClick.AddListener(OnClickSkip);
         shopBlueprintTab.onClick.AddListener(OnClickShopBlueprintTab);
         shopChipsetTab.onClick.AddListener(OnClickShopChipsetTab);
-        shopDodge.onClick.AddListener(OnClickShopDodge);
 
         foreach (var btn in saveLoadButtons)
         {
@@ -400,6 +401,8 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickShopDodge()
     {
+        if (isShopAnimating) return;
+        isShopAnimating = true;
         StartCoroutine(StartShopOutAnim());
     }
 
@@ -680,6 +683,18 @@ public class GameSceneMgr : MonoBehaviour
         }
     }
 
+    public void SetShopButtonListener()
+    {
+        shop.onClick.AddListener(OnClickShop);
+    }
+
+    private void OnClickShop()
+    {
+        OnClickShopBlueprintTab();
+        StartCoroutine(StartShopInAnim());
+        shop.onClick.RemoveListener(OnClickShop);
+    }
+
     private void SkipCurrLine()
     {
         skipLine = true;
@@ -908,6 +923,8 @@ public class GameSceneMgr : MonoBehaviour
         deskTr.transform.DOLocalMoveY(-540, 0.5f).SetEase(Ease.OutQuad).OnComplete(() =>
         {
             shopPanelTr.gameObject.SetActive(false);
+            SetShopButtonListener();
+            isShopAnimating = false;
         });
     }
 
