@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using static AbilityTable;
 using static RequestTable;
@@ -56,6 +57,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Dictionary<string, RequiredAbilityObject> requiredAbilityObjectDic = new Dictionary<string, RequiredAbilityObject>();
     private Dictionary<string, int> currentChipDataDic = new Dictionary<string, int>();
     private List<GameObject> instantiatedChipList = new List<GameObject>();
+    
+    private List<string> satisfiedRequest = new List<string>();
 
     public class Puzzle
     {
@@ -156,6 +159,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 currentSelectedChip.RotateRight();
             }
         }
+        
     }
 
     public void StartPuzzle()

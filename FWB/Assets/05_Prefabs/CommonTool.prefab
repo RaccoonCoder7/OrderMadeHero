@@ -797,6 +797,9 @@ MonoBehaviour:
   - key: Day5_1
     ta: {fileID: 4900000, guid: 95836e379c3b8a54ab5ab95b733d4545, type: 3}
     lines: []
+  - key: Day6_1
+    ta: {fileID: 4900000, guid: d8fd8f38c6814d942a06783d5612a335, type: 3}
+    lines: []
   - key: Dummy
     ta: {fileID: 4900000, guid: 76842090dce760a40bbb050d59301a1f, type: 3}
     lines: []

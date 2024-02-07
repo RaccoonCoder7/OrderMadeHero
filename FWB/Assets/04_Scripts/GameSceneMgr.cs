@@ -25,6 +25,8 @@ public class GameSceneMgr : MonoBehaviour
     public Button ok;
     public Button yes;
     public Button no;
+    public Button eventBtn1;
+    public Button eventBtn2;
     public Button returnBtn;
     public Button gotoMain;
     public Button popupYes;
@@ -233,7 +235,7 @@ public class GameSceneMgr : MonoBehaviour
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
         // TODO: day limit 추가
-        for (int i = startDay; i <= 5; i++)
+        for (int i = startDay; i <= 7; i++)
         {
             string eventKey = "day" + i;
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
@@ -252,7 +254,7 @@ public class GameSceneMgr : MonoBehaviour
                 yield return null;
             }
 
-            if (i < 5)
+            if (i < 7)
             {
                 NextDay();
             }
@@ -410,6 +412,12 @@ public class GameSceneMgr : MonoBehaviour
     {
         yes.gameObject.SetActive(isActive);
         no.gameObject.SetActive(isActive);
+    }
+    
+    public void ActiveEventButton(bool isActive)
+    {
+        eventBtn1.gameObject.SetActive(isActive);
+        eventBtn2.gameObject.SetActive(isActive);
     }
 
     public void StartText(string textName, Action onEndText, Action onSkip = null)
@@ -1110,7 +1118,7 @@ public class GameSceneMgr : MonoBehaviour
     {
         EndText(false);
 
-        popupPanel.SetActive(true);
+        popupPanel.SetActive(true); //팝업 패널 = bp 인덱스
         RefreshPopupPanel();
     }
 

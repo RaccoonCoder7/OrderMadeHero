@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// day2의 이벤트를 제어
@@ -27,7 +28,7 @@ public class EventFlowDay2 : EventFlow
             mgr.ActiveYesNoButton(false);
             mgr.StartText("Day2_3", EndDay2_3Routine, SkipDay2_4Routine);
         });
-
+        
         mgr.ActiveYesNoButton(true);
     }
 

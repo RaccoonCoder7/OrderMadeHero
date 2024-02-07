@@ -21,23 +21,23 @@ MonoBehaviour:
     requestName: "\uC801\uB2F9\uD55C"
     weaponMinReq: 1
     filledChipRatio: 0.5
-  - requestKey: 
+  - requestKey: r_rough
     requestName: "\uB300\uCDA9\uD55C"
     weaponMinReq: 1
     filledChipRatio: 0
-  - requestKey: 
+  - requestKey: r_cool
     requestName: "\uBA4B\uC788\uB294"
     weaponMinReq: 1
     filledChipRatio: 0
-  - requestKey: 
+  - requestKey: r_fancy
     requestName: "\uD654\uB824\uD55C"
     weaponMinReq: 1
     filledChipRatio: 0
-  - requestKey: 
+  - requestKey: r_brilliant
     requestName: "\uB208\uBD80\uC2E0"
     weaponMinReq: 1
     filledChipRatio: 0
-  - requestKey: 
+  - requestKey: r_disposable
     requestName: "\uC77C\uD68C\uC6A9"
     weaponMinReq: 1
     filledChipRatio: 0
