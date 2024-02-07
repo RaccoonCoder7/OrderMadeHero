@@ -41,6 +41,7 @@ public class EventFlowDay3 : EventFlow
     private void OnClickShopChipsetTab()
     {
         CommonTool.In.SetFocusOff();
+        mgr.shopControlBlockingPanel.SetActive(true);
         mgr.StartText("Day3_3", EndDay3_3Routine, EndDay3_3Routine);
         mgr.shopChipsetTab.onClick.RemoveListener(OnClickShopChipsetTab);
     }
@@ -48,12 +49,21 @@ public class EventFlowDay3 : EventFlow
     private void EndDay3_3Routine()
     {
         mgr.EndText();
+        mgr.shopControlBlockingPanel.SetActive(false);
+        CommonTool.In.SetFocus(new Vector2(670, 505), new Vector2(210, 295));
         mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
-        // TODO: Focus
         mgr.chatTarget = GameSceneMgr.ChatTarget.None;
+
+        mgr.shopUISlotList[0].button.onClick.AddListener(OnClickChipSet);
         mgr.shopPopupUI.no.interactable = false;
         mgr.shopPopupUI.yes.onClick.AddListener(OnClickPopupYes);
+    }
+
+    private void OnClickChipSet()
+    {
+        CommonTool.In.SetFocusOff();
+        mgr.shopUISlotList[0].button.onClick.RemoveListener(OnClickChipSet);
     }
 
     private void OnClickPopupYes()

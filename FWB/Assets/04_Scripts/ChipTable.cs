@@ -17,6 +17,7 @@ public class ChipTable : ScriptableObject
         public string desc;
         public string howToGet;
         public int price;
+        public Sprite chipSprite;
         public List<ChipAbility> abilityList = new List<ChipAbility>();
     }
 

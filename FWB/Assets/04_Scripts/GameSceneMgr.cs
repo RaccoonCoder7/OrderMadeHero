@@ -64,6 +64,7 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject shopDrMadChat;
     public GameObject shopControlBlockingPanel;
     public GameObject deskNavi;
+    public GameObject shopPopupPanel;
     public ShopUISlot shopUiSlotPrefab;
     public ShopUISlot shopUiSlotSoldOutPrefab;
     public UISlot uiSlotPrefab;
@@ -123,6 +124,8 @@ public class GameSceneMgr : MonoBehaviour
     public ChatTarget prevChatTarget = ChatTarget.None;
     [HideInInspector]
     public List<UISlot> bluePrintCategorySlotList = new List<UISlot>();
+    [HideInInspector]
+    public List<ShopUISlot> shopUISlotList = new List<ShopUISlot>();
 
     [HideInInspector]
     public PuzzleMgr puzzleMgr;
@@ -585,6 +588,7 @@ public class GameSceneMgr : MonoBehaviour
         }
 
         int listCnt = 0;
+        shopUISlotList.Clear();
         if (currentShopTab == ShopTab.Blueprint)
         {
             List<BluePrint> bluePrintList = new List<BluePrint>();
@@ -644,7 +648,7 @@ public class GameSceneMgr : MonoBehaviour
                         item.button.onClick.AddListener(() =>
                         {
                             shopPopupUI.itemName.text = item.contentName.text;
-                            shopPopupUI.no.onClick.AddListener(() => { shopPopupUI.gameObject.SetActive(false); });
+                            shopPopupUI.no.onClick.AddListener(() => { shopPopupPanel.gameObject.SetActive(false); });
                             if (item.price <= GameMgr.In.credit)
                             {
                                 shopPopupUI.yes.interactable = true;
@@ -654,7 +658,7 @@ public class GameSceneMgr : MonoBehaviour
                                     goldText.text = GameMgr.In.credit.ToString();
                                     PlayerPrefs.SetInt(bluePrintList[tempNum].bluePrintKey, 3);
                                     StartCoroutine(DrMadChatRoutine());
-                                    shopPopupUI.gameObject.SetActive(false);
+                                    shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();
                                     shopPopupUI.yes.onClick.RemoveAllListeners();
                                 });
@@ -663,9 +667,10 @@ public class GameSceneMgr : MonoBehaviour
                             {
                                 shopPopupUI.yes.interactable = false;
                             }
-                            shopPopupUI.gameObject.SetActive(true);
+                            shopPopupPanel.gameObject.SetActive(true);
                         });
                     }
+                    shopUISlotList.Add(item);
                     continue;
                 }
 
@@ -683,7 +688,69 @@ public class GameSceneMgr : MonoBehaviour
             {
                 if (i < listCnt)
                 {
-                    //TODO: instantiate prefab (sellable or soldOut)
+                    var state = PlayerPrefs.GetInt(chipList[i].chipKey);
+                    bool isSellable = state < 3;
+                    ShopUISlot targetSlotPrefab = isSellable ? shopUiSlotPrefab : shopUiSlotSoldOutPrefab;
+                    ShopUISlot item = Instantiate(targetSlotPrefab, shopItemParentTr);
+
+                    item.contentImg.sprite = chipList[i].chipSprite;
+                    item.contentName.text = chipList[i].chipName;
+
+                    var targetSprite = chipList[i].chipSprite;
+                    var ratio = targetSprite.rect.size.x / targetSprite.rect.size.y;
+                    Vector2 size = Vector2.zero;
+                    if (targetSprite.rect.size.x <= targetSprite.rect.size.y)
+                    {
+                        size = new Vector2(128 * ratio, 128);
+                    }
+                    else
+                    {
+                        size = new Vector2(128, 128 / ratio);
+                    }
+
+                    item.contentImg.rectTransform.sizeDelta = size;
+                    item.price = chipList[i].price;
+
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var ability in chipList[i].abilityList)
+                    {
+                        var targetAbility = GameMgr.In.abilityTable.abilityList.Find(x => x.abilityKey.Equals(ability.abilityKey));
+                        sb.Append(targetAbility.name).Append("+ ").Append(ability.count).Append("\n");
+                    }
+                    sb.Length--;
+                    item.itemData = sb.ToString();
+
+                    if (isSellable)
+                    {
+                        item.priceText.text = item.price.ToString();
+
+                        int tempNum = i;
+                        item.button.onClick.AddListener(() =>
+                        {
+                            shopPopupUI.itemName.text = item.contentName.text;
+                            shopPopupUI.no.onClick.AddListener(() => { shopPopupPanel.gameObject.SetActive(false); });
+                            if (item.price <= GameMgr.In.credit)
+                            {
+                                shopPopupUI.yes.interactable = true;
+                                shopPopupUI.yes.onClick.AddListener(() =>
+                                {
+                                    GameMgr.In.credit -= item.price;
+                                    goldText.text = GameMgr.In.credit.ToString();
+                                    PlayerPrefs.SetInt(chipList[tempNum].chipKey, 3);
+                                    StartCoroutine(DrMadChatRoutine());
+                                    shopPopupPanel.gameObject.SetActive(false);
+                                    RefreshShopUI();
+                                    shopPopupUI.yes.onClick.RemoveAllListeners();
+                                });
+                            }
+                            else
+                            {
+                                shopPopupUI.yes.interactable = false;
+                            }
+                            shopPopupPanel.gameObject.SetActive(true);
+                        });
+                    }
+                    shopUISlotList.Add(item);
                     continue;
                 }
 

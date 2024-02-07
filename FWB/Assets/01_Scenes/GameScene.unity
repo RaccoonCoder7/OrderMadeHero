@@ -4104,7 +4104,7 @@ RectTransform:
   - {fileID: 1002132936}
   - {fileID: 693814760}
   - {fileID: 1129802311}
-  - {fileID: 1639612721}
+  - {fileID: 990817380}
   m_Father: {fileID: 1500408543}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7719,6 +7719,7 @@ MonoBehaviour:
   shopDrMadChat: {fileID: 693814759}
   shopControlBlockingPanel: {fileID: 115866224}
   deskNavi: {fileID: 442005017}
+  shopPopupPanel: {fileID: 990817379}
   shopUiSlotPrefab: {fileID: 3233679599511996476, guid: 325f23704a883ae4d92eb67ef86c4562, type: 3}
   shopUiSlotSoldOutPrefab: {fileID: 1099400301182730004, guid: 0540378274237fc499961cbe2586481f, type: 3}
   uiSlotPrefab: {fileID: 7195133987532191358, guid: 873c84ae4a1ebb542984e4d7704d19ac, type: 3}
@@ -7802,6 +7803,7 @@ MonoBehaviour:
   chatTarget: 1
   prevChatTarget: 0
   bluePrintCategorySlotList: []
+  shopUISlotList: []
   puzzleMgr: {fileID: 0}
   isOnConversation: 0
 --- !u!4 &723337248
@@ -10539,6 +10541,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
   manager2: {fileID: 723337247}
+--- !u!1 &990817379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 990817380}
+  - component: {fileID: 990817382}
+  - component: {fileID: 990817381}
+  m_Layer: 5
+  m_Name: PopupPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &990817380
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990817379}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1639612721}
+  m_Father: {fileID: 358256839}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &990817381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990817379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &990817382
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990817379}
+  m_CullTransparentMesh: 1
 --- !u!1 &994696512
 GameObject:
   m_ObjectHideFlags: 0
@@ -18164,12 +18242,12 @@ GameObject:
   - component: {fileID: 1639612722}
   - component: {fileID: 1639612724}
   m_Layer: 5
-  m_Name: PopupPanel
+  m_Name: PopupUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1639612721
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18177,15 +18255,15 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1639612720}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1656351969}
   - {fileID: 423351605}
   - {fileID: 1776624957}
-  m_Father: {fileID: 358256839}
-  m_RootOrder: 4
+  m_Father: {fileID: 990817380}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
