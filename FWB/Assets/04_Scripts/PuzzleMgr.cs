@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -73,6 +74,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Sprite[] usingImg;
     private bool isUsing = false;
     */
+    [Header("filter")]
+    private List<int> filteredChipKeys = new List<int>();
 
     public class Puzzle
     {
@@ -467,30 +470,52 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             chipInventory[key] = initialCount;
         }
     }
-
     private void RefreshChipPanel()
     {
+        // 초기화(모두 제거)
         foreach (Transform child in chipPanelRectTr) {
             Destroy(child.gameObject);
         }
 
-        SortChipsByCost(isAscending);
+        List<int> chipsToDisplay;//필터링 정렬 동시에 하려고 임시로 만든 list
 
-        int numColumns = 2; 
-        float totalSpacing = (numColumns - 1) * puzzleGrid.spacing.x; 
+        // 필터링된 칩 키 목록이 있을 때만 정렬 수행
+        if (filteredChipKeys.Count > 0) {
+            chipsToDisplay = new List<int>(filteredChipKeys); // 필터링된 칩의 키 목록 복사 후 정렬 관리
+            if (isAscending) {
+                chipsToDisplay.Sort((key1, key2) => chipList.Find(c => c.chipKey == key1).price.CompareTo(chipList.Find(c => c.chipKey == key2).price));
+            }
+            else {
+                chipsToDisplay.Sort((key1, key2) => chipList.Find(c => c.chipKey == key2).price.CompareTo(chipList.Find(c => c.chipKey == key1).price));
+            }
+        }
+        else {
+            return;
+        }
+
+        // 칩을 패널에 배치
+        SetChipToPanel(chipsToDisplay);
+    }
+
+    private void SetChipToPanel(List<int> chipKeys)
+    {
+        // 패널 크기 계산해서 배치
+        int numColumns = 2;
+        float totalSpacing = (numColumns - 1) * puzzleGrid.spacing.x;
         float chipWidth = (chipPanelRectTr.sizeDelta.x - totalSpacing) / numColumns;
         float chipHeight = chipWidth;
-        Vector2 startPosition = new Vector2(-chipPanelRectTr.sizeDelta.x, chipPanelRectTr.sizeDelta.y/2);
+        Vector2 startPosition = new Vector2(-chipPanelRectTr.sizeDelta.x, chipPanelRectTr.sizeDelta.y / 2);
         int row = 0;
         int column = 0;
 
-        foreach (var chipObj in chipList) {
-            if (chipInventory.TryGetValue(chipObj.chipKey, out int chipCount)) {
-                var chipInstance = Instantiate(chipObj.gameObject, chipPanelRectTr).GetComponent<ChipObj>();
+        foreach (int key in chipKeys) {
+            ChipObj chip = chipList.Find(c => c.chipKey == key);
+            if (chipInventory.TryGetValue(key, out int chipCount)) {
+                var chipInstance = Instantiate(chip.gameObject, chipPanelRectTr).GetComponent<ChipObj>();
                 chipInstance.rectTr.sizeDelta = new Vector2(chipWidth, chipHeight);
                 chipInstance.transform.localPosition = new Vector3(startPosition.x + (column * (chipWidth + puzzleGrid.spacing.x)), startPosition.y - (row * (chipHeight + puzzleGrid.spacing.y)), 0);
                 chipInstance.transform.localScale = Vector3.one;
-                chipInstance.SetChipData(chipCount, chipObj);
+                chipInstance.SetChipData(chipCount, chip);
 
                 column++;
                 if (column >= numColumns) {
@@ -504,22 +529,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private ChipObj GetChipPrefab(int key)
     {
         return chipList.Find(x => x.chipKey.Equals(key));
-    }
-
-    private void SetChipToPanel(ChipObj chip, int chipCount)
-    {
-        for (int i = 0; i < chipCountY; i++) {
-            for (int j = 0; j < chipCountX; j++) {
-                if (chipFrameTable[i, j] != null) continue;
-                chipFrameTable[i, j] = chip;
-                chip.count.text = chipCount.ToString();
-                chip.chipCount = chipCount;
-                chip.rectTr.sizeDelta = new Vector2(chipSize, chipSize);
-                chip.rectTr.anchoredPosition = new Vector3(chipSize * j, -chipSize * i, 0);
-                return;
-            }
-        }
-        Destroy(chip.gameObject);
     }
 
     private List<PuzzleFrameData> GetFittableFrameList(PuzzleFrameData[,] targetTable, ChipObj chip, int x, int y)
@@ -685,12 +694,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
     //필요 크레딧 계산 
 
-    //현재는 Drag Drob할때마다 추가됨
+    //TODO: 동일 칩 DragDrob시 가격 증가 고칠필요 있음
     //CreditAdd(칩셋cost) 또는 칩셋 계산해서 가격 Add하면됨
-    //TODO: 기획 듣고 칩셋 가격 관련 로직 바꿀필요!
     private void CreditAdd(int chipPrice)
     {
-        totalCost += chipPrice; 
+        totalCost += chipPrice;
         if (totalCost < 0) {
             totalCost = 0;
         }
@@ -785,31 +793,29 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         mgr2.popupChatPanel.SetActive(false);
     }
 
-    //sort,filter
+    //sort
     public void ToggleSortOrder()
     {
         isAscending = !isAscending;
-        sortButton.GetComponent<Image>().sprite = isAscending ? updownImg[0] : updownImg[1];
-        SortChipsByCost(isAscending);
         RefreshChipPanel();
+        sortButton.GetComponent<Image>().sprite = isAscending ? updownImg[0] : updownImg[1];
     }
-    /*
-    void ToggleUsingCheck()
-    {
-        isUsing = !isUsing;
-        if (isUsing) {
-            usingchipset.GetComponent<Image>().sprite = usingImg[0];
-        }
-        else {
-            usingchipset.GetComponent<Image>().sprite = usingImg[1];
-        }
-    }
-    */
 
-    //TODO: 정렬되는데 chipinventory 숫자 계속 초기화되니 확인
-    public void SortChipsByCost(bool isAscending)
+    //FilterSystem에서 버튼 클릭시 발동!
+    //TODO: 수량 관련 체크 필요
+    //TODO: 초기 필터링으로 인해 아무것도 안보이는 문제 수정 필요
+    public void FilterChipsByAbilities(List<string> filters)
     {
-        chipList.Sort((chip1, chip2) => isAscending ? chip1.price.CompareTo(chip2.price) : chip2.price.CompareTo(chip1.price));
+        filteredChipKeys.Clear();
+
+        foreach (var entry in chipInventory) {
+            ChipObj chip = chipList.Find(c => c.chipKey == entry.Key);
+            if (chip != null && filters.All(filter => chip.chipAbilityList.Any(ability => ability.abilityKey == filter))) {
+                filteredChipKeys.Add(entry.Key);
+            }
+        }
+
+        RefreshChipPanel();
     }
 
 
