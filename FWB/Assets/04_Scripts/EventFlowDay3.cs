@@ -97,6 +97,10 @@ public class EventFlowDay3 : EventFlow
             }
         }
 
+        // TODO: Ability와 Order desc 분리 후 하드코드 제거
+        var durability = GameMgr.In.GetAbility("a_durability");
+        durability.orderEnable = true;
+
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         mgr.shopDodge.onClick.RemoveListener(OnClickShopDodge);
     }

@@ -738,7 +738,8 @@ public class GameSceneMgr : MonoBehaviour
                                 shopPopupUI.yes.interactable = true;
                                 shopPopupUI.yes.onClick.AddListener(() =>
                                 {
-                                    // TODO: 칩셋 사용 가능하도록 바꾸기
+                                    var chip = GameMgr.In.GetChip(chipList[i].chipKey);
+                                    chip.createEnable = true;
                                     GameMgr.In.credit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     PlayerPrefs.SetInt(chipList[tempNum].chipKey, 3);

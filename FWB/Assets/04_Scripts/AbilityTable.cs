@@ -15,5 +15,6 @@ public class AbilityTable : ScriptableObject
         public string abilityKey;
         public string name;
         public string desc;
+        public bool orderEnable = false;
     }
 }

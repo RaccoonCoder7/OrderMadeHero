@@ -18,6 +18,7 @@ MonoBehaviour:
     desc: "\uBB34\uAE30\uC758 \uC808\uB2E8 \uB2A5\uB825\uC744 \uD5A5\uC0C1\uC2DC\uD0B5\uB2C8\uB2E4."
     howToGet: 
     price: 0
+    createEnable: 0
     chipSprite: {fileID: 21300000, guid: 75fa66e502be39e489f9dcb62b484a8e, type: 3}
     abilityList:
     - abilityKey: a_acuity
@@ -27,6 +28,7 @@ MonoBehaviour:
     desc: "\uBB34\uAE30\uC758 \uAE30\uBCF8 \uACF5\uACA9\uB825\uC744 \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
     howToGet: 
     price: 0
+    createEnable: 0
     chipSprite: {fileID: 21300000, guid: 637bb96a2839ac547b5f6e859d116e2e, type: 3}
     abilityList:
     - abilityKey: a_attack
@@ -37,6 +39,7 @@ MonoBehaviour:
       \uC2DC \uC0C1\uB300\uB97C \uB354 \uBA40\uB9AC \uBC00\uC5B4\uB0C5\uB2C8\uB2E4."
     howToGet: 
     price: 0
+    createEnable: 0
     chipSprite: {fileID: 21300000, guid: 1fbcf49a5d902d441badd5d0d73ed973, type: 3}
     abilityList:
     - abilityKey: a_weight
@@ -48,6 +51,7 @@ MonoBehaviour:
       \uB370 \uB3C4\uC6C0\uC744 \uC90D\uB2C8\uB2E4. "
     howToGet: "\uC774\uBCA4\uD2B8"
     price: 0
+    createEnable: 0
     chipSprite: {fileID: 21300000, guid: 732ea73a13725f944a9638b773ce3212, type: 3}
     abilityList:
     - abilityKey: a_penetrate
@@ -57,9 +61,21 @@ MonoBehaviour:
     desc: "\uBB34\uAE30\uC758 \uACF5\uACA9 \uC18D\uB3C4\uB97C \uC99D\uAC00\uC2DC\uD0A4\uAC70\uB098,
       \uBB34\uAE30\uB97C \uC0AC\uC6A9\uD560 \uB54C\uC758 \uC6C0\uC9C1\uC784\uC744
       \uAC00\uBCCD\uAC8C \uB9CC\uB4E4\uC5B4 \uC90D\uB2C8\uB2E4."
-    howToGet: "\uBC84\uB2C8\uC640\uC758 \uC774\uBCA4\uD2B8"
+    howToGet: "\uBC84\uB2C8"
     price: 0
+    createEnable: 0
     chipSprite: {fileID: 21300000, guid: 26f12ffd330111743aeb9be41565aa05, type: 3}
     abilityList:
     - abilityKey: a_agility
+      count: 2
+  - chipKey: c_durability
+    chipName: "\uB0B4\uAD6C\uB3C4"
+    desc: "\uBB34\uAE30\uC5D0 \uB0B4\uAD6C\uB3C4\uB97C \uC81C\uACF5\uD558\uB294 \uAE30\uBCF8
+      \uCE69\uC14B\uC785\uB2C8\uB2E4"
+    howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+    price: 0
+    createEnable: 0
+    chipSprite: {fileID: 21300000, guid: 26f12ffd330111743aeb9be41565aa05, type: 3}
+    abilityList:
+    - abilityKey: a_durability
       count: 2

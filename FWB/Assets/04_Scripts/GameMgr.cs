@@ -39,7 +39,7 @@ public class GameMgr : SingletonMono<GameMgr>
     {
         base.OnApplicationQuit();
         PlayerPrefs.DeleteAll();
-        
+
         foreach (var category in weaponDataTable.bluePrintCategoryList)
         {
             foreach (var bp in category.bluePrintList)
@@ -50,7 +50,17 @@ public class GameMgr : SingletonMono<GameMgr>
             }
         }
 
-        // TODO: 모든 데이터테이블의 enable 초기화
+        foreach (var chip in chipTable.chipList)
+        {
+            bool enable = string.IsNullOrEmpty(chip.howToGet);
+            chip.createEnable = enable;
+        }
+
+        // TODO: Ability와 Order desc 분리 후 하드코드 제거
+        var durability = GetAbility("a_durability");
+        durability.orderEnable = false;
+
+        // TODO: Order 데이터테이블의 enable 초기화
     }
 
     /// <summary>

@@ -162,7 +162,8 @@ public class OrderTable : ScriptableObject
                     var abilityList = GameMgr.In.abilityTable.abilityList;
                     while (true)
                     {
-                        var ability = abilityList[UnityEngine.Random.Range(0, abilityList.Count)];
+                        var orderableAbilityList = abilityList.Where(x => x.orderEnable).ToList();
+                        var ability = orderableAbilityList[UnityEngine.Random.Range(0, abilityList.Count)];
                         if (keyDic.ContainsValue(ability.desc))
                         {
                             continue;

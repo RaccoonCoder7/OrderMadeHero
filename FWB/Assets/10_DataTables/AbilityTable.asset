@@ -16,15 +16,24 @@ MonoBehaviour:
   - abilityKey: a_acuity
     name: "\uC608\uB9AC\uD568"
     desc: "\uC608\uB9AC\uD55C"
+    orderEnable: 1
   - abilityKey: a_weight
     name: "\uBB34\uAC8C"
     desc: "\uBB34\uAC70\uC6B4"
+    orderEnable: 1
   - abilityKey: a_attack
     name: "\uACF5\uACA9\uB825"
     desc: "\uD0C0\uACA9\uAC10\uC788\uB294"
+    orderEnable: 1
   - abilityKey: a_speed
     name: "\uC18D\uB3C4"
     desc: "\uBBFC\uCCA9\uD55C"
+    orderEnable: 0
   - abilityKey: a_penetrate
     name: "\uAD00\uD1B5\uB825"
     desc: "\uAD00\uD1B5\uB825\uC788\uB294"
+    orderEnable: 0
+  - abilityKey: a_durability
+    name: "\uB0B4\uAD6C\uB3C4"
+    desc: "\uD2BC\uD2BC\uD55C"
+    orderEnable: 0
