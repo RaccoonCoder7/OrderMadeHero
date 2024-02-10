@@ -798,7 +798,31 @@ MonoBehaviour:
     ta: {fileID: 4900000, guid: 95836e379c3b8a54ab5ab95b733d4545, type: 3}
     lines: []
   - key: Day6_1
-    ta: {fileID: 4900000, guid: d8fd8f38c6814d942a06783d5612a335, type: 3}
+    ta: {fileID: 4900000, guid: 93ab13a584761424b8a955cbad63d119, type: 3}
+    lines: []
+  - key: Day6_2
+    ta: {fileID: 4900000, guid: 4307e192591939e4c82503a2be15da1d, type: 3}
+    lines: []
+  - key: Day6_3
+    ta: {fileID: 4900000, guid: 89817687b7f1ca14badc1c1f6f78c378, type: 3}
+    lines: []
+  - key: Day6_4
+    ta: {fileID: 4900000, guid: 179ef2ded8d5eb44b83a9e9fb50f1936, type: 3}
+    lines: []
+  - key: Day6_5
+    ta: {fileID: 4900000, guid: e100d49ad292dc74aac062cbe6f4060b, type: 3}
+    lines: []
+  - key: Day7_1
+    ta: {fileID: 4900000, guid: b3e144a5bc2748f4e9bf8e3086e857f7, type: 3}
+    lines: []
+  - key: Day7_2
+    ta: {fileID: 4900000, guid: e3e43b80f046d294a9fc7f9dcdf21e08, type: 3}
+    lines: []
+  - key: Day7_3
+    ta: {fileID: 4900000, guid: 3140a6d1e02c7c544bff74f9ca00fc88, type: 3}
+    lines: []
+  - key: Day7_4
+    ta: {fileID: 4900000, guid: 3d681d065fc131943a8750f59f7aae35, type: 3}
     lines: []
   - key: Dummy
     ta: {fileID: 4900000, guid: 76842090dce760a40bbb050d59301a1f, type: 3}
@@ -813,6 +837,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 46e1a509218b0f64195cb13312f5531b, type: 3}
   - {fileID: 8300000, guid: 148d07ff961a2b84ab37c1d8aa9c0aee, type: 3}
   - {fileID: 8300000, guid: d0c61382eb4a758499195ca1189e414a, type: 3}
+  canvas: {fileID: 0}
 --- !u!82 &3087253590899327246
 AudioSource:
   m_ObjectHideFlags: 0
