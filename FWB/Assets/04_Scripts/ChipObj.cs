@@ -8,7 +8,7 @@ using static ChipTable;
 /// </summary>
 public class ChipObj : MonoBehaviour
 {
-    public int chipKey;
+    public string chipKey;
     public int chipCount;
     public int price;
     public int colNum;

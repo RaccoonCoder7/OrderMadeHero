@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32c18041ce5dd44a87ab915c21f134e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chipKey: 9
+  chipKey: c_weight
   chipCount: 0
   price: 50
   colNum: 2

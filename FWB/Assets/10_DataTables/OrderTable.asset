@@ -76,7 +76,9 @@ MonoBehaviour:
   - orderKey: NormalOrder_12
     ta: {fileID: 4900000, guid: 52200c3ce46cdfa4ea53017c8d7e924b, type: 3}
     requiredBlueprintKeyList: []
-    requiredAbilityList: []
+    requiredAbilityList:
+    - abilityKey: a_acuity
+      count: 3
     condition: 0
   - orderKey: NormalOrder_13
     ta: {fileID: 4900000, guid: 0ef39d7a06b45f148828a8456f1018d0, type: 3}
@@ -120,7 +122,8 @@ MonoBehaviour:
     condition: 0
   - orderKey: NormalOrder_21
     ta: {fileID: 4900000, guid: b1e00baa554247778112a30d5c2fbd9c, type: 3}
-    requiredBlueprintKeyList: []
+    requiredBlueprintKeyList:
+    - b_katana
     requiredAbilityList: []
     condition: 0
   mappingTextList:

@@ -204,7 +204,7 @@ public class OrderTable : ScriptableObject
             return true;
         }
 
-        // var abilityDic = new Dictionary<string, int>();
+        var abilityDic = new Dictionary<string, int>();
         List<ChipObj> chipObjList = new List<ChipObj>();
         foreach (var puzzleFrame in puzzleFrameList)
         {
@@ -217,17 +217,17 @@ public class OrderTable : ScriptableObject
                     if (chip)
                     {
                         chipObjList.Add(chip);
-                        // foreach (var ability in chip.chipAbilityList)
-                        // {
-                        //     if (abilityDic.TryGetValue(ability.abilityKey, out int currentCount))
-                        //     {
-                        //         abilityDic[ability.abilityKey] = currentCount + 1;
-                        //     }
-                        //     else
-                        //     {
-                        //         abilityDic.Add(ability.abilityKey, 1);
-                        //     }
-                        // }
+                        foreach (var ability in chip.chipAbilityList)
+                        {
+                            if (abilityDic.TryGetValue(ability.abilityKey, out int currentCount))
+                            {
+                                abilityDic[ability.abilityKey] = currentCount + 1;
+                            }
+                            else
+                            {
+                                abilityDic.Add(ability.abilityKey, 1);
+                            }
+                        }
                     }
                 }
             }
@@ -241,6 +241,20 @@ public class OrderTable : ScriptableObject
             case Condition.적당한:
                 int totalSize2 = GetTotalSizeOfChips(chipObjList);
                 return totalSize2 >= puzzleFrameList.Count / 2;
+            case Condition.일회용:
+                var durability = abilityDic.FirstOrDefault(x => x.Key.Equals("a_durability"));
+                if (durability.Equals(default(KeyValuePair<string, int>)))
+                {
+                    return true;
+                }
+
+                foreach (var ra in GameMgr.In.currentBluePrint.requiredChipAbilityList)
+                {
+                    if (ra.abilityKey.Equals("a_durability")) continue;
+                    return durability.Value <= ra.count;
+                };
+
+                return false;
         }
         return false;
     }

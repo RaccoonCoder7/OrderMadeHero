@@ -33,7 +33,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Text ReturnCost; //추가
 
     public List<ChipObj> chipList = new List<ChipObj>();
-    public Dictionary<int, int> chipInventory = new Dictionary<int, int>();
+    public Dictionary<string, int> chipInventory = new Dictionary<string, int>();
     public Button makingDone;
     public Button Reset; //추가
     public GameSceneMgr mgr2;
@@ -74,7 +74,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private bool isUsing = false;
     */
     [Header("filter")]
-    private List<int> filteredChipKeys = new List<int>();
+    private List<string> filteredChipKeys = new List<string>();
 
     public class Puzzle
     {
@@ -462,10 +462,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // chipInventory.Add(6, 1);
         // chipInventory.Add(7, 2);
 
-        int[] chip_arr = new int[] { 8, 9, 10, 11 };
+        string[] chip_arr = new string[] { "c_acuity", "c_attack", "c_durability", "c_weight" };
         int initialCount = 3; // 초기 개수 설정
 
-        foreach (int key in chip_arr) {
+        foreach (var key in chip_arr) {
             chipInventory[key] = initialCount;
         }
     }
@@ -476,11 +476,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(child.gameObject);
         }
 
-        List<int> chipsToDisplay;//필터링 정렬 동시에 하려고 임시로 만든 list
+        List<string> chipsToDisplay;//필터링 정렬 동시에 하려고 임시로 만든 list
 
         // 필터링된 칩 키 목록이 있을 때만 정렬 수행
         if (filteredChipKeys.Count > 0) {
-            chipsToDisplay = new List<int>(filteredChipKeys); // 필터링된 칩의 키 목록 복사 후 정렬 관리
+            chipsToDisplay = new List<string>(filteredChipKeys); // 필터링된 칩의 키 목록 복사 후 정렬 관리
             if (isAscending) {
                 chipsToDisplay.Sort((key1, key2) => chipList.Find(c => c.chipKey == key1).price.CompareTo(chipList.Find(c => c.chipKey == key2).price));
             }
@@ -489,6 +489,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         }
         else {
+            Debug.Log("!");
             return;
         }
 
@@ -496,7 +497,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         SetChipToPanel(chipsToDisplay);
     }
 
-    private void SetChipToPanel(List<int> chipKeys)
+    private void SetChipToPanel(List<string> chipKeys)
     {
         // 패널 크기 계산해서 배치
         int numColumns = 2;
@@ -507,7 +508,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         int row = 0;
         int column = 0;
 
-        foreach (int key in chipKeys) {
+        foreach (var key in chipKeys) {
             ChipObj chip = chipList.Find(c => c.chipKey == key);
             if (chipInventory.TryGetValue(key, out int chipCount)) {
                 var chipInstance = Instantiate(chip.gameObject, chipPanelRectTr).GetComponent<ChipObj>();

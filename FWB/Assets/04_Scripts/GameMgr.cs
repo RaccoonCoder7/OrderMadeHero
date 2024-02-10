@@ -88,6 +88,14 @@ public class GameMgr : SingletonMono<GameMgr>
     }
 
     /// <summary>
+    /// 키 값에 맞는 칩 정보를 반환
+    /// </summary>
+    public ChipTable.Chip GetChip(string chipKey)
+    {
+        return chipTable.chipList.Find(x => x.chipKey.Equals(chipKey));
+    }
+
+    /// <summary>
     /// 키 값에 맞는 능력치 정보를 반환
     /// </summary>
     public AbilityTable.Ability GetAbility(string abilityKey)
