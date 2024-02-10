@@ -18,6 +18,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int dayCustomerCnt;
     public int dayRenom;
     public int dayTendency;
+    public int tendency;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
@@ -65,6 +66,8 @@ public class GameMgr : SingletonMono<GameMgr>
             week++;
             day = (Day)1;
         }
+
+        tendency += dayTendency;
     }
 
     /// <summary>

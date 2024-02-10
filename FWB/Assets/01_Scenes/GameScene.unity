@@ -580,7 +580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.size
-      value: 26
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[21].ta
@@ -589,17 +589,37 @@ PrefabInstance:
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[22].ta
       value: 
-      objectReference: {fileID: 4900000, guid: e1cdd83900969f749b1bb7e414118830, type: 3}
+      objectReference: {fileID: 4900000, guid: 8c98fa2d8aeb1754d83db122af37e6fe, type: 3}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[23].ta
       value: 
-      objectReference: {fileID: 4900000, guid: 8179edb4fe130bf43833f946ec4056af, type: 3}
+      objectReference: {fileID: 4900000, guid: e1cdd83900969f749b1bb7e414118830, type: 3}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[24].ta
       value: 
-      objectReference: {fileID: 4900000, guid: 3e382014b569d0e41b5c08ce33e4649a, type: 3}
+      objectReference: {fileID: 4900000, guid: 8179edb4fe130bf43833f946ec4056af, type: 3}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[25].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: 3e382014b569d0e41b5c08ce33e4649a, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[26].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: b3e144a5bc2748f4e9bf8e3086e857f7, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[27].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: e3e43b80f046d294a9fc7f9dcdf21e08, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[28].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: 3140a6d1e02c7c544bff74f9ca00fc88, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[29].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: 3d681d065fc131943a8750f59f7aae35, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[30].ta
       value: 
       objectReference: {fileID: 4900000, guid: 76842090dce760a40bbb050d59301a1f, type: 3}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
@@ -620,6 +640,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[25].key
+      value: Day6_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[26].key
+      value: Day7_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[27].key
+      value: Day7_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[28].key
+      value: Day7_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[29].key
+      value: Day7_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[30].key
       value: Dummy
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327250, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
@@ -7649,6 +7689,7 @@ GameObject:
   - component: {fileID: 723337253}
   - component: {fileID: 723337254}
   - component: {fileID: 723337255}
+  - component: {fileID: 723337256}
   m_Layer: 0
   m_Name: GameSceneMgr
   m_TagString: Untagged
@@ -7730,6 +7771,8 @@ MonoBehaviour:
   popupChatText: {fileID: 1410464213}
   yesText: {fileID: 1423730127}
   noText: {fileID: 660541891}
+  eventBtntext1: {fileID: 1567231428}
+  eventBtntext2: {fileID: 1781952015}
   dateText: {fileID: 1070287886}
   dateMessage: {fileID: 1546529542}
   goldText: {fileID: 1880369100}
@@ -7782,7 +7825,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 1
+  startDay: 7
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -7999,6 +8042,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventKey: day6
+  mgr: {fileID: 0}
+--- !u!114 &723337256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723337246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29ad49cbef59f642bcb42d5cc07e298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventKey: day7
   mgr: {fileID: 0}
 --- !u!1 &728199289
 GameObject:
@@ -21953,7 +22010,6 @@ MonoBehaviour:
   orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
   chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
   abilityTable: {fileID: 11400000, guid: a557d9e88e93460438f18b64a9323ef8, type: 2}
-  requestTable: {fileID: 11400000, guid: f62973c6bba330a48910905620f51f05, type: 2}
   currentBluePrint:
     bluePrintKey: 
     name: 

@@ -147,7 +147,7 @@ public class EventFlowDay1 : EventFlow
         mgr.puzzleMgr.OnMakingDone -= OnMakingDone;
     }
 
-    private void EndTutorial6Routine()
+    private void EndTutorial6Routine() //청사진 획득 이벤트 
     {
         mgr.EndText();
 

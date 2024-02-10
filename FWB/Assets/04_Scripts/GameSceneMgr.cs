@@ -75,6 +75,8 @@ public class GameSceneMgr : MonoBehaviour
     public Text popupChatText;
     public Text yesText;
     public Text noText;
+    public Text eventBtntext1;
+    public Text eventBtntext2;
     public Text dateText;
     public Text dateMessage;
     public Text goldText;
