@@ -1,7 +1,7 @@
 !sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
 저는요, 최강이 되고 싶어요.
 @
-이 일을 후회하게 해 줄 거야
+이 일을 후회하게 해주겠어.
 @
 이거라면 가능할것 같아요!
 @

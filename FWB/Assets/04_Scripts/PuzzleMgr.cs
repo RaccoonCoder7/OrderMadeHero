@@ -10,7 +10,7 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using static AbilityTable;
 using static ChipTable;
-using static RequestTable;
+using static ConditionTable;
 using static UnityEngine.Networking.UnityWebRequest;
 
 /// <summary>

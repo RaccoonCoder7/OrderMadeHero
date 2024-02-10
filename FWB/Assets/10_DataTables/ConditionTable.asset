@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93a9989a74cd6ef47a9d3da29be013a9, type: 3}
-  m_Name: RequestTable
+  m_Name: ConditionTable
   m_EditorClassIdentifier: 
   requestList:
   - requestKey: r_perfect

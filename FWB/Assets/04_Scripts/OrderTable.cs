@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static AbilityTable;
 using static WeaponDataTable;
-using static RequestTable;
+using static ConditionTable;
 
 /// <summary>
 /// 주문에 대한 정보를 저장하는 SO
@@ -20,8 +20,15 @@ public class OrderTable : ScriptableObject
         public string orderKey;
         public TextAsset ta;
         public List<string> requiredBlueprintKeyList = new List<string>();
-        public List<OrderRequest> requiredRequestList = new List<OrderRequest>();
-        public List<Ability> requiredChipAbilityList = new List<Ability>();
+        public List<RequiredAbility> requiredAbilityList = new List<RequiredAbility>();
+        public Condition condition = Condition.상태없음;
+    }
+
+    [System.Serializable]
+    public class RequiredAbility
+    {
+        public string abilityKey;
+        public int count;
     }
 
     [System.Serializable]
@@ -52,9 +59,24 @@ public class OrderTable : ScriptableObject
             return null;
         }
 
+        // 주문 깊은복사
         var newOrder = new Order();
         newOrder.orderKey = targetOrder.orderKey;
 
+        foreach (var bpKey in targetOrder.requiredBlueprintKeyList)
+        {
+            newOrder.requiredBlueprintKeyList.Add(bpKey);
+        }
+
+        foreach (var ability in targetOrder.requiredAbilityList)
+        {
+            RequiredAbility ra = new RequiredAbility();
+            ra.abilityKey = ability.abilityKey;
+            ra.count = ability.count;
+            newOrder.requiredAbilityList.Add(ra);
+        }
+
+        // 기믹 파싱
         var keyDic = new Dictionary<string, string>();
         string text = string.Copy(targetOrder.ta.text);
         for (int i = 0; i < text.Length; i++)
@@ -88,8 +110,7 @@ public class OrderTable : ScriptableObject
             i = tempIndex;
         }
 
-        var newRequestList = new List<OrderRequest>();
-        var newAbilityList = new List<Ability>();
+        // var newRequestList = new List<OrderRequest>();
         var keys = keyDic.Keys.ToList();
         for (int i = 0; i < keys.Count; i++)
         {
@@ -124,23 +145,6 @@ public class OrderTable : ScriptableObject
                     }
                     break;
                 case MappingText.MappingType.Request:
-                // TODO: 컨디션 분리
-                // TODO: desc, value 쓰는게 아니라 RequestTable을 만들어서 딕셔너리 밸류값이랑 어빌리티값 넣게 해야함
-                // TODO: 조건이 >, < 등 여러가지가 될 수 있게 RequestTable을 만들어야 함
-                    // var requestList = GameMgr.In.requestTable.requestList;
-                    // while (true)
-                    // {
-                    //     var request = requestList[Random.Range(0, requestList.Count)];
-                    //     if (keyDic.ContainsValue(request.requestName))
-                    //     {
-                    //         continue;
-                    //     }
-                    //     keyDic[keys[i]] = request.requestName;
-                    //     newRequestList.Add(request);
-                    //     break;
-                    // }
-                    // break;
-                case MappingText.MappingType.Condition:
                     var abilityList = GameMgr.In.abilityTable.abilityList;
                     while (true)
                     {
@@ -149,10 +153,25 @@ public class OrderTable : ScriptableObject
                         {
                             continue;
                         }
+                        if (newOrder.requiredAbilityList.Find(x => x.abilityKey.Equals(ability.abilityKey)) != null)
+                        {
+                            continue;
+                        }
                         keyDic[keys[i]] = ability.desc;
-                        newAbilityList.Add(ability);
+
+                        var ra = new RequiredAbility();
+                        ra.abilityKey = ability.abilityKey;
+                        ra.count = 1;
+                        newOrder.requiredAbilityList.Add(ra);
+
                         break;
                     }
+                    break;
+                case MappingText.MappingType.Condition:
+                    var conditionNum = UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Condition)).Length);
+                    var condition = (Condition) conditionNum;
+                    newOrder.condition = condition;
+                    keyDic[keys[i]] = condition.ToString();
                     break;
                 default:
                     break;
@@ -160,15 +179,7 @@ public class OrderTable : ScriptableObject
 
             text = text.Replace(keys[i], keyDic[keys[i]]);
         }
-
         newOrder.ta = new TextAsset(text);
-        newAbilityList.AddRange(targetOrder.requiredChipAbilityList);
-        // TODO: 교체가 아니라 concat으로 해야 함 (요구사항이 고정+변동 주문의 경우)
-        newOrder.requiredChipAbilityList = newAbilityList;
-        
-        newRequestList.AddRange(targetOrder.requiredRequestList);
-        newOrder.requiredRequestList = newRequestList;
-        
         return newOrder;
     }
 }

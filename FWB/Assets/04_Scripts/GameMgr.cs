@@ -22,7 +22,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public OrderTable orderTable;
     public ChipTable chipTable;
     public AbilityTable abilityTable;
-    public RequestTable requestTable;
+    public ConditionTable requestTable;
     public WeaponDataTable.BluePrint currentBluePrint;
 
     public enum Day
