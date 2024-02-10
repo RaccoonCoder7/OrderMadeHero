@@ -656,6 +656,8 @@ public class GameSceneMgr : MonoBehaviour
                                 shopPopupUI.yes.interactable = true;
                                 shopPopupUI.yes.onClick.AddListener(() =>
                                 {
+                                    var bp = GameMgr.In.GetWeapon(bluePrintList[i].bluePrintKey);
+                                    bp.createEnable = true;
                                     GameMgr.In.credit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     PlayerPrefs.SetInt(bluePrintList[tempNum].bluePrintKey, 3);
@@ -736,6 +738,7 @@ public class GameSceneMgr : MonoBehaviour
                                 shopPopupUI.yes.interactable = true;
                                 shopPopupUI.yes.onClick.AddListener(() =>
                                 {
+                                    // TODO: 칩셋 사용 가능하도록 바꾸기
                                     GameMgr.In.credit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     PlayerPrefs.SetInt(chipList[tempNum].chipKey, 3);
@@ -823,8 +826,7 @@ public class GameSceneMgr : MonoBehaviour
 
     private int GetTargetNumber()
     {
-        // TODO: 아래 최대범위 숫자를 주문타입 갯수로 바꾸기
-        int value = UnityEngine.Random.Range(0, 19);
+        int value = UnityEngine.Random.Range(0, GameMgr.In.orderTable.orderList.Count);
         if (value == prevOrderTextNumber)
         {
             value = GetTargetNumber();

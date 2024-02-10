@@ -39,6 +39,18 @@ public class GameMgr : SingletonMono<GameMgr>
     {
         base.OnApplicationQuit();
         PlayerPrefs.DeleteAll();
+        
+        foreach (var category in weaponDataTable.bluePrintCategoryList)
+        {
+            foreach (var bp in category.bluePrintList)
+            {
+                bool enable = string.IsNullOrEmpty(bp.howToGet);
+                bp.orderEnable = enable;
+                bp.createEnable = enable;
+            }
+        }
+
+        // TODO: 모든 데이터테이블의 enable 초기화
     }
 
     /// <summary>
@@ -75,16 +87,34 @@ public class GameMgr : SingletonMono<GameMgr>
     /// </summary>
     public BluePrintCategory GetWeaponCategory(string categoryKey)
     {
-        return GameMgr.In.weaponDataTable.bluePrintCategoryList.Find(x => x.categoryKey.Equals(categoryKey));
+        return weaponDataTable.bluePrintCategoryList.Find(x => x.categoryKey.Equals(categoryKey));
     }
 
     /// <summary>
-    /// 키 값에 맞는 무기정보를 반환
+    /// 키 값에 맞는 무기정보를 반환 (카테고리키를 알고있는 경우, 이 함수를 사용할 것)
     /// </summary>
     public WeaponDataTable.BluePrint GetWeapon(string categoryKey, string key)
     {
         var category = GetWeaponCategory(categoryKey);
         return category.bluePrintList.Find(x => x.bluePrintKey.Equals(key));
+    }
+
+    /// <summary>
+    /// 키 값에 맞는 무기정보를 반환
+    /// </summary>
+    public WeaponDataTable.BluePrint GetWeapon(string key)
+    {
+        foreach (var category in weaponDataTable.bluePrintCategoryList)
+        {
+            foreach (var bp in category.bluePrintList)
+            {
+                if (bp.bluePrintKey.Equals(key))
+                {
+                    return bp;
+                }
+            }
+        }
+        return null;
     }
 
     /// <summary>

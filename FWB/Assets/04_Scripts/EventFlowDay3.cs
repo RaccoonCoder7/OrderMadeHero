@@ -86,6 +86,17 @@ public class EventFlowDay3 : EventFlow
 
     private void OnClickShopDodge()
     {
+        foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+        {
+            foreach (var bp in category.bluePrintList)
+            {
+                if (bp.howToGet.Equals("상점구매") && bp.price > 5000)
+                {
+                    bp.orderEnable = true;
+                }
+            }
+        }
+
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         mgr.shopDodge.onClick.RemoveListener(OnClickShopDodge);
     }
