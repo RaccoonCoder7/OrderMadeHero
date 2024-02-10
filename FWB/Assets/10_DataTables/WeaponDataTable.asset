@@ -21,10 +21,8 @@ MonoBehaviour:
     - bluePrintKey: b_dagger
       name: "\uB2E8\uAC80"
       comment: "\uC9E7\uB2E4\uACE0 \uBB34\uC2DC\uD558\uC9C0 \uB9D0\uC790."
-      howToGet: 
-      price: 0
-      orderEnable: 1
-      createEnable: 1
+      howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
+      price: 100
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
@@ -33,11 +31,9 @@ MonoBehaviour:
     - bluePrintKey: b_longSword
       name: "\uC7A5\uAC80"
       comment: "\uAC80\uC744 \uC5B4\uB514\uAE4C\uC9C0 \uB298\uB9B4 \uC218 \uC788\uC744\uAE4C? "
-      howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
-      price: 0
-      orderEnable: 0
-      createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 150
+      blueprintSprite: {fileID: 21300000, guid: 50103572a10bbe448a4430dcaaafb199, type: 3}
       icon: {fileID: 21300000, guid: 918ef34ee0bd12344ae40fd0e4122d77, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
@@ -49,10 +45,8 @@ MonoBehaviour:
       comment: "\uC774 \uAC80\uC744 \uC544\uC8FC \uBE60\uB974\uAC8C \uBF51\uC744
         \uC218 \uC788\uB294 \uC0AC\uB78C\uC774 \uC788\uB2E4\uB358\uB370"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      price: 5000
-      orderEnable: 0
-      createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      price: 200
+      blueprintSprite: {fileID: 21300000, guid: fb4fd0924c6d3784d8fe40266e60b752, type: 3}
       icon: {fileID: 21300000, guid: cd030e31a656981499a096e74e85e94b, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_speed
@@ -61,10 +55,8 @@ MonoBehaviour:
       name: "\uB300\uAC80"
       comment: "\uD070\uAC8C \uCD5C\uACE0\uB2E4."
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      price: 5000
-      orderEnable: 0
-      createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      price: 250
+      blueprintSprite: {fileID: 21300000, guid: fd70817131c4f584fadbac0a0068e175, type: 3}
       icon: {fileID: 21300000, guid: 5863d894979d17b4791f59d84c6d1dbd, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
@@ -75,10 +67,8 @@ MonoBehaviour:
       name: "\uC7A5\uAC80"
       comment: "\uAC80\uC744 \uC5B4\uB514\uAE4C\uC9C0 \uB298\uB9B4 \uC218 \uC788\uC744\uAE4C? "
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      price: 10000
-      orderEnable: 0
-      createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      price: 0
+      blueprintSprite: {fileID: 21300000, guid: ac4baa00364352f40859f5f5839f8652, type: 3}
       icon: {fileID: 21300000, guid: 8bfa4f5b687d8c24d99b5589b0c6378f, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
@@ -93,10 +83,8 @@ MonoBehaviour:
     - bluePrintKey: b_ax
       name: "\uB3C4\uB07C"
       comment: "\uC774\uAC78\uB85C \uB098\uBB34\uB294 \uBCA8 \uC218 \uC788\uC73C\uB824\uB098"
-      howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
       price: 0
-      orderEnable: 0
-      createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
       icon: {fileID: 21300000, guid: f462c0146e7f26547b990c27c4f690c0, type: 3}
       requiredChipAbilityList:
@@ -106,11 +94,9 @@ MonoBehaviour:
       name: "\uB9DD\uCE58"
       comment: "\uB9DD\uCE58 \uB098\uAC00\uC2E0\uB2E4!\\n[\uB9DD\uCE58\uB2D8\uC774
         \uAC8C\uC784\uC744 \uB5A0\uB098\uC168\uC2B5\uB2C8\uB2E4.]"
-      howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
       price: 0
-      orderEnable: 0
-      createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: ab0dbd72d3e1a224d8757e70170dd3f9, type: 3}
       icon: {fileID: 21300000, guid: f990a564a3da78a47ba0389711b004a7, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_weight
@@ -120,11 +106,9 @@ MonoBehaviour:
       comment: "\uC774\uC0C1\uD558\uAC8C \uAC00\uBCBC\uC6B4 \uB3C4\uB07C, \uBA4B\uC2A4\uB7EC\uC6B4\uAC8C
         \uD2B9\uC9D5.\\n\uB3C8\uAE4C\uC2A4 \uB9DD\uCE58\uAC00 \uB354 \uC544\uD50C
         \uAC83 \uAC19\uB2E4."
-      howToGet: "\uAD6C\uB9E4\uBD88\uAC00\uB2A5"
-      price: 5000
-      orderEnable: 0
-      createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      price: 0
+      blueprintSprite: {fileID: 21300000, guid: 710366ffe9a85674e98e9ce358f21eaa, type: 3}
       icon: {fileID: 21300000, guid: 966e383b443b47e40b745912701681ed, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_speed
@@ -133,11 +117,9 @@ MonoBehaviour:
       name: "\uC804\uD22C \uB3C4\uB07C"
       comment: "\uC774\uB984\uC744 \uBD99\uC5EC\uC8FC\uACE0 \uB0A0\uC744 \uB9E4\uC77C\uB9E4\uC77C
         \uAC08\uC544\uC904\uAEBC\uC57C"
-      howToGet: 500
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
       price: 0
-      orderEnable: 0
-      createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 4b6099a090356584683dce9c71e19cae, type: 3}
       icon: {fileID: 21300000, guid: 631f1df96bfefc246b27b8592e2a33f1, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
@@ -148,10 +130,8 @@ MonoBehaviour:
       name: "\uBAA8\uB2DD\uC2A4\uD0C0"
       comment: "\uC544\uCE68\uC5D0 \uC77C\uC5B4\uB09C \uC2A4\uD0C0\uB294? \uBAA8\uB2DD\uC2A4\uD0C0"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      price: 10000
-      orderEnable: 0
-      createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      price: 0
+      blueprintSprite: {fileID: 21300000, guid: 06b528de86bbc4e469794e76cadd9c29, type: 3}
       icon: {fileID: 21300000, guid: e6e4f07bae993b047a84359ed73a4e87, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_weight

@@ -88,6 +88,7 @@ public class EventFlowDay1 : EventFlow
         mgr.mainChatPanel.SetActive(true);
         mgr.pcChatPanel.SetActive(false);
         mgr.chatName.text = "모브NPC";
+        mgr.MobSpriteRandomChange();
         mgr.imageList.Find(x => x.key.Equals("모브NPC")).imageObj.SetActive(true);
         mgr.SkipToLastLine();
 

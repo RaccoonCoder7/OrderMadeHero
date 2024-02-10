@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using static SpriteChange;
 using DG.Tweening;
+using UnityEngine.Serialization;
 using static WeaponDataTable;
 
 /// <summary>
@@ -70,6 +71,7 @@ public class GameSceneMgr : MonoBehaviour
     public UISlot uiSlotPrefab;
     public ShopFollowUI shopFollowUI;
     public ShopPopupUI shopPopupUI;
+    public GameObject mobNpc;
     public Text mainChatText;
     public Text mascotChatText;
     public Text popupChatText;
@@ -109,6 +111,7 @@ public class GameSceneMgr : MonoBehaviour
     public RectTransform popupChatPanelRect;
     public Sprite blankSlotSprite;
     public List<Sprite> shopTabSpriteList;
+    public List<Sprite> mobSpriteList;
     public SpriteAnimation shopSpriteAnim;
     [HideInInspector]
     public Text chatTargetText;
@@ -279,7 +282,8 @@ public class GameSceneMgr : MonoBehaviour
         {
             return;
         }
-
+        
+        AdjustWeaponImageAspect();
         bluePrintSlotList[currentSelectedWeaponIndex - 1].button.onClick.Invoke();
     }
 
@@ -291,6 +295,7 @@ public class GameSceneMgr : MonoBehaviour
             return;
         }
 
+        AdjustWeaponImageAspect();
         bluePrintSlotList[currentSelectedWeaponIndex + 1].button.onClick.Invoke();
     }
 
@@ -313,6 +318,45 @@ public class GameSceneMgr : MonoBehaviour
         {
             return;
         });
+    }
+
+    public void MobSpriteRandomChange()
+    {
+        if (mobSpriteList.Count > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, mobSpriteList.Count);
+            Sprite randomSprite = mobSpriteList[randomIndex];
+
+            var a = mobNpc.GetComponent<Image>();
+            a.sprite = randomSprite;
+        }
+        else
+        {
+            Debug.LogWarning("모브 스프라이트 없음.");
+        }
+    }
+
+    public void AdjustWeaponImageAspect()
+    {
+    const float minSize = 150f;
+    const float maxSize = 300f;
+
+    var blueprintImgSpriteRect = blueprintImg.sprite.textureRect;
+    var rectTransform = blueprintImg.GetComponent<RectTransform>().rect;
+    var aspectRatio = rectTransform.width / rectTransform.height;
+    Vector2 adjustedSize;
+
+    if (blueprintImgSpriteRect.x <= blueprintImgSpriteRect.y)
+    {
+        adjustedSize = new Vector2(minSize * aspectRatio, maxSize);
+    }
+    else
+    {
+        adjustedSize = new Vector2(maxSize, minSize / aspectRatio);
+    }
+
+    rectTransform.width = adjustedSize.x;
+    rectTransform.height = adjustedSize.y;
     }
 
     public void OnClickSave()
@@ -923,6 +967,7 @@ public class GameSceneMgr : MonoBehaviour
     {
         for (int i = 0; i < customerCnt; i++)
         {
+            MobSpriteRandomChange();
             var orderTextList = new List<string>();
             var rejectTextList = new List<string>();
             var successTextList = new List<string>();
@@ -993,6 +1038,7 @@ public class GameSceneMgr : MonoBehaviour
                     foreach (var image in imageList)
                     {
                         image.imageObj.SetActive(false);
+                        MobSpriteRandomChange();
                     }
                     mainChatPanel.SetActive(false);
                     chatTarget = ChatTarget.None;
