@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static AbilityTable;
 using static WeaponDataTable;
-using static ConditionTable;
 
 /// <summary>
 /// 주문에 대한 정보를 저장하는 SO
@@ -44,6 +43,21 @@ public class OrderTable : ScriptableObject
             Condition,
         }
     }
+
+
+    [System.Serializable]
+    public enum Condition
+    {
+        상태없음,
+        완벽한,
+        적당한,
+        대충한,
+        // 멋있는,
+        // 화려한,
+        // 눈부신,
+        일회용
+    }
+
 
     /// <summary>
     /// 주문정보를 새로 생성하여 반환함
@@ -169,7 +183,7 @@ public class OrderTable : ScriptableObject
                     break;
                 case MappingText.MappingType.Condition:
                     var conditionNum = UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Condition)).Length);
-                    var condition = (Condition) conditionNum;
+                    var condition = (Condition)conditionNum;
                     newOrder.condition = condition;
                     keyDic[keys[i]] = condition.ToString();
                     break;
@@ -181,5 +195,64 @@ public class OrderTable : ScriptableObject
         }
         newOrder.ta = new TextAsset(text);
         return newOrder;
+    }
+
+    public bool IsConditionMatched(List<PuzzleFrame> puzzleFrameList, Condition condition)
+    {
+        if (condition == Condition.상태없음 || condition == Condition.대충한)
+        {
+            return true;
+        }
+
+        // var abilityDic = new Dictionary<string, int>();
+        List<ChipObj> chipObjList = new List<ChipObj>();
+        foreach (var puzzleFrame in puzzleFrameList)
+        {
+            if (puzzleFrame.transform.childCount > 0)
+            {
+                var child = puzzleFrame.transform.GetChild(0);
+                if (child)
+                {
+                    var chip = child.GetComponent<ChipObj>();
+                    if (chip)
+                    {
+                        chipObjList.Add(chip);
+                        // foreach (var ability in chip.chipAbilityList)
+                        // {
+                        //     if (abilityDic.TryGetValue(ability.abilityKey, out int currentCount))
+                        //     {
+                        //         abilityDic[ability.abilityKey] = currentCount + 1;
+                        //     }
+                        //     else
+                        //     {
+                        //         abilityDic.Add(ability.abilityKey, 1);
+                        //     }
+                        // }
+                    }
+                }
+            }
+        }
+
+        switch (condition)
+        {
+            case Condition.완벽한:
+                int totalSize1 = GetTotalSizeOfChips(chipObjList);
+                return totalSize1 == puzzleFrameList.Count;
+            case Condition.적당한:
+                int totalSize2 = GetTotalSizeOfChips(chipObjList);
+                return totalSize2 >= puzzleFrameList.Count / 2;
+        }
+        return false;
+    }
+
+    private int GetTotalSizeOfChips(List<ChipObj> chipObjList)
+    {
+        int totalSize = 0;
+        foreach (var chipObj in chipObjList)
+        {
+            totalSize += chipObj.GetChipSize();
+        }
+
+        return totalSize;
     }
 }

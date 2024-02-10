@@ -22,6 +22,8 @@ public class ChipObj : MonoBehaviour
     [HideInInspector]
     public Col[] originRow;
 
+    private int size;
+
 
     [System.Serializable]
     public class Col
@@ -87,6 +89,17 @@ public class ChipObj : MonoBehaviour
         this.count.text = count.ToString();
     }
 
+    public int GetChipSize()
+    {
+        if (size > 0) return size;
 
-
+        for (int i = 0; i < rowNum; i++)
+        {
+            for (int j = 0; j < colNum; j++)
+            {
+                if (row[i].col[j]) size++;
+            }
+        }
+        return size;
+    }
 }

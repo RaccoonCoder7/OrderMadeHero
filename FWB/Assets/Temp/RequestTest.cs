@@ -11,7 +11,7 @@ public class RequestTest : MonoBehaviour
     public Text Output;
     public Button refBtn;
     public TestState testState;
-    public ConditionTable requestTable;
+    // public ConditionTable requestTable;
 
     public enum TestState
     {
@@ -22,8 +22,8 @@ public class RequestTest : MonoBehaviour
 
     private void Start()
     {
-        var requestList = requestTable.conditionList;
-        var request = requestList[UnityEngine.Random.Range(0, requestList.Count)];
+        // var requestList = requestTable.conditionList;
+        // var request = requestList[UnityEngine.Random.Range(0, requestList.Count)];
         // ReqText.text = request.requestName;
         testState = TestState.wait;
         StartCoroutine(caseMach());
@@ -36,8 +36,8 @@ public class RequestTest : MonoBehaviour
 
     void Refresh()
     {
-        var requestList = requestTable.conditionList;
-        var request = requestList[UnityEngine.Random.Range(0, requestList.Count)];
+        // var requestList = requestTable.conditionList;
+        // var request = requestList[UnityEngine.Random.Range(0, requestList.Count)];
         // ReqText.text = request.requestName;
     }
 
