@@ -3,7 +3,7 @@
 같지 않아?
 !next
 CCTV로 한번 확인해 봐봐.
-!image_곤란한버니 !next
+!image_곤란한버니 !speaker_full_나비 !next
 앗, 나 저 사람 알아!
 엄청 유명한 히어로인데?
 !next
@@ -12,9 +12,9 @@ CCTV로 한번 확인해 봐봐.
 주인님은 신입 무기상이잖아.
 히어로에게 눈도장을 찍어 두면
 손해 볼 거 없을 거야.
-!speaker_버니 !next
+!speaker_full_버니 !next
 아하하…, 시민 여러분, 제가 지금 좀 바쁜—으악!!!
-!speaker_PC나비 !sound_doorbell !next
+!speaker_full_나비 !sound_doorbell !next
 들어왔다! 얼른 문 닫아!
 !speaker_버니 !image_버니 !next
 에고, 머리야. 여기 가게 문 닫은 줄 알았는데…?

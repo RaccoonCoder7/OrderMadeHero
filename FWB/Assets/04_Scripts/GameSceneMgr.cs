@@ -52,6 +52,7 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject pcChatPanel;
     public GameObject popupChatPanel;
     public GameObject popupPanel;
+    public GameObject fullPanel;
     public GameObject saveLoadPanel;
     public GameObject saveLoadPopup;
     public GameObject day;
@@ -76,6 +77,8 @@ public class GameSceneMgr : MonoBehaviour
     public Text mainChatText;
     public Text mascotChatText;
     public Text popupChatText;
+    public Text fullChatName;
+    public Text fullChatText;
     public Text yesText;
     public Text noText;
     public Text eventBtntext1;
@@ -175,7 +178,8 @@ public class GameSceneMgr : MonoBehaviour
         None,
         Main,
         Mascot,
-        Popup
+        Popup,
+        Full
     }
 
     public enum OrderState
@@ -1139,10 +1143,18 @@ public class GameSceneMgr : MonoBehaviour
                     {
                         var splittedCom = com.Split('_');
                         string speaker = splittedCom[1];
-                        if (speaker.Trim().Equals("popup") && splittedCom.Length == 3)
+                        if (splittedCom.Length == 3)
                         {
-                            chatTarget = ChatTarget.Popup;
-                            // TODO: speaker에 따라서 이미지 변경
+                            if (speaker.Trim().Equals("popup"))
+                            {
+                                chatTarget = ChatTarget.Popup;
+                                // TODO: speaker에 따라서 이미지 변경
+                            }
+                            else if (speaker.Trim().Equals("full"))
+                            {
+                                fullChatName.text = splittedCom[2];
+                                chatTarget = ChatTarget.Full;
+                            }
                         }
                         else if (speaker.Equals(CommonTool.In.pcMascotName))
                         {
@@ -1236,17 +1248,32 @@ public class GameSceneMgr : MonoBehaviour
                         mainChatPanel.SetActive(true);
                         pcChatPanel.SetActive(false);
                         popupChatPanel.SetActive(false);
+                        fullPanel.SetActive(false);
+                        deskTr.gameObject.SetActive(true);
+                        pc.gameObject.SetActive(true);
                         chatTargetText = mainChatText;
                         break;
                     case ChatTarget.Mascot:
                         mainChatPanel.SetActive(false);
                         pcChatPanel.SetActive(true);
                         popupChatPanel.SetActive(false);
+                        fullPanel.SetActive(false);
+                        deskTr.gameObject.SetActive(true);
+                        pc.gameObject.SetActive(true);
                         chatTargetText = mascotChatText;
                         break;
                     case ChatTarget.Popup:
                         popupChatPanel.SetActive(true);
                         chatTargetText = popupChatText;
+                        break;
+                    case ChatTarget.Full:
+                        mainChatPanel.SetActive(false);
+                        pcChatPanel.SetActive(false);
+                        popupChatPanel.SetActive(false);
+                        fullPanel.SetActive(true);
+                        deskTr.gameObject.SetActive(false);
+                        pc.gameObject.SetActive(false);
+                        chatTargetText = fullChatText;
                         break;
                 }
                 prevChatTarget = chatTarget;
