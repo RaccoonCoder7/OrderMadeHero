@@ -103,6 +103,7 @@ public class GameSceneMgr : MonoBehaviour
     public Text weaponCategory;
     public Text howToGet;
     public Image blueprintImg;
+    public GameObject bluePrintImgObj;
     public List<Sprite> bgImgList = new List<Sprite>();
     public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
     public List<UISlot> bluePrintSlotList = new List<UISlot>();
@@ -288,7 +289,6 @@ public class GameSceneMgr : MonoBehaviour
             return;
         }
 
-        AdjustWeaponImageAspect();
         bluePrintSlotList[currentSelectedWeaponIndex - 1].button.onClick.Invoke();
     }
 
@@ -300,7 +300,6 @@ public class GameSceneMgr : MonoBehaviour
             return;
         }
 
-        AdjustWeaponImageAspect();
         bluePrintSlotList[currentSelectedWeaponIndex + 1].button.onClick.Invoke();
     }
 
@@ -340,28 +339,28 @@ public class GameSceneMgr : MonoBehaviour
             Debug.LogWarning("모브 스프라이트 없음.");
         }
     }
-
+    
     public void AdjustWeaponImageAspect()
     {
+        //Debug.Log("weapImgadj");
         const float minSize = 150f;
         const float maxSize = 300f;
 
         var blueprintImgSpriteRect = blueprintImg.sprite.textureRect;
-        var rectTransform = blueprintImg.GetComponent<RectTransform>().rect;
-        var aspectRatio = rectTransform.width / rectTransform.height;
-        Vector2 adjustedSize;
+        var rectTransform = bluePrintImgObj.GetComponent<RectTransform>();
+        //var aspectRatio = blueprintImgSpriteRect.width / blueprintImgSpriteRect.height;
 
+        Vector2 adjustedSize;
         if (blueprintImgSpriteRect.x <= blueprintImgSpriteRect.y)
         {
-            adjustedSize = new Vector2(minSize * aspectRatio, maxSize);
+            adjustedSize = new Vector2(maxSize, minSize);
         }
         else
         {
-            adjustedSize = new Vector2(maxSize, minSize / aspectRatio);
+            adjustedSize = new Vector2(minSize, maxSize);
         }
 
-        rectTransform.width = adjustedSize.x;
-        rectTransform.height = adjustedSize.y;
+        rectTransform.sizeDelta = adjustedSize;
     }
 
     public void OnClickSave()
@@ -1371,6 +1370,7 @@ public class GameSceneMgr : MonoBehaviour
         if (weapon.blueprintSprite != null)
         {
             blueprintImg.sprite = weapon.blueprintSprite;
+            AdjustWeaponImageAspect();
         }
         weaponName.text = weapon.name;
         comment.text = weapon.comment;

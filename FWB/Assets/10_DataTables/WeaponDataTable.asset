@@ -52,7 +52,7 @@ MonoBehaviour:
       price: 5000
       orderEnable: 0
       createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: fb4fd0924c6d3784d8fe40266e60b752, type: 3}
       icon: {fileID: 21300000, guid: cd030e31a656981499a096e74e85e94b, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_speed
@@ -64,7 +64,7 @@ MonoBehaviour:
       price: 5000
       orderEnable: 0
       createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: fd70817131c4f584fadbac0a0068e175, type: 3}
       icon: {fileID: 21300000, guid: 5863d894979d17b4791f59d84c6d1dbd, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
@@ -78,7 +78,7 @@ MonoBehaviour:
       price: 10000
       orderEnable: 0
       createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: b613540851115a2488ee0461235a4071, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: ac4baa00364352f40859f5f5839f8652, type: 3}
       icon: {fileID: 21300000, guid: 8bfa4f5b687d8c24d99b5589b0c6378f, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
@@ -110,7 +110,7 @@ MonoBehaviour:
       price: 0
       orderEnable: 0
       createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: ab0dbd72d3e1a224d8757e70170dd3f9, type: 3}
       icon: {fileID: 21300000, guid: f990a564a3da78a47ba0389711b004a7, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_weight
@@ -124,7 +124,7 @@ MonoBehaviour:
       price: 5000
       orderEnable: 0
       createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 710366ffe9a85674e98e9ce358f21eaa, type: 3}
       icon: {fileID: 21300000, guid: 966e383b443b47e40b745912701681ed, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_speed
@@ -137,7 +137,7 @@ MonoBehaviour:
       price: 0
       orderEnable: 0
       createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 4b6099a090356584683dce9c71e19cae, type: 3}
       icon: {fileID: 21300000, guid: 631f1df96bfefc246b27b8592e2a33f1, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
@@ -151,7 +151,7 @@ MonoBehaviour:
       price: 10000
       orderEnable: 0
       createEnable: 0
-      blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 06b528de86bbc4e469794e76cadd9c29, type: 3}
       icon: {fileID: 21300000, guid: e6e4f07bae993b047a84359ed73a4e87, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_weight
