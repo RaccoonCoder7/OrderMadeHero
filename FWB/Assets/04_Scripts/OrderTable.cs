@@ -162,7 +162,7 @@ public class OrderTable : ScriptableObject
                         var bluePrint = bluePrintList[UnityEngine.Random.Range(0, bluePrintList.Count)];
                         if (keyDic.ContainsValue(bluePrint.name))
                         {
-                            continue;
+                            if (bluePrintList.Count >= 2) continue;
                         }
                         keyDic[keys[i]] = bluePrint.name;
                         newOrder.requiredBlueprintKeyList.Add(bluePrint.bluePrintKey);
@@ -170,14 +170,15 @@ public class OrderTable : ScriptableObject
                     }
                     break;
                 case MappingText.MappingType.Request:
+                    // TODO: AbilityList가 아닌 Request리스트에서 찾아야함
                     var abilityList = GameMgr.In.abilityTable.abilityList;
+                    var orderableAbilityList = abilityList.Where(x => x.orderEnable).ToList();
                     while (true)
                     {
-                        var orderableAbilityList = abilityList.Where(x => x.orderEnable).ToList();
                         var ability = orderableAbilityList[UnityEngine.Random.Range(0, abilityList.Count)];
                         if (keyDic.ContainsValue(ability.desc))
                         {
-                            continue;
+                            if (orderableAbilityList.Count >= 2) continue;
                         }
                         if (newOrder.requiredAbilityList.Find(x => x.abilityKey.Equals(ability.abilityKey)) != null)
                         {
@@ -262,9 +263,9 @@ public class OrderTable : ScriptableObject
 
                 foreach (var ra in GameMgr.In.currentBluePrint.requiredChipAbilityList)
                 {
-                    if (ra.abilityKey.Equals("a_durability")) continue;
+                    if (!ra.abilityKey.Equals("a_durability")) continue;
                     return durability.Value <= ra.count;
-                };
+                }
 
                 return false;
         }
