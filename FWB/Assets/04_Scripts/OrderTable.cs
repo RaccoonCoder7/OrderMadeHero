@@ -78,7 +78,7 @@ public class OrderTable : ScriptableObject
         return GetNewOrder(targetOrder);
     }
 
-        /// <summary>
+    /// <summary>
     /// 주문정보를 새로 생성하여 반환함
     /// </summary>
     /// <param name="orderKey">주문 키</param>
@@ -170,27 +170,31 @@ public class OrderTable : ScriptableObject
                     }
                     break;
                 case MappingText.MappingType.Request:
-                    // TODO: AbilityList가 아닌 Request리스트에서 찾아야함
-                    var abilityList = GameMgr.In.abilityTable.abilityList;
-                    var orderableAbilityList = abilityList.Where(x => x.orderEnable).ToList();
+                    var requestList = GameMgr.In.requestTable.requestList;
+                    var orderableRequestList = requestList.Where(x => x.orderEnable).ToList();
                     while (true)
                     {
-                        var ability = orderableAbilityList[UnityEngine.Random.Range(0, abilityList.Count)];
-                        if (keyDic.ContainsValue(ability.desc))
+                        var request = orderableRequestList[UnityEngine.Random.Range(0, orderableRequestList.Count)];
+                        if (keyDic.ContainsValue(request.name))
                         {
-                            if (orderableAbilityList.Count >= 2) continue;
+                            if (orderableRequestList.Count >= 2) continue;
                         }
-                        if (newOrder.requiredAbilityList.Find(x => x.abilityKey.Equals(ability.abilityKey)) != null)
+                        keyDic[keys[i]] = request.name;
+
+                        foreach (var ability in request.requiredAbilityList)
                         {
-                            continue;
+                            var existAbility = newOrder.requiredAbilityList.Find(x => x.abilityKey.Equals(ability.abilityKey));
+                            if (existAbility != null)
+                            {
+                                existAbility.count += ability.count;
+                                continue;
+                            }
+
+                            var ra = new RequiredAbility();
+                            ra.abilityKey = ability.abilityKey;
+                            ra.count = ability.count;
+                            newOrder.requiredAbilityList.Add(ra);
                         }
-                        keyDic[keys[i]] = ability.desc;
-
-                        var ra = new RequiredAbility();
-                        ra.abilityKey = ability.abilityKey;
-                        ra.count = 1;
-                        newOrder.requiredAbilityList.Add(ra);
-
                         break;
                     }
                     break;

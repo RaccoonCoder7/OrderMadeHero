@@ -100,8 +100,6 @@ public class EventFlowDay1 : EventFlow
         mgr.EndText();
         mgr.popupChatPanel.SetActive(false);
         CommonTool.In.SetFocus(new Vector2(285, 620), new Vector2(60, 60));
-
-        // TODO: 다른 버튼에 대한 조작을 막는 방법??
         mgr.bluePrintSlotList[0].button.onClick.AddListener(OnClickBlueprintSlot);
     }
 

@@ -24,7 +24,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public OrderTable orderTable;
     public ChipTable chipTable;
     public AbilityTable abilityTable;
-    // public ConditionTable requestTable;
+    public RequestDataTable requestTable;
     public WeaponDataTable.BluePrint currentBluePrint;
 
     public enum Day
@@ -40,33 +40,7 @@ public class GameMgr : SingletonMono<GameMgr>
     {
         base.OnApplicationQuit();
         PlayerPrefs.DeleteAll();
-
-        foreach (var category in weaponDataTable.bluePrintCategoryList)
-        {
-            foreach (var bp in category.bluePrintList)
-            {
-                bool enable = string.IsNullOrEmpty(bp.howToGet);
-                bp.orderEnable = enable;
-                bp.createEnable = enable;
-            }
-        }
-
-        foreach (var order in orderTable.orderList)
-        {
-            order.orderEnable = string.IsNullOrEmpty(order.orderCondition);
-        }
-
-        foreach (var chip in chipTable.chipList)
-        {
-            bool enable = string.IsNullOrEmpty(chip.howToGet);
-            chip.createEnable = enable;
-        }
-
-        // TODO: Ability와 Order desc 분리 후 하드코드 제거
-        var durability = GetAbility("a_durability");
-        durability.orderEnable = false;
-
-        // TODO: Order 데이터테이블의 enable 초기화
+        ResetDataTables();
     }
 
     /// <summary>
@@ -167,5 +141,34 @@ public class GameMgr : SingletonMono<GameMgr>
     public AbilityTable.Ability GetAbility(string abilityKey)
     {
         return abilityTable.abilityList.Find(x => x.abilityKey.Equals(abilityKey));
+    }
+
+    private void ResetDataTables()
+    {
+        foreach (var category in weaponDataTable.bluePrintCategoryList)
+        {
+            foreach (var bp in category.bluePrintList)
+            {
+                bool enable = string.IsNullOrEmpty(bp.howToGet);
+                bp.orderEnable = enable;
+                bp.createEnable = enable;
+            }
+        }
+
+        foreach (var order in orderTable.orderList)
+        {
+            order.orderEnable = string.IsNullOrEmpty(order.orderCondition);
+        }
+
+        foreach (var chip in chipTable.chipList)
+        {
+            bool enable = string.IsNullOrEmpty(chip.howToGet);
+            chip.createEnable = enable;
+        }
+
+        foreach (var request in requestTable.requestList)
+        {
+            request.orderEnable = string.IsNullOrEmpty(request.orderCondition);
+        }
     }
 }
