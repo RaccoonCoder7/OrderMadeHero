@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using static BluePrintTable;
 using static WeaponDataTable;
@@ -48,6 +49,11 @@ public class GameMgr : SingletonMono<GameMgr>
                 bp.orderEnable = enable;
                 bp.createEnable = enable;
             }
+        }
+
+        foreach (var order in orderTable.orderList)
+        {
+            order.orderEnable = string.IsNullOrEmpty(order.orderCondition);
         }
 
         foreach (var chip in chipTable.chipList)
@@ -125,6 +131,26 @@ public class GameMgr : SingletonMono<GameMgr>
             }
         }
         return null;
+    }
+
+    public OrderTable.Order GetOrder(string orderKey)
+    {
+        var targetOrder = orderTable.orderList.Find(x => x.orderKey.Equals(orderKey));
+        if (targetOrder == null)
+        {
+            Debug.Log("orderKey에 해당하는 Order가 없습니다.");
+            return null;
+        }
+
+        return targetOrder;
+    }
+
+    public OrderTable.Order GetRandomNewOrder(string exceptionKey)
+    {
+        var orderableOrderList = orderTable.orderList.FindAll(x =>
+            x.orderEnable && !x.orderKey.Equals(exceptionKey)).ToList();
+        var index = UnityEngine.Random.Range(0, orderableOrderList.Count);
+        return orderTable.GetNewOrder(orderableOrderList[index]);
     }
 
     /// <summary>

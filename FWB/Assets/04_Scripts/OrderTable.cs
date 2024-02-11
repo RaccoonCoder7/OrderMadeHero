@@ -21,6 +21,8 @@ public class OrderTable : ScriptableObject
         public List<string> requiredBlueprintKeyList = new List<string>();
         public List<RequiredAbility> requiredAbilityList = new List<RequiredAbility>();
         public Condition condition = Condition.상태없음;
+        public string orderCondition;
+        public bool orderEnable = true;
     }
 
     [System.Serializable]
@@ -73,6 +75,16 @@ public class OrderTable : ScriptableObject
             return null;
         }
 
+        return GetNewOrder(targetOrder);
+    }
+
+        /// <summary>
+    /// 주문정보를 새로 생성하여 반환함
+    /// </summary>
+    /// <param name="orderKey">주문 키</param>
+    /// <returns>새로 생성 된 주문정보</returns>
+    public Order GetNewOrder(Order targetOrder)
+    {
         // 주문 깊은복사
         var newOrder = new Order();
         newOrder.orderKey = targetOrder.orderKey;
@@ -124,7 +136,6 @@ public class OrderTable : ScriptableObject
             i = tempIndex;
         }
 
-        // var newRequestList = new List<OrderRequest>();
         var keys = keyDic.Keys.ToList();
         for (int i = 0; i < keys.Count; i++)
         {
@@ -143,7 +154,7 @@ public class OrderTable : ScriptableObject
                     {
                         foreach (var bp in bpc.bluePrintList)
                         {
-                            bluePrintList.Add(bp);
+                            if (bp.orderEnable) bluePrintList.Add(bp);
                         }
                     }
                     while (true)

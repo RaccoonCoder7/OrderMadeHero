@@ -97,6 +97,14 @@ public class EventFlowDay3 : EventFlow
             }
         }
 
+        foreach (var order in GameMgr.In.orderTable.orderList)
+        {
+            if (order.orderCondition.Equals("Day3"))
+            {
+                order.orderEnable = true;
+            }
+        }
+
         // TODO: Ability와 Order desc 분리 후 하드코드 제거
         var durability = GameMgr.In.GetAbility("a_durability");
         durability.orderEnable = true;

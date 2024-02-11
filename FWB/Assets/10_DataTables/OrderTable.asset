@@ -18,61 +18,85 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_1
     ta: {fileID: 4900000, guid: be0946e071481b545be3ee2af48bcfc4, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_2
     ta: {fileID: 4900000, guid: fb56e721e59d23b43bae5a9697c49b3d, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_3
     ta: {fileID: 4900000, guid: a66c0b5a2b030084fa7318187af6187b, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_4
     ta: {fileID: 4900000, guid: 5c833dca39530b049a1056b9002b9ce2, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: AfterOneOrder
+    orderEnable: 0
   - orderKey: NormalOrder_5
     ta: {fileID: 4900000, guid: 2a9dbad8756f0ad4eaae4362755690dd, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: AfterOneOrder
+    orderEnable: 0
   - orderKey: NormalOrder_6
     ta: {fileID: 4900000, guid: 93949d4a75c7dbd438e6c22165e46194, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_7
     ta: {fileID: 4900000, guid: 685f14596ca2e214391eff0dc2248766, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_8
     ta: {fileID: 4900000, guid: 282791ae4f6b5ff4d88e37cfcd06265f, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_9
     ta: {fileID: 4900000, guid: ac01a335a302fe647b0a856f5018766b, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_10
     ta: {fileID: 4900000, guid: 0ed15894b47487e42be90380585280d9, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_11
     ta: {fileID: 4900000, guid: ea1e3371aa02cdb4cb3f76a5f39dde7d, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_12
     ta: {fileID: 4900000, guid: 52200c3ce46cdfa4ea53017c8d7e924b, type: 3}
     requiredBlueprintKeyList: []
@@ -80,52 +104,72 @@ MonoBehaviour:
     - abilityKey: a_acuity
       count: 3
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_13
     ta: {fileID: 4900000, guid: 0ef39d7a06b45f148828a8456f1018d0, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_14
     ta: {fileID: 4900000, guid: 0712313a61cb0cb4e9b3997fd7e1b2cf, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_15
     ta: {fileID: 4900000, guid: 24a9f75b81dd96b48adbedce03b9f7c3, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: AfterOneOrder
+    orderEnable: 0
   - orderKey: NormalOrder_16
     ta: {fileID: 4900000, guid: 66831247d3bc55b45b1b37edefcf383f, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: AfterOneOrder
+    orderEnable: 0
   - orderKey: NormalOrder_17
     ta: {fileID: 4900000, guid: b1b76f49395e59945b254fb514c8f6c5, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_18
-    ta: {fileID: 4900000, guid: 27bc258d98bc4865b9a2ebc2d134f19c, type: 3}
+    ta: {fileID: 4900000, guid: 010815bb3f3af3844b0931ea3f07c092, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: AfterOneOrder
+    orderEnable: 0
   - orderKey: NormalOrder_19
     ta: {fileID: 4900000, guid: dd86be1d11624d0a84b289b3b8dbe8e6, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_20
     ta: {fileID: 4900000, guid: d5020a40fdb34d7f9fbd8bbca79f74fa, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    orderCondition: 
+    orderEnable: 1
   - orderKey: NormalOrder_21
     ta: {fileID: 4900000, guid: b1e00baa554247778112a30d5c2fbd9c, type: 3}
     requiredBlueprintKeyList:
     - b_katana
     requiredAbilityList: []
     condition: 0
+    orderCondition: Day3
+    orderEnable: 0
   mappingTextList:
   - mappingKey: "\uCCAD\uC0AC\uC9C4"
     mappingType: 0

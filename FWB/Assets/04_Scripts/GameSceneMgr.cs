@@ -145,7 +145,7 @@ public class GameSceneMgr : MonoBehaviour
     private bool isWaitingForText;
     private List<string> lines = new List<string>();
     private int lineCnt = 0;
-    private int prevOrderTextNumber = -1;
+    private string prevOrderKey = "";
     private int normalOrderLineIndex = 0;
     private int normalOrderPrevLineIndex = 0;
     private int currentSelectedWeaponIndex = -1;
@@ -282,7 +282,7 @@ public class GameSceneMgr : MonoBehaviour
         {
             return;
         }
-        
+
         AdjustWeaponImageAspect();
         bluePrintSlotList[currentSelectedWeaponIndex - 1].button.onClick.Invoke();
     }
@@ -338,25 +338,25 @@ public class GameSceneMgr : MonoBehaviour
 
     public void AdjustWeaponImageAspect()
     {
-    const float minSize = 150f;
-    const float maxSize = 300f;
+        const float minSize = 150f;
+        const float maxSize = 300f;
 
-    var blueprintImgSpriteRect = blueprintImg.sprite.textureRect;
-    var rectTransform = blueprintImg.GetComponent<RectTransform>().rect;
-    var aspectRatio = rectTransform.width / rectTransform.height;
-    Vector2 adjustedSize;
+        var blueprintImgSpriteRect = blueprintImg.sprite.textureRect;
+        var rectTransform = blueprintImg.GetComponent<RectTransform>().rect;
+        var aspectRatio = rectTransform.width / rectTransform.height;
+        Vector2 adjustedSize;
 
-    if (blueprintImgSpriteRect.x <= blueprintImgSpriteRect.y)
-    {
-        adjustedSize = new Vector2(minSize * aspectRatio, maxSize);
-    }
-    else
-    {
-        adjustedSize = new Vector2(maxSize, minSize / aspectRatio);
-    }
+        if (blueprintImgSpriteRect.x <= blueprintImgSpriteRect.y)
+        {
+            adjustedSize = new Vector2(minSize * aspectRatio, maxSize);
+        }
+        else
+        {
+            adjustedSize = new Vector2(maxSize, minSize / aspectRatio);
+        }
 
-    rectTransform.width = adjustedSize.x;
-    rectTransform.height = adjustedSize.y;
+        rectTransform.width = adjustedSize.x;
+        rectTransform.height = adjustedSize.y;
     }
 
     public void OnClickSave()
@@ -869,17 +869,6 @@ public class GameSceneMgr : MonoBehaviour
         return line.Replace("{username}", CommonTool.In.playerName);
     }
 
-    private int GetTargetNumber()
-    {
-        int value = UnityEngine.Random.Range(0, GameMgr.In.orderTable.orderList.Count);
-        if (value == prevOrderTextNumber)
-        {
-            value = GetTargetNumber();
-        }
-        prevOrderTextNumber = value;
-        return value;
-    }
-
     private void EndOrderText()
     {
         StopCoroutine(textFlowCoroutine);
@@ -967,15 +956,25 @@ public class GameSceneMgr : MonoBehaviour
     {
         for (int i = 0; i < customerCnt; i++)
         {
+            if (i == 1)
+            {
+                foreach (var o in GameMgr.In.orderTable.orderList)
+                {
+                    if (o.orderCondition.Equals("AfterOneOrder"))
+                    {
+                        o.orderEnable = true;
+                    }
+                }
+            }
+
             MobSpriteRandomChange();
             var orderTextList = new List<string>();
             var rejectTextList = new List<string>();
             var successTextList = new List<string>();
             var failTextList = new List<string>();
 
-            int targetNumber = GetTargetNumber();
-            string orderKey = "NormalOrder_" + targetNumber;
-            var order = GameMgr.In.orderTable.GetNewOrder(orderKey);
+            var order = GameMgr.In.GetRandomNewOrder(prevOrderKey);
+            prevOrderKey = order.orderKey;
             lines = order.ta.text.Split('\n').ToList();
 
             normalOrderLineIndex = 0;
@@ -1047,6 +1046,15 @@ public class GameSceneMgr : MonoBehaviour
                 yield return null;
             }
         }
+
+        foreach (var order in GameMgr.In.orderTable.orderList)
+        {
+            if (order.orderCondition.Equals("AfterOneOrder"))
+            {
+                order.orderEnable = false;
+            }
+        }
+
         onEndRoutine.Invoke();
     }
 
