@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static BluePrintTable;
+using static OrderTable;
 using static WeaponDataTable;
 
 /// <summary>
@@ -26,6 +28,10 @@ public class GameMgr : SingletonMono<GameMgr>
     public AbilityTable abilityTable;
     public RequestDataTable requestTable;
     public WeaponDataTable.BluePrint currentBluePrint;
+    [HideInInspector]
+    public Order currentOrder;
+    [HideInInspector]
+    public List<string> orderedBluePrintKeyList = new List<string>();
 
     public enum Day
     {
@@ -107,7 +113,7 @@ public class GameMgr : SingletonMono<GameMgr>
         return null;
     }
 
-    public OrderTable.Order GetOrder(string orderKey)
+    public Order GetOrder(string orderKey)
     {
         var targetOrder = orderTable.orderList.Find(x => x.orderKey.Equals(orderKey));
         if (targetOrder == null)
@@ -119,7 +125,7 @@ public class GameMgr : SingletonMono<GameMgr>
         return targetOrder;
     }
 
-    public OrderTable.Order GetRandomNewOrder(string exceptionKey)
+    public Order GetRandomNewOrder(string exceptionKey)
     {
         var orderableOrderList = orderTable.orderList.FindAll(x =>
             x.orderEnable && !x.orderKey.Equals(exceptionKey)).ToList();
@@ -141,6 +147,15 @@ public class GameMgr : SingletonMono<GameMgr>
     public AbilityTable.Ability GetAbility(string abilityKey)
     {
         return abilityTable.abilityList.Find(x => x.abilityKey.Equals(abilityKey));
+    }
+
+    /// <summary>
+    /// 현재 주문/청사진 정보를 저장
+    /// </summary>
+    public void SaveOrderHistory()
+    {
+        if (currentBluePrint == null) return;
+        orderedBluePrintKeyList.Add(currentBluePrint.bluePrintKey);
     }
 
     private void ResetDataTables()

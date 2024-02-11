@@ -12,6 +12,7 @@ using static SpriteChange;
 using DG.Tweening;
 using UnityEngine.Serialization;
 using static WeaponDataTable;
+using static GameMgr;
 
 /// <summary>
 /// 게임 씬의 UI와 동작(메인 게임 플로우)를 관리
@@ -956,17 +957,6 @@ public class GameSceneMgr : MonoBehaviour
     {
         for (int i = 0; i < customerCnt; i++)
         {
-            if (i == 1)
-            {
-                foreach (var o in GameMgr.In.orderTable.orderList)
-                {
-                    if (o.orderCondition.Equals("AfterOneOrder"))
-                    {
-                        o.orderEnable = true;
-                    }
-                }
-            }
-
             MobSpriteRandomChange();
             var orderTextList = new List<string>();
             var rejectTextList = new List<string>();
@@ -1002,6 +992,7 @@ public class GameSceneMgr : MonoBehaviour
             switch (orderState)
             {
                 case OrderState.Accepted:
+                    GameMgr.In.currentOrder = order;
                     StartPuzzleProcess();
                     break;
                 case OrderState.Rejected:
@@ -1024,6 +1015,16 @@ public class GameSceneMgr : MonoBehaviour
                 {
                     if (!isOnConversation)
                     {
+                        foreach (var o in GameMgr.In.orderTable.orderList)
+                        {
+                            if (o.orderCondition.Equals("AfterOneOrder"))
+                            {
+                                o.orderEnable = true;
+                            }
+                        }
+
+                        GameMgr.In.SaveOrderHistory();
+
                         isOnConversation = true;
                         lineCnt = -1;
                         lines = orderState == OrderState.Succeed ? successTextList : failTextList;
@@ -1054,6 +1055,8 @@ public class GameSceneMgr : MonoBehaviour
                 order.orderEnable = false;
             }
         }
+
+        GameMgr.In.orderedBluePrintKeyList.Clear();
 
         onEndRoutine.Invoke();
     }

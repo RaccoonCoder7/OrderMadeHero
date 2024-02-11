@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2999492579529503964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2999492579529503961}
+  - component: {fileID: 2999492579529503962}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2999492579529503961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999492579529503964}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2999492579529503962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999492579529503964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e7d13fe0b790e47acc076af5c9bd0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initDone: 0
+  day: 1
+  week: 1
+  credit: 9000
+  dayChipsetCost: 0
+  dayBonusRevenue: 0
+  dayRentCost: 0
+  dayRevenue: 0
+  dayCustomerCnt: 0
+  dayRenom: 0
+  dayTendency: 0
+  tendency: 0
+  weaponDataTable: {fileID: 11400000, guid: 5e69e9e400c87c44f948125ac3ad41c1, type: 2}
+  orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
+  chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
+  abilityTable: {fileID: 11400000, guid: a557d9e88e93460438f18b64a9323ef8, type: 2}
+  requestTable: {fileID: 11400000, guid: 3fe14f3517374b7479e570888afd2010, type: 2}
+  currentBluePrint:
+    bluePrintKey: 
+    name: 
+    comment: 
+    howToGet: 
+    price: 0
+    orderEnable: 0
+    createEnable: 0
+    blueprintSprite: {fileID: 0}
+    icon: {fileID: 0}
+    requiredChipAbilityList: []
+  currentOrder:
+    orderKey: 
+    ta: {fileID: 0}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    orderCondition: 
+    orderEnable: 1
+  orderedBluePrintKeyList: []

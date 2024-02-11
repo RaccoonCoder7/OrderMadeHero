@@ -18,6 +18,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_1
@@ -25,6 +26,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_2
@@ -32,6 +34,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_3
@@ -39,6 +42,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_4
@@ -46,6 +50,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 1
     orderCondition: AfterOneOrder
     orderEnable: 0
   - orderKey: NormalOrder_5
@@ -53,6 +58,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 3
     orderCondition: AfterOneOrder
     orderEnable: 0
   - orderKey: NormalOrder_6
@@ -60,6 +66,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_7
@@ -67,6 +74,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_8
@@ -74,6 +82,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_9
@@ -81,6 +90,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_10
@@ -88,6 +98,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_11
@@ -95,6 +106,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_12
@@ -104,6 +116,7 @@ MonoBehaviour:
     - abilityKey: a_acuity
       count: 3
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_13
@@ -111,6 +124,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 4
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_14
@@ -118,6 +132,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_15
@@ -125,6 +140,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 6
     orderCondition: AfterOneOrder
     orderEnable: 0
   - orderKey: NormalOrder_16
@@ -132,6 +148,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 3
     orderCondition: AfterOneOrder
     orderEnable: 0
   - orderKey: NormalOrder_17
@@ -139,6 +156,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 5
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_18
@@ -146,6 +164,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 2
     orderCondition: AfterOneOrder
     orderEnable: 0
   - orderKey: NormalOrder_19
@@ -153,6 +172,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_20
@@ -160,6 +180,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_21
@@ -168,6 +189,7 @@ MonoBehaviour:
     - b_katana
     requiredAbilityList: []
     condition: 0
+    gimmick: 0
     orderCondition: Day3
     orderEnable: 0
   mappingTextList:

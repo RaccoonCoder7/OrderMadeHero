@@ -21,6 +21,7 @@ public class OrderTable : ScriptableObject
         public List<string> requiredBlueprintKeyList = new List<string>();
         public List<RequiredAbility> requiredAbilityList = new List<RequiredAbility>();
         public Condition condition = Condition.상태없음;
+        public Gimmick gimmick = Gimmick.None;
         public string orderCondition;
         public bool orderEnable = true;
     }
@@ -58,6 +59,18 @@ public class OrderTable : ScriptableObject
         // 화려한,
         // 눈부신,
         일회용
+    }
+
+    [System.Serializable]
+    public enum Gimmick
+    {
+        None,
+        NotSoldToday,
+        SoldToday,
+        MostSoldToday,
+        LowestAttack,
+        HighestAttack,
+        PreviousOrder,
     }
 
 
@@ -276,6 +289,49 @@ public class OrderTable : ScriptableObject
         return false;
     }
 
+    public bool IsGimmickMatched(List<PuzzleFrame> puzzleFrameList)
+    {
+        var order = GameMgr.In.currentOrder;
+        var key = GameMgr.In.currentBluePrint.bluePrintKey;
+        var history = GameMgr.In.orderedBluePrintKeyList;
+        switch (order.gimmick)
+        {
+            case Gimmick.None:
+                return true;
+            case Gimmick.NotSoldToday:
+                return history.Find(x => x.Equals(key)) == null;
+            case Gimmick.SoldToday:
+                return history.Find(x => x.Equals(key)) != null;
+            case Gimmick.MostSoldToday:
+                var most = history.GroupBy(x => x).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                return most == key;
+            case Gimmick.LowestAttack:
+                return GetAbilityCount(puzzleFrameList, "a_attack") <= 1;
+            case Gimmick.HighestAttack:
+                int maxAttack = 0;
+                List<string> bluePrintKeyList = new List<string>();
+                foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                {
+                    foreach (var bp in category.bluePrintList)
+                    {
+                        var attackAbility = bp.requiredChipAbilityList.Find(x => x.abilityKey.Equals("a_attack"));
+                        if (attackAbility == null) continue;
+                        if (attackAbility.count < maxAttack) continue;
+                        if (attackAbility.count > maxAttack)
+                        {
+                            maxAttack = attackAbility.count;
+                            bluePrintKeyList.Clear();
+                        }
+                        bluePrintKeyList.Add(bp.bluePrintKey);
+                    }
+                }
+                return bluePrintKeyList.Contains(key);
+            case Gimmick.PreviousOrder:
+                return history[history.Count - 1] == key;
+        }
+        return false;
+    }
+
     private int GetTotalSizeOfChips(List<ChipObj> chipObjList)
     {
         int totalSize = 0;
@@ -285,5 +341,32 @@ public class OrderTable : ScriptableObject
         }
 
         return totalSize;
+    }
+
+    private int GetAbilityCount(List<PuzzleFrame> puzzleFrameList, string abilityKey)
+    {
+        int count = 0;
+        foreach (var puzzleFrame in puzzleFrameList)
+        {
+            if (puzzleFrame.transform.childCount > 0)
+            {
+                var child = puzzleFrame.transform.GetChild(0);
+                if (child)
+                {
+                    var chip = child.GetComponent<ChipObj>();
+                    if (chip)
+                    {
+                        foreach (var ability in chip.chipAbilityList)
+                        {
+                            if (ability.abilityKey.Equals(abilityKey))
+                            {
+                                count += ability.count;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return count;
     }
 }

@@ -489,7 +489,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         }
         else {
-            Debug.Log("!");
             return;
         }
 
