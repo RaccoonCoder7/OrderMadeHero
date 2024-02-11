@@ -2,7 +2,7 @@
 … 크흠, 내가 너무 시간을 끌었군.
 !image_샤일로 !next
 거기, 밑을 한번 봐라.
-!speaker_나비 !next
+!speaker_PC나비 !next
 안녕! 주인님!
 나는 메테오 시티의 최신 AI!
 !next

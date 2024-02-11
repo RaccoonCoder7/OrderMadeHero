@@ -1,4 +1,4 @@
-!sound_rummage !wait_100 !speaker_나비 !next
+!sound_rummage !wait_100 !speaker_PC나비 !next
 보자, 칩셋이 하나…, 둘…….
 !next
 응? 무슨 메일이 왔네?

@@ -1,4 +1,4 @@
-!speaker_나비 !next
+!speaker_PC나비 !next
 자, 오늘도 가게를 열심히…….
 !next
 응? 뭐야? CCTV가 왜 저래?
@@ -6,7 +6,7 @@
 아무것도 안 보여. 고장난 건가?
 !next 
 기다려 봐, 내가 직접 나가 볼게.
-!sound_doorbell !wait_100 !next
+!sound_doorbell !speaker_나비 !image_나비 !wait_100 !next
 으악!
 !image_화난퍼펫 !speaker_퍼펫 !next
 … 불결한 냄새가 나는군요. 감정의 냄새가.
@@ -35,7 +35,7 @@ AI…, 쯧.
 그럼, 또 뵙지 않기를 바라지요.
 !speaker_나비 !next
 자, 잠깐, 부서진 거 배상하고 가!
-!sound_doorbell !image_no !wait_100 !next
+!sound_doorbell !image_나비 !wait_100 !next
 … 주인님, 드디어 올 게 왔어.
 샤일로 아저씨가 얘기했었지?
 !next
@@ -51,7 +51,7 @@ AI…, 쯧.
 어느 한 쪽 성향의 손님만 받다간
 다른 쪽에서 가게 운영을
 방해하러 올 지도 모르거든.
-!next
+!speaker_PC나비 !image_no !next
 그걸 성향치라고 말하는데…,
 거기 위쪽을 한번 볼래?
 !focus_490_990_290_75 !next

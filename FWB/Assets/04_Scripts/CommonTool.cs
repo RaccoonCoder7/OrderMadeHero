@@ -31,6 +31,7 @@ public class CommonTool : SingletonMono<CommonTool>
     public float fadeSpeed;
     public string playerName;
     public string mascotName = "나비";
+    public string pcMascotName = "PC나비";
     public List<Script> scriptList = new List<Script>();
     public List<AudioClip> audioClipList = new List<AudioClip>();
     public Canvas canvas;

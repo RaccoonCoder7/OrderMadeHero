@@ -1144,12 +1144,17 @@ public class GameSceneMgr : MonoBehaviour
                             chatTarget = ChatTarget.Popup;
                             // TODO: speaker에 따라서 이미지 변경
                         }
-                        else if (speaker.Equals(CommonTool.In.mascotName))
+                        else if (speaker.Equals(CommonTool.In.pcMascotName))
                         {
+                            deskNavi.SetActive(true);
                             chatTarget = ChatTarget.Mascot;
                         }
                         else
                         {
+                            if (speaker.Equals(CommonTool.In.mascotName))
+                            {
+                                deskNavi.SetActive(false);
+                            }
                             chatTarget = ChatTarget.Main;
                             if (speaker.Equals("{username}"))
                             {

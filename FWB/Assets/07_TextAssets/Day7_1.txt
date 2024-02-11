@@ -1,4 +1,4 @@
-!speaker_나비 !next
+!speaker_PC나비 !next
 주인님, 좋은 아침! 잠은 잘 잤어?
 !next
 아, 어제 일 때문에 잠 설쳤다고?
@@ -15,31 +15,31 @@
 저렇게 화면이 새까만 건 설마—
 !image_퍼펫 !speaker_퍼펫 !next
 …….
-!speaker_나비 !next
+!speaker_PC나비 !next
 퍼펫!
 !speaker_퍼펫 !next
 이렇게 금방 뵙게 될 줄은 몰랐군요.
 !next
 분명, 그 토끼와 엮이지 말라고 했지 않습니까.
-!speaker_나비 !next
+!speaker_PC나비 !next
 그, 그건 어떻게…….
 !speaker_퍼펫 !next
 … 도시에서 제 눈이 닿지 않는 곳은 없습니다.
-!speaker_나비 !next
+!speaker_PC나비 !next
 우, 우린 신입 무기상일 뿐이야!
 !next
 가게에 히어로가 방문하는 게
 뭐 어때서 그러는 거야?
 !speaker_퍼펫 !next
 입 다물어라, AI.
-!speaker_나비 !next
+!speaker_PC나비 !next
 읏…….
 !speaker_퍼펫 !next
 … 저는 아이들을 아끼고 사랑합니다.
 !next
 그저, 착하고도 연약한 아이들이 다치지 않고
 무사히 자라나기를 바랄 뿐이죠.
-!speaker_나비 !next
+!speaker_PC나비 !next
 (갑자기 무슨 말을 하는 거야?)
 !speaker_퍼펫 !next
 하지만 아이들은 감정적입니다. 쉽게 화내고,
@@ -70,7 +70,7 @@
 제 사명을 따르는 이들이 더 늘어나겠지요.
 !next
 그들이 곧 제 눈과 귀와 손이 될 테고 말입니다.
-!speaker_나비 !next
+!speaker_PC나비 !next
 미쳤어, 미쳤어!
 대체 이게 무슨 소리야!?
 !next
@@ -85,7 +85,7 @@ AI 따위가 내 사명을 이해하려 들지 마라.
 그리고 제게는 사명을 이룰 수 있는 힘이 있지요.
 !next
 당장 당신을 죽일 수도 있는, 그런 힘 말입니다.
-!speaker_나비 !next !sound_crash
+!speaker_PC나비 !next !sound_crash
 (주, 주인님! 튀자!)
 !speaker_퍼펫 !next
 … 당신의 눈 속에 수많은 감정이 보이는군요.
@@ -104,7 +104,7 @@ AI 따위가 내 사명을 이해하려 들지 마라.
 어른은 욕망을 위해 모든 감정을 내버리니까요.
 !next
 당신의 눈에서, 그 미래가 보였습니다.
-!speaker_나비 !next
+!speaker_PC나비 !next
 (주, 주인님?)
 !speaker_퍼펫 !next
 그 미래, 그 욕망. 제가 이뤄드리겠습니다.

@@ -1,6 +1,6 @@
 !speaker_버니 !next
 … 그렇습니까. 아쉽네요.
-!speaker_나비 !next
+!speaker_PC나비 !next
 어, 우릴 공격할 건 아니지?
 !speaker_버니 !next
 그럴 리가요. 시민을 어떻게 공격하겠습니까.

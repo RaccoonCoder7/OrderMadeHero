@@ -1,4 +1,4 @@
-!speaker_나비 !get_chipset_Agility !next
+!speaker_PC나비 !get_chipset_Agility !next
 와, 민첩함 칩셋이다!
 안 그래도 필요했는데! 고마워!
 !next
@@ -8,11 +8,11 @@
 네. 시민 분들께서 좋아해주시는 건 기쁘지만,
 제가 그럴 때 쉽게 못 뿌리치는 성격이라 조금
 곤란할 때가 많거든요. 도와주신 보답이에요.
-!speaker_나비 !next
+!speaker_PC나비 !next
 아하, 쓴 말을 잘 못하는 성격?
 !speaker_버니 !next
 하하, 부끄럽지만 맞아요.
-!speaker_나비 !next
+!speaker_PC나비 !next
 그래도 히어로라면 가끔
 해야 할 말은 해야 할 텐데…….
 !speaker_버니 !next
@@ -21,13 +21,13 @@
 그런 분들한테 둘러싸여서 가끔 곤란해져도, 너무
 바빠 팬서비스를 못 해도, 이런 흉흉한 도시에서
 사람들을 지키는 일이 얼마나 기쁘고 보람찬데요.
-!speaker_나비 !next
+!speaker_PC나비 !next
 그렇구나. 새삼 히어로가 정말
 대단한 사람이라고 느껴지네.
 !speaker_버니 !next
 뭐, 그렇다고 해서 모든 히어로가
 저처럼 사람을 지키지는 않아요.
-!speaker_나비 !next
+!speaker_PC나비 !next
 응?
 !speaker_버니 !next
 아무래도, 돈만 탐내는 히어로도 있으니까요.
@@ -35,7 +35,7 @@
 !next
 저번에는 다칠 뻔한 걸 구해 줬다고 돈을
 강제로 빼앗으려는 히어로도 봤다니까요?
-!speaker_나비 !next
+!speaker_PC나비 !next
 세상에, 정말?
 !speaker_버니 !next
 네! 시민한테 돈을 빼앗는 녀석이 있지 않나,
@@ -46,11 +46,11 @@
 휘둘리지 말고 신념과 정의를 실현해야…….
 !next
 … 크흠, 죄송합니다. 제가 너무 흥분했네요.
-!speaker_나비 !next
+!speaker_PC나비 !next
 괜찮아! 우리 오늘 쉬는 날이거든.
 !speaker_버니 !next
 앗, 그런가요. 다행이네요.
-!speaker_나비 !next
+!speaker_PC나비 !next
 응. 근데 그렇게 히어로들끼리도
 문제가 있으면, 버니를 싫어하는
 히어로도 있겠네? 기업도 있고?

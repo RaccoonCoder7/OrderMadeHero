@@ -40,6 +40,8 @@ public class GameMgr : SingletonMono<GameMgr>
         수 = 3,
         목 = 4,
         금 = 5,
+        토 = 6,
+        일 = 7
     }
 
     protected override void OnApplicationQuit()
@@ -69,7 +71,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public void SetNextDayData()
     {
         day++;
-        if ((int)day > 5)
+        if ((int)day > System.Enum.GetValues(typeof(Day)).Length)
         {
             week++;
             day = (Day)1;

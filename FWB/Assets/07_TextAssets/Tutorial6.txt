@@ -5,7 +5,7 @@
 !next
 여기요, 크레딧은 이 정도면 되겠죠?
 !credit_100
-!speaker_나비 !next
+!speaker_PC나비 !next
 고마워, 손님!
 !speaker_모브NPC !next
 음, 사장님은 메테오 시티가 처음이죠?
@@ -13,7 +13,7 @@
 무기 제작 능력이 이 정도면, 충분히 이 도시에서
 살아남을 수 있을 거예요. 친구들한테도 소문을 좀
 내 줄게요. 그럼, 나중에 또 올게요!
-!sound_doorbell !image_no !speaker_나비 !next
+!sound_doorbell !image_no !speaker_PC나비 !next
 첫 손님 접대, 대성공!
 !next
 주인님, 어때?

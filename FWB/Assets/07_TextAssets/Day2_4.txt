@@ -1,8 +1,8 @@
-!speaker_나비 !next
+!speaker_PC나비 !next
 …….
 !speaker_샤일로 !next
 …….
-!speaker_나비 !next
+!speaker_PC나비 !next
 안 가고 뭐 해, 아저씨?
 무기 필요해서 그래?
 !speaker_샤일로 !next
@@ -10,7 +10,7 @@
 그냥 명성치가 잘 출력되고 있나 확인한 거라고.
 !next
 … 난 가보겠다. 오늘도 잘 해봐라.
-!sound_doorbell !image_no !wait_100 !speaker_나비 !next
+!sound_doorbell !image_no !wait_100 !speaker_PC나비 !next
 흐음. 주인님, 아저씨한테 뭐
 잘못한 거 있어?
 !next
