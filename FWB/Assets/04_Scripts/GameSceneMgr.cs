@@ -665,20 +665,19 @@ public class GameSceneMgr : MonoBehaviour
 
                     item.contentImg.sprite = bluePrintList[i].blueprintSprite;
                     item.contentName.text = bluePrintList[i].name;
+                    if (item.contentImg.sprite != null) {
+                        var targetSprite = bluePrintList[i].blueprintSprite;
+                        var ratio = targetSprite.rect.size.x / targetSprite.rect.size.y;
+                        Vector2 size = Vector2.zero;
+                        if (targetSprite.rect.size.x <= targetSprite.rect.size.y) {
+                            size = new Vector2(128 * ratio, 128);
+                        }
+                        else {
+                            size = new Vector2(128, 128 / ratio);
+                        }
 
-                    var targetSprite = bluePrintList[i].blueprintSprite;
-                    var ratio = targetSprite.rect.size.x / targetSprite.rect.size.y;
-                    Vector2 size = Vector2.zero;
-                    if (targetSprite.rect.size.x <= targetSprite.rect.size.y)
-                    {
-                        size = new Vector2(128 * ratio, 128);
+                        item.contentImg.rectTransform.sizeDelta = size;
                     }
-                    else
-                    {
-                        size = new Vector2(128, 128 / ratio);
-                    }
-
-                    item.contentImg.rectTransform.sizeDelta = size;
                     item.price = bluePrintList[i].buyPrice;
 
                     StringBuilder sb = new StringBuilder();
