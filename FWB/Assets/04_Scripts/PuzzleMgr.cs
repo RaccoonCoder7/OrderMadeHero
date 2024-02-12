@@ -114,6 +114,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         canvasScaler = canvas.GetComponent<CanvasScaler>();
         ped = new PointerEventData(es);
         NotEnoughCredit.gameObject.SetActive(false);
+        ShowAllChips();
         // 테스트코드
         // StringBuilder sb = new StringBuilder();
         // int i = 0;
@@ -806,16 +807,29 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void FilterChipsByAbilities(List<string> filters)
     {
         filteredChipKeys.Clear();
-
-        foreach (var entry in chipInventory) {
-            ChipObj chip = chipList.Find(c => c.chipKey == entry.Key);
-            if (chip != null && filters.All(filter => chip.chipAbilityList.Any(ability => ability.abilityKey == filter))) {
-                filteredChipKeys.Add(entry.Key);
+        if (filters.Count > 0) {
+            foreach (var entry in chipInventory) {
+                ChipObj chip = chipList.Find(c => c.chipKey == entry.Key);
+                if (chip != null && filters.All(filter => chip.chipAbilityList.Any(ability => ability.abilityKey == filter))) {
+                    filteredChipKeys.Add(entry.Key);
+                }
             }
+        }
+        else {
+            // 필터가 비어있을 경우 모든 칩을 표시
+            ShowAllChips();
         }
 
         RefreshChipPanel();
     }
 
+    public void ShowAllChips()
+    {
+        filteredChipKeys.Clear();
+        foreach (var chip in chipList) {
+            filteredChipKeys.Add(chip.chipKey);
+        }
 
+        RefreshChipPanel();
+    }
 }
