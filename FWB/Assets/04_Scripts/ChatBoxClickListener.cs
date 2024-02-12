@@ -11,7 +11,10 @@ public class ChatBoxClickListener : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (manager != null) manager.OnClickChatBox();
-        if (manager2 != null) manager2.OnClickChatBox();
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (manager != null) manager.OnClickChatBox();
+            if (manager2 != null) manager2.OnClickChatBox();
+        }
     }
 }

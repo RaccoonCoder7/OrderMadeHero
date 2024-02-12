@@ -150,6 +150,7 @@ public class EventFlowDay1 : EventFlow
     {
         mgr.EndText();
 
+        mgr.mainChatPanel.SetActive(false);
         mgr.alertPanel.SetActive(true);
         mgr.alertDodge.onClick.RemoveAllListeners();
         

@@ -422,8 +422,8 @@ public class GameSceneMgr : MonoBehaviour
 
         if (isTextFlowing)
         {
-            SkipCurrLine();
-            StartNextLine();
+            // SkipCurrLine();
+            // StartNextLine();
             return;
         }
 
@@ -786,7 +786,7 @@ public class GameSceneMgr : MonoBehaviour
                                 shopPopupUI.yes.interactable = true;
                                 shopPopupUI.yes.onClick.AddListener(() =>
                                 {
-                                    var chip = GameMgr.In.GetChip(chipList[i].chipKey);
+                                    var chip = GameMgr.In.GetChip(chipList[tempNum].chipKey);
                                     chip.createEnable = true;
                                     GameMgr.In.credit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
