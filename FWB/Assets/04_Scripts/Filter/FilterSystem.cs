@@ -4,20 +4,20 @@ using UnityEngine.UI;
 
 public class FilterSystem : MonoBehaviour
 {
-    // ÇÊÅÍ ¿É¼Ç Ã¢
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ Ã¢
     [System.Serializable]
     public class FilterOption
     {
-        public string abilityKey; // ChipTableÀÇ abilityKey¿Í µ¿ÀÏÇØ¾ßÇÔ!
-        public GameObject optionPrefab; // abilityKey¿¡ ¸Â´Â prefab_button
-        public bool isActive = false; // ¿É¼Ç on/off Ã¼Å©
+        public string abilityKey; // ChipTableï¿½ï¿½ abilityKeyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½!
+        public GameObject optionPrefab; // abilityKeyï¿½ï¿½ ï¿½Â´ï¿½ prefab_button
+        public bool isActive = false; // ï¿½É¼ï¿½ on/off Ã¼Å©
 
     }
 
-    public List<FilterOption> filterOptions; // °ÔÀÓ ³»¿¡¼­ »ç¿ëÇÒ ÇÊÅÍ ¿É¼Ç ¸ñ·Ï
+    public List<FilterOption> filterOptions; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½ï¿½ï¿½
     public PuzzleMgr puzzleMgr;
-    public GameObject defaultPrefab; // ±âº» ÀÌ¹ÌÁö default prefab
-    public int totalOptions = 12; // ÀüÃ¼ ÇÊÅÍ ¿É¼ÇÀÇ ¼ö(ÇÊ¿ä½Ã Á¶Á¤ÇØÁÖ¼¼¿ä)
+    public GameObject defaultPrefab; // ï¿½âº» ï¿½Ì¹ï¿½ï¿½ï¿½ default prefab
+    public int totalOptions = 12; // ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½(ï¿½Ê¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½)
     private List<string> activeFilters = new List<string>();
 
 
@@ -26,7 +26,7 @@ public class FilterSystem : MonoBehaviour
         InitializeFilterOptions();
     }
 
-    // ÇÊÅÍ ¿É¼Ç ÃÊ±âÈ­ ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ô¼ï¿½
     void InitializeFilterOptions()
     {
         for (int i = 0; i < totalOptions; i++) {
@@ -39,7 +39,7 @@ public class FilterSystem : MonoBehaviour
         }
     }
 
-    // Á¤ÀÇµÈ ÇÊÅÍ ¿É¼Ç »ý¼º ÇÔ¼ö
+    // ï¿½ï¿½ï¿½Çµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     void CreateOption(FilterOption filterOption)
     {
         GameObject optionInstance = Instantiate(filterOption.optionPrefab, transform);
@@ -67,10 +67,10 @@ public class FilterSystem : MonoBehaviour
             activeFilters.Remove(filterOption.abilityKey);
         }
 
-        puzzleMgr.FilterChipsByAbilities(activeFilters);
+        // puzzleMgr.FilterChipsByAbilities(activeFilters);
     }
 
-    // ±âº» ÀÌ¹ÌÁö ¿É¼Ç »ý¼º ÇÔ¼ö
+    // ï¿½âº» ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     void CreateDefaultOption()
     {
         Instantiate(defaultPrefab, transform);
