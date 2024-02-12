@@ -7713,7 +7713,7 @@ MonoBehaviour:
   weaponCategory: {fileID: 1398643789}
   howToGet: {fileID: 1738069184}
   blueprintImg: {fileID: 1354269302}
-  bluePrintImgObj: {fileID: 0}
+  bluePrintImgObj: {fileID: 1354269300}
   bgImgList:
   - {fileID: 21300000, guid: 05d266f1c53e020449ed54b26be418a2, type: 3}
   - {fileID: 21300000, guid: 5440f09c1679c154da919673913afcbe, type: 3}

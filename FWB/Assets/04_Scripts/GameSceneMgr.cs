@@ -347,7 +347,7 @@ public class GameSceneMgr : MonoBehaviour
         const float maxSize = 300f;
 
         var blueprintImgSpriteRect = blueprintImg.sprite.textureRect;
-        // var rectTransform = bluePrintImgObj.GetComponent<RectTransform>();
+        var rectTransform = bluePrintImgObj.GetComponent<RectTransform>();
         //var aspectRatio = blueprintImgSpriteRect.width / blueprintImgSpriteRect.height;
 
         Vector2 adjustedSize;
@@ -360,7 +360,7 @@ public class GameSceneMgr : MonoBehaviour
             adjustedSize = new Vector2(minSize, maxSize);
         }
 
-        // rectTransform.sizeDelta = adjustedSize;
+        rectTransform.sizeDelta = adjustedSize;
     }
 
     public void OnClickSave()

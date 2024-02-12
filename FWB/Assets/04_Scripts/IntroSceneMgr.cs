@@ -45,7 +45,8 @@ public class IntroSceneMgr : MonoBehaviour
     private Coroutine textFlowCoroutine;
     private Regex regex = new Regex(@"^[가-힣a-zA-Z0-9\s]{2,12}$");
     private const string playerNameRule = "한글, 영어 / 공백포함 2자 이상 12자 이하로 설정 해주세요";
-
+    private float duration = 0.5f;
+    
 
     public enum TextFlowType
     {
@@ -77,6 +78,30 @@ public class IntroSceneMgr : MonoBehaviour
         onEndText = PlayerNameRoutine();
         textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
+        StartCoroutine(BlinkCoroutine());
+    }
+    
+    private IEnumerator BlinkCoroutine()
+    {
+        Color initialColor = inputField.colors.normalColor;
+        float elapsedTime = 0;
+
+        while (!CommonTool.In.confirmPanel.activeSelf)
+        {
+            Color targetColor = initialColor;
+
+            targetColor.a = (float)(Mathf.PingPong(Time.time, 1) > 0.5 ? 0 : 0.4);
+
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+            initialColor.a = Mathf.Lerp(initialColor.a, targetColor.a, t);
+
+            ColorBlock colorBlock = inputField.colors;
+            colorBlock.normalColor = initialColor;
+            inputField.colors = colorBlock;
+
+            yield return null;
+        }
     }
 
     public void OnClickChatBox()
@@ -260,7 +285,8 @@ public class IntroSceneMgr : MonoBehaviour
             CommonTool.In.OpenAlertPanel(playerNameRule);
             return;
         }
-
+        
+        StopCoroutine(BlinkCoroutine());
         var msg = "이 이름으로 하시겠습니까? [" + playerName + "]";
         CommonTool.In.OpenConfirmPanel(msg,
         () =>
@@ -271,6 +297,7 @@ public class IntroSceneMgr : MonoBehaviour
         () =>
         {
             inputField.text = string.Empty;
+            StartCoroutine(BlinkCoroutine());
         });
     }
 
