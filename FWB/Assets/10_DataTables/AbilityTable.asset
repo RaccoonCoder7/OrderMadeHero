@@ -25,3 +25,7 @@ MonoBehaviour:
     name: "\uAD00\uD1B5\uB825"
   - abilityKey: a_durability
     name: "\uB0B4\uAD6C\uB3C4"
+  - abilityKey: a_accuracy
+    name: "\uBA85\uC911\uB960"
+  - abilityKey: a_style
+    name: "\uBA4B"

@@ -17,7 +17,7 @@ using static UnityEngine.Networking.UnityWebRequest;
 /// </summary>
 public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public List<TextAsset> csvList;
+    //public List<TextAsset> csvList;
     public GridLayoutGroup puzzleGrid;
     public RectTransform chipPanelRectTr;
     public EventSystem es;
@@ -178,7 +178,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         // TODO: 청사진 정보에 맞게 chipSize, currPuzzle 세팅하기
         chipSize = 108;
-        currPuzzle = GetPuzzle(0); // TODO: 청사진에 맞는 데이터 불러오기
+        currPuzzle = GetPuzzle(); // TODO: 청사진에 맞는 데이터 불러오기
         // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
         // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
         // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
@@ -405,10 +405,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         background.texture = textureList[0];
     }
 
-    private Puzzle GetPuzzle(int index)
+    private Puzzle GetPuzzle()
     {
         Puzzle puzzle = new Puzzle();
-        var lines = csvList[index].text.Split('\n');
+        var lines = GameMgr.In.currentBluePrint.puzzleCsv.text.Split('\n');
         var lineList = new List<string>();
         foreach (var line in lines) {
             var trimLine = line.Trim();
@@ -426,7 +426,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             for (int j = 0; j < elements.Length; j++) {
                 int targetNum = 0;
                 if (!Int32.TryParse(elements[j], out targetNum)) {
-                    Debug.Log("퍼즐조각정보 로드 실패. puzzle" + index + ": " + i + ", " + j);
+                    Debug.Log("퍼즐조각정보 로드 실패. puzzle" + GameMgr.In.currentBluePrint.puzzleCsv.text + ": " + i + ", " + j);
                     return null;
                 }
                 puzzle.frameDataTable[i, j] = new PuzzleFrameData(targetNum, j, i);

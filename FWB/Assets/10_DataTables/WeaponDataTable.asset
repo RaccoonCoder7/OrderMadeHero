@@ -24,7 +24,7 @@ MonoBehaviour:
       howToGet: 
       buyPrice: 0
       sellPrice: 50
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: 4b1d989e34d9d044d94d7f8179e2e9ed, type: 3}
       orderEnable: 1
       createEnable: 1
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
@@ -38,7 +38,7 @@ MonoBehaviour:
       howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
       buyPrice: 0
       sellPrice: 100
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: e4baf5e774941544795e889a5340b192, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: affe1a241d397f345b3828701d5d68ef, type: 3}
@@ -55,7 +55,7 @@ MonoBehaviour:
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
       buyPrice: 5000
       sellPrice: 500
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: f79420e094549344a9e4e91102e8ca3e, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: fb4fd0924c6d3784d8fe40266e60b752, type: 3}
@@ -69,7 +69,7 @@ MonoBehaviour:
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
       buyPrice: 5000
       sellPrice: 500
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: 7d8c6ed4f02d2854280a639019786d3d, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: fd70817131c4f584fadbac0a0068e175, type: 3}
@@ -85,7 +85,7 @@ MonoBehaviour:
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
       buyPrice: 10000
       sellPrice: 1000
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: fa65f3887e8dec44c98d44cd87e2cd54, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: ac4baa00364352f40859f5f5839f8652, type: 3}
@@ -106,7 +106,7 @@ MonoBehaviour:
       howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
       buyPrice: 0
       sellPrice: 50
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: 62eb38367e9ccce429084f630bf32079, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: 0f251e6bb4f74694483f2989d40be085, type: 3}
@@ -121,7 +121,7 @@ MonoBehaviour:
       howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
       buyPrice: 0
       sellPrice: 50
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: 538fcc831418d5f49a1b7d7cc56418fb, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: ab0dbd72d3e1a224d8757e70170dd3f9, type: 3}
@@ -137,7 +137,7 @@ MonoBehaviour:
       howToGet: "\uAD6C\uB9E4\uBD88\uAC00\uB2A5"
       buyPrice: 5000
       sellPrice: 500
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: 60938a52e8b9be54cada426db932ada7, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: 710366ffe9a85674e98e9ce358f21eaa, type: 3}
@@ -152,7 +152,7 @@ MonoBehaviour:
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
       buyPrice: 500
       sellPrice: 100
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: 3229e64c6f0f7c74f95e38b6e09c7645, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: 4b6099a090356584683dce9c71e19cae, type: 3}
@@ -168,7 +168,7 @@ MonoBehaviour:
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
       buyPrice: 10000
       sellPrice: 1000
-      puzzleCsv: {fileID: 0}
+      puzzleCsv: {fileID: 4900000, guid: 753285e54d1d9a4409f247bf02660d3e, type: 3}
       orderEnable: 0
       createEnable: 0
       blueprintSprite: {fileID: 21300000, guid: 06b528de86bbc4e469794e76cadd9c29, type: 3}
@@ -184,17 +184,260 @@ MonoBehaviour:
     name: "\uCD1D\uAE30\uB958"
     onSprite: {fileID: 21300000, guid: c2e6f36731d776f4c8b81fb1f5532986, type: 3}
     offSprite: {fileID: 21300000, guid: 26674cdf0d3948043a0914035f724bc0, type: 3}
-    bluePrintList: []
+    bluePrintList:
+    - bluePrintKey: b_revolver
+      name: "\uB9AC\uBCFC\uBC84"
+      comment: "\uB0AD\uB9CC \uC6D0\uD234. \uD558\uC9C0\uB9CC \uBA4B\uC788\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: b0d9801797d0da9459138f87a3fe3c8b, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 1
+    - bluePrintKey: b_handgun
+      name: "\uC790\uB3D9\uAD8C\uCD1D"
+      comment: "\uBA54\uD14C\uC624 \uC2DC\uD2F0 \uD544\uC218\uD488. \uB3D9\uB124
+        \uB9C8\uD2B8\uC5D0\uC11C\uB3C4 \uD310\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: caa37fbe2985e2446b0adef2bcfa32f3, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 1
+    - bluePrintKey: b_rifle
+      name: "\uC18C\uCD1D"
+      comment: "\uBA54\uD14C\uC624\uC2DC\uD2F0 \uC1FC\uD551\uBAB0 \uBCA0\uC2A4\uD2B8\uC140\uB7EC\uC774\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: d9f1d0c3890bda94f94d57cc3bf9acde, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 2
+      - abilityKey: a_attack
+        count: 1
+    - bluePrintKey: b_shotgun
+      name: "\uC0B0\uD0C4\uCD1D"
+      comment: "\uAC00\uC7A5 \uC88B\uC740 \uD611\uC0C1\uBC95\uC740 \uD611\uC0C1\uC744
+        \uD558\uC9C0 \uC54A\uB294 \uAC83\uC774\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: d8618917a07ed164d9ab9b72d1e07fbf, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_weight
+        count: 1
+      - abilityKey: a_penetrate
+        count: 1
+    - bluePrintKey: b_machinegun
+      name: "\uAE30\uAD00\uCD1D"
+      comment: "\uAF2D \uC815\uC815\uB2F9\uB2F9\uD558\uAC8C \uC2F8\uC6B8 \uD544\uC694\uAC00
+        \uC788\uC744\uAE4C?"
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 621ebfd4f9ce37b4783c6a44b6dc887f, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 2
+      - abilityKey: a_penetrate
+        count: 1
+    - bluePrintKey: b_sniper
+      name: "\uC800\uACA9"
+      comment: "\uB108\uB3C4 \uD55C\uBC29 \uB098\uB3C4 \uD55C\uBC29. \uC190 \uBE60\uB978
+        \uB188\uC774 \uC774\uAE34\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 2b66f44836b6415479cea989a141c7e2, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_accuracy
+        count: 1
+      - abilityKey: a_penetrate
+        count: 1
+      - abilityKey: a_attack
+        count: 1
   - categoryKey: t_bow
     name: "\uD65C\uB958"
     onSprite: {fileID: 21300000, guid: edde638cc30226e46a352c781042360e, type: 3}
     offSprite: {fileID: 21300000, guid: ff7c522357180734d842cbeea383bca1, type: 3}
-    bluePrintList: []
+    bluePrintList:
+    - bluePrintKey: b_longbow
+      name: "\uB871\uBCF4\uC6B0"
+      comment: "\uB2F4\uBC31\uD558\uAC8C \uD06C\uAE30\uB85C \uC2B9\uBD80\uD558\uB294
+        \uD65C\uC774\uB2E4."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: b8b0edb13281f4544b691e6f56e4087c, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList: []
+    - bluePrintKey: b_crossbow
+      name: "\uD06C\uB85C\uC2A4\uBCF4\uC6B0"
+      comment: "\uD654\uC0B4\uC744 \uC3D8\uB294 \uCD1D\uC774\uB098 \uB2E4\uB984\uC5C6\uB2E4."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 02ee87c0a878e7049ab2c2c973b94ce5, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 3
+    - bluePrintKey: b_recurvebow
+      name: "\uB9AC\uCEE4\uBE0C\uBCF4\uC6B0"
+      comment: "\uBA54\uD14C\uC624 \uC2DC\uD2F0\uC5D0\uC11C \uC774 \uBB34\uAE30\uB97C
+        \uC4F0\uB294 \uC0AC\uB78C \uC544\uBB34\uB098 \uB370\uB824\uB2E4 \uC62C\uB9BC\uD53D\uC5D0
+        \uCD9C\uC804\uC2DC\uD0A4\uBA74 \uAE08\uBA54\uB2EC\uC744 \uB538\uAC83\uC774\uB2E4."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 5abaa14e1dbe3c74e8895d99ab45df8e, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 2
+      - abilityKey: a_attack
+        count: 1
+    - bluePrintKey: b_compoundbow
+      name: "\uCEF4\uD30C\uC6B4\uB4DC\uBCF4\uC6B0"
+      comment: "\uAD6C\uB2E5\uB2E4\uB9AC\uB4E4\uBCF4\uB2E4 \uD6E8\uC52C \uAC15\uD558\uBA70,
+        \uAC04\uC9C0\uAE4C\uC9C0 \uB09C\uB2E4."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 7f28eef1de4ad2a4dbf015b7b68e6856, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList:
+      - abilityKey: a_style
+        count: 2
+      - abilityKey: a_attack
+        count: 2
   - categoryKey: t_staff
     name: "\uC9C0\uD321\uC774\uB958"
     onSprite: {fileID: 21300000, guid: 09ae8f26a1209ef4d924abaf32d2a9cf, type: 3}
     offSprite: {fileID: 21300000, guid: 453e5a47dd2d0b849829b9f8f182d030, type: 3}
-    bluePrintList: []
+    bluePrintList:
+    - bluePrintKey: b_staff
+      name: "\uAE30\uBCF8\uC2A4\uD0DC\uD504"
+      comment: "\uD654\uC57D\uC744 \uC774\uC6A9\uD574 \uB0A9\uD0C4\uC744 \uBC1C\uC0AC\uD558\uB294
+        \uBB34\uAE30\uB77C\uB2C8, \uB108\uBB34 \uAD6C\uC2DC\uB300\uC801\uC774\uB2E4.
+        \uD488\uC704\uC788\uAC8C \uB9C8\uBC95\uC73C\uB85C \uC2F8\uC6B0\uC790."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: f1961b56bad4db04e866fde10bff1a2e, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList: []
+    - bluePrintKey: b_enhancedstaff
+      name: "\uAC15\uD654\uC2A4\uD0DC\uD504"
+      comment: "\uAE34 \uC8FC\uBB38\uC744 \uC678\uC6CC \uAC15\uB825\uD55C \uB9C8\uBC95\uC73C\uB85C
+        \uC0C1\uB300\uB97C \uBB34\uB825\uD654 \uC2DC\uD0AC \uC218 \uC788\uB2E4. \uBB3C\uB860
+        \uC8FC\uBB38\uC744 \uC678\uC6B0\uB294 \uB3D9\uC548 \uCD1D\uC5D0 \uB9DE\uC9C0
+        \uC54A\uB294\uB2E4\uBA74."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: f81465abedbd7ef418a4f50f9fdf6a60, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList: []
+    - bluePrintKey: b_electricstaff
+      name: "\uC804\uAE30\uC2A4\uD0DC\uD504"
+      comment: "\uBA54\uD14C\uC624\uC2DC\uD2F0\uC804\uAE30\uACF5\uC0AC\uAC00 \uC774
+        \uC2A4\uD0EC\uD504\uB97C \uC2EB\uC5B4\uD569\uB2C8\uB2E4."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 5033e6f59e839704b93f69e6e512f01d, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList: []
+    - bluePrintKey: b_flamestaff
+      name: "\uD654\uC5FC\uC2A4\uD0DC\uD504"
+      comment: "\uBA54\uD14C\uC624 \uC2DC\uD2F0 \uD654\uC7AC \uC6D0\uC778 1\uC704\uC774\uB2E4.
+        \uBA54\uD14C\uC624\uC2DC\uD2F0\uC2A4\uD0EC\uD504\uD611\uD68C\uAC00 \uB85C\uBE44\uB97C
+        \uC5F4\uC2EC\uD788 \uD588\uC73C\uB2C8\uAE50 \uADDC\uC81C \uAC71\uC815\uC5C6\uC774
+        \uB9C8\uAD6C \uBD88 \uC0AC\uB974\uACE0 \uB2E4\uB2C8\uC790."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 487832d8b1a449b4fa801d49096bab3c, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList: []
+    - bluePrintKey: b_hydrostaff
+      name: "\uC218\uC18D\uC131\uC2A4\uD0DC\uD504"
+      comment: "\uBA54\uD14C\uC624\uC2DC\uD2F0\uC218\uC790\uC6D0\uACF5\uC0AC\uAC00
+        \uC774 \uC2A4\uD0EC\uD504\uB97C \uC2EB\uC5B4\uD569\uB2C8\uB2E4."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: da3cf302dcb98cc43a2e20ba8469bf03, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList: []
+    - bluePrintKey: b_icestaff
+      name: "\uC5BC\uC74C\uC2A4\uD0DC\uD504"
+      comment: "\uD558\uC774\uBCFC/\uCE75\uD14C\uC77C \uD30C\uD2F0\uC5D0 \uB4E4\uACE0\uAC00\uBA74
+        \uC778\uC2F8\uAC00 \uB420 \uC218 \uC788\uB2E4."
+      howToGet: 
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: d9b936c5eb7f99a42a42d3b3a64469d3, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 0}
+      icon: {fileID: 0}
+      requiredChipAbilityList: []
   - categoryKey: t_special
     name: "\uD2B9\uC218\uBB34\uAE30\uB958"
     onSprite: {fileID: 21300000, guid: 7ec9ae169bb62674487503e83524207c, type: 3}
