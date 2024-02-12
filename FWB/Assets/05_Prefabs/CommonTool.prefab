@@ -733,6 +733,7 @@ MonoBehaviour:
   fadeSpeed: 1
   playerName: 
   mascotName: "\uB098\uBE44"
+  pcMascotName: "PC\uB098\uBE44"
   scriptList:
   - key: Story1
     ta: {fileID: 4900000, guid: 5419abe609842dd418d3f9e324dfdece, type: 3}
@@ -796,6 +797,15 @@ MonoBehaviour:
     lines: []
   - key: Day5_1
     ta: {fileID: 4900000, guid: 95836e379c3b8a54ab5ab95b733d4545, type: 3}
+    lines: []
+  - key: Day5_2
+    ta: {fileID: 4900000, guid: 1a23d3ec23d580c45bc13ab748ee3e6e, type: 3}
+    lines: []
+  - key: Day5_3
+    ta: {fileID: 4900000, guid: c73d8035e96c6474f8948d29846c1c18, type: 3}
+    lines: []
+  - key: Day5_4
+    ta: {fileID: 4900000, guid: 2a6fc3ee6b96a7547844d572aa45b6bd, type: 3}
     lines: []
   - key: Day6_1
     ta: {fileID: 4900000, guid: 93ab13a584761424b8a955cbad63d119, type: 3}

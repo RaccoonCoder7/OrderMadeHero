@@ -12,25 +12,25 @@ CCTV로 한번 확인해 봐봐.
 주인님은 신입 무기상이잖아.
 히어로에게 눈도장을 찍어 두면
 손해 볼 거 없을 거야.
-!speaker_full_버니 !next
+!speaker_full_?? !next
 아하하…, 시민 여러분, 제가 지금 좀 바쁜—으악!!!
 !speaker_full_나비 !sound_doorbell !next
 들어왔다! 얼른 문 닫아!
-!speaker_버니 !image_버니 !next
+!speaker_?? !image_버니 !next
 에고, 머리야. 여기 가게 문 닫은 줄 알았는데…?
 !speaker_PC나비 !next
 헤헤, 하지만 지금은 우리 가게지!
-!speaker_버니 !next
+!speaker_?? !next
 아, 감사합니다. 시민분들이 생각보다 더 많이
 몰리는 바람에 빠져나가기가 곤란했거든요.
 !speaker_PC나비 !next
 아하, 그랬구나. 그럼 사람들
 흩어질 때까지 조금 쉬다 가!
-!speaker_버니 !next
+!speaker_?? !next
 그럼 그때까지만 신세 좀 지겠습니다.
 !next
 아 참, 제 소개가 늦었네요.
-!next
+!speaker_버니 !next
 저는 여러분의 안전을 지키는 날쌘 토끼 히어로,
 버니브레이브입니다! 만나서 반갑습니다!
 !speaker_PC나비 !next
