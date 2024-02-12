@@ -103,7 +103,6 @@ public class GameSceneMgr : MonoBehaviour
     public Text weaponCategory;
     public Text howToGet;
     public Image blueprintImg;
-    public GameObject bluePrintImgObj;
     public List<Sprite> bgImgList = new List<Sprite>();
     public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
     public List<UISlot> bluePrintSlotList = new List<UISlot>();
@@ -168,6 +167,7 @@ public class GameSceneMgr : MonoBehaviour
     private List<EventFlow> eventFlowList = new List<EventFlow>();
     private ShopTab currentShopTab = ShopTab.None;
     private List<GameObject> activatedObjList = new List<GameObject>();
+    private RectTransform blueprintImgRectTr;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -215,6 +215,7 @@ public class GameSceneMgr : MonoBehaviour
         CommonTool.In.canvas.worldCamera = Camera.main;
         StartCoroutine(CommonTool.In.BGMPlayer());
 
+        blueprintImgRectTr = blueprintImg.GetComponent<RectTransform>();
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
         shopBlueprintTabImg = (Image)shopBlueprintTab.targetGraphic;
         shopChipsetTabImg = (Image)shopChipsetTab.targetGraphic;
@@ -340,28 +341,24 @@ public class GameSceneMgr : MonoBehaviour
             Debug.LogWarning("모브 스프라이트 없음.");
         }
     }
-    
-    public void AdjustWeaponImageAspect()
+
+    public void SetIndexBlueprintImgAspect(Sprite targetSprite)
     {
-        //Debug.Log("weapImgadj");
-        const float minSize = 150f;
-        const float maxSize = 300f;
+        var xMax = 450f;
+        var yMax = 300f;
+        var additionalRario = xMax / yMax;
 
-        var blueprintImgSpriteRect = blueprintImg.sprite.textureRect;
-        var rectTransform = bluePrintImgObj.GetComponent<RectTransform>();
-        //var aspectRatio = blueprintImgSpriteRect.width / blueprintImgSpriteRect.height;
-
-        Vector2 adjustedSize;
-        if (blueprintImgSpriteRect.x <= blueprintImgSpriteRect.y)
+        var ratio = targetSprite.rect.size.x / targetSprite.rect.size.y;
+        Vector2 size = Vector2.zero;
+        if (targetSprite.rect.size.x <= targetSprite.rect.size.y * additionalRario)
         {
-            adjustedSize = new Vector2(maxSize, minSize);
+            size = new Vector2(yMax * ratio, yMax);
         }
         else
         {
-            adjustedSize = new Vector2(minSize, maxSize);
+            size = new Vector2(xMax, xMax / ratio);
         }
-
-        rectTransform.sizeDelta = adjustedSize;
+        blueprintImgRectTr.sizeDelta = size;
     }
 
     public void OnClickSave()
@@ -571,14 +568,17 @@ public class GameSceneMgr : MonoBehaviour
             int tempNum = i;
             if (category.bluePrintList.Count <= i)
             {
-                bluePrintSlotList[i].key = string.Empty;
-                bluePrintSlotList[i].innerImage.color = Vector4.zero;
-                bluePrintSlotList[i].image.sprite = blankSlotSprite;
-                bluePrintSlotList[i].button.onClick.RemoveAllListeners();
+                SetEmptySlot(bluePrintSlotList[i]);
                 continue;
             }
 
             var bp = category.bluePrintList[i];
+            if (!bp.createEnable)
+            {
+                SetEmptySlot(bluePrintSlotList[i]);
+                continue;
+            }
+
             bluePrintSlotList[i].key = bp.bluePrintKey;
             bluePrintSlotList[i].innerImage.sprite = bp.icon;
             bluePrintSlotList[i].innerImage.color = Vector4.one;
@@ -666,14 +666,17 @@ public class GameSceneMgr : MonoBehaviour
 
                     item.contentImg.sprite = bluePrintList[i].blueprintSprite;
                     item.contentName.text = bluePrintList[i].name;
-                    if (item.contentImg.sprite != null) {
+                    if (item.contentImg.sprite != null)
+                    {
                         var targetSprite = bluePrintList[i].blueprintSprite;
                         var ratio = targetSprite.rect.size.x / targetSprite.rect.size.y;
                         Vector2 size = Vector2.zero;
-                        if (targetSprite.rect.size.x <= targetSprite.rect.size.y) {
+                        if (targetSprite.rect.size.x <= targetSprite.rect.size.y)
+                        {
                             size = new Vector2(128 * ratio, 128);
                         }
-                        else {
+                        else
+                        {
                             size = new Vector2(128, 128 / ratio);
                         }
 
@@ -820,6 +823,8 @@ public class GameSceneMgr : MonoBehaviour
 
     private void OnClickShop()
     {
+        if (isWaitingForText) return;
+
         switch (chatTarget)
         {
             case ChatTarget.Main:
@@ -830,14 +835,14 @@ public class GameSceneMgr : MonoBehaviour
                 }
                 break;
             case ChatTarget.Mascot:
-                if (mainChatPanel.activeSelf)
+                if (pcChatPanel.activeSelf)
                 {
                     pcChatPanel.SetActive(false);
                     activatedObjList.Add(pcChatPanel);
                 }
                 break;
             case ChatTarget.Popup:
-                if (mainChatPanel.activeSelf)
+                if (popupChatPanel.activeSelf)
                 {
                     popupChatPanel.SetActive(false);
                     activatedObjList.Add(popupChatPanel);
@@ -1370,7 +1375,7 @@ public class GameSceneMgr : MonoBehaviour
         if (weapon.blueprintSprite != null)
         {
             blueprintImg.sprite = weapon.blueprintSprite;
-            AdjustWeaponImageAspect();
+            SetIndexBlueprintImgAspect(weapon.blueprintSprite);
         }
         weaponName.text = weapon.name;
         comment.text = weapon.comment;
@@ -1389,6 +1394,14 @@ public class GameSceneMgr : MonoBehaviour
         }
         essentialCondition.text = result;
         // specialGimmick.text = weapon.name;
+    }
+
+    private void SetEmptySlot(UISlot targetSlot)
+    {
+        targetSlot.key = string.Empty;
+        targetSlot.innerImage.color = Vector4.zero;
+        targetSlot.image.sprite = blankSlotSprite;
+        targetSlot.button.onClick.RemoveAllListeners();
     }
 
     private IEnumerator StartEventFlow(EventFlow targetEvent)

@@ -111,8 +111,8 @@ public class IntroSceneMgr : MonoBehaviour
 
         if (isTextFlowing)
         {
-            SkipCurrLine();
-            StartNextLine();
+            // SkipCurrLine();
+            // StartNextLine();
             return;
         }
 

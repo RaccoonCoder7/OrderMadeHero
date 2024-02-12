@@ -90,7 +90,7 @@ public class EventFlowDay3 : EventFlow
         {
             foreach (var bp in category.bluePrintList)
             {
-                if (bp.howToGet.Equals("상점구매") && bp.buyPrice > 5000)
+                if (bp.howToGet.Equals("상점구매") && bp.buyPrice <= 5000)
                 {
                     bp.orderEnable = true;
                 }
