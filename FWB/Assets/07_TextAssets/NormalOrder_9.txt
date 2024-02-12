@@ -1,4 +1,4 @@
-!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_손님 !image_손님 !next
 뭐가 좋을까? {청사진}, 아니면 {청사진2}?
 @
 흥, 당신은 아무것도 몰라요!

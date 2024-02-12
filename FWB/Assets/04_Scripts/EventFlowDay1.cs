@@ -87,9 +87,9 @@ public class EventFlowDay1 : EventFlow
         mgr.popupChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(true);
         mgr.pcChatPanel.SetActive(false);
-        mgr.chatName.text = "모브NPC";
+        mgr.chatName.text = "손님";
         mgr.MobSpriteRandomChange();
-        mgr.imageList.Find(x => x.key.Equals("모브NPC")).imageObj.SetActive(true);
+        mgr.imageList.Find(x => x.key.Equals("손님")).imageObj.SetActive(true);
         mgr.SkipToLastLine();
 
         EndTutorial3Routine();
@@ -174,7 +174,7 @@ public class EventFlowDay1 : EventFlow
 
     private void SkipTutorial6Routine()
     {
-        mgr.imageList.Find(x => x.key.Equals("모브NPC")).imageObj.SetActive(false);
+        mgr.imageList.Find(x => x.key.Equals("손님")).imageObj.SetActive(false);
         mgr.imageList.Find(x => x.key.Equals("샤일로")).imageObj.SetActive(true);
         mgr.pcChatPanel.SetActive(false);
         mgr.chatName.text = "샤일로";

@@ -1,4 +1,4 @@
-!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_손님 !image_손님 !next
 아주 {요구사항2}한 {청사진}이/가 필요해요. 무슨 말인지 알죠?
 @
 괜찮아요, 다른 가게를 찾아보죠.

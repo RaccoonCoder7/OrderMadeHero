@@ -1,4 +1,4 @@
-!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_손님 !image_손님 !next
 나 알죠? 흔해 빠진 무기로는 만족 못하는거?
 @
 뭐, 괜찮아요. 제 수준에 비해 당신 실력이 부족하다고 생각할 수도 있죠.

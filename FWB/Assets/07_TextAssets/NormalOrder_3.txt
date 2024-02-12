@@ -1,4 +1,4 @@
-!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_손님 !image_손님 !next
 알바야 그거 있잖냐 그거, 그거 줘라. {요구사항2} 걸로
 @
 사장 불러와! 사장!

@@ -1,4 +1,4 @@
-!sound_doorbell !wait_100 !speaker_모브NPC !image_모브NPC !next
+!sound_doorbell !wait_100 !speaker_손님 !image_손님 !next
 주인장, 여기 {요구사항1}{청사진} 하나.
 @
 크흠... 

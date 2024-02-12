@@ -7720,7 +7720,7 @@ MonoBehaviour:
   imageList:
   - key: "\uC0E4\uC77C\uB85C"
     imageObj: {fileID: 2096704957}
-  - key: "\uBAA8\uBE0CNPC"
+  - key: "\uC190\uB2D8"
     imageObj: {fileID: 2104302657}
   - key: "\uD611\uBC15"
     imageObj: {fileID: 1005306033}
@@ -24015,7 +24015,7 @@ GameObject:
   - component: {fileID: 2104302660}
   - component: {fileID: 2104302659}
   m_Layer: 5
-  m_Name: "\uBAA8\uBE0CNPC"
+  m_Name: "\uC190\uB2D8"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,4 +1,4 @@
-!speaker_모브NPC !next
+!speaker_손님 !next
 오, 이 검, 생각보다 훨씬 더 좋은데요?
 !next !sound_sword
 사실 새로 생긴 데라 조금 긴가민가했거든요.
@@ -7,7 +7,7 @@
 !credit_100
 !speaker_PC나비 !next
 고마워, 손님!
-!speaker_모브NPC !next
+!speaker_손님 !next
 음, 사장님은 메테오 시티가 처음이죠?
 !next
 무기 제작 능력이 이 정도면, 충분히 이 도시에서
