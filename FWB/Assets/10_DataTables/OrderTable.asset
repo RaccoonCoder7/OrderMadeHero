@@ -168,7 +168,7 @@ MonoBehaviour:
     orderCondition: AfterOneOrder
     orderEnable: 0
   - orderKey: NormalOrder_19
-    ta: {fileID: 4900000, guid: dd86be1d11624d0a84b289b3b8dbe8e6, type: 3}
+    ta: {fileID: 4900000, guid: 27bc258d98bc4865b9a2ebc2d134f19c, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_20
-    ta: {fileID: 4900000, guid: d5020a40fdb34d7f9fbd8bbca79f74fa, type: 3}
+    ta: {fileID: 4900000, guid: dd86be1d11624d0a84b289b3b8dbe8e6, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
     orderCondition: 
     orderEnable: 1
   - orderKey: NormalOrder_21
-    ta: {fileID: 4900000, guid: b1e00baa554247778112a30d5c2fbd9c, type: 3}
+    ta: {fileID: 4900000, guid: b0b55acabcf742da8ec50582c26a84b8, type: 3}
     requiredBlueprintKeyList:
     - b_katana
     requiredAbilityList: []
