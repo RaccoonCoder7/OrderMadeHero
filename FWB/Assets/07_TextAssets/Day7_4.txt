@@ -1,6 +1,6 @@
 !next
 그럼, 또 뵙기를 바라지요.
-!speaker_PC나비 !next
+!image_no !sound_doorbell !wait_100 !speaker_PC나비 !next
 …….
 !next
 가, 갔나?

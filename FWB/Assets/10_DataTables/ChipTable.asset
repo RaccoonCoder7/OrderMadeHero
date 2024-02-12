@@ -49,7 +49,7 @@ MonoBehaviour:
     desc: "\uC774 \uCE69\uC14B\uC740 \uBB34\uAE30\uC758 \uAD00\uD1B5\uB825\uC744
       \uC99D\uAC00\uC2DC\uCF1C, \uC801\uC758 \uBC29\uC5B4\uB97C \uBB34\uC2DC\uD558\uB294
       \uB370 \uB3C4\uC6C0\uC744 \uC90D\uB2C8\uB2E4. "
-    howToGet: "\uC774\uBCA4\uD2B8"
+    howToGet: "\uD37C\uD3AB"
     price: 1000
     createEnable: 0
     chipSprite: {fileID: 21300000, guid: 732ea73a13725f944a9638b773ce3212, type: 3}

@@ -1,10 +1,4 @@
-!speaker_버니 !next
-역시 여길 찾아오기를 잘 한 것 같—
-앗, 호출이다! 이만 가봐야겠어요!
-!next
-사장님은 저랑 좀 잘 맞는 것 같아요.
-나중에 또 찾아올게요!
-!speaker_PC나비 !sound_doorbell !next
+!image_no !sound_doorbell !wait_100 !speaker_PC나비 !next
 … 순식간에 가버렸네.
 !next
 저번에 봤을 때는 마냥 인기 많고
