@@ -37,6 +37,7 @@ public class CommonTool : SingletonMono<CommonTool>
     public Canvas canvas;
 
     private AudioSource audioSrc;
+    public AudioSource bgmAudioSource;
 
 
     [System.Serializable]
@@ -47,7 +48,7 @@ public class CommonTool : SingletonMono<CommonTool>
         [HideInInspector]
         public List<string> lines = new List<string>();
     }
-
+    
 
     void Awake()
     {
@@ -126,7 +127,25 @@ public class CommonTool : SingletonMono<CommonTool>
     {
         return scriptList.Find(x => x.key.Equals(key))?.lines;
     }
-
+    
+    public IEnumerator BGMPlayer()
+    {
+        string activeSceneName = SceneManager.GetActiveScene().name;
+        AudioClip bgmClip = audioClipList.Find(x => x.name.Equals(activeSceneName));
+    
+        if (bgmClip != null && bgmAudioSource.clip != bgmClip)
+        {
+            bgmAudioSource.Stop();
+            yield return null;
+            bgmAudioSource.clip = bgmClip;
+            bgmAudioSource.Play();
+        }
+        else
+        {
+            yield return null;
+        }
+    }
+    
     /// <summary>
     /// 오디오를 1회 플레이 함
     /// </summary>

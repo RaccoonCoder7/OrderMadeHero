@@ -79,6 +79,7 @@ public class IntroSceneMgr : MonoBehaviour
         textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
         StartCoroutine(BlinkCoroutine());
+        StartCoroutine(CommonTool.In.BGMPlayer());
     }
     
     private IEnumerator BlinkCoroutine()
@@ -257,6 +258,7 @@ public class IntroSceneMgr : MonoBehaviour
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
+        StopCoroutine(CommonTool.In.BGMPlayer());
         onEndText = CommonTool.In.AsyncChangeScene("GameScene");
         StartNextLine();
     }

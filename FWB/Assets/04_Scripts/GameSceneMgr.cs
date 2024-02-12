@@ -213,6 +213,7 @@ public class GameSceneMgr : MonoBehaviour
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;
+        StartCoroutine(CommonTool.In.BGMPlayer());
 
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
         shopBlueprintTabImg = (Image)shopBlueprintTab.targetGraphic;
