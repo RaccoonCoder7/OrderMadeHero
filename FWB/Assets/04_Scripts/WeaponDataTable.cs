@@ -27,7 +27,9 @@ public class WeaponDataTable : ScriptableObject
         public string name;
         public string comment;
         public string howToGet;
-        public int price;
+        public int buyPrice;
+        public int sellPrice;
+        public TextAsset puzzleCsv;
         public bool orderEnable = false;
         public bool createEnable = false;
         public Sprite blueprintSprite;

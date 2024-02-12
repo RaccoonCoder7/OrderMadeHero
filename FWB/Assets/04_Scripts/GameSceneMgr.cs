@@ -679,7 +679,7 @@ public class GameSceneMgr : MonoBehaviour
                     }
 
                     item.contentImg.rectTransform.sizeDelta = size;
-                    item.price = bluePrintList[i].price;
+                    item.price = bluePrintList[i].buyPrice;
 
                     StringBuilder sb = new StringBuilder();
                     foreach (var ability in bluePrintList[i].requiredChipAbilityList)
