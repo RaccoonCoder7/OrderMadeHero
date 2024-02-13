@@ -1,6 +1,6 @@
 !speaker_매드 !next
 구매해줘서 고마워!
-!speaker_PC나비 !next
+!speaker_popup_나비 !next
 구매한 칩셋은 기본 칩셋처럼
 무기를 제작할 때 쓸 수 있어.
 !next

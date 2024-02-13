@@ -326,6 +326,29 @@ public class GameSceneMgr : MonoBehaviour
         });
     }
 
+    public void RenomBlinker(int a, float b)
+    {
+        StartCoroutine(RenomBlink(a, b));
+    }
+    
+    IEnumerator RenomBlink(int numberOfBlinks, float duration)
+    {
+        var blinkDuration = 0.2f;
+        int counter = 0;
+        float startTime = Time.time;
+        
+        while (counter < numberOfBlinks && Time.time - startTime < duration)
+        {
+            renom.SetActive(true);
+            yield return new WaitForSeconds(blinkDuration);
+            renom.SetActive(false);
+            yield return new WaitForSeconds(blinkDuration);
+
+            counter++;
+        }
+        renom.SetActive(true);
+    }
+
     public void MobSpriteRandomChange()
     {
         if (mobSpriteList.Count > 0)

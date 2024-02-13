@@ -46,14 +46,14 @@ public class EventFlowDay2 : EventFlow
     private void EndDay2_2Routine()
     {
         mgr.EndText();
-        mgr.renom.SetActive(true);
+        mgr.RenomBlinker(10, 2);
         mgr.StartText("Day2_4", EndDay2_4Routine);
     }
 
     private void EndDay2_3Routine()
     {
         mgr.EndText();
-        mgr.renom.SetActive(true);
+        mgr.RenomBlinker(10, 2);
         mgr.StartText("Day2_4", EndDay2_4Routine);
     }
 

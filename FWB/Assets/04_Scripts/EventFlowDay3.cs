@@ -32,6 +32,7 @@ public class EventFlowDay3 : EventFlow
         mgr.EndText();
         mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
+        mgr.popupChatPanel.SetActive(false);
         mgr.chatTarget = GameSceneMgr.ChatTarget.None;
         mgr.shopControlBlockingPanel.SetActive(false);
         CommonTool.In.SetFocus(new Vector2(875, 820), new Vector2(240, 70));
@@ -53,6 +54,7 @@ public class EventFlowDay3 : EventFlow
         CommonTool.In.SetFocus(new Vector2(670, 505), new Vector2(210, 295));
         mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
+        mgr.popupChatPanel.SetActive(false);
         mgr.chatTarget = GameSceneMgr.ChatTarget.None;
 
         mgr.shopUISlotList[0].button.onClick.AddListener(OnClickChipSet);
@@ -79,6 +81,7 @@ public class EventFlowDay3 : EventFlow
         mgr.EndText();
         mgr.pcChatPanel.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
+        mgr.popupChatPanel.SetActive(false);
         mgr.shopControlBlockingPanel.SetActive(false);
         mgr.shopDodge.onClick.AddListener(OnClickShopDodge);
         mgr.shopDodge.onClick.AddListener(mgr.OnClickShopDodge);
