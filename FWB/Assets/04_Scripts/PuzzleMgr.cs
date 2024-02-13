@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -29,6 +30,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public List<ChipObj> newChipList = new List<ChipObj>();
     public Dictionary<string, int> chipInventory = new Dictionary<string, int>();
     public Button makingDone;
+    public Button sortTargetBtn;
+    public Button sortOrderBtn;
     public GameSceneMgr mgr2;
     public RequiredAbilityObject requiredAbilityObject;
     public Transform requiredAbilityTextParent;
@@ -46,7 +49,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private GraphicRaycaster ray;
     private PointerEventData ped;
     private bool isFromPuzzle;
+    private bool isAscending;
     private Vector3 originDragImgRectTr;
+    private SpriteChange sortOrderSC;
     private List<PuzzleFrame> puzzleFrameList = new List<PuzzleFrame>();
     private Dictionary<string, RequiredAbilityObject> requiredAbilityObjectDic = new Dictionary<string, RequiredAbilityObject>();
     private Dictionary<string, int> currentChipDataDic = new Dictionary<string, int>();
@@ -79,6 +84,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     void Awake()
     {
         makingDone.onClick.AddListener(OnClickMakingDone);
+        sortTargetBtn.onClick.AddListener(OnClickSortTarget);
+        sortOrderBtn.onClick.AddListener(OnClickSortTarget);
 
         puzzleGridRectTr = puzzleGrid.GetComponent<RectTransform>();
         dragImgRectTr = dragImg.GetComponent<RectTransform>();
@@ -86,6 +93,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         ray = canvas.GetComponent<GraphicRaycaster>();
         canvasScaler = canvas.GetComponent<CanvasScaler>();
         ped = new PointerEventData(es);
+        sortOrderSC = sortOrderBtn.GetComponent<SpriteChange>();
 
         // 테스트코드
         // StringBuilder sb = new StringBuilder();
@@ -155,16 +163,14 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         // TODO: 청사진 정보에 맞게 chipSize, currPuzzle 세팅하기
         chipSize = 126;
-        currPuzzle = GetPuzzle();
         creditText.text = GameMgr.In.credit.ToString();
-        // TODO: 아래 수정 필요
         SetOrderDatas();
         SetBluePrintDatas();
-        SetChipDatas();
-        InstantiateRequiredAbilityText();
         SetPuzzle();
-        AddChipToInventory_ForTest();
-        RefreshChipPanel();
+        SetChipDatas();
+        // InstantiateRequiredAbilityText();
+        // AddChipToInventory_ForTest();
+        // RefreshChipPanel();
     }
 
     public void OnClickMakingDone()
@@ -442,13 +448,17 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void SetPuzzle()
     {
-        var width = puzzleGridRectTr.rect.width / currPuzzle.x;
-        var height = puzzleGridRectTr.rect.height / currPuzzle.y;
-        var size = width < height ? width : height;
-        puzzleGrid.cellSize = new Vector2(size, size);
-        puzzleGrid.constraintCount = currPuzzle.x;
+        currPuzzle = GetPuzzle();
         InstantiateFrames(currPuzzle.frameDataTable);
-        background.texture = textureList[0];
+
+        // 구버전 코드
+        // var width = puzzleGridRectTr.rect.width / currPuzzle.x;
+        // var height = puzzleGridRectTr.rect.height / currPuzzle.y;
+        // var size = width < height ? width : height;
+        // puzzleGrid.cellSize = new Vector2(size, size);
+        // puzzleGrid.constraintCount = currPuzzle.x;
+        // InstantiateFrames(currPuzzle.frameDataTable);
+        // background.texture = textureList[0];
     }
 
     private Puzzle GetPuzzle()
@@ -494,13 +504,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             var frame = Instantiate(puzzleFrame, puzzleGrid.transform);
             frame.SetPuzzleFrameData(frameData);
             puzzleFrameList.Add(frame);
-            if (frame.pfd.patternNum == 0)
-            {
-                var color = frame.image.color;
-                color.a = 0;
-                frame.image.color = color;
-                continue;
-            }
             frame.image.texture = textureList[frameData.patternNum];
         }
     }
@@ -705,7 +708,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         var bp = GameMgr.In.currentBluePrint;
         bluePrintName.text = bp.name;
-        // TODO: 퍼즐 세팅?
 
         StringBuilder sb = new StringBuilder();
         foreach (var requiredAbility in bp.requiredChipAbilityList)
@@ -729,6 +731,45 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         foreach (var chip in newChipList)
         {
             chip.backgroundSC.gameObject.SetActive(creatableChipKeyList.Contains(chip.chipKey));
+        }
+        SortChipList();
+    }
+
+    private void OnClickSortTarget()
+    {
+        isAscending = !isAscending;
+
+        if (isAscending)
+        {
+            sortOrderSC.SetOnSprite();
+        }
+        else
+        {
+            sortOrderSC.SetOffSprite();
+        }
+
+        SortChipList();
+    }
+
+    private void SortChipList()
+    {
+        var chipList = GameMgr.In.chipTable.chipList;
+        var orderedChipKeyList = new List<string>();
+        if (isAscending)
+        {
+            orderedChipKeyList = chipList.OrderBy(x => x.price).ThenBy(x => x.chipKey).Select(x => x.chipKey).ToList();
+        }
+        else
+        {
+            orderedChipKeyList = chipList.OrderByDescending(x => x.price).ThenByDescending(x => x.chipKey).Select(x => x.chipKey).ToList();
+        }
+
+        for (int i = 0; i < orderedChipKeyList.Count; i++)
+        {
+            var matchedChip = newChipList.Find(x => x.chipKey.Equals(orderedChipKeyList[i]));
+            if (matchedChip == null) continue;
+
+            matchedChip.backgroundSC.transform.SetSiblingIndex(i);
         }
     }
 

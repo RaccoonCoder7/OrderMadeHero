@@ -4217,7 +4217,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: XXX+1
+  m_Text: 
 --- !u!222 &269537454
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10905,7 +10905,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uACF5\uACA9\uB825"
+  m_Text: 
 --- !u!222 &697252122
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11578,7 +11578,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 1
+  startDay: 2
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -12457,7 +12457,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uAC1C\uB2F9 0 c"
+  m_Text: 
 --- !u!222 &760767013
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13445,7 +13445,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &825199659
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16560,7 +16560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39cf2040af7658447945dc50f791c4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzleGrid: {fileID: 575824411}
+  puzzleGrid: {fileID: 2014718243}
   chipPanelRectTr: {fileID: 825199659}
   es: {fileID: 1664732676}
   canvas: {fileID: 995046953}
@@ -16574,8 +16574,9 @@ MonoBehaviour:
   chipSize: 126
   puzzleFrame: {fileID: 1589182173115361095, guid: ed2b062dfd152a54b91c4ec97b76d523, type: 3}
   textureList:
-  - {fileID: 2800000, guid: 72687f442ca5f8c44a9c4d1086f559ef, type: 3}
   - {fileID: 2800000, guid: cc7848472c2b5544683f0693aca4292b, type: 3}
+  - {fileID: 2800000, guid: 9c04ed0454df1e0429b676d8f9d62747, type: 3}
+  - {fileID: 2800000, guid: 434b83aba4b16a549825db80239eafd9, type: 3}
   chipList:
   - {fileID: 8073632252546549673, guid: 84aade64292d06542a7f1a1b90bc702a, type: 3}
   - {fileID: 5753792350700248634, guid: 7ad9241ca93810048ad8653058e5b3a2, type: 3}
@@ -16596,6 +16597,8 @@ MonoBehaviour:
   - {fileID: 977302178}
   - {fileID: 1485693312}
   makingDone: {fileID: 1347093686}
+  sortTargetBtn: {fileID: 2142092982}
+  sortOrderBtn: {fileID: 1316329141}
   mgr2: {fileID: 723337247}
   requiredAbilityObject: {fileID: 6396953575436316974, guid: 8cad4fdb979982242b6eb84d01e98f25, type: 3}
   requiredAbilityTextParent: {fileID: 1601101360}
@@ -17312,7 +17315,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBB34\uAE30\uC758 \uAE30\uBCF8 \uACF5\uACA9\uB825\uC744 \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
+  m_Text: 
 --- !u!222 &1038685242
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21909,6 +21912,7 @@ GameObject:
   - component: {fileID: 1316329143}
   - component: {fileID: 1316329142}
   - component: {fileID: 1316329141}
+  - component: {fileID: 1316329145}
   m_Layer: 5
   m_Name: SortingUpDown
   m_TagString: Untagged
@@ -22017,6 +22021,23 @@ RectTransform:
   m_AnchoredPosition: {x: 1342, y: -115.000015}
   m_SizeDelta: {x: 31, y: 26}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1316329145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316329140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879b2295ac2ac7241b485cc1cddad9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSprite: {fileID: 21300000, guid: 4986495c62ac8df4d98f08b7c13bd135, type: 3}
+  offSprite: {fileID: 21300000, guid: 57a994156b92ac0448e990040a056789, type: 3}
+  type: 1
+  img: {fileID: 0}
+  SecPerAutoChange: 0
 --- !u!1 &1322868095
 GameObject:
   m_ObjectHideFlags: 0
@@ -26759,7 +26780,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: XXX+1
+  m_Text: 
 --- !u!222 &1593073838
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -29218,7 +29239,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: XXX+1
+  m_Text: 
 --- !u!222 &1701274431
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33346,7 +33367,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: XXX
+  m_Text: 0
 --- !u!222 &1950962485
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -35153,7 +35174,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "X \uCE69\uC14B X\uAC1C\nX \uCE69\uC14B X\uAC1C"
+  m_Text: 
 --- !u!222 &2104837312
 CanvasRenderer:
   m_ObjectHideFlags: 0
