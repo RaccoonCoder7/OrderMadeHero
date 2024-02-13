@@ -8,19 +8,19 @@ using static ChipTable;
 /// </summary>
 public class ChipObj : MonoBehaviour
 {
+    [Header("Data")]
     public string chipKey;
-    public int chipCount;
-    public int price;
     public int colNum;
     public int rowNum;
-    public RawImage image;
-    public RectTransform rectTr;
-    public GameObject countPlate;
-    public Text count;
-    public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
     public Col[] row;
     [HideInInspector]
     public Col[] originRow;
+    [HideInInspector]
+    public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
+    [Header("UI")]
+    public RawImage image;
+    public RectTransform rectTr;
+    public SpriteChange backgroundSC;
 
     private int size;
 
@@ -85,8 +85,8 @@ public class ChipObj : MonoBehaviour
 
     public void SetChipData(int count, ChipObj originalChip)
     {
-        this.chipCount = count;
-        this.count.text = count.ToString();
+        // this.chipCount = count;
+        // this.count.text = count.ToString();
     }
 
     public int GetChipSize()

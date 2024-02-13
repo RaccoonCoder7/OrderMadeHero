@@ -16,12 +16,17 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public EventSystem es;
     public Canvas canvas;
     public RawImage dragImg;
+    public Text creditText;
+    public Text orderText;
+    public Text bluePrintName;
+    public Text requiredAbilityText;
     public int chipCountX;
     public int chipCountY;
     public float chipSize;
     public PuzzleFrame puzzleFrame;
     public List<Texture> textureList = new List<Texture>();
     public List<ChipObj> chipList = new List<ChipObj>();
+    public List<ChipObj> newChipList = new List<ChipObj>();
     public Dictionary<string, int> chipInventory = new Dictionary<string, int>();
     public Button makingDone;
     public GameSceneMgr mgr2;
@@ -151,9 +156,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // TODO: 청사진 정보에 맞게 chipSize, currPuzzle 세팅하기
         chipSize = 126;
         currPuzzle = GetPuzzle();
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("durability", 1));
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("weight", 1));
-        // currPuzzle.requiredChipAbilityList.Add(new ChipAbility("attack", 1));
+        creditText.text = GameMgr.In.credit.ToString();
+        // TODO: 아래 수정 필요
+        SetOrderDatas();
+        SetBluePrintDatas();
+        SetChipDatas();
         InstantiateRequiredAbilityText();
         SetPuzzle();
         AddChipToInventory_ForTest();
@@ -220,7 +227,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 targetChip = results[0].gameObject.GetComponent<ChipObj>();
             }
 
-            if (targetChip != null && targetChip.chipCount > 0)
+            // if (targetChip != null && targetChip.chipCount > 0)
+            if (targetChip != null)
             {
                 if (!isFromPuzzle)
                 {
@@ -265,15 +273,15 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
                 currentSelectedChip = targetChip;
                 dragImg.gameObject.SetActive(true);
-                targetChip.chipCount--;
-                if (targetChip.chipCount <= 0)
-                {
-                    targetChip.gameObject.SetActive(false);
-                }
-                else
-                {
-                    targetChip.count.text = targetChip.chipCount.ToString();
-                }
+                // targetChip.chipCount--;
+                // if (targetChip.chipCount <= 0)
+                // {
+                //     targetChip.gameObject.SetActive(false);
+                // }
+                // else
+                // {
+                //     targetChip.count.text = targetChip.chipCount.ToString();
+                // }
             }
         }
     }
@@ -329,18 +337,18 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                         {
                             if (c.chipKey.Equals(currentSelectedChip.chipKey))
                             {
-                                c.chipCount++;
+                                // c.chipCount++;
                                 c.gameObject.SetActive(true);
-                                c.count.text = c.chipCount.ToString();
+                                // c.count.text = c.chipCount.ToString();
                                 c.ResetCol();
                                 break;
                             }
                         }
 
-                        if (currentSelectedChip.chipCount <= 0)
-                        {
-                            DestroyImmediate(currentSelectedChip.gameObject);
-                        }
+                        // if (currentSelectedChip.chipCount <= 0)
+                        // {
+                        //     DestroyImmediate(currentSelectedChip.gameObject);
+                        // }
                         var result = GetWeaponPowerResult();
                         if (isTutorial)
                         {
@@ -370,7 +378,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             {
                                 fittableFrames[i].chip = chipInstance;
                             }
-                            chipInstance.countPlate.SetActive(false);
+                            // chipInstance.countPlate.SetActive(false);
                             chipInstance.transform.parent = frame.transform;
                             if (chipInstance.originRow.Length == currentSelectedChip.rowNum)
                             {
@@ -381,7 +389,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.colNum, chipInstance.rowNum) * chipSize;
                             }
                             chipInstance.rectTr.anchoredPosition = Vector3.zero;
-                            chipInstance.chipCount = 1;
+                            // chipInstance.chipCount = 1;
 
                             chipInstance.rectTr.localEulerAngles = angle;
                             var pos = chipInstance.rectTr.localPosition;
@@ -403,10 +411,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             }
                             chipInstance.rectTr.localPosition = pos;
 
-                            if (currentSelectedChip.chipCount <= 0 && isFromPuzzle)
-                            {
-                                DestroyImmediate(currentSelectedChip.gameObject);
-                            }
+                            // if (currentSelectedChip.chipCount <= 0 && isFromPuzzle)
+                            // {
+                            //     DestroyImmediate(currentSelectedChip.gameObject);
+                            // }
                             var result = GetWeaponPowerResult();
                             if (isTutorial)
                             {
@@ -419,12 +427,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             if (!success)
             {
-                currentSelectedChip.chipCount++;
-                if (currentSelectedChip.chipCount > 0)
-                {
-                    currentSelectedChip.gameObject.SetActive(true);
-                }
-                currentSelectedChip.count.text = currentSelectedChip.chipCount.ToString();
+                // currentSelectedChip.chipCount++;
+                // if (currentSelectedChip.chipCount > 0)
+                // {
+                //     currentSelectedChip.gameObject.SetActive(true);
+                // }
+                // currentSelectedChip.count.text = currentSelectedChip.chipCount.ToString();
                 currentSelectedChip.ResetCol();
             }
             currentSelectedChip = null;
@@ -516,6 +524,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void RefreshChipPanel()
     {
+
+
+        // 구버전 코드
         var sizeX = chipSize * chipCountX;
         var sizeY = chipSize * chipCountY;
         chipPanelRectTr.sizeDelta = new Vector2(sizeX, sizeY);
@@ -555,8 +566,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             {
                 if (chipFrameTable[i, j] != null) continue;
                 chipFrameTable[i, j] = chip;
-                chip.count.text = chipCount.ToString();
-                chip.chipCount = chipCount;
+                // chip.count.text = chipCount.ToString();
+                // chip.chipCount = chipCount;
                 chip.rectTr.sizeDelta = new Vector2(chipSize, chipSize);
                 chip.rectTr.anchoredPosition = new Vector3(chipSize * j, -chipSize * i, 0);
                 return;
@@ -588,7 +599,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     return null;
                 }
 
-                if (targetTable[y + j, x + i].chip != null && targetTable[y + j, x + i].chip.chipCount != 0)
+                // if (targetTable[y + j, x + i].chip != null && targetTable[y + j, x + i].chip.chipCount != 0)
+                if (targetTable[y + j, x + i].chip != null)
                 {
                     return null;
                 }
@@ -671,6 +683,54 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     //     pos /= chipSize;
     //     return chipFrameTable[(int)-pos.y, (int)pos.x];
     // }
+
+    private void SetOrderDatas()
+    {
+        var order = GameMgr.In.currentOrder;
+
+        string orderText = string.Empty;
+        if (order != null && !string.IsNullOrEmpty(order.orderKey))
+        {
+            orderText = order.ta.text;
+        }
+        else
+        {
+            orderText = mgr2.mainChatText.text.Replace(" ▼", "");
+        }
+        this.orderText.text = orderText.Replace("\n", " ");
+        // TODO: 특수조건
+    }
+
+    private void SetBluePrintDatas()
+    {
+        var bp = GameMgr.In.currentBluePrint;
+        bluePrintName.text = bp.name;
+        // TODO: 퍼즐 세팅?
+
+        StringBuilder sb = new StringBuilder();
+        foreach (var requiredAbility in bp.requiredChipAbilityList)
+        {
+            var ability = GameMgr.In.GetAbility(requiredAbility.abilityKey);
+            sb.Append(ability.name).Append("+").Append(requiredAbility.count).Append(" ");
+        }
+        sb.Length--;
+        requiredAbilityText.text = sb.ToString();
+    }
+
+    private void SetChipDatas()
+    {
+        // TODO: 필터들 세팅
+        var creatableChips = GameMgr.In.chipTable.chipList.FindAll(x => x.createEnable);
+        List<string> creatableChipKeyList = new List<string>();
+        foreach (var cc in creatableChips)
+        {
+            creatableChipKeyList.Add(cc.chipKey);
+        }
+        foreach (var chip in newChipList)
+        {
+            chip.backgroundSC.gameObject.SetActive(creatableChipKeyList.Contains(chip.chipKey));
+        }
+    }
 
     [ContextMenu("LogPuzzleFrameDatas")]
     private void LogPuzzleFrameDatas()
