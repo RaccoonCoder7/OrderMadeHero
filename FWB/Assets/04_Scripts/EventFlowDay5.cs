@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// day2의 이벤트를 제어
@@ -17,8 +19,10 @@ public class EventFlowDay5 : EventFlow
     {
         mgr.EndText();
         puffet = mgr.imageList.Find(x => x.key.Equals("화난퍼펫")).imageObj;
+        var navi = mgr.imageList.Find(x => x.key.Equals("당황한나비")).imageObj;
         puffet.SetActive(true);
-        puffet.transform.DOLocalMoveX(-430, 1).SetEase(Ease.OutBack).OnComplete(() =>
+        navi.transform.DOLocalMoveX(300, 1);
+        puffet.transform.DOLocalMoveX(-550, 1).SetEase(Ease.OutBack).OnComplete(() =>
         {
             mgr.StartText("Day5_2", EndDay5_2Routine);
         });
@@ -29,9 +33,16 @@ public class EventFlowDay5 : EventFlow
         mgr.EndText();
 
         var navi = mgr.imageList.Find(x => x.key.Equals("당황한나비")).imageObj;
+        var a = GameObject.Find("movingImg");
+        
         navi.transform.DOLocalMoveX(100, 1).SetEase(Ease.OutCubic).OnComplete(() =>
         {
-            navi.SetActive(false);
+                navi.SetActive(false);
+        });
+        a.transform.DOLocalMoveX(0, 1).SetEase(Ease.OutCubic).OnComplete(() =>
+        {
+            puffet.GetComponent<Mask>().enabled = false;
+            a.SetActive(false);
         });
 
         var puffetRectTr = puffet.GetComponent<RectTransform>();
@@ -40,7 +51,7 @@ public class EventFlowDay5 : EventFlow
         {
             size.x = x;
             puffetRectTr.sizeDelta = size;
-        }, 1300, 1);
+        }, 1920, 1);
         puffet.transform.DOLocalMoveX(0, 1).SetEase(Ease.OutCubic).OnComplete(() =>
         {
             mgr.StartText("Day5_3", EndDay5_3Routine);
