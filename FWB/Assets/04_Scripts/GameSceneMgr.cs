@@ -62,6 +62,12 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject gamePanel;
     // public GameObject cursor;
     public GameObject alertPanel;
+    private Image alertPanelImg;
+    public Sprite chipsetAlertImg;
+    public GameObject getItemImg;
+    public GameObject getItemText;
+    public List<Sprite> getItemSprites = new List<Sprite>();
+    public List<String> getItemTexts = new List<String>();
     public GameObject creditPanel;
     public GameObject shopUiSlotNoItemPrefab;
     public GameObject shopDrMadChat;
@@ -220,6 +226,7 @@ public class GameSceneMgr : MonoBehaviour
         shopBlueprintTabImg = (Image)shopBlueprintTab.targetGraphic;
         shopChipsetTabImg = (Image)shopChipsetTab.targetGraphic;
         CommonTool.In.shopFollowUI = shopFollowUI;
+        alertPanelImg = alertPanel.GetComponentInChildren<Image>();
 
         popupDodge.onClick.AddListener(OnClickDodgePopup);
         weaponLeft.onClick.AddListener(OnClickWeaponLeft);
@@ -277,6 +284,23 @@ public class GameSceneMgr : MonoBehaviour
             }
         }
     }
+    
+public void GetChipset(int a)
+{
+    getItemImg.GetComponent<Image>().sprite = getItemSprites[a];
+    getItemText.GetComponent<Text>().text = getItemTexts[a];
+    
+    alertPanel.SetActive(true);
+    getItemImg.SetActive(true);
+    getItemText.SetActive(true);
+    alertPanelImg.sprite = chipsetAlertImg;
+    
+    if (a == 1)
+    {
+        RectTransform rectTransform = getItemImg.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(150, 150);
+    }
+}
 
     public void OnClickDodgePopup()
     {

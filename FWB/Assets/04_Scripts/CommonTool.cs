@@ -55,7 +55,7 @@ public class CommonTool : SingletonMono<CommonTool>
         base.Awake();
         canvas = GetComponent<Canvas>();
         audioSrc = GetComponent<AudioSource>();
-
+        
         alertPanel.SetActive(false);
         confirmPanel.SetActive(false);
         alertDodgeBtn.onClick.AddListener(() => alertPanel.SetActive(false));

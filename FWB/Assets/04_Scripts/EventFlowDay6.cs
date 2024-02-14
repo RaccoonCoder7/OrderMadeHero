@@ -18,7 +18,7 @@ public class EventFlowDay6 : EventFlow
         speedChip.createEnable = true;
 
         mgr.mainChatPanel.SetActive(false);
-        mgr.alertPanel.SetActive(true);
+        mgr.GetChipset(0);
         mgr.alertDodge.onClick.RemoveAllListeners();
         mgr.alertDodge.onClick.AddListener(() =>
         {

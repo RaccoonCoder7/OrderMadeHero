@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// day2의 이벤트를 제어
@@ -44,7 +45,7 @@ public class EventFlowDay7 : EventFlow
         speedChip.createEnable = true;
 
         mgr.mainChatPanel.SetActive(false);
-        mgr.alertPanel.SetActive(true);
+        mgr.GetChipset(1);
         mgr.alertDodge.onClick.RemoveAllListeners();
         mgr.alertDodge.onClick.AddListener(() =>
         {
