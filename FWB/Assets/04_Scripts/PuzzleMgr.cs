@@ -690,17 +690,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private void SetOrderDatas()
     {
         var order = GameMgr.In.currentOrder;
-
-        string orderText = string.Empty;
-        if (order != null && !string.IsNullOrEmpty(order.orderKey))
-        {
-            orderText = order.ta.text;
-        }
-        else
-        {
-            orderText = mgr2.mainChatText.text.Replace(" ▼", "");
-        }
-        this.orderText.text = orderText.Replace("\n", " ");
+        this.orderText.text = mgr2.mainChatText.text.Replace(" ▼", "").Replace("\n", " ");
         // TODO: 특수조건
     }
 
