@@ -47,7 +47,7 @@ public class EventFlowDay1 : EventFlow
     {
         mgr.EndText(true);
         mgr.day.SetActive(true);
-        mgr.tendency.SetActive(true);
+        //mgr.tendency.SetActive(true);
         mgr.goldText.text = GameMgr.In.credit.ToString();
         mgr.gold.SetActive(true);
         StartCoroutine(mgr.FadeInOutDateMessage());

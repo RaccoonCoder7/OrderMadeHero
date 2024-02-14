@@ -34,6 +34,7 @@ public class EventFlowDay5 : EventFlow
 
         var navi = mgr.imageList.Find(x => x.key.Equals("당황한나비")).imageObj;
         var a = GameObject.Find("movingImg");
+        a.GetComponent<Image>().enabled = true;
         
         navi.transform.DOLocalMoveX(100, 1).SetEase(Ease.OutCubic).OnComplete(() =>
         {
@@ -71,8 +72,15 @@ public class EventFlowDay5 : EventFlow
     private void EndDay5_4Routine()
     {
         mgr.EndText();
-        mgr.pcChatPanel.SetActive(false);
+        mgr.StartText("Day5_5", EndDay5_5Routine);
+        mgr.tendency.SetActive(true);
+    }
 
+    private void EndDay5_5Routine()
+    {
+        mgr.EndText();
+        mgr.mainChatPanel.SetActive(false);
+        mgr.pcChatPanel.SetActive(false);
         StartCoroutine(mgr.StartNormalRoutine(8, mgr.EndNormalOrderRoutine));
     }
 }
