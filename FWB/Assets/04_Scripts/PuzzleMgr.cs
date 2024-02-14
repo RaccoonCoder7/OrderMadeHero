@@ -26,8 +26,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public float chipSize;
     public PuzzleFrame puzzleFrame;
     public List<Texture> textureList = new List<Texture>();
-    public List<ChipObj> chipList = new List<ChipObj>();
+    // public List<ChipObj> chipList = new List<ChipObj>();
     public List<ChipObj> newChipList = new List<ChipObj>();
+    public List<AbilityFilterUI> abilityFilterList = new List<AbilityFilterUI>();
+    public List<AbilityFilterUI> abilityTagList = new List<AbilityFilterUI>();
     public Dictionary<string, int> chipInventory = new Dictionary<string, int>();
     public Button makingDone;
     public Button sortTargetBtn;
@@ -56,6 +58,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Dictionary<string, RequiredAbilityObject> requiredAbilityObjectDic = new Dictionary<string, RequiredAbilityObject>();
     private Dictionary<string, int> currentChipDataDic = new Dictionary<string, int>();
     private List<GameObject> instantiatedChipList = new List<GameObject>();
+    private List<string> filterAbilityKeyList = new List<string>();
+    private List<string> creatableChipKeyList = new List<string>();
 
     public class Puzzle
     {
@@ -94,6 +98,70 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         canvasScaler = canvas.GetComponent<CanvasScaler>();
         ped = new PointerEventData(es);
         sortOrderSC = sortOrderBtn.GetComponent<SpriteChange>();
+
+        for (int i = 0; i < abilityFilterList.Count; i++)
+        {
+            int tempNum = i;
+            abilityFilterList[tempNum].button.onClick.AddListener(() =>
+            {
+                var filter = abilityFilterList[tempNum];
+                if (filter.isOn)
+                {
+                    filter.image.sprite = filter.offSprite;
+                    filterAbilityKeyList.Remove(filter.abilityKey);
+
+                    var tag = abilityTagList.Find(x => x.abilityKey.Equals(filter.abilityKey));
+                    tag.abilityKey = string.Empty;
+                    tag.transform.SetSiblingIndex(2);
+                    tag.image.sprite = tag.offSprite;
+                    tag.textForTag.text = string.Empty;
+                    tag.button.interactable = false;
+                    tag.button.onClick.RemoveAllListeners();
+                }
+                else
+                {
+                    if (filterAbilityKeyList.Count >= 3)
+                    {
+                        return;
+                    }
+                    filter.image.sprite = filter.onSprite;
+                    filterAbilityKeyList.Add(filter.abilityKey);
+
+                    var tag = abilityTagList.First(x => string.IsNullOrEmpty(x.abilityKey));
+                    tag.abilityKey = filter.abilityKey;
+                    tag.transform.SetSiblingIndex(filterAbilityKeyList.Count - 1);
+                    tag.image.sprite = tag.onSprite;
+                    tag.textForTag.text = GameMgr.In.GetAbility(filter.abilityKey).name;
+                    tag.button.interactable = true;
+                    tag.button.onClick.AddListener(() =>
+                    {
+                        filter.button.onClick.Invoke();
+                    });
+                }
+                filter.isOn = !filter.isOn;
+
+                foreach (var chip in newChipList)
+                {
+                    if (!creatableChipKeyList.Contains(chip.chipKey))
+                    {
+                        continue;
+                    }
+
+                    bool isActive = true;
+                    var chipData = GameMgr.In.GetChip(chip.chipKey);
+                    foreach (var filterAbilityKey in filterAbilityKeyList)
+                    {
+                        var targetAbility = chipData.abilityList.Find(x => x.abilityKey.Equals(filterAbilityKey));
+                        if (targetAbility == null)
+                        {
+                            isActive = false;
+                            break;
+                        }
+                    }
+                    chip.backgroundSC.gameObject.SetActive(isActive);
+                }
+            });
+        }
 
         // 테스트코드
         // StringBuilder sb = new StringBuilder();
@@ -530,36 +598,36 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 
         // 구버전 코드
-        var sizeX = chipSize * chipCountX;
-        var sizeY = chipSize * chipCountY;
-        chipPanelRectTr.sizeDelta = new Vector2(sizeX, sizeY);
+        // var sizeX = chipSize * chipCountX;
+        // var sizeY = chipSize * chipCountY;
+        // chipPanelRectTr.sizeDelta = new Vector2(sizeX, sizeY);
 
-        chipFrameTable = new ChipObj[chipCountY, chipCountX];
-        for (int i = 0; i < chipCountY; i++)
-        {
-            for (int j = 0; j < chipCountX; j++)
-            {
-                chipFrameTable[i, j] = new ChipObj();
-            }
-        }
+        // chipFrameTable = new ChipObj[chipCountY, chipCountX];
+        // for (int i = 0; i < chipCountY; i++)
+        // {
+        //     for (int j = 0; j < chipCountX; j++)
+        //     {
+        //         chipFrameTable[i, j] = new ChipObj();
+        //     }
+        // }
 
-        foreach (var key in chipInventory.Keys)
-        {
-            var chip = GetChipPrefab(key);
-            if (chip)
-            {
-                var chipInstance = Instantiate(chip, chipPanelRectTr.transform);
-                chipInstance.name = chip.name;
-                instantiatedChipList.Add(chipInstance.gameObject);
-                SetChipToPanel(chipInstance, chipInventory[key]);
-            }
-        }
+        // foreach (var key in chipInventory.Keys)
+        // {
+        //     var chip = GetChipPrefab(key);
+        //     if (chip)
+        //     {
+        //         var chipInstance = Instantiate(chip, chipPanelRectTr.transform);
+        //         chipInstance.name = chip.name;
+        //         instantiatedChipList.Add(chipInstance.gameObject);
+        //         SetChipToPanel(chipInstance, chipInventory[key]);
+        //     }
+        // }
     }
 
-    private ChipObj GetChipPrefab(string key)
-    {
-        return chipList.Find(x => x.chipKey.Equals(key));
-    }
+    // private ChipObj GetChipPrefab(string key)
+    // {
+    //     return chipList.Find(x => x.chipKey.Equals(key));
+    // }
 
     private void SetChipToPanel(ChipObj chip, int chipCount)
     {
@@ -711,9 +779,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void SetChipDatas()
     {
-        // TODO: 필터들 세팅
         var creatableChips = GameMgr.In.chipTable.chipList.FindAll(x => x.createEnable);
-        List<string> creatableChipKeyList = new List<string>();
+        creatableChipKeyList = new List<string>();
         foreach (var cc in creatableChips)
         {
             creatableChipKeyList.Add(cc.chipKey);
