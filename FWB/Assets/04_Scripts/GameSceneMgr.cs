@@ -661,6 +661,7 @@ public void GetChipset(int a)
                 isEventFlowing = false;
             });
             pc.onClick.RemoveAllListeners();
+            TotalCreditComment.Instance.UpdateDayEndMessage();
         });
     }
 
