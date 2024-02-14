@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// day1의 이벤트를 제어
@@ -13,6 +14,7 @@ public class EventFlowDay1 : EventFlow
     private void EndTutorialRoutine()
     {
         mgr.EndText(false);
+        CommonTool.In.cancelText.color = new Color(30f/255f, 30f/255f, 30f/255f, 1);
 
         mgr.yes.onClick.RemoveAllListeners();
         mgr.yes.onClick.AddListener(() =>
@@ -195,6 +197,7 @@ public class EventFlowDay1 : EventFlow
             StopCoroutine(coroutine);
             mgr.deskNavi.SetActive(true);
             mgr.RefreshCreditPanel();
+            CommonTool.In.cancelText.color = Color.white;
             mgr.creditPanel.SetActive(true);
             mgr.creditDodge.onClick.RemoveAllListeners();
             mgr.creditDodge.onClick.AddListener(() =>

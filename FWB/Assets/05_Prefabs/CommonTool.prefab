@@ -730,6 +730,7 @@ MonoBehaviour:
   alertDodgeBtn: {fileID: 3087253591733638115}
   confirmBtn: {fileID: 3087253590565496318}
   cancelBtn: {fileID: 3087253591748533970}
+  cancelText: {fileID: 3087253591676275648}
   fadeImage: {fileID: 3087253590520101493}
   fadeSpeed: 1
   playerName: 

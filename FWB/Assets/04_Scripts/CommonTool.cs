@@ -27,6 +27,7 @@ public class CommonTool : SingletonMono<CommonTool>
     public Button alertDodgeBtn;
     public Button confirmBtn;
     public Button cancelBtn;
+    public Text cancelText;
     public Image fadeImage;
     public float fadeSpeed;
     public string playerName;
