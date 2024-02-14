@@ -15,7 +15,16 @@ public class ShopUISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public string itemData;
     [HideInInspector]
     public int price;
+    public GameObject purchasestate;
+    private int previousCredit = -1;
     // public List<Sprite> spriteList = new List<Sprite>();
+    void Update()
+    {
+        if (GameMgr.In.credit != previousCredit) {
+            UpdateStateIndicator();
+            previousCredit = GameMgr.In.credit;
+        }
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -30,4 +39,13 @@ public class ShopUISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         CommonTool.In.shopFollowUI.gameObject.SetActive(false);
     }
+
+    private void UpdateStateIndicator()
+    {
+        if (purchasestate != null)
+        {
+            purchasestate.SetActive(GameMgr.In.credit >= price);
+        }
+    }
+
 }

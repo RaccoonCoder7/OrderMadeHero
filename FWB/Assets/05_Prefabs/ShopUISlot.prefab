@@ -573,6 +573,7 @@ MonoBehaviour:
   priceText: {fileID: 2995327861794718532}
   itemData: 
   price: 0
+  purchasestate: {fileID: 5714572239498420112}
 --- !u!1 &7110355752915975689
 GameObject:
   m_ObjectHideFlags: 0
