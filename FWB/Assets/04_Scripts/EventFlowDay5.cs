@@ -73,7 +73,7 @@ public class EventFlowDay5 : EventFlow
     {
         mgr.EndText();
         mgr.StartText("Day5_5", EndDay5_5Routine);
-        mgr.tendency.SetActive(true);
+        mgr.ObjectBlinker(mgr.tendency, 10, 2);
     }
 
     private void EndDay5_5Routine()

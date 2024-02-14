@@ -350,12 +350,12 @@ public void GetChipset(int a)
         });
     }
 
-    public void RenomBlinker(int a, float b)
+    public void ObjectBlinker(GameObject gameObject, int blinkTimes, float duration)
     {
-        StartCoroutine(RenomBlink(a, b));
+        StartCoroutine(ObjectBlink(gameObject, blinkTimes, duration));
     }
     
-    IEnumerator RenomBlink(int numberOfBlinks, float duration)
+    IEnumerator ObjectBlink(GameObject gameObject, int numberOfBlinks, float duration)
     {
         var blinkDuration = 0.2f;
         int counter = 0;
@@ -363,14 +363,14 @@ public void GetChipset(int a)
         
         while (counter < numberOfBlinks && Time.time - startTime < duration)
         {
-            renom.SetActive(true);
+            gameObject.SetActive(true);
             yield return new WaitForSeconds(blinkDuration);
-            renom.SetActive(false);
+            gameObject.SetActive(false);
             yield return new WaitForSeconds(blinkDuration);
 
             counter++;
         }
-        renom.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     public void MobSpriteRandomChange()
