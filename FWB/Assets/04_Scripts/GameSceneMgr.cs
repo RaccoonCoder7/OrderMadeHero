@@ -168,6 +168,7 @@ public class GameSceneMgr : MonoBehaviour
     private Point cursorPos = new Point();
     private bool visible;
     private bool isShopAnimating;
+    private bool isShopTutorial = true;
     private Image shopBlueprintTabImg;
     private Image shopChipsetTabImg;
     private List<EventFlow> eventFlowList = new List<EventFlow>();
@@ -756,7 +757,7 @@ public class GameSceneMgr : MonoBehaviour
                                 shopPopupUI.yes.interactable = true;
                                 shopPopupUI.yes.onClick.AddListener(() =>
                                 {
-                                    var bp = GameMgr.In.GetWeapon(bluePrintList[i].bluePrintKey);
+                                    var bp = GameMgr.In.GetWeapon(bluePrintList[tempNum].bluePrintKey);
                                     bp.createEnable = true;
                                     GameMgr.In.credit -= item.price;
                                     GameMgr.In.daySpendCredit -= item.price;
@@ -1321,7 +1322,12 @@ public class GameSceneMgr : MonoBehaviour
                         chatTargetText = mascotChatText;
                         break;
                     case ChatTarget.Popup:
+                        mainChatPanel.SetActive(false);
+                        pcChatPanel.SetActive(false);
                         popupChatPanel.SetActive(true);
+                        fullPanel.SetActive(false);
+                        deskTr.gameObject.SetActive(true);
+                        pc.gameObject.SetActive(true);
                         chatTargetText = popupChatText;
                         break;
                     case ChatTarget.Full:
@@ -1469,6 +1475,11 @@ public class GameSceneMgr : MonoBehaviour
 
     private IEnumerator DrMadChatRoutine()
     {
+        if (isShopTutorial)
+        {
+            isShopTutorial = false;
+            yield break;
+        }
         shopDrMadChat.SetActive(true);
         yield return new WaitForSeconds(2f);
         shopDrMadChat.SetActive(false);
