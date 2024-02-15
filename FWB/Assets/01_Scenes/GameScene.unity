@@ -16900,7 +16900,9 @@ MonoBehaviour:
   creditText: {fileID: 90109274}
   orderText: {fileID: 876676685}
   bluePrintName: {fileID: 558632848}
+  currentAbilityText: {fileID: 269537453}
   requiredAbilityText: {fileID: 1701274430}
+  usedChipText: {fileID: 2104837311}
   selectedChipName: {fileID: 697252121}
   selectedChipPrice: {fileID: 760767012}
   selectedChipDesc: {fileID: 1038685241}
@@ -16933,6 +16935,7 @@ MonoBehaviour:
   makingDone: {fileID: 1347093686}
   sortTargetBtn: {fileID: 2142092982}
   sortOrderBtn: {fileID: 1316329141}
+  revertChips: {fileID: 766717323}
   mgr2: {fileID: 723337247}
   requiredAbilityObject: {fileID: 6396953575436316974, guid: 8cad4fdb979982242b6eb84d01e98f25, type: 3}
   requiredAbilityTextParent: {fileID: 1601101360}

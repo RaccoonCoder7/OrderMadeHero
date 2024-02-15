@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static AbilityTable;
+using static ChipTable;
 
 /// <summary>
 /// 퍼즐 플레이에 관련된 기능을 관리
@@ -20,7 +21,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Text creditText;
     public Text orderText;
     public Text bluePrintName;
+    public Text currentAbilityText;
     public Text requiredAbilityText;
+    public Text usedChipText;
     public Text selectedChipName;
     public Text selectedChipPrice;
     public Text selectedChipDesc;
@@ -37,6 +40,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Button makingDone;
     public Button sortTargetBtn;
     public Button sortOrderBtn;
+    public Button revertChips;
     public GameSceneMgr mgr2;
     public RequiredAbilityObject requiredAbilityObject;
     public Transform requiredAbilityTextParent;
@@ -50,6 +54,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Puzzle currPuzzle;
     private ChipObj[,] chipFrameTable;
     private ChipObj currentSelectedChip;
+    private Chip currentSelectedChipData;
     private CanvasScaler canvasScaler;
     private GraphicRaycaster ray;
     private PointerEventData ped;
@@ -63,6 +68,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private List<GameObject> instantiatedChipList = new List<GameObject>();
     private List<string> filterAbilityKeyList = new List<string>();
     private List<string> creatableChipKeyList = new List<string>();
+    private Dictionary<Chip, int> currentChipInPuzzleDic = new Dictionary<Chip, int>();
+    private Dictionary<Ability, int> currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
 
     public class Puzzle
     {
@@ -93,6 +100,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         makingDone.onClick.AddListener(OnClickMakingDone);
         sortTargetBtn.onClick.AddListener(OnClickSortTarget);
         sortOrderBtn.onClick.AddListener(OnClickSortTarget);
+        revertChips.onClick.AddListener(OnClickRevertChips);
 
         puzzleGridRectTr = puzzleGrid.GetComponent<RectTransform>();
         dragImgRectTr = dragImg.GetComponent<RectTransform>();
@@ -222,7 +230,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         mgr2.popupChatPanel.SetActive(false);
 
-        mgr2.orderState = GetWeaponPowerResult() ? GameSceneMgr.OrderState.Succeed : GameSceneMgr.OrderState.Failed;
+        // mgr2.orderState = GetWeaponPowerResult() ? GameSceneMgr.OrderState.Succeed : GameSceneMgr.OrderState.Failed;
         if (OnMakingDone != null)
         {
             OnMakingDone.Invoke();
@@ -280,25 +288,29 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             if (targetChip == null)
             {
-                targetChip = results[0].gameObject.transform.GetChild(0).GetComponent<ChipObj>();
+                if (results[0].gameObject.transform.childCount > 0)
+                {
+                    targetChip = results[0].gameObject.transform.GetChild(0).GetComponent<ChipObj>();
+                }
             }
 
             if (targetChip != null)
             {
                 if (targetChip.gameObject.activeInHierarchy)
                 {
+                    currentSelectedChipData = GameMgr.In.GetChip(targetChip.chipKey);
+                    currentSelectedChip = targetChip;
                     if (!isFromPuzzle)
                     {
-                        var chipData = GameMgr.In.GetChip(targetChip.chipKey);
-                        selectedChipName.text = chipData.chipName;
-                        selectedChipPrice.text = "개당 " + chipData.price + " c";
-                        selectedChipDesc.text = chipData.desc;
+                        selectedChipName.text = currentSelectedChipData.chipName;
+                        selectedChipPrice.text = "개당 " + currentSelectedChipData.price + " c";
+                        selectedChipDesc.text = currentSelectedChipData.desc;
                     }
-                    currentSelectedChip = targetChip;
                     return;
                 }
             }
         }
+        currentSelectedChipData = null;
         currentSelectedChip = null;
     }
 
@@ -405,6 +417,17 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     {
                         DestroyImmediate(currentSelectedChip.gameObject);
 
+                        if (currentChipInPuzzleDic[currentSelectedChipData] == 1)
+                        {
+                            currentChipInPuzzleDic.Remove(currentSelectedChipData);
+                        }
+                        else
+                        {
+                            currentChipInPuzzleDic[currentSelectedChipData] -= 1;
+                        }
+                        RefreshWeaponPowerData();
+
+                        // TODO: 클리어 여부 확인 + makingDone.gameObject.SetActive
                         if (isTutorial)
                         {
                             var result = GetWeaponPowerResult();
@@ -466,6 +489,17 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             }
                             chipInstance.rectTr.localPosition = pos;
 
+                            if (currentChipInPuzzleDic.ContainsKey(currentSelectedChipData))
+                            {
+                                currentChipInPuzzleDic[currentSelectedChipData] += 1;
+                            }
+                            else
+                            {
+                                currentChipInPuzzleDic.Add(currentSelectedChipData, 1);
+                            }
+                            RefreshWeaponPowerData();
+
+                            // TODO: 클리어 여부 확인 + makingDone.gameObject.SetActive
                             if (isTutorial)
                             {
                                 var result = GetWeaponPowerResult();
@@ -708,6 +742,60 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             matchedChip.backgroundSC.transform.SetSiblingIndex(i);
         }
+    }
+
+    private void RefreshWeaponPowerData()
+    {
+        StringBuilder currAbilitySB = new StringBuilder();
+        StringBuilder usedChipSB = new StringBuilder();
+
+        foreach (var chip in currentChipInPuzzleDic.Keys)
+        {
+            usedChipSB.Append(chip.chipName).Append(" 칩셋 ").Append(currentChipInPuzzleDic[chip]).Append("개\n");
+
+            currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
+            foreach (var ability in chip.abilityList)
+            {
+                var targetAbility = GameMgr.In.GetAbility(ability.abilityKey);
+                if (currentAbilityInPuzzleDic.ContainsKey(targetAbility))
+                {
+                    currentAbilityInPuzzleDic[targetAbility] += 1;
+                }
+                else
+                {
+                    currentAbilityInPuzzleDic.Add(targetAbility, 1);
+                }
+            }
+            foreach (var ability in currentAbilityInPuzzleDic.Keys)
+            {
+                currAbilitySB.Append(ability.name).Append("+").Append(currentAbilityInPuzzleDic[ability]).Append(" ");
+            }
+            if (currAbilitySB.Length > 0)
+            {
+                currAbilitySB.Length--;
+            }
+        }
+        if (usedChipSB.Length > 0)
+        {
+            usedChipSB.Length--;
+        }
+
+        currentAbilityText.text = currAbilitySB.ToString();
+        usedChipText.text = usedChipSB.ToString();
+    }
+
+    private void OnClickRevertChips()
+    {
+        foreach (var frame in puzzleFrameList)
+        {
+            foreach (Transform tr in frame.transform)
+            {
+                DestroyImmediate(tr.gameObject);
+            }
+        }
+
+        currentChipInPuzzleDic.Clear();
+        currentAbilityInPuzzleDic.Clear();
     }
 
     [ContextMenu("LogPuzzleFrameDatas")]
