@@ -382,13 +382,18 @@ public void GetChipset(int a)
 
             var a = mobNpc.GetComponent<Image>();
             a.sprite = randomSprite;
+
+            RectTransform rectTransform = a.rectTransform;
+            float fixedHeight = (randomIndex >= 0 && randomIndex <= 2) ? 410.0f : 520.0f;
+            rectTransform.anchoredPosition = (randomIndex >= 0 && randomIndex <= 2) ? new Vector2(-675, -135) : new Vector2(-630, -80);
+            float spriteRatio = randomSprite.rect.width / randomSprite.rect.height;
+            rectTransform.sizeDelta = new Vector2(fixedHeight * spriteRatio, fixedHeight);
         }
         else
         {
             Debug.LogWarning("모브 스프라이트 없음.");
         }
     }
-
     public void SetIndexBlueprintImgAspect(Sprite targetSprite)
     {
         var xMax = 450f;
