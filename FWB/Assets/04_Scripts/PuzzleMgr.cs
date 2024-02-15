@@ -452,7 +452,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                         {
                             var chipInstance = Instantiate(currentSelectedChip, chipPanelRectTr.transform);
                             chipInstance.name = currentSelectedChip.name;
-                            // chipInstance.gameObject.SetActive(true);
                             for (int i = 0; i < fittableFrames.Count; i++)
                             {
                                 fittableFrames[i].chip = chipInstance;
@@ -489,15 +488,23 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             }
                             chipInstance.rectTr.localPosition = pos;
 
-                            if (currentChipInPuzzleDic.ContainsKey(currentSelectedChipData))
+                            if (!isFromPuzzle)
                             {
-                                currentChipInPuzzleDic[currentSelectedChipData] += 1;
+                                if (currentChipInPuzzleDic.ContainsKey(currentSelectedChipData))
+                                {
+                                    currentChipInPuzzleDic[currentSelectedChipData] += 1;
+                                }
+                                else
+                                {
+                                    currentChipInPuzzleDic.Add(currentSelectedChipData, 1);
+                                }
+                                RefreshWeaponPowerData();
                             }
                             else
                             {
-                                currentChipInPuzzleDic.Add(currentSelectedChipData, 1);
+                                DestroyImmediate(currentSelectedChip.gameObject);
                             }
-                            RefreshWeaponPowerData();
+
 
                             // TODO: 클리어 여부 확인 + makingDone.gameObject.SetActive
                             if (isTutorial)
@@ -595,7 +602,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     return null;
                 }
 
-                if (targetTable[y + j, x + i].chip != null)
+                if (targetTable[y + j, x + i].chip != null && !targetTable[y + j, x + i].chip.Equals(chip))
                 {
                     return null;
                 }
