@@ -4029,7 +4029,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 1a05a16d7028a35488b964248e4b3a1a, type: 3}
   type: 0
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!114 &224808703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5349,7 +5349,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: a4f89dbc4762d6a459cc2dde58acd64e, type: 3}
   type: 0
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!1 &327547119
 GameObject:
   m_ObjectHideFlags: 0
@@ -15714,8 +15714,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: d11d3d348afb33049b4e6840e3518a73, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -15748,7 +15748,7 @@ MonoBehaviour:
   offSprite: {fileID: 0}
   type: 0
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!1 &966434406
 GameObject:
   m_ObjectHideFlags: 0
@@ -15880,7 +15880,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 71dd8d1137e80bc4c96fd4209ba595af, type: 3}
   type: 1
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!114 &972482222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16383,7 +16383,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: a4f89dbc4762d6a459cc2dde58acd64e, type: 3}
   type: 0
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!114 &983879719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17544,7 +17544,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 71dd8d1137e80bc4c96fd4209ba595af, type: 3}
   type: 1
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!114 &1036348552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19736,8 +19736,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 68963e5bb79d7274683f410c9af16928, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -19770,7 +19770,7 @@ MonoBehaviour:
   offSprite: {fileID: 0}
   type: 0
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!1 &1114609474
 GameObject:
   m_ObjectHideFlags: 0
@@ -22804,7 +22804,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 57a994156b92ac0448e990040a056789, type: 3}
   type: 1
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!1 &1322868095
 GameObject:
   m_ObjectHideFlags: 0
@@ -25135,8 +25135,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 4daf1ac75b73d97428861b26e176745e, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -25169,7 +25169,7 @@ MonoBehaviour:
   offSprite: {fileID: 0}
   type: 0
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!1 &1445993131
 GameObject:
   m_ObjectHideFlags: 0
@@ -25501,7 +25501,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 71dd8d1137e80bc4c96fd4209ba595af, type: 3}
   type: 1
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!114 &1451025725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27767,7 +27767,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 71dd8d1137e80bc4c96fd4209ba595af, type: 3}
   type: 1
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!1 &1593073835
 GameObject:
   m_ObjectHideFlags: 0
@@ -30290,7 +30290,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: a4117c6aa61dc084c8404383d39b49b5, type: 3}
   type: 2
   img: {fileID: 0}
-  SecPerAutoChange: 2
+  secPerAutoChange: 0
 --- !u!1 &1701274428
 GameObject:
   m_ObjectHideFlags: 0
@@ -30823,7 +30823,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 71dd8d1137e80bc4c96fd4209ba595af, type: 3}
   type: 1
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!114 &1749590877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30994,7 +30994,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: a4f89dbc4762d6a459cc2dde58acd64e, type: 3}
   type: 0
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!114 &1750749023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31962,7 +31962,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: a4f89dbc4762d6a459cc2dde58acd64e, type: 3}
   type: 0
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!1 &1795224757
 GameObject:
   m_ObjectHideFlags: 0
@@ -33364,7 +33364,7 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 71dd8d1137e80bc4c96fd4209ba595af, type: 3}
   type: 1
   img: {fileID: 0}
-  SecPerAutoChange: 0
+  secPerAutoChange: 0
 --- !u!114 &1876006087
 MonoBehaviour:
   m_ObjectHideFlags: 0

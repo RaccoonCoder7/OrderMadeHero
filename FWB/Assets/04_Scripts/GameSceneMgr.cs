@@ -175,6 +175,7 @@ public class GameSceneMgr : MonoBehaviour
     private ShopTab currentShopTab = ShopTab.None;
     private List<GameObject> activatedObjList = new List<GameObject>();
     private RectTransform blueprintImgRectTr;
+    private SpriteChange indexSC;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -228,6 +229,7 @@ public class GameSceneMgr : MonoBehaviour
         shopChipsetTabImg = (Image)shopChipsetTab.targetGraphic;
         CommonTool.In.shopFollowUI = shopFollowUI;
         alertPanelImg = alertPanel.GetComponentInChildren<Image>();
+        indexSC = index.GetComponent<SpriteChange>();
 
         popupDodge.onClick.AddListener(OnClickDodgePopup);
         weaponLeft.onClick.AddListener(OnClickWeaponLeft);
@@ -306,6 +308,9 @@ public class GameSceneMgr : MonoBehaviour
     public void OnClickDodgePopup()
     {
         popupPanel.SetActive(false);
+        indexSC.type = SpriteChangeType.Auto;
+        indexSC.secPerAutoChange = 0.5f;
+        indexSC.StartAutoMove();
         index.onClick.AddListener(OnClickIndex);
     }
 
@@ -991,6 +996,9 @@ public class GameSceneMgr : MonoBehaviour
     private void OnClickIndex()
     {
         popupPanel.SetActive(true);
+        indexSC.type = SpriteChangeType.OnFocus;
+        indexSC.SetOffSprite();
+        indexSC.StopAutoMove();
         index.onClick.RemoveAllListeners();
     }
 
