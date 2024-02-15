@@ -300,8 +300,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     currentSelectedChipData = GameMgr.In.GetChip(targetChip.chipKey);
                     currentSelectedChip = targetChip;
+
                     if (!isFromPuzzle)
                     {
+                        currentSelectedChip.SaveOriginRow();
                         selectedChipName.text = currentSelectedChipData.chipName;
                         selectedChipPrice.text = "개당 " + currentSelectedChipData.price + " c";
                         selectedChipDesc.text = currentSelectedChipData.desc;
@@ -323,10 +325,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         if (currentSelectedChip != null)
         {
-            if (!isFromPuzzle)
-            {
-                currentSelectedChip.SaveOriginRow();
-            }
             dragImg.texture = currentSelectedChip.image.texture;
             if (currentSelectedChip.originRow.Length == currentSelectedChip.rowNum)
             {
@@ -498,6 +496,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 {
                                     currentChipInPuzzleDic.Add(currentSelectedChipData, 1);
                                 }
+                                currentSelectedChip.ResetCol();
                                 RefreshWeaponPowerData();
                             }
                             else
@@ -756,21 +755,21 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         StringBuilder currAbilitySB = new StringBuilder();
         StringBuilder usedChipSB = new StringBuilder();
 
+        currentAbilityInPuzzleDic.Clear();
         foreach (var chip in currentChipInPuzzleDic.Keys)
         {
             usedChipSB.Append(chip.chipName).Append(" 칩셋 ").Append(currentChipInPuzzleDic[chip]).Append("개\n");
 
-            currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
             foreach (var ability in chip.abilityList)
             {
                 var targetAbility = GameMgr.In.GetAbility(ability.abilityKey);
                 if (currentAbilityInPuzzleDic.ContainsKey(targetAbility))
                 {
-                    currentAbilityInPuzzleDic[targetAbility] += 1;
+                    currentAbilityInPuzzleDic[targetAbility] += ability.count * currentChipInPuzzleDic[chip];
                 }
                 else
                 {
-                    currentAbilityInPuzzleDic.Add(targetAbility, 1);
+                    currentAbilityInPuzzleDic.Add(targetAbility, ability.count * currentChipInPuzzleDic[chip]);
                 }
             }
             foreach (var ability in currentAbilityInPuzzleDic.Keys)
@@ -803,6 +802,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         currentChipInPuzzleDic.Clear();
         currentAbilityInPuzzleDic.Clear();
+        RefreshWeaponPowerData();
     }
 
     [ContextMenu("LogPuzzleFrameDatas")]
