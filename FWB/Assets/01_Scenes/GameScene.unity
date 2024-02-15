@@ -11853,6 +11853,7 @@ MonoBehaviour:
   creditCustomerCnt: {fileID: 1796851417}
   creditRenom: {fileID: 285513977}
   creditTendency: {fileID: 1840929434}
+  creditRevenueResult: {fileID: 556380476}
   weaponName: {fileID: 1642520510}
   popupOrderText: {fileID: 342650867}
   comment: {fileID: 1825197520}

@@ -101,6 +101,7 @@ public class GameSceneMgr : MonoBehaviour
     public Text creditCustomerCnt;
     public Text creditRenom;
     public Text creditTendency;
+    public Text creditRevenueResult;
     public Text weaponName;
     public Text popupOrderText;
     public Text comment;
@@ -668,7 +669,7 @@ public class GameSceneMgr : MonoBehaviour
                 isEventFlowing = false;
             });
             pc.onClick.RemoveAllListeners();
-            // TotalCreditComment.Instance.UpdateDayEndMessage();
+            UpdateDayEndMessage();
         });
     }
 
@@ -1491,5 +1492,18 @@ public class GameSceneMgr : MonoBehaviour
         shopDrMadChat.SetActive(true);
         yield return new WaitForSeconds(2f);
         shopDrMadChat.SetActive(false);
+    }
+
+    private void UpdateDayEndMessage()
+    {
+        if (GameMgr.In.dayRevenue >= 100) {
+            creditRevenueResult.text = "좋아, 오늘은 성공적이야 잘했어!";
+        }
+        else if (GameMgr.In.dayRevenue >= 1) {
+            creditRevenueResult.text = "그렇게 나쁘진 않네! 힘내자!";
+        }
+        else {
+            creditRevenueResult.text = "으음.. 더 노력해야겠는걸?";
+        }
     }
 }
