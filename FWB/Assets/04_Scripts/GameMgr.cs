@@ -14,14 +14,15 @@ public class GameMgr : SingletonMono<GameMgr>
     public Day day = Day.월;
     public int week = 1;
     public int credit;
-    public int dayChipsetCost;
+    public int daySpendCredit;
     public int dayBonusRevenue;
-    public int dayRentCost;
+    public int dayRentCost = -100;
     public int dayRevenue;
     public int dayCustomerCnt;
-    public int dayRenom;
+    public int dayFame;
     public int dayTendency;
     public int tendency;
+    public int fame;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
@@ -56,12 +57,11 @@ public class GameMgr : SingletonMono<GameMgr>
     /// </summary>
     public void ResetDayData()
     {
-        dayChipsetCost = 0;
+        daySpendCredit = 0;
         dayBonusRevenue = 0;
-        dayRentCost = 0;
         dayRevenue = 0;
         dayCustomerCnt = 0;
-        dayRenom = 0;
+        dayFame = 0;
         dayTendency = 0;
     }
 

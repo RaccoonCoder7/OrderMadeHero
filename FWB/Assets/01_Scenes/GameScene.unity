@@ -963,6 +963,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3087253590520101492, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327245, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: m_Name
       value: CommonTool
@@ -16906,15 +16910,13 @@ MonoBehaviour:
   selectedChipName: {fileID: 697252121}
   selectedChipPrice: {fileID: 760767012}
   selectedChipDesc: {fileID: 1038685241}
-  chipCountX: 3
-  chipCountY: 8
   chipSize: 126
   puzzleFrame: {fileID: 1589182173115361095, guid: ed2b062dfd152a54b91c4ec97b76d523, type: 3}
   textureList:
   - {fileID: 2800000, guid: cc7848472c2b5544683f0693aca4292b, type: 3}
   - {fileID: 2800000, guid: 9c04ed0454df1e0429b676d8f9d62747, type: 3}
   - {fileID: 2800000, guid: 434b83aba4b16a549825db80239eafd9, type: 3}
-  newChipList:
+  chipList:
   - {fileID: 1795224759}
   - {fileID: 795700058}
   - {fileID: 172563880}
@@ -16937,8 +16939,6 @@ MonoBehaviour:
   sortOrderBtn: {fileID: 1316329141}
   revertChips: {fileID: 766717323}
   mgr2: {fileID: 723337247}
-  requiredAbilityObject: {fileID: 6396953575436316974, guid: 8cad4fdb979982242b6eb84d01e98f25, type: 3}
-  requiredAbilityTextParent: {fileID: 1601101360}
   isTutorial: 1
 --- !u!114 &995046951
 MonoBehaviour:

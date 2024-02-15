@@ -79,7 +79,7 @@ public class CommonTool : SingletonMono<CommonTool>
     /// <param name="text">패널에 띄울 메세지</param>
     /// <param name="OnConfirm">Yes 선택 시 동작할 Action</param>
     /// <param name="OnCancel">No 선택 시 동작할 Action</param>
-    public void OpenConfirmPanel(string text, Action OnConfirm, Action OnCancel)
+    public void OpenConfirmPanel(string text, Action OnConfirm, Action OnCancel = null)
     {
         confirmPanel.SetActive(true);
         confirmText.text = text;
@@ -92,7 +92,7 @@ public class CommonTool : SingletonMono<CommonTool>
         cancelBtn.onClick.AddListener(() =>
         {
             confirmPanel.SetActive(false);
-            OnCancel.Invoke();
+            OnCancel?.Invoke();
             cancelBtn.onClick.RemoveAllListeners();
         });
     }

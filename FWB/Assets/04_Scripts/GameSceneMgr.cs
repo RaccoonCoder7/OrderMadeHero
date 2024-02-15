@@ -284,23 +284,23 @@ public class GameSceneMgr : MonoBehaviour
             }
         }
     }
-    
-public void GetChipset(int a)
-{
-    getItemImg.GetComponent<Image>().sprite = getItemSprites[a];
-    getItemText.GetComponent<Text>().text = getItemTexts[a];
-    
-    alertPanel.SetActive(true);
-    getItemImg.SetActive(true);
-    getItemText.SetActive(true);
-    alertPanelImg.sprite = chipsetAlertImg;
-    
-    if (a == 1)
+
+    public void GetChipset(int a)
     {
-        RectTransform rectTransform = getItemImg.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(150, 150);
+        getItemImg.GetComponent<Image>().sprite = getItemSprites[a];
+        getItemText.GetComponent<Text>().text = getItemTexts[a];
+
+        alertPanel.SetActive(true);
+        getItemImg.SetActive(true);
+        getItemText.SetActive(true);
+        alertPanelImg.sprite = chipsetAlertImg;
+
+        if (a == 1)
+        {
+            RectTransform rectTransform = getItemImg.GetComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(150, 150);
+        }
     }
-}
 
     public void OnClickDodgePopup()
     {
@@ -343,10 +343,6 @@ public void GetChipset(int a)
             var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
             GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
             puzzleMgr.StartPuzzle();
-        },
-        () =>
-        {
-            return;
         });
     }
 
@@ -354,13 +350,13 @@ public void GetChipset(int a)
     {
         StartCoroutine(ObjectBlink(gameObject, blinkTimes, duration));
     }
-    
+
     IEnumerator ObjectBlink(GameObject gameObject, int numberOfBlinks, float duration)
     {
         var blinkDuration = 0.2f;
         int counter = 0;
         float startTime = Time.time;
-        
+
         while (counter < numberOfBlinks && Time.time - startTime < duration)
         {
             gameObject.SetActive(true);
@@ -552,12 +548,12 @@ public void GetChipset(int a)
         creditTitle.text = GameMgr.In.week + "주차 " + GameMgr.In.day + "요일";
         creditRevenue.text = "무기판매 +" + GameMgr.In.dayRevenue;
         creditBonusRevenue.text = "완성보너스 +" + GameMgr.In.dayBonusRevenue;
-        creditChipsetCost.text = "칩셋구입 -" + GameMgr.In.dayChipsetCost;
+        creditChipsetCost.text = "칩셋구입 -" + GameMgr.In.daySpendCredit;
         creditRentCost.text = "임대료 -" + GameMgr.In.dayRentCost;
-        var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.dayChipsetCost;
+        var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.daySpendCredit;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
         creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
-        creditRenom.text = GameMgr.In.dayRenom.ToString();
+        creditRenom.text = GameMgr.In.dayFame.ToString();
         creditTendency.text = GameMgr.In.dayTendency.ToString();
     }
 
@@ -666,7 +662,7 @@ public void GetChipset(int a)
                 isEventFlowing = false;
             });
             pc.onClick.RemoveAllListeners();
-            TotalCreditComment.Instance.UpdateDayEndMessage();
+            // TotalCreditComment.Instance.UpdateDayEndMessage();
         });
     }
 
@@ -763,6 +759,7 @@ public void GetChipset(int a)
                                     var bp = GameMgr.In.GetWeapon(bluePrintList[i].bluePrintKey);
                                     bp.createEnable = true;
                                     GameMgr.In.credit -= item.price;
+                                    GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     PlayerPrefs.SetInt(bluePrintList[tempNum].bluePrintKey, 3);
                                     StartCoroutine(DrMadChatRoutine());
@@ -845,6 +842,7 @@ public void GetChipset(int a)
                                     var chip = GameMgr.In.GetChip(chipList[tempNum].chipKey);
                                     chip.createEnable = true;
                                     GameMgr.In.credit -= item.price;
+                                    GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     PlayerPrefs.SetInt(chipList[tempNum].chipKey, 3);
                                     StartCoroutine(DrMadChatRoutine());
@@ -1057,6 +1055,8 @@ public void GetChipset(int a)
                     StartPuzzleProcess();
                     break;
                 case OrderState.Rejected:
+                    GameMgr.In.dayTendency -= 25;
+                    GameMgr.In.tendency -= 25;
                     lineCnt = -1;
                     lines = rejectTextList;
                     isOnConversation = true;
@@ -1117,6 +1117,7 @@ public void GetChipset(int a)
             }
         }
 
+        GameMgr.In.dayCustomerCnt = customerCnt;
         GameMgr.In.orderedBluePrintKeyList.Clear();
 
         onEndRoutine.Invoke();

@@ -27,49 +27,37 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Text selectedChipName;
     public Text selectedChipPrice;
     public Text selectedChipDesc;
-    public int chipCountX;
-    public int chipCountY;
     public float chipSize;
     public PuzzleFrame puzzleFrame;
     public List<Texture> textureList = new List<Texture>();
-    // public List<ChipObj> chipList = new List<ChipObj>();
-    public List<ChipObj> newChipList = new List<ChipObj>();
+    public List<ChipObj> chipList = new List<ChipObj>();
     public List<AbilityFilterUI> abilityFilterList = new List<AbilityFilterUI>();
     public List<AbilityFilterUI> abilityTagList = new List<AbilityFilterUI>();
-    public Dictionary<string, int> chipInventory = new Dictionary<string, int>();
     public Button makingDone;
     public Button sortTargetBtn;
     public Button sortOrderBtn;
     public Button revertChips;
     public GameSceneMgr mgr2;
-    public RequiredAbilityObject requiredAbilityObject;
-    public Transform requiredAbilityTextParent;
     public Action OnMakingDone;
     [HideInInspector]
     public bool isTutorial = true;
 
-    private RectTransform puzzleGridRectTr;
     private RectTransform dragImgRectTr;
-    private RawImage background;
     private Puzzle currPuzzle;
-    private ChipObj[,] chipFrameTable;
     private ChipObj currentSelectedChip;
     private Chip currentSelectedChipData;
     private CanvasScaler canvasScaler;
-    private GraphicRaycaster ray;
     private PointerEventData ped;
     private bool isFromPuzzle;
     private bool isAscending;
-    private Vector3 originDragImgRectTr;
+    private int enabledFrameCnt;
     private SpriteChange sortOrderSC;
     private List<PuzzleFrame> puzzleFrameList = new List<PuzzleFrame>();
-    private Dictionary<string, RequiredAbilityObject> requiredAbilityObjectDic = new Dictionary<string, RequiredAbilityObject>();
-    private Dictionary<string, int> currentChipDataDic = new Dictionary<string, int>();
-    private List<GameObject> instantiatedChipList = new List<GameObject>();
     private List<string> filterAbilityKeyList = new List<string>();
     private List<string> creatableChipKeyList = new List<string>();
     private Dictionary<Chip, int> currentChipInPuzzleDic = new Dictionary<Chip, int>();
     private Dictionary<Ability, int> currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
+    private Dictionary<ChipObj, int> chipObjDic = new Dictionary<ChipObj, int>();
 
     public class Puzzle
     {
@@ -102,10 +90,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         sortOrderBtn.onClick.AddListener(OnClickSortTarget);
         revertChips.onClick.AddListener(OnClickRevertChips);
 
-        puzzleGridRectTr = puzzleGrid.GetComponent<RectTransform>();
         dragImgRectTr = dragImg.GetComponent<RectTransform>();
-        background = puzzleGrid.GetComponent<RawImage>();
-        ray = canvas.GetComponent<GraphicRaycaster>();
         canvasScaler = canvas.GetComponent<CanvasScaler>();
         ped = new PointerEventData(es);
         sortOrderSC = sortOrderBtn.GetComponent<SpriteChange>();
@@ -151,7 +136,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 }
                 filter.isOn = !filter.isOn;
 
-                foreach (var chip in newChipList)
+                foreach (var chip in chipList)
                 {
                     if (!creatableChipKeyList.Contains(chip.chipKey))
                     {
@@ -228,34 +213,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnClickMakingDone()
     {
-        mgr2.popupChatPanel.SetActive(false);
-
-        // mgr2.orderState = GetWeaponPowerResult() ? GameSceneMgr.OrderState.Succeed : GameSceneMgr.OrderState.Failed;
-        if (OnMakingDone != null)
+        CommonTool.In.OpenConfirmPanel("제작을 완료하시겠습니까?", () =>
         {
-            OnMakingDone.Invoke();
-            OnMakingDone = null;
-        }
-
-        foreach (var key in requiredAbilityObjectDic.Keys)
-        {
-            Destroy(requiredAbilityObjectDic[key].gameObject);
-        }
-        requiredAbilityObjectDic.Clear();
-
-        foreach (var obj in puzzleFrameList)
-        {
-            Destroy(obj.gameObject);
-        }
-
-        foreach (var obj in instantiatedChipList)
-        {
-            Destroy(obj);
-        }
-
-        puzzleFrameList.Clear();
-        chipInventory.Clear();
-        isTutorial = false;
+            MakingDone();
+        });
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -339,7 +300,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             dragImgRectTr.localPosition = (Vector3)eventData.position - offset;
             dragImgRectTr.localEulerAngles = currentSelectedChip.rectTr.localEulerAngles;
             var angle = dragImgRectTr.localEulerAngles;
-            var pos = originDragImgRectTr = dragImgRectTr.localPosition;
+            var pos = dragImgRectTr.localPosition;
             if (angle.z < 1)
             {
                 pos.x = pos.x + (-dragImgRectTr.sizeDelta.x) / 2;
@@ -425,12 +386,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                         }
                         RefreshWeaponPowerData();
 
-                        // TODO: 클리어 여부 확인 + makingDone.gameObject.SetActive
                         if (isTutorial)
                         {
-                            var result = GetWeaponPowerResult();
-                            makingDone.gameObject.SetActive(result);
+                            makingDone.gameObject.SetActive(IsWeaponRequiredAbilitySatisfied());
                         }
+
                         success = true;
                     }
                 }
@@ -504,13 +464,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 DestroyImmediate(currentSelectedChip.gameObject);
                             }
 
-
-                            // TODO: 클리어 여부 확인 + makingDone.gameObject.SetActive
                             if (isTutorial)
                             {
-                                var result = GetWeaponPowerResult();
-                                makingDone.gameObject.SetActive(result);
+                                makingDone.gameObject.SetActive(IsWeaponRequiredAbilitySatisfied());
                             }
+
                             success = true;
                         }
                     }
@@ -529,6 +487,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         currPuzzle = GetPuzzle();
         InstantiateFrames(currPuzzle.frameDataTable);
+        enabledFrameCnt = 0;
+        foreach (var frameData in currPuzzle.frameDataTable)
+        {
+            if (frameData.patternNum == 1) enabledFrameCnt++;
+        }
     }
 
     private Puzzle GetPuzzle()
@@ -612,69 +575,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         return pfdList;
     }
 
-    private bool GetWeaponPowerResult()
-    {
-        currentChipDataDic.Clear();
-        foreach (var puzzleFrame in puzzleFrameList)
-        {
-            if (puzzleFrame.transform.childCount > 0)
-            {
-                var child = puzzleFrame.transform.GetChild(0);
-                if (child)
-                {
-                    var chip = child.GetComponent<ChipObj>();
-                    if (chip)
-                    {
-                        foreach (var ability in chip.chipAbilityList)
-                        {
-                            if (!currentChipDataDic.ContainsKey(ability.abilityKey))
-                            {
-                                currentChipDataDic.Add(ability.abilityKey, ability.count);
-                                continue;
-                            }
-                            currentChipDataDic[ability.abilityKey] += ability.count;
-                        }
-                    }
-                }
-            }
-        }
-
-        bool success = true;
-        foreach (var key in requiredAbilityObjectDic.Keys)
-        {
-            var splittedData = requiredAbilityObjectDic[key].text.text.Split('/');
-            int targetNum = -1;
-            if (!Int32.TryParse(splittedData[1], out targetNum))
-            {
-                Debug.Log("파싱 실패: " + targetNum);
-                return false;
-            }
-            int result = 0;
-            if (currentChipDataDic.ContainsKey(key))
-            {
-                result = currentChipDataDic[key];
-                if (result < targetNum)
-                {
-                    success = false;
-                }
-            }
-            else
-            {
-                result = 0;
-                success = false;
-            }
-            requiredAbilityObjectDic[key].text.text = result + "/" + splittedData[1];
-        }
-
-        return success;
-    }
-
-    // private ChipObj GetChipAtPos(Vector2 pos)
-    // {
-    //     pos /= chipSize;
-    //     return chipFrameTable[(int)-pos.y, (int)pos.x];
-    // }
-
     private void SetOrderDatas()
     {
         var order = GameMgr.In.currentOrder;
@@ -705,7 +605,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             creatableChipKeyList.Add(cc.chipKey);
         }
-        foreach (var chip in newChipList)
+        foreach (var chip in chipList)
         {
             chip.backgroundSC.gameObject.SetActive(creatableChipKeyList.Contains(chip.chipKey));
         }
@@ -743,7 +643,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         for (int i = 0; i < orderedChipKeyList.Count; i++)
         {
-            var matchedChip = newChipList.Find(x => x.chipKey.Equals(orderedChipKeyList[i]));
+            var matchedChip = this.chipList.Find(x => x.chipKey.Equals(orderedChipKeyList[i]));
             if (matchedChip == null) continue;
 
             matchedChip.backgroundSC.transform.SetSiblingIndex(i);
@@ -772,14 +672,16 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     currentAbilityInPuzzleDic.Add(targetAbility, ability.count * currentChipInPuzzleDic[chip]);
                 }
             }
-            foreach (var ability in currentAbilityInPuzzleDic.Keys)
-            {
-                currAbilitySB.Append(ability.name).Append("+").Append(currentAbilityInPuzzleDic[ability]).Append(" ");
-            }
-            if (currAbilitySB.Length > 0)
-            {
-                currAbilitySB.Length--;
-            }
+        }
+
+        foreach (var ability in currentAbilityInPuzzleDic.Keys)
+        {
+            currAbilitySB.Append(ability.name).Append("+").Append(currentAbilityInPuzzleDic[ability]).Append(" ");
+        }
+
+        if (currAbilitySB.Length > 0)
+        {
+            currAbilitySB.Length--;
         }
         if (usedChipSB.Length > 0)
         {
@@ -803,6 +705,182 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         currentChipInPuzzleDic.Clear();
         currentAbilityInPuzzleDic.Clear();
         RefreshWeaponPowerData();
+    }
+
+    private void MakingDone()
+    {
+        if (OnMakingDone != null)
+        {
+            OnMakingDone.Invoke();
+            OnMakingDone = null;
+        }
+
+        int score = 0;
+        if (IsWeaponRequiredAbilitySatisfied()) score++;
+        if (IsOrderRequirementSatisfied()) score++;
+        if (score == 2)
+        {
+            if (isPerfectState()) score++;
+        }
+
+        foreach (var obj in puzzleFrameList)
+        {
+            Destroy(obj.gameObject);
+        }
+        puzzleFrameList.Clear();
+
+        currentChipInPuzzleDic.Clear();
+        currentAbilityInPuzzleDic.Clear();
+        chipObjDic.Clear();
+        currentAbilityText.text = string.Empty;
+        usedChipText.text = string.Empty;
+
+        switch (score)
+        {
+            case 0:
+                GameMgr.In.dayFame -= 25;
+                GameMgr.In.fame -= 25;
+                mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                break;
+            case 1:
+                GameMgr.In.dayFame -= 10;
+                GameMgr.In.fame -= 10;
+                mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                break;
+            case 2:
+                if (!isTutorial)
+                {
+                    int sellPrice1 = GameMgr.In.currentBluePrint.sellPrice;
+                    int bonus1 = GetBonusCredit(sellPrice1);
+                    GameMgr.In.credit += sellPrice1 + bonus1;
+                    GameMgr.In.dayRevenue += sellPrice1;
+                    GameMgr.In.dayBonusRevenue += bonus1;
+                }
+                GameMgr.In.dayFame += 10;
+                GameMgr.In.fame += 10;
+                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                break;
+            case 3:
+                int sellPrice2 = GameMgr.In.currentBluePrint.sellPrice;
+                int bonus2 = GetBonusCredit(sellPrice2, 1.1f);
+                GameMgr.In.credit += sellPrice2 + bonus2;
+                GameMgr.In.dayRevenue += sellPrice2;
+                GameMgr.In.dayBonusRevenue += bonus2;
+                GameMgr.In.dayFame += 25;
+                GameMgr.In.fame += 25;
+                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                break;
+        }
+
+        if (isTutorial)
+        {
+            isTutorial = false;
+        }
+    }
+
+    private bool IsWeaponRequiredAbilitySatisfied()
+    {
+        foreach (var requiredAbility in GameMgr.In.currentBluePrint.requiredChipAbilityList)
+        {
+            var targetAbility = currentAbilityInPuzzleDic.FirstOrDefault(x => x.Key.abilityKey.Equals(requiredAbility.abilityKey));
+            if (targetAbility.Equals(default(KeyValuePair<Ability, int>)))
+            {
+                Debug.Log("무기 필수조건 불충족");
+                return false;
+            }
+
+            if (targetAbility.Value < requiredAbility.count)
+            {
+                Debug.Log("무기 필수조건 불충족");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool IsOrderRequirementSatisfied()
+    {
+        // check blueprint
+        if (GameMgr.In.currentOrder.requiredBlueprintKeyList.Count > 0)
+        {
+            if (!GameMgr.In.currentOrder.requiredBlueprintKeyList.Contains(GameMgr.In.currentBluePrint.bluePrintKey))
+            {
+                Debug.Log("청사진 요구조건 불충족");
+                return false;
+            }
+        }
+
+        // check ability
+        foreach (var requiredAbility in GameMgr.In.currentOrder.requiredAbilityList)
+        {
+            var targetAbility = currentAbilityInPuzzleDic.FirstOrDefault(x => x.Key.abilityKey.Equals(requiredAbility.abilityKey));
+            if (targetAbility.Equals(default(KeyValuePair<Ability, int>)))
+            {
+                Debug.Log("능력치 요구조건 불충족");
+                return false;
+            }
+
+            if (targetAbility.Value < requiredAbility.count)
+            {
+                Debug.Log("능력치 요구조건 불충족");
+                return false;
+            }
+        }
+
+        // check condition
+        foreach (var pair in currentChipInPuzzleDic)
+        {
+            var chipObj = chipList.Find(x => x.chipKey.Equals(pair.Key.chipKey));
+            chipObjDic.Add(chipObj, pair.Value);
+        }
+        if (!GameMgr.In.orderTable.IsConditionMatched(enabledFrameCnt, chipObjDic, currentAbilityInPuzzleDic, GameMgr.In.currentOrder.condition))
+        {
+            Debug.Log("상태 요구조건 불충족");
+            return false;
+        }
+
+        // check gimmick
+        if (!GameMgr.In.orderTable.IsGimmickMatched(puzzleFrameList))
+        {
+            Debug.Log("특수요구조건 불충족");
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool isPerfectState()
+    {
+        bool isPerfect = GameMgr.In.orderTable.GetTotalSizeOfChips(chipObjDic) == enabledFrameCnt;
+        if (!isPerfect) Debug.Log("완벽한 상태가 아님");
+        return isPerfect;
+    }
+
+    private int GetBonusCredit(int sellPrice, float additionalBonus = -1f)
+    {
+        int bonus = 0;
+        if (additionalBonus != -1f)
+        {
+            bonus += Mathf.FloorToInt(sellPrice * additionalBonus / 100);
+        }
+        if (GameMgr.In.fame >= 801)
+        {
+            bonus += Mathf.FloorToInt(sellPrice * 0.1f);
+        }
+        else if (GameMgr.In.fame >= 601)
+        {
+            bonus += Mathf.FloorToInt(sellPrice * 0.06f);
+        }
+        else if (GameMgr.In.fame >= 401)
+        {
+            bonus += Mathf.FloorToInt(sellPrice * 0.04f);
+        }
+        else if (GameMgr.In.fame >= 201)
+        {
+            bonus += Mathf.FloorToInt(sellPrice * 0.02f);
+        }
+
+        return bonus;
     }
 
     [ContextMenu("LogPuzzleFrameDatas")]

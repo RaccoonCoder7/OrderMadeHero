@@ -227,64 +227,24 @@ public class OrderTable : ScriptableObject
         return newOrder;
     }
 
-    public bool IsConditionMatched(List<PuzzleFrame> puzzleFrameList, Condition condition)
+    public bool IsConditionMatched(int frameCnt, Dictionary<ChipObj, int> chipObjDic, Dictionary<Ability, int> abilityDic, Condition condition)
     {
         if (condition == Condition.상태없음 || condition == Condition.대충한)
         {
             return true;
         }
 
-        var abilityDic = new Dictionary<string, int>();
-        List<ChipObj> chipObjList = new List<ChipObj>();
-        foreach (var puzzleFrame in puzzleFrameList)
-        {
-            if (puzzleFrame.transform.childCount > 0)
-            {
-                var child = puzzleFrame.transform.GetChild(0);
-                if (child)
-                {
-                    var chip = child.GetComponent<ChipObj>();
-                    if (chip)
-                    {
-                        chipObjList.Add(chip);
-                        foreach (var ability in chip.chipAbilityList)
-                        {
-                            if (abilityDic.TryGetValue(ability.abilityKey, out int currentCount))
-                            {
-                                abilityDic[ability.abilityKey] = currentCount + 1;
-                            }
-                            else
-                            {
-                                abilityDic.Add(ability.abilityKey, 1);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         switch (condition)
         {
             case Condition.완벽한:
-                int totalSize1 = GetTotalSizeOfChips(chipObjList);
-                return totalSize1 == puzzleFrameList.Count;
+                int totalSize1 = GetTotalSizeOfChips(chipObjDic);
+                return totalSize1 == frameCnt;
             case Condition.적당한:
-                int totalSize2 = GetTotalSizeOfChips(chipObjList);
-                return totalSize2 >= puzzleFrameList.Count / 2;
+                int totalSize2 = GetTotalSizeOfChips(chipObjDic);
+                return totalSize2 >= frameCnt / 2;
             case Condition.일회용:
-                var durability = abilityDic.FirstOrDefault(x => x.Key.Equals("a_durability"));
-                if (durability.Equals(default(KeyValuePair<string, int>)))
-                {
-                    return true;
-                }
-
-                foreach (var ra in GameMgr.In.currentBluePrint.requiredChipAbilityList)
-                {
-                    if (!ra.abilityKey.Equals("a_durability")) continue;
-                    return durability.Value <= ra.count;
-                }
-
-                return false;
+                var durability = abilityDic.FirstOrDefault(x => x.Key.abilityKey.Equals("a_durability"));
+                return durability.Equals(default(KeyValuePair<string, int>));
         }
         return false;
     }
@@ -332,12 +292,12 @@ public class OrderTable : ScriptableObject
         return false;
     }
 
-    private int GetTotalSizeOfChips(List<ChipObj> chipObjList)
+    public int GetTotalSizeOfChips(Dictionary<ChipObj, int> chipObjDic)
     {
         int totalSize = 0;
-        foreach (var chipObj in chipObjList)
+        foreach (var pair in chipObjDic)
         {
-            totalSize += chipObj.GetChipSize();
+            totalSize += pair.Key.GetChipSize() * pair.Value;
         }
 
         return totalSize;

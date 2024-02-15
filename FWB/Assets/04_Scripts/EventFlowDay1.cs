@@ -49,7 +49,6 @@ public class EventFlowDay1 : EventFlow
     {
         mgr.EndText(true);
         mgr.day.SetActive(true);
-        //mgr.tendency.SetActive(true);
         mgr.goldText.text = GameMgr.In.credit.ToString();
         mgr.gold.SetActive(true);
         StartCoroutine(mgr.FadeInOutDateMessage());
@@ -144,6 +143,7 @@ public class EventFlowDay1 : EventFlow
 
     private void OnMakingDone()
     {
+        GameMgr.In.dayCustomerCnt = 1;
         mgr.StartText("Tutorial6", EndTutorial6Routine, SkipTutorial6Routine);
         mgr.puzzleMgr.OnMakingDone -= OnMakingDone;
     }
