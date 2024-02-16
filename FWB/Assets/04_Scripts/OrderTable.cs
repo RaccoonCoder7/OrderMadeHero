@@ -257,15 +257,20 @@ public class OrderTable : ScriptableObject
         switch (order.gimmick)
         {
             case Gimmick.None:
+                Debug.Log("기믹이 없음");
                 return true;
             case Gimmick.NotSoldToday:
-                return history.Find(x => x.Equals(key)) == null;
+                Debug.Log("오늘 안팔렸나?: " + string.IsNullOrEmpty(history.Find(x => x.Equals(key))));
+                return string.IsNullOrEmpty(history.Find(x => x.Equals(key)));
             case Gimmick.SoldToday:
-                return history.Find(x => x.Equals(key)) != null;
+                Debug.Log("오늘 팔렸나?: " + !string.IsNullOrEmpty(history.Find(x => x.Equals(key))));
+                return !string.IsNullOrEmpty(history.Find(x => x.Equals(key)));
             case Gimmick.MostSoldToday:
                 var most = history.GroupBy(x => x).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                Debug.Log("오늘 젤 많이 팔렸나?: " + most == key);
                 return most == key;
             case Gimmick.LowestAttack:
+                Debug.Log("공격력 1 이하인가?: " + (GetAbilityCount(puzzleFrameList, "a_attack") <= 1));
                 return GetAbilityCount(puzzleFrameList, "a_attack") <= 1;
             case Gimmick.HighestAttack:
                 int maxAttack = 0;
@@ -274,6 +279,7 @@ public class OrderTable : ScriptableObject
                 {
                     foreach (var bp in category.bluePrintList)
                     {
+                        if (!bp.createEnable) continue;
                         var attackAbility = bp.requiredChipAbilityList.Find(x => x.abilityKey.Equals("a_attack"));
                         if (attackAbility == null) continue;
                         if (attackAbility.count < maxAttack) continue;
@@ -285,8 +291,10 @@ public class OrderTable : ScriptableObject
                         bluePrintKeyList.Add(bp.bluePrintKey);
                     }
                 }
+                Debug.Log("가진 청사진 중 가장 강한가?: " + bluePrintKeyList.Contains(key));
                 return bluePrintKeyList.Contains(key);
             case Gimmick.PreviousOrder:
+                Debug.Log("바로 전 사람의 주문과 같은가?: " + history[history.Count - 1] == key);
                 return history[history.Count - 1] == key;
         }
         return false;
