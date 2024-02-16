@@ -4630,8 +4630,8 @@ RectTransform:
   m_Father: {fileID: 1315891482}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.16488062, y: 0}
-  m_AnchorMax: {x: 0.9524876, y: 1}
+  m_AnchorMin: {x: 0.1872438, y: 0}
+  m_AnchorMax: {x: 0.94126874, y: 1}
   m_AnchoredPosition: {x: 0, y: -5}
   m_SizeDelta: {x: 0, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11809,7 +11809,7 @@ MonoBehaviour:
   renom: {fileID: 1749971001}
   renomMask: {fileID: 1563022996}
   tendency: {fileID: 1478780418}
-  tendPoint: {fileID: 2030648607}
+  tendPoint: {fileID: 0}
   gold: {fileID: 1396712870}
   gamePanel: {fileID: 995046949}
   alertPanel: {fileID: 1535885304}

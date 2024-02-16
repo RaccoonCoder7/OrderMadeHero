@@ -115,6 +115,8 @@ public class OrderTable : ScriptableObject
             newOrder.requiredAbilityList.Add(ra);
         }
 
+        newOrder.gimmick = targetOrder.gimmick;
+
         // 기믹 파싱
         var keyDic = new Dictionary<string, string>();
         string text = string.Copy(targetOrder.ta.text);
