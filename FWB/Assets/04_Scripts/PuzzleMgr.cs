@@ -753,6 +753,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     int sellPrice1 = GameMgr.In.currentBluePrint.sellPrice;
                     int bonus1 = GetBonusCredit(sellPrice1);
                     GameMgr.In.credit += sellPrice1 + bonus1;
+                    mgr2.goldText.text = GameMgr.In.credit.ToString();
                     GameMgr.In.dayRevenue += sellPrice1;
                     GameMgr.In.dayBonusRevenue += bonus1;
                 }
@@ -764,6 +765,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 int sellPrice2 = GameMgr.In.currentBluePrint.sellPrice;
                 int bonus2 = GetBonusCredit(sellPrice2, 0.1f);
                 GameMgr.In.credit += sellPrice2 + bonus2;
+                mgr2.goldText.text = GameMgr.In.credit.ToString();
                 GameMgr.In.dayRevenue += sellPrice2;
                 GameMgr.In.dayBonusRevenue += bonus2;
                 GameMgr.In.dayFame += 25;

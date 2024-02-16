@@ -1065,8 +1065,8 @@ public class GameSceneMgr : MonoBehaviour
                     StartPuzzleProcess();
                     break;
                 case OrderState.Rejected:
-                    GameMgr.In.dayTendency -= 25;
-                    GameMgr.In.tendency -= 25;
+                    GameMgr.In.dayFame -= 25;
+                    GameMgr.In.fame -= 25;
                     lineCnt = -1;
                     lines = rejectTextList;
                     isOnConversation = true;
