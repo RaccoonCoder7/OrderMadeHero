@@ -59,6 +59,7 @@ public class EventFlowDay6 : EventFlow
     {
         mgr.EndText();
         mgr.renom.SetActive(true);
+        mgr.mainChatPanel.SetActive(false);
         mgr.StartText("Day6_5", EndDay6_5Routine);
     }
 
@@ -67,6 +68,6 @@ public class EventFlowDay6 : EventFlow
         mgr.EndText();
         mgr.mainChatPanel.SetActive(false);
         mgr.pcChatPanel.SetActive(false);
-        mgr.isEventFlowing = false;
+        EndFlow();
     }
 }

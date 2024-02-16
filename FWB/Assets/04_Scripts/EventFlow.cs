@@ -19,6 +19,6 @@ public abstract class EventFlow : MonoBehaviour
     /// </summary>
     public virtual void EndFlow()
     {
-        mgr.isEventFlowing = false;
+        StartCoroutine(mgr.FadeToNextDay());
     }
 }

@@ -667,7 +667,7 @@ public class GameSceneMgr : MonoBehaviour
             creditDodge.onClick.RemoveAllListeners();
             creditDodge.onClick.AddListener(() =>
             {
-                isEventFlowing = false;
+                StartCoroutine(FadeToNextDay());
             });
             pc.onClick.RemoveAllListeners();
             UpdateDayEndMessage();
@@ -970,7 +970,6 @@ public class GameSceneMgr : MonoBehaviour
 
     private void NextDay()
     {
-        creditPanel.SetActive(false);
         GameMgr.In.ResetDayData();
         GameMgr.In.SetNextDayData();
         string day = GameMgr.In.day.ToString();
@@ -1496,10 +1495,18 @@ public class GameSceneMgr : MonoBehaviour
         shopDrMadChat.SetActive(false);
     }
 
+    public IEnumerator FadeToNextDay()
+    {
+        creditPanel.SetActive(false);
+        yield return StartCoroutine(CommonTool.In.FadeOut());
+        yield return StartCoroutine(CommonTool.In.FadeIn());
+        isEventFlowing = false;
+    }
+
     private void FameUIFill()
     {
         var renomMaskImage = renomMask?.GetComponent<Image>();
-        if(renomMaskImage != null && GameMgr.In.maxFame != 0)
+        if (renomMaskImage != null && GameMgr.In.maxFame != 0)
         {
             var a = (float)GameMgr.In.fame / GameMgr.In.maxFame;
             renomMaskImage.fillAmount = a;
@@ -1512,13 +1519,16 @@ public class GameSceneMgr : MonoBehaviour
 
     private void UpdateDayEndMessage()
     {
-        if (GameMgr.In.dayRevenue >= 100) {
+        if (GameMgr.In.dayRevenue >= 100)
+        {
             creditRevenueResult.text = "좋아, 오늘은 성공적이야 잘했어!";
         }
-        else if (GameMgr.In.dayRevenue >= 1) {
+        else if (GameMgr.In.dayRevenue >= 1)
+        {
             creditRevenueResult.text = "그렇게 나쁘진 않네! 힘내자!";
         }
-        else {
+        else
+        {
             creditRevenueResult.text = "으음.. 더 노력해야겠는걸?";
         }
     }
