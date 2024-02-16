@@ -46,15 +46,16 @@ MonoBehaviour:
   initDone: 0
   day: 1
   week: 1
-  credit: 9000
-  dayChipsetCost: 0
+  credit: 0
+  daySpendCredit: 0
   dayBonusRevenue: 0
   dayRentCost: 0
   dayRevenue: 0
   dayCustomerCnt: 0
-  dayRenom: 0
+  dayFame: 0
   dayTendency: 0
   tendency: 0
+  fame: 0
   weaponDataTable: {fileID: 11400000, guid: 5e69e9e400c87c44f948125ac3ad41c1, type: 2}
   orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
   chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
@@ -65,7 +66,9 @@ MonoBehaviour:
     name: 
     comment: 
     howToGet: 
-    price: 0
+    buyPrice: 0
+    sellPrice: 0
+    puzzleCsv: {fileID: 0}
     orderEnable: 0
     createEnable: 0
     blueprintSprite: {fileID: 0}

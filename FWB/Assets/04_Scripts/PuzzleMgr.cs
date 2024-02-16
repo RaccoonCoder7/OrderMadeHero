@@ -762,7 +762,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 break;
             case 3:
                 int sellPrice2 = GameMgr.In.currentBluePrint.sellPrice;
-                int bonus2 = GetBonusCredit(sellPrice2, 1.1f);
+                int bonus2 = GetBonusCredit(sellPrice2, 0.1f);
                 GameMgr.In.credit += sellPrice2 + bonus2;
                 GameMgr.In.dayRevenue += sellPrice2;
                 GameMgr.In.dayBonusRevenue += bonus2;
@@ -859,10 +859,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private int GetBonusCredit(int sellPrice, float additionalBonus = -1f)
     {
         int bonus = 0;
+
         if (additionalBonus != -1f)
         {
-            bonus += Mathf.FloorToInt(sellPrice * additionalBonus / 100);
+            bonus += Mathf.FloorToInt(sellPrice * additionalBonus);
         }
+
         if (GameMgr.In.fame >= 801)
         {
             bonus += Mathf.FloorToInt(sellPrice * 0.1f);
