@@ -1070,6 +1070,8 @@ public class GameSceneMgr : MonoBehaviour
                 case OrderState.Rejected:
                     GameMgr.In.dayFame -= 25;
                     GameMgr.In.fame -= 25;
+                    TendUIMove();
+                    FameUIFill();
                     lineCnt = -1;
                     lines = rejectTextList;
                     isOnConversation = true;
@@ -1109,6 +1111,8 @@ public class GameSceneMgr : MonoBehaviour
                 }
                 else if (orderState == OrderState.Finished)
                 {
+                    TendUIMove();
+                    FameUIFill();
                     foreach (var image in imageList)
                     {
                         image.imageObj.SetActive(false);
@@ -1505,7 +1509,7 @@ public class GameSceneMgr : MonoBehaviour
         isEventFlowing = false;
     }
 
-    private void FameUIFill()
+    public void FameUIFill()
     {
         var renomMaskImage = renomMask?.GetComponent<Image>();
         if (renomMaskImage != null && GameMgr.In.maxFame != 0)
@@ -1519,7 +1523,7 @@ public class GameSceneMgr : MonoBehaviour
         }
     }
 
-    private void TendUIMove()
+    public void TendUIMove()
     {
         var a = GameMgr.In.tendency;
         var positionModifier = (float)(a * 0.12f);
@@ -1535,6 +1539,7 @@ public class GameSceneMgr : MonoBehaviour
         }
         tendRect.anchoredPosition = new Vector2(positionModifier, 0);
     }
+
 
     private void UpdateDayEndMessage()
     {

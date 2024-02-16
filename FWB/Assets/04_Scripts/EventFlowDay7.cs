@@ -22,6 +22,8 @@ public class EventFlowDay7 : EventFlow
         mgr.eventBtn1.onClick.AddListener(() =>
         {
             GameMgr.In.dayTendency -= 25;
+            GameMgr.In.tendency -= 25;
+            mgr.TendUIMove();
             mgr.ActiveEventButton(false);
             mgr.StartText("Day7_2", EndDay7_2Routine, EndDay7_2Routine);
         });
@@ -30,6 +32,8 @@ public class EventFlowDay7 : EventFlow
         mgr.eventBtn2.onClick.AddListener(() =>
         {
             GameMgr.In.dayTendency += 25;
+            GameMgr.In.tendency += 25;
+            mgr.TendUIMove();
             mgr.ActiveEventButton(false);
             mgr.StartText("Day7_3", EndDay7_2Routine, EndDay7_2Routine);
         });

@@ -38,6 +38,7 @@ public class EventFlowDay6 : EventFlow
         {
             GameMgr.In.dayTendency += 25;
             GameMgr.In.tendency += 25;
+            mgr.TendUIMove();
             // TODO: UI에 tendency 반영
             mgr.ActiveEventButton(false);
             mgr.StartText("Day6_3", EndDay6_3Routine, EndDay6_3Routine);
@@ -48,6 +49,7 @@ public class EventFlowDay6 : EventFlow
         {
             GameMgr.In.dayTendency -= 25;
             GameMgr.In.tendency -= 25;
+            mgr.TendUIMove();
             // TODO: UI에 tendency 반영
             mgr.ActiveEventButton(false);
             mgr.StartText("Day6_4", EndDay6_3Routine, EndDay6_3Routine);

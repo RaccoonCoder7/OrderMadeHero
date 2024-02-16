@@ -80,21 +80,18 @@ public class GameMgr : SingletonMono<GameMgr>
             week++;
             day = (Day)1;
         }
-
-        IncreaseValue(ref fame, dayFame, maxFame);
-        IncreaseValue(ref tendency, dayTendency, maxTend, minTend);
-
+        
         fame = ClampValue(fame, maxFame, minFame);
         tendency = ClampValue(tendency, maxTend, minTend);
     }
     
-    private void IncreaseValue(ref int value, int increase, int max, int min = System.Int32.MinValue)
-    {
-        if (value <= max && value >= min)
-        {
-            value += increase;
-        }
-    }
+    //private void IncreaseValue(ref int value, int increase, int max, int min = System.Int32.MinValue)
+    //{
+    //    if (value <= max && value >= min)
+    //    {
+    //        value += increase;
+    //    }
+    //}
 
     private int ClampValue(int value, int max, int min)
     {
