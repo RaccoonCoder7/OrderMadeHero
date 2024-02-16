@@ -11809,6 +11809,7 @@ MonoBehaviour:
   renom: {fileID: 1749971001}
   renomMask: {fileID: 1563022996}
   tendency: {fileID: 1478780418}
+  tendPoint: {fileID: 2030648607}
   gold: {fileID: 1396712870}
   gamePanel: {fileID: 995046949}
   alertPanel: {fileID: 1535885304}
@@ -11899,7 +11900,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 4
+  startDay: 1
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -30971,7 +30972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1749971002
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35598,7 +35599,7 @@ GameObject:
   - component: {fileID: 2030648610}
   - component: {fileID: 2030648609}
   m_Layer: 5
-  m_Name: Image
+  m_Name: TendPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35611,7 +35612,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2030648607}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

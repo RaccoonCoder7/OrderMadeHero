@@ -59,6 +59,7 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject renom;
     public GameObject renomMask;
     public GameObject tendency;
+    public GameObject tendPoint;
     public GameObject gold;
     public GameObject gamePanel;
     // public GameObject cursor;
@@ -672,6 +673,7 @@ public class GameSceneMgr : MonoBehaviour
             pc.onClick.RemoveAllListeners();
             UpdateDayEndMessage();
             FameUIFill();
+            TendUIMove();
         });
     }
 
@@ -1515,6 +1517,23 @@ public class GameSceneMgr : MonoBehaviour
         {
             Debug.LogWarning("명성치 오브젝트 누락 혹은 0 나누기 경고");
         }
+    }
+
+    private void TendUIMove()
+    {
+        var a = GameMgr.In.tendency;
+        var positionModifier = (float)(a * 0.12f);
+        var tendRect = tendPoint.GetComponent<RectTransform>();
+        Debug.Log(positionModifier);
+        if (positionModifier > 120)
+        {
+            positionModifier = 120;
+        }
+        else if (positionModifier < -120)
+        {
+            positionModifier = 120;
+        }
+        tendRect.anchoredPosition = new Vector2(positionModifier, 0);
     }
 
     private void UpdateDayEndMessage()

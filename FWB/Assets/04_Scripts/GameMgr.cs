@@ -23,7 +23,10 @@ public class GameMgr : SingletonMono<GameMgr>
     public int dayTendency;
     public int tendency;
     public int fame;
+    public int minFame = 0;
     public int maxFame = 1000;
+    public int minTend = -1000;
+    public int maxTend = 1000;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
@@ -78,8 +81,32 @@ public class GameMgr : SingletonMono<GameMgr>
             day = (Day)1;
         }
 
-        fame += dayFame;
-        tendency += dayTendency;
+        IncreaseValue(ref fame, dayFame, maxFame);
+        IncreaseValue(ref tendency, dayTendency, maxTend, minTend);
+
+        fame = ClampValue(fame, maxFame, minFame);
+        tendency = ClampValue(tendency, maxTend, minTend);
+    }
+    
+    private void IncreaseValue(ref int value, int increase, int max, int min = System.Int32.MinValue)
+    {
+        if (value <= max && value >= min)
+        {
+            value += increase;
+        }
+    }
+
+    private int ClampValue(int value, int max, int min)
+    {
+        if (value <= min)
+        {
+            return min;
+        }
+        if (value >= max)
+        {
+            return max;
+        }
+        return value;
     }
 
     /// <summary>
