@@ -57,6 +57,7 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject saveLoadPopup;
     public GameObject day;
     public GameObject renom;
+    public GameObject renomMask;
     public GameObject tendency;
     public GameObject gold;
     public GameObject gamePanel;
@@ -670,6 +671,7 @@ public class GameSceneMgr : MonoBehaviour
             });
             pc.onClick.RemoveAllListeners();
             UpdateDayEndMessage();
+            FameUIFill();
         });
     }
 
@@ -1492,6 +1494,20 @@ public class GameSceneMgr : MonoBehaviour
         shopDrMadChat.SetActive(true);
         yield return new WaitForSeconds(2f);
         shopDrMadChat.SetActive(false);
+    }
+
+    private void FameUIFill()
+    {
+        var renomMaskImage = renomMask?.GetComponent<Image>();
+        if(renomMaskImage != null && GameMgr.In.maxFame != 0)
+        {
+            var a = (float)GameMgr.In.fame / GameMgr.In.maxFame;
+            renomMaskImage.fillAmount = a;
+        }
+        else
+        {
+            Debug.LogWarning("명성치 오브젝트 누락 혹은 0 나누기 경고");
+        }
     }
 
     private void UpdateDayEndMessage()

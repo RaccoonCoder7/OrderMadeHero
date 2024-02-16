@@ -23,6 +23,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int dayTendency;
     public int tendency;
     public int fame;
+    public int maxFame = 1000;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
@@ -77,6 +78,7 @@ public class GameMgr : SingletonMono<GameMgr>
             day = (Day)1;
         }
 
+        fame += dayFame;
         tendency += dayTendency;
     }
 
