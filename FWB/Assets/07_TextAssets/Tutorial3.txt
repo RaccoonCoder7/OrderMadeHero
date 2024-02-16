@@ -12,7 +12,7 @@
 !sound_doorbell !wait_100 !image_손님 !speaker_손님 !next
 뭐야, 장사 안 할 거예요?
 !speaker_PC나비 !next
-주인님, 일단 한번 받아 봐.
+주인님, 일단 받아! 내가
 알려줄 테니 받고 생각해!
 !speaker_손님 !next
 아, 장사하는구나. 이건 최신형 AI네.

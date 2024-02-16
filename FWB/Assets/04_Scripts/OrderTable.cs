@@ -54,11 +54,11 @@ public class OrderTable : ScriptableObject
         상태없음,
         완벽한,
         적당한,
-        대충한,
+        허술한,
         // 멋있는,
         // 화려한,
         // 눈부신,
-        일회용
+        조악한
     }
 
     [System.Serializable]
@@ -229,7 +229,7 @@ public class OrderTable : ScriptableObject
 
     public bool IsConditionMatched(int frameCnt, Dictionary<ChipObj, int> chipObjDic, Dictionary<Ability, int> abilityDic, Condition condition)
     {
-        if (condition == Condition.상태없음 || condition == Condition.대충한)
+        if (condition == Condition.상태없음 || condition == Condition.허술한)
         {
             return true;
         }
@@ -242,7 +242,7 @@ public class OrderTable : ScriptableObject
             case Condition.적당한:
                 int totalSize2 = GetTotalSizeOfChips(chipObjDic);
                 return totalSize2 >= frameCnt / 2;
-            case Condition.일회용:
+            case Condition.조악한:
                 var durability = abilityDic.FirstOrDefault(x => x.Key.abilityKey.Equals("a_durability"));
                 return durability.Equals(default(KeyValuePair<string, int>));
         }
