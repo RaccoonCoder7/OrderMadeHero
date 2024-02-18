@@ -179,6 +179,7 @@ public class GameSceneMgr : MonoBehaviour
     private List<GameObject> activatedObjList = new List<GameObject>();
     private RectTransform blueprintImgRectTr;
     private SpriteChange indexSC;
+    private int previousMobAvatarIndex = -1;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -382,13 +383,18 @@ public class GameSceneMgr : MonoBehaviour
     {
         if (mobSpriteList.Count > 0)
         {
-            int randomIndex = UnityEngine.Random.Range(0, mobSpriteList.Count);
+            int randomIndex = 0;
+            do
+            {
+                randomIndex = UnityEngine.Random.Range(0, mobSpriteList.Count);
+            } while (previousMobAvatarIndex == randomIndex);
+            previousMobAvatarIndex = randomIndex;
             Sprite randomSprite = mobSpriteList[randomIndex];
 
-            var a = mobNpc.GetComponent<Image>();
-            a.sprite = randomSprite;
+            var image = mobNpc.GetComponent<Image>();
+            image.sprite = randomSprite;
 
-            RectTransform rectTransform = a.rectTransform;
+            RectTransform rectTransform = image.rectTransform;
             float fixedHeight = (randomIndex >= 0 && randomIndex <= 2) ? 410.0f : 520.0f;
             rectTransform.anchoredPosition = (randomIndex >= 0 && randomIndex <= 2) ? new Vector2(-675, -135) : new Vector2(-630, -80);
             float spriteRatio = randomSprite.rect.width / randomSprite.rect.height;
@@ -1009,6 +1015,7 @@ public class GameSceneMgr : MonoBehaviour
 
     private void OnClickIndex()
     {
+        RefreshWeaponButtons();
         popupPanel.SetActive(true);
         indexSC.type = SpriteChangeType.OnFocus;
         indexSC.SetOffSprite();
@@ -1125,7 +1132,6 @@ public class GameSceneMgr : MonoBehaviour
                     foreach (var image in imageList)
                     {
                         image.imageObj.SetActive(false);
-                        MobSpriteRandomChange();
                     }
                     mainChatPanel.SetActive(false);
                     chatTarget = ChatTarget.None;
