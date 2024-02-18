@@ -1070,8 +1070,7 @@ public class GameSceneMgr : MonoBehaviour
                     StartPuzzleProcess();
                     break;
                 case OrderState.Rejected:
-                    GameMgr.In.dayFame -= 25;
-                    GameMgr.In.fame -= 25;
+                    AdjustFame(-25);
                     TendUIMove();
                     FameUIFill();
                     lineCnt = -1;
@@ -1541,6 +1540,20 @@ public class GameSceneMgr : MonoBehaviour
         tendRect.anchoredPosition = new Vector2(positionModifier, 0);
     }
 
+    public void AdjustFame(int val)
+    {
+        GameMgr.In.fame += val;
+        GameMgr.In.dayFame += val;
+    
+        if (GameMgr.In.fame < GameMgr.In.minFame)
+        {
+            GameMgr.In.fame = GameMgr.In.minFame;
+        }
+        else if (GameMgr.In.fame > GameMgr.In.maxFame)
+        {
+            GameMgr.In.fame = GameMgr.In.maxFame;
+        }
+    }
 
     private void UpdateDayEndMessage()
     {
