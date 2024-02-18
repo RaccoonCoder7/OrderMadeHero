@@ -701,7 +701,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 DestroyImmediate(tr.gameObject);
             }
         }
-        if (makingDone != null) {
+        if (makingDone != null && isTutorial) {
             makingDone.gameObject.SetActive(false);
         }
         currentChipInPuzzleDic.Clear();
