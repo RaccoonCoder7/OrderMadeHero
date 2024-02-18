@@ -558,9 +558,16 @@ public class GameSceneMgr : MonoBehaviour
         creditRevenue.text = "무기판매 +" + GameMgr.In.dayRevenue;
         creditBonusRevenue.text = "완성보너스 +" + GameMgr.In.dayBonusRevenue;
         creditChipsetCost.text = "칩셋구입 " + GameMgr.In.daySpendCredit;
-        creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
-        GameMgr.In.credit += GameMgr.In.dayRentCost;
-        goldText.text = GameMgr.In.credit.ToString();
+        if (GameMgr.In.day == Day.금)
+        {
+            creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
+            GameMgr.In.credit += GameMgr.In.dayRentCost;
+            goldText.text = GameMgr.In.credit.ToString();
+        }
+        else
+        {
+            creditRentCost.text = "임대료 -0";
+        }
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.daySpendCredit;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
         creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
@@ -1544,7 +1551,7 @@ public class GameSceneMgr : MonoBehaviour
     {
         GameMgr.In.fame += val;
         GameMgr.In.dayFame += val;
-    
+
         if (GameMgr.In.fame < GameMgr.In.minFame)
         {
             GameMgr.In.fame = GameMgr.In.minFame;
