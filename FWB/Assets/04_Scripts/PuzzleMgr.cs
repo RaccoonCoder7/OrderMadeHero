@@ -701,7 +701,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 DestroyImmediate(tr.gameObject);
             }
         }
-
+        if (makingDone != null) {
+            makingDone.gameObject.SetActive(false);
+        }
         currentChipInPuzzleDic.Clear();
         currentAbilityInPuzzleDic.Clear();
         RefreshWeaponPowerData();
@@ -773,6 +775,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 mgr2.orderState = GameSceneMgr.OrderState.Succeed;
                 break;
         }
+
 
         if (isTutorial)
         {
