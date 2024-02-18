@@ -11,7 +11,6 @@ using DG.Tweening;
 public class IntroSceneMgr : MonoBehaviour
 {
     public CustomScrollBar scrollBar;
-    public GameObject inputFObj;
     public InputField inputField;
     public Button autoBtn;
     public Button skipBtn;
@@ -295,7 +294,7 @@ public class IntroSceneMgr : MonoBehaviour
         () =>
         {
             CommonTool.In.playerName = playerName;
-            inputFObj.SetActive(false);
+            inputField.interactable = false;
             StartCoroutine(FinishNamingRoutine());
         },
         () =>

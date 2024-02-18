@@ -1624,7 +1624,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollBar: {fileID: 596451604}
-  inputFObj: {fileID: 635955097}
   inputField: {fileID: 635955101}
   autoBtn: {fileID: 61864092}
   skipBtn: {fileID: 807885164}
