@@ -559,7 +559,7 @@ public class GameSceneMgr : MonoBehaviour
         creditBonusRevenue.text = "완성보너스 +" + GameMgr.In.dayBonusRevenue;
         creditChipsetCost.text = "칩셋구입 " + GameMgr.In.daySpendCredit;
         creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
-        GameMgr.In.credit -= GameMgr.In.dayRentCost;
+        GameMgr.In.credit += GameMgr.In.dayRentCost;
         goldText.text = GameMgr.In.credit.ToString();
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.daySpendCredit;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
