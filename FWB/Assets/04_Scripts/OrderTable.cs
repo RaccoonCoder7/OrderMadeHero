@@ -245,12 +245,9 @@ public class OrderTable : ScriptableObject
                 int totalSize2 = GetTotalSizeOfChips(chipObjDic);
                 return totalSize2 >= frameCnt / 2;
             case Condition.조악한:
-                // TODO: 동작 제대로 안하나봄
                 var durability = abilityDic.FirstOrDefault(x => x.Key.abilityKey.Equals("a_durability"));
-                Debug.Log(durability);
-                Debug.Log(durability.Key);
-                Debug.Log(durability.Value);
-                return durability.Equals(default(KeyValuePair<string, int>));
+                // TODO: 청사진 필수 내구도를 제외하는 로직 추가
+                return durability.Key == null && durability.Value == 0;
         }
         return false;
     }
