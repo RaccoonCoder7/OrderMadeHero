@@ -16,6 +16,8 @@ public class ChipObj : MonoBehaviour
     [HideInInspector]
     public Col[] originRow;
     [HideInInspector]
+    public Col[] currentRow;
+    [HideInInspector]
     public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
     [Header("UI")]
     public RawImage image;
@@ -50,6 +52,11 @@ public class ChipObj : MonoBehaviour
         originRow = (Col[])row.Clone();
     }
 
+    public void SaveCurrentRow()
+    {
+        currentRow = (Col[])row.Clone();
+    }
+
     public void RotateRight()
     {
         var newRow = new Col[colNum];
@@ -73,7 +80,7 @@ public class ChipObj : MonoBehaviour
         row = newRow;
     }
 
-    public void ResetCol()
+    public void ResetColToOriginData()
     {
         if (originRow != null)
         {
@@ -83,10 +90,14 @@ public class ChipObj : MonoBehaviour
         }
     }
 
-    public void SetChipData(int count, ChipObj originalChip)
+    public void ResetColToCurrentData()
     {
-        // this.chipCount = count;
-        // this.count.text = count.ToString();
+        if (currentRow != null)
+        {
+            row = (Col[])currentRow.Clone();
+            rowNum = currentRow.Length;
+            colNum = currentRow[0].col.Length;
+        }
     }
 
     public int GetChipSize()

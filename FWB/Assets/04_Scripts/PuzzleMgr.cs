@@ -262,6 +262,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     currentSelectedChipData = GameMgr.In.GetChip(targetChip.chipKey);
                     currentSelectedChip = targetChip;
 
+                    currentSelectedChip.SaveCurrentRow();
                     if (!isFromPuzzle)
                     {
                         currentSelectedChip.SaveOriginRow();
@@ -456,7 +457,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 {
                                     currentChipInPuzzleDic.Add(currentSelectedChipData, 1);
                                 }
-                                currentSelectedChip.ResetCol();
+                                currentSelectedChip.ResetColToOriginData();
                                 RefreshWeaponPowerData();
                             }
                             else
@@ -476,7 +477,14 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             if (!success)
             {
-                currentSelectedChip.ResetCol();
+                if (isFromPuzzle)
+                {
+                    currentSelectedChip.ResetColToCurrentData();
+                }
+                else
+                {
+                    currentSelectedChip.ResetColToOriginData();
+                }
             }
             currentSelectedChip = null;
         }
@@ -701,7 +709,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 DestroyImmediate(tr.gameObject);
             }
         }
-        if (makingDone != null && isTutorial) {
+        if (makingDone != null && isTutorial)
+        {
             makingDone.gameObject.SetActive(false);
         }
         currentChipInPuzzleDic.Clear();
