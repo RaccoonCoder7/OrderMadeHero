@@ -767,6 +767,7 @@ MonoBehaviour:
   - col: 010101
   - col: 000100
   originRow: []
+  currentRow: []
   chipAbilityList: []
   image: {fileID: 38465457}
   rectTr: {fileID: 38465455}
@@ -2980,6 +2981,7 @@ MonoBehaviour:
   - col: 0101
   - col: 0101
   originRow: []
+  currentRow: []
   chipAbilityList: []
   image: {fileID: 172563881}
   rectTr: {fileID: 172563879}
@@ -13701,6 +13703,7 @@ MonoBehaviour:
   - col: 01
   - col: 01
   originRow: []
+  currentRow: []
   chipAbilityList: []
   image: {fileID: 795700059}
   rectTr: {fileID: 795700057}
@@ -16130,6 +16133,7 @@ MonoBehaviour:
   - col: 0100
   - col: 0001
   originRow: []
+  currentRow: []
   chipAbilityList: []
   image: {fileID: 977302179}
   rectTr: {fileID: 977302177}
@@ -26148,6 +26152,7 @@ MonoBehaviour:
   - col: 000100
   - col: 000001
   originRow: []
+  currentRow: []
   chipAbilityList: []
   image: {fileID: 1485693313}
   rectTr: {fileID: 1485693311}
@@ -32128,6 +32133,7 @@ MonoBehaviour:
   row:
   - col: 010101
   originRow: []
+  currentRow: []
   chipAbilityList: []
   image: {fileID: 1795224761}
   rectTr: {fileID: 1795224758}
