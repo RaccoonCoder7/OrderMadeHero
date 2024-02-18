@@ -560,14 +560,15 @@ public class GameSceneMgr : MonoBehaviour
         creditChipsetCost.text = "칩셋구입 " + GameMgr.In.daySpendCredit;
         if (GameMgr.In.day == Day.금)
         {
-            creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
+            GameMgr.In.dayRentCost = -100;
             GameMgr.In.credit += GameMgr.In.dayRentCost;
             goldText.text = GameMgr.In.credit.ToString();
         }
         else
         {
-            creditRentCost.text = "임대료 -0";
+            GameMgr.In.dayRentCost = 0;
         }
+        creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.daySpendCredit;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
         creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
