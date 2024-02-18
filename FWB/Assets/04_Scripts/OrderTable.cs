@@ -245,7 +245,11 @@ public class OrderTable : ScriptableObject
                 int totalSize2 = GetTotalSizeOfChips(chipObjDic);
                 return totalSize2 >= frameCnt / 2;
             case Condition.조악한:
+                // TODO: 동작 제대로 안하나봄
                 var durability = abilityDic.FirstOrDefault(x => x.Key.abilityKey.Equals("a_durability"));
+                Debug.Log(durability);
+                Debug.Log(durability.Key);
+                Debug.Log(durability.Value);
                 return durability.Equals(default(KeyValuePair<string, int>));
         }
         return false;
@@ -268,9 +272,13 @@ public class OrderTable : ScriptableObject
                 Debug.Log("오늘 팔렸나?: " + !string.IsNullOrEmpty(history.Find(x => x.Equals(key))));
                 return !string.IsNullOrEmpty(history.Find(x => x.Equals(key)));
             case Gimmick.MostSoldToday:
-                var most = history.GroupBy(x => x).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
-                Debug.Log("오늘 젤 많이 팔렸나?: " + most == key);
-                return most == key;
+                // var most = history.GroupBy(x => x).OrderByDescending(grp => grp.Count());
+                var dict = history.ToLookup(x => x);
+                var maxCount = dict.Max(x => x.Count());
+                var mostList = dict.Where(x => x.Count() == maxCount).Select(x => x.Key);
+                bool result = mostList.Contains(key);
+                Debug.Log("오늘 젤 많이 팔렸나?: " + result);
+                return result;
             case Gimmick.LowestAttack:
                 Debug.Log("공격력 1 이하인가?: " + (GetAbilityCount(puzzleFrameList, "a_attack") <= 1));
                 return GetAbilityCount(puzzleFrameList, "a_attack") <= 1;

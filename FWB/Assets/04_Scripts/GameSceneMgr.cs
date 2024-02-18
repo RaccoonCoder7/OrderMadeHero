@@ -557,8 +557,10 @@ public class GameSceneMgr : MonoBehaviour
         creditTitle.text = GameMgr.In.week + "주차 " + GameMgr.In.day + "요일";
         creditRevenue.text = "무기판매 +" + GameMgr.In.dayRevenue;
         creditBonusRevenue.text = "완성보너스 +" + GameMgr.In.dayBonusRevenue;
-        creditChipsetCost.text = "칩셋구입 -" + GameMgr.In.daySpendCredit;
-        creditRentCost.text = "임대료 -" + GameMgr.In.dayRentCost;
+        creditChipsetCost.text = "칩셋구입 " + GameMgr.In.daySpendCredit;
+        creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
+        GameMgr.In.credit -= GameMgr.In.dayRentCost;
+        goldText.text = GameMgr.In.credit.ToString();
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.daySpendCredit;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
         creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
@@ -1528,7 +1530,6 @@ public class GameSceneMgr : MonoBehaviour
         var a = GameMgr.In.tendency;
         var positionModifier = (float)(a * 0.12f);
         var tendRect = tendPoint.GetComponent<RectTransform>();
-        Debug.Log(positionModifier);
         if (positionModifier > 120)
         {
             positionModifier = 120;
