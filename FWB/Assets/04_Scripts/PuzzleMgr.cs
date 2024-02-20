@@ -226,6 +226,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             return;
         }
 
+        isFromPuzzle = false;
+        currentSelectedChip = null;
         ped.position = eventData.pressPosition;
         List<RaycastResult> results = new List<RaycastResult>();
         es.RaycastAll(ped, results);
@@ -265,7 +267,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     currentSelectedChip.SaveCurrentRow();
                     if (!isFromPuzzle)
                     {
-                        currentSelectedChip.SaveOriginRow();
                         selectedChipName.text = currentSelectedChipData.chipName;
                         selectedChipPrice.text = "개당 " + currentSelectedChipData.price + " c";
                         selectedChipDesc.text = currentSelectedChipData.desc;
@@ -274,6 +275,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 }
             }
         }
+        isFromPuzzle = false;
         currentSelectedChipData = null;
         currentSelectedChip = null;
     }
@@ -615,6 +617,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         foreach (var chip in chipList)
         {
+            chip.SaveOriginRow();
             chip.backgroundSC.gameObject.SetActive(creatableChipKeyList.Contains(chip.chipKey));
         }
         SortChipList();

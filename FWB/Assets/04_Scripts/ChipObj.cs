@@ -49,7 +49,10 @@ public class ChipObj : MonoBehaviour
 
     public void SaveOriginRow()
     {
-        originRow = (Col[])row.Clone();
+        if (originRow == null || originRow.Length == 0)
+        {
+            originRow = (Col[])row.Clone();
+        }
     }
 
     public void SaveCurrentRow()
@@ -82,7 +85,7 @@ public class ChipObj : MonoBehaviour
 
     public void ResetColToOriginData()
     {
-        if (originRow != null)
+        if (originRow != null && originRow.Length > 0)
         {
             row = (Col[])originRow.Clone();
             rowNum = originRow.Length;
