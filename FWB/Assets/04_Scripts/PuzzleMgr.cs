@@ -59,6 +59,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Dictionary<Ability, int> currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
     private Dictionary<ChipObj, int> chipObjDic = new Dictionary<ChipObj, int>();
 
+    private float lastRotationTime = 0f; 
+    private float rotationDebounceTime = 0.01f; // 디바운싱 시간 설정
     public class Puzzle
     {
         public int x;
@@ -164,8 +166,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (currentSelectedChip != null)
         {
-            if (Input.GetKeyUp(KeyCode.Mouse1))
+            if (Input.GetKeyUp(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.R)&& Time.time - lastRotationTime > rotationDebounceTime)
             {
+                lastRotationTime = Time.time;
                 var angle = dragImgRectTr.localEulerAngles;
                 var pos = dragImgRectTr.localPosition;
                 if (angle.z < 1)
@@ -364,6 +367,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             if (results.Count > 0)
             {
                 bool isChipPanel = false;
+
                 foreach (var result in results)
                 {
                     if (result.gameObject.name.Contains("ChipPanel"))
@@ -926,4 +930,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         Debug.Log(sb2.ToString());
     }
+
 }
+
