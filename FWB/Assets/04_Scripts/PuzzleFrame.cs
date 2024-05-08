@@ -13,4 +13,10 @@ public class PuzzleFrame : MonoBehaviour
     {
         this.pfd = pfd;
     }
+    public void SetHighlight(bool isActive)
+    {
+        Color highlightColor = isActive ? new Color(1, 1, 1, 0.2f) : new Color(1, 1, 1, 1);  
+        image.color = highlightColor;
+    }
+
 }

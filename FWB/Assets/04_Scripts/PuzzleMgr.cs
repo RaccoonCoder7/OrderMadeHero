@@ -343,14 +343,69 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (currentSelectedChip != null)
         {
             dragImgRectTr.localPosition += (Vector3)eventData.delta / canvas.scaleFactor;
+            VisualChipLocation(eventData);
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void VisualChipLocation(PointerEventData eventData)
+    {
+        // 모든 프레임 하이라이트 초기화
+        foreach (var frame in puzzleFrameList)
+        {
+            frame.SetHighlight(false);
+        }
+
+        // 조건에 맞게 하이라이트 활성화
+        foreach (var frame in puzzleFrameList)
+        {
+            if (frame.pfd.patternNum == 1 && frame.pfd.chip == null ) 
+            {
+                RectTransform frameRect = frame.GetComponent<RectTransform>();
+                bool shouldHighlight = false;
+
+                Vector2 chipCenter = eventData.position;
+                chipCenter.x -= (currentSelectedChip.rowNum - 1) * chipSize / 2;
+                chipCenter.y -= (currentSelectedChip.colNum - 1) * chipSize / 2;
+
+                for (int i = 0; i < currentSelectedChip.rowNum; i++)
+                {
+
+                    for (int j = 0; j < currentSelectedChip.colNum; j++)
+                    {
+
+                        Vector2 checkPosition = 
+                            new Vector2(
+                            chipCenter.x + i * chipSize,
+                            chipCenter.y + j * chipSize);
+
+                        if (RectTransformUtility.RectangleContainsScreenPoint(frameRect, checkPosition, canvas.worldCamera))
+                        {
+                            shouldHighlight = true;
+                            break;
+                        }
+
+                    }
+
+                    if (shouldHighlight) 
+                        break;
+                }
+
+                frame.SetHighlight(shouldHighlight);
+
+            }
+        }
+    }
+    
+public void OnEndDrag(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left)
         {
             return;
+        }
+
+        foreach (var frame in puzzleFrameList)
+        {
+            frame.SetHighlight(false);
         }
 
         var angle = dragImgRectTr.localEulerAngles;
