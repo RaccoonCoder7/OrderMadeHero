@@ -156,12 +156,14 @@ public class GameSceneMgr : MonoBehaviour
     private bool isTextFlowing;
     private bool skipLine;
     private bool isWaitingForText;
+    public bool autoTextSkip;
     private List<string> lines = new List<string>();
     private int lineCnt = 0;
     private string prevOrderKey = "";
     private int normalOrderLineIndex = 0;
     private int normalOrderPrevLineIndex = 0;
     private int currentSelectedWeaponIndex = -1;
+    private float textSkipWaitTime = 1f;
     private string prevText;
     private string currentSelectedWeaponCategoryKey;
     private string currentOrderText;
@@ -222,6 +224,14 @@ public class GameSceneMgr : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            OnClickChatBox();
+        }
+    }
+
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;
@@ -239,8 +249,8 @@ public class GameSceneMgr : MonoBehaviour
         weaponLeft.onClick.AddListener(OnClickWeaponLeft);
         weaponRight.onClick.AddListener(OnClickWeaponRight);
         weaponCreate.onClick.AddListener(OnClickWeaponCreate);
-        save.onClick.AddListener(OnClickSave);
-        load.onClick.AddListener(OnClickSave);
+        // save.onClick.AddListener(OnClickSave);
+        // load.onClick.AddListener(OnClickSave);
         returnBtn.onClick.AddListener(OnClickReturn);
         gotoMain.onClick.AddListener(OnClickGoToMain);
         popupYes.onClick.AddListener(OnClickPopupYes);
@@ -1406,6 +1416,15 @@ public class GameSceneMgr : MonoBehaviour
 
             while (currentLineIdex >= lineCnt)
             {
+                if (autoTextSkip)
+                {
+                    yield return new WaitForSeconds(textSkipWaitTime);
+                    if (autoTextSkip)
+                    {
+                        lineCnt++;
+                        continue;
+                    }
+                }
                 yield return new WaitForSeconds(textDelayTime);
             }
         }
