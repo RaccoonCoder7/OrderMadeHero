@@ -7,7 +7,15 @@ public class EventFlowDay6 : EventFlow
 {
     public override void StartFlow()
     {
-        mgr.StartText("Day6_1", EndDay6_1Routine, EndDay6_1Routine);
+        if (DataSaveLoad.dataSave.isLoaded == true)
+        {
+            StartCoroutine(mgr.StartNormalRoutine(GameMgr.In.dayCustomerCnt, mgr.EndNormalOrderRoutine));
+            DataSaveLoad.dataSave.isLoaded = false;
+        }
+        else
+        {
+            mgr.StartText("Day6_1", EndDay6_1Routine, EndDay6_1Routine);
+        }
     }
 
     private void EndDay6_1Routine() //칩셋 획득 이벤트 
@@ -16,7 +24,7 @@ public class EventFlowDay6 : EventFlow
 
         var speedChip = GameMgr.In.chipTable.chipList.Find(x => x.howToGet.Equals("버니"));
         speedChip.createEnable = true;
-
+        
         mgr.mainChatPanel.SetActive(false);
         mgr.GetChipset(0);
         mgr.alertDodge.onClick.RemoveAllListeners();

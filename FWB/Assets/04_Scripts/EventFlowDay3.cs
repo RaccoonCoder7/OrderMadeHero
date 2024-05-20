@@ -8,7 +8,15 @@ public class EventFlowDay3 : EventFlow
 {
     public override void StartFlow()
     {
-        mgr.StartText("Day3_1", EndDay3_1Routine, EndDay3_1Routine);
+        if (DataSaveLoad.dataSave.isLoaded == true)
+        {
+            StartCoroutine(mgr.StartNormalRoutine(GameMgr.In.dayCustomerCnt, mgr.EndNormalOrderRoutine));
+            DataSaveLoad.dataSave.isLoaded = false;
+        }
+        else
+        {
+            mgr.StartText("Day3_1", EndDay3_1Routine, EndDay3_1Routine);
+        }
     }
 
     private void EndDay3_1Routine()

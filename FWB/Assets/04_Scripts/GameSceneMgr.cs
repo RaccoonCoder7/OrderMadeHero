@@ -1054,6 +1054,7 @@ public class GameSceneMgr : MonoBehaviour
 
     public IEnumerator StartNormalRoutine(int customerCnt, Action onEndRoutine)
     {
+        GameMgr.In.dayCustomerCnt = customerCnt;
         for (int i = 0; i < customerCnt; i++)
         {
             MobSpriteRandomChange();
@@ -1145,6 +1146,7 @@ public class GameSceneMgr : MonoBehaviour
                     }
                     mainChatPanel.SetActive(false);
                     chatTarget = ChatTarget.None;
+                    GameMgr.In.dayCustomerCnt -= 1;
                     processDone = true;
                 }
                 yield return null;
@@ -1158,8 +1160,7 @@ public class GameSceneMgr : MonoBehaviour
                 order.orderEnable = false;
             }
         }
-
-        GameMgr.In.dayCustomerCnt = customerCnt;
+        
         GameMgr.In.orderedBluePrintKeyList.Clear();
 
         onEndRoutine.Invoke();
