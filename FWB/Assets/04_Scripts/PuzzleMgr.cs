@@ -347,56 +347,71 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
     }
 
+    private bool CanPlaceChip(PuzzleFrame frame)
+    {
+        var fittableFrames = GetFittableFrameList(currPuzzle.frameDataTable, currentSelectedChip, frame.pfd.x, frame.pfd.y);
+        return fittableFrames != null;
+    }
+
     public void VisualChipLocation(PointerEventData eventData)
     {
-        // 모든 프레임 하이라이트 초기화
         foreach (var frame in puzzleFrameList)
         {
-            frame.SetHighlight(false);
+            frame.SetHighlight(false, Color.red);
         }
 
-        // 조건에 맞게 하이라이트 활성화
+        bool overallCanPlace = false;
+
         foreach (var frame in puzzleFrameList)
         {
-            if (frame.pfd.patternNum == 1 && frame.pfd.chip == null ) 
+            if (frame.pfd.patternNum == 1 && frame.pfd.chip == null)
             {
-                RectTransform frameRect = frame.GetComponent<RectTransform>();
-                bool shouldHighlight = false;
-
-                Vector2 chipCenter = eventData.position;
-                chipCenter.x -= (currentSelectedChip.rowNum - 1) * chipSize / 2;
-                chipCenter.y -= (currentSelectedChip.colNum - 1) * chipSize / 2;
-
-                for (int i = 0; i < currentSelectedChip.rowNum; i++)
+                if (IsChipWithinFrame(eventData, frame))
                 {
-
-                    for (int j = 0; j < currentSelectedChip.colNum; j++)
-                    {
-
-                        Vector2 checkPosition = 
-                            new Vector2(
-                            chipCenter.x + i * chipSize,
-                            chipCenter.y + j * chipSize);
-
-                        if (RectTransformUtility.RectangleContainsScreenPoint(frameRect, checkPosition, canvas.worldCamera))
-                        {
-                            shouldHighlight = true;
-                            break;
-                        }
-
-                    }
-
-                    if (shouldHighlight) 
-                        break;
+                    overallCanPlace = CanPlaceChip(frame);
+                    break;
                 }
+            }
+        }
 
-                frame.SetHighlight(shouldHighlight);
-
+        foreach (var frame in puzzleFrameList)
+        {
+            if (frame.pfd.patternNum == 1 && frame.pfd.chip == null)
+            {
+                if (IsChipWithinFrame(eventData, frame))
+                {
+                    frame.SetHighlight(true, overallCanPlace ? Color.green : Color.red);
+                }
             }
         }
     }
-    
-public void OnEndDrag(PointerEventData eventData)
+
+    private bool IsChipWithinFrame(PointerEventData eventData, PuzzleFrame frame)
+    {
+        RectTransform frameRect = frame.GetComponent<RectTransform>();
+        Vector2 chipCenter = eventData.position;
+        chipCenter.x -= (currentSelectedChip.rowNum - 1) * chipSize / 2;
+        chipCenter.y -= (currentSelectedChip.colNum - 1) * chipSize / 2;
+
+        for (int i = 0; i < currentSelectedChip.rowNum; i++)
+        {
+            for (int j = 0; j < currentSelectedChip.colNum; j++)
+            {
+                Vector2 checkPosition = new Vector2(
+                    chipCenter.x + i * chipSize,
+                    chipCenter.y + j * chipSize
+                );
+
+                if (RectTransformUtility.RectangleContainsScreenPoint(frameRect, checkPosition, canvas.worldCamera))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left)
         {
@@ -405,7 +420,7 @@ public void OnEndDrag(PointerEventData eventData)
 
         foreach (var frame in puzzleFrameList)
         {
-            frame.SetHighlight(false);
+            frame.SetHighlight(false, Color.red);
         }
 
         var angle = dragImgRectTr.localEulerAngles;
