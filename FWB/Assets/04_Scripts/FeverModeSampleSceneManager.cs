@@ -106,12 +106,6 @@ public class FeverModeSampleSceneManager : MonoBehaviour
         {
             puzzleMgr.OnClickMakingDone();
         }
-
-        // TODO: 칩셋 드래그 상태로 만들기
-        // if (Input.GetKeyDown(KeyCode.Q))
-        // {
-
-        // }
     }
 
     private void SetTableDatasForFeverMode()

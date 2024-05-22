@@ -66,7 +66,7 @@ MonoBehaviour:
     createEnable: 0
     chipSprite: {fileID: 21300000, guid: 26f12ffd330111743aeb9be41565aa05, type: 3}
     abilityList:
-    - abilityKey: a_agility
+    - abilityKey: a_speed
       count: 2
   - chipKey: c_durability
     chipName: "\uB0B4\uAD6C\uB3C4"
