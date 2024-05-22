@@ -38,7 +38,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Button sortOrderBtn;
     public Button revertChips;
     public GameSceneMgr mgr2;
-    public Action OnMakingDone;
+    public bool isFeverMode;
+    public Action<int> OnMakingDone;
     [HideInInspector]
     public bool isTutorial = true;
 
@@ -59,7 +60,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Dictionary<Ability, int> currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
     private Dictionary<ChipObj, int> chipObjDic = new Dictionary<ChipObj, int>();
 
-    private float lastRotationTime = 0f; 
+    private float lastRotationTime = 0f;
     private float rotationDebounceTime = 0.01f; // 디바운싱 시간 설정
     public class Puzzle
     {
@@ -166,7 +167,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (currentSelectedChip != null)
         {
-            if (Input.GetKeyUp(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.R)&& Time.time - lastRotationTime > rotationDebounceTime)
+            if (Input.GetKeyUp(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.R) && Time.time - lastRotationTime > rotationDebounceTime)
             {
                 lastRotationTime = Time.time;
                 var angle = dragImgRectTr.localEulerAngles;
@@ -214,8 +215,24 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         SetChipDatas();
     }
 
+    public void StartFeverModePuzzle()
+    {
+        chipSize = 64;
+        creditText.text = GameMgr.In.credit.ToString();
+        orderText.text = string.Empty;
+        SetBluePrintDatas();
+        SetPuzzle();
+        SetChipDatas();
+    }
+
     public void OnClickMakingDone()
     {
+        if (isFeverMode)
+        {
+            MakingDone();
+            return;
+        }
+
         CommonTool.In.OpenConfirmPanel("제작을 완료하시겠습니까?", () =>
         {
             MakingDone();
@@ -683,6 +700,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void SetChipDatas()
     {
+        if (creatableChipKeyList != null && creatableChipKeyList.Count > 0) return;
+
         var creatableChips = GameMgr.In.chipTable.chipList.FindAll(x => x.createEnable);
         creatableChipKeyList = new List<string>();
         foreach (var cc in creatableChips)
@@ -797,12 +816,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void MakingDone()
     {
-        if (OnMakingDone != null)
-        {
-            OnMakingDone.Invoke();
-            OnMakingDone = null;
-        }
-
         int score = 0;
         if (IsWeaponRequiredAbilitySatisfied()) score++;
         if (IsOrderRequirementSatisfied()) score++;
@@ -828,12 +841,18 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             case 0:
                 GameMgr.In.dayFame -= 25;
                 GameMgr.In.fame -= 25;
-                mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                if (!isFeverMode)
+                {
+                    mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                }
                 break;
             case 1:
                 GameMgr.In.dayFame -= 10;
                 GameMgr.In.fame -= 10;
-                mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                if (!isFeverMode)
+                {
+                    mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                }
                 break;
             case 2:
                 if (!isTutorial)
@@ -841,31 +860,48 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     int sellPrice1 = GameMgr.In.currentBluePrint.sellPrice;
                     int bonus1 = GetBonusCredit(sellPrice1);
                     GameMgr.In.credit += sellPrice1 + bonus1;
-                    mgr2.goldText.text = GameMgr.In.credit.ToString();
+                    if (!isFeverMode)
+                    {
+                        mgr2.goldText.text = GameMgr.In.credit.ToString();
+                    }
                     GameMgr.In.dayRevenue += sellPrice1;
                     GameMgr.In.dayBonusRevenue += bonus1;
                 }
                 GameMgr.In.dayFame += 10;
                 GameMgr.In.fame += 10;
-                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                if (!isFeverMode)
+                {
+                    mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                }
                 break;
             case 3:
                 int sellPrice2 = GameMgr.In.currentBluePrint.sellPrice;
                 int bonus2 = GetBonusCredit(sellPrice2, 0.1f);
                 GameMgr.In.credit += sellPrice2 + bonus2;
-                mgr2.goldText.text = GameMgr.In.credit.ToString();
+                if (!isFeverMode)
+                {
+                    mgr2.goldText.text = GameMgr.In.credit.ToString();
+                }
                 GameMgr.In.dayRevenue += sellPrice2;
                 GameMgr.In.dayBonusRevenue += bonus2;
                 GameMgr.In.dayFame += 25;
                 GameMgr.In.fame += 25;
-                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                if (!isFeverMode)
+                {
+                    mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                }
                 break;
         }
-
 
         if (isTutorial)
         {
             isTutorial = false;
+        }
+
+        if (OnMakingDone != null)
+        {
+            OnMakingDone.Invoke(score);
+            OnMakingDone = null;
         }
     }
 

@@ -356,7 +356,7 @@ public class GameSceneMgr : MonoBehaviour
         {
             popupPanel.SetActive(false);
             gamePanel.SetActive(true);
-            puzzleMgr.OnMakingDone += () =>
+            puzzleMgr.OnMakingDone += (result) =>
             {
                 gamePanel.SetActive(false);
             };

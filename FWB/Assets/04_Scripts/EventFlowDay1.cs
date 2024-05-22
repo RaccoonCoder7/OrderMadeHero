@@ -141,7 +141,7 @@ public class EventFlowDay1 : EventFlow
         mgr.puzzleMgr.OnMakingDone += OnMakingDone;
     }
 
-    private void OnMakingDone()
+    private void OnMakingDone(int result)
     {
         GameMgr.In.dayCustomerCnt = 1;
         mgr.StartText("Tutorial6", EndTutorial6Routine, SkipTutorial6Routine);
