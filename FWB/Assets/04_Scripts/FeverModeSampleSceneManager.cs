@@ -104,6 +104,10 @@ public class FeverModeSampleSceneManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            if (!puzzleMgr.isFeverMode)
+            {
+                return;
+            }
             puzzleMgr.OnClickMakingDone();
         }
     }

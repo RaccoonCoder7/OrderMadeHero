@@ -711,6 +711,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5982718834984252204, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982718834984252204, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: cc03ebb6391104f46b79676fde2f06b4, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
 --- !u!1 &57539877
@@ -4396,7 +4404,7 @@ MonoBehaviour:
   puzzleMgr: {fileID: 995046950}
   gageRectTr: {fileID: 832731874}
   maxPosX: 0
-  maxTime: 30
+  maxTime: 60
   maxPuzzleCnt: 25
   particleParentObj: {fileID: 164971198}
   normalParticleParentObj: {fileID: 1891577999}
