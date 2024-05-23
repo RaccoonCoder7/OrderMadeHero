@@ -25,12 +25,12 @@ public class StartSceneMgr : MonoBehaviour
 
         StartCoroutine(CommonTool.In.FadeIn());
         StartCoroutine(sa.StartLoopAnim());
-        StartCoroutine(CommonTool.In.BGMPlayer());
+        StartCoroutine(SoundManager.BGMPlayer());
     }
 
     private void ChangeToInitScene()
     {
-        StopCoroutine(CommonTool.In.BGMPlayer());
+        StopCoroutine(SoundManager.BGMPlayer());
         StartCoroutine(CommonTool.In.AsyncChangeScene("IntroScene"));
     }
 

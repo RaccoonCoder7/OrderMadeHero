@@ -235,7 +235,7 @@ public class GameSceneMgr : MonoBehaviour
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;
-        StartCoroutine(CommonTool.In.BGMPlayer());
+        StartCoroutine(SoundManager.BGMPlayer());
 
         blueprintImgRectTr = blueprintImg.GetComponent<RectTransform>();
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
@@ -1004,7 +1004,7 @@ public class GameSceneMgr : MonoBehaviour
         dateText.text = day;
         dateMessage.text = GameMgr.In.week + "주차\n" + day + "요일";
         prevChatTarget = ChatTarget.None;
-        CommonTool.In.PlayOneShot("bird");
+        SoundManager.PlayOneShot("bird");
         creditDodge.onClick.RemoveAllListeners();
         StartCoroutine(FadeInOutDateMessage());
     }
@@ -1279,7 +1279,7 @@ public class GameSceneMgr : MonoBehaviour
                     else if (com.StartsWith("!sound"))
                     {
                         string clipName = com.Split('_')[1];
-                        CommonTool.In.PlayOneShot(clipName);
+                        SoundManager.PlayOneShot(clipName);
                     }
                     else if (com.StartsWith("!focusoff"))
                     {

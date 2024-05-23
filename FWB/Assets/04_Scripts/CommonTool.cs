@@ -34,12 +34,7 @@ public class CommonTool : SingletonMono<CommonTool>
     public string mascotName = "나비";
     public string pcMascotName = "PC나비";
     public List<Script> scriptList = new List<Script>();
-    public List<AudioClip> audioClipList = new List<AudioClip>();
     public Canvas canvas;
-
-    private AudioSource audioSrc;
-    public AudioSource bgmAudioSource;
-
 
     [System.Serializable]
     public class Script
@@ -55,7 +50,6 @@ public class CommonTool : SingletonMono<CommonTool>
     {
         base.Awake();
         canvas = GetComponent<Canvas>();
-        audioSrc = GetComponent<AudioSource>();
         
         alertPanel.SetActive(false);
         confirmPanel.SetActive(false);
@@ -130,37 +124,6 @@ public class CommonTool : SingletonMono<CommonTool>
     {
         return scriptList.Find(x => x.key.Equals(key))?.lines;
     }
-    
-    public IEnumerator BGMPlayer()
-    {
-        string activeSceneName = SceneManager.GetActiveScene().name;
-        AudioClip bgmClip = audioClipList.Find(x => x.name.Equals(activeSceneName));
-    
-        if (bgmClip != null && bgmAudioSource.clip != bgmClip)
-        {
-            bgmAudioSource.Stop();
-            yield return null;
-            bgmAudioSource.clip = bgmClip;
-            bgmAudioSource.Play();
-        }
-        else
-        {
-            yield return null;
-        }
-    }
-    
-    /// <summary>
-    /// 오디오를 1회 플레이 함
-    /// </summary>
-    /// <param name="audioName">오디오클립 이름</param>
-    public void PlayOneShot(string audioName)
-    {
-        var clip = audioClipList.Find(x => x.name.Equals(audioName));
-        if (clip != null)
-        {
-            audioSrc.PlayOneShot(clip);
-        }
-    }
 
     /// <summary>
     /// 화면에 포커스를 줌
@@ -234,4 +197,5 @@ public class CommonTool : SingletonMono<CommonTool>
 
         asyncLoad.allowSceneActivation = true;
     }
+
 }

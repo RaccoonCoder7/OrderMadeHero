@@ -46,7 +46,8 @@ public class IntroSceneMgr : MonoBehaviour
     private Regex regex = new Regex(@"^[가-힣a-zA-Z0-9\s]{2,12}$");
     private const string playerNameRule = "한글, 영어 / 공백포함 2자 이상 12자 이하로 설정 해주세요";
     private float duration = 0.5f;
-    
+
+    public AudioSource bgmAudioSource;
 
     public enum TextFlowType
     {
@@ -79,7 +80,7 @@ public class IntroSceneMgr : MonoBehaviour
         textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
         StartCoroutine(BlinkCoroutine());
-        StartCoroutine(CommonTool.In.BGMPlayer());
+        StartCoroutine(SoundManager.BGMPlayer());
     }
     
     private IEnumerator BlinkCoroutine()
@@ -258,7 +259,7 @@ public class IntroSceneMgr : MonoBehaviour
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
-        StopCoroutine(CommonTool.In.BGMPlayer());
+        StopCoroutine(SoundManager.BGMPlayer());
         onEndText = CommonTool.In.AsyncChangeScene("GameScene");
         StartNextLine();
     }

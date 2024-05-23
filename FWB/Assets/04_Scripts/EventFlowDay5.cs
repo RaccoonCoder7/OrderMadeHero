@@ -70,7 +70,7 @@ public class EventFlowDay5 : EventFlow
     private void EndDay5_3Routine()
     {
         mgr.EndText();
-        CommonTool.In.PlayOneShot("crash");
+        SoundManager.PlayOneShot("crash");
         puffet.transform.DOShakePosition(1, new Vector3(38, 25, 0), 50).OnComplete(() =>
         {
             mgr.StartText("Day5_4", EndDay5_4Routine);
