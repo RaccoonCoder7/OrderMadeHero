@@ -188,6 +188,7 @@ public class FeverModeSampleSceneManager : MonoBehaviour
         isGamePlaying = true;
 
         particleParentObj.SetActive(true);
+        puzzleMgr.orderText.text = "제한시간 내에 최대한 많은 무기를 만드세요!";
 
         for (int i = 0; i < maxPuzzleCnt; i++)
         {
