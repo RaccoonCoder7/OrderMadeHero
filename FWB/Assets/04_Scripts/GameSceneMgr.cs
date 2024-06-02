@@ -19,6 +19,8 @@ using static GameMgr;
 /// </summary>
 public class GameSceneMgr : MonoBehaviour
 {
+    public static GameSceneMgr Instance { get; private set; }
+
     [Header("UI")]
     public Button pc;
     public Button popupDodge;
@@ -232,6 +234,18 @@ public class GameSceneMgr : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;
@@ -1604,4 +1618,5 @@ public class GameSceneMgr : MonoBehaviour
             creditRevenueResult.text = "으음.. 더 노력해야겠는걸?";
         }
     }
+
 }
