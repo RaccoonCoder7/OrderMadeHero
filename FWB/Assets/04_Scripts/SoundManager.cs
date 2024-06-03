@@ -42,31 +42,43 @@ public class SoundManager : MonoBehaviour
             bgmAudioSource = gameObject.AddComponent<AudioSource>();
             bgmAudioSource.loop = true; // BGM 기본 설정으로 루프
 
-            if (masterVolumeBar == null || bgmVolumeBar == null || effectVolumeBar == null)
-            {
-                FindVolumeBars();
-            }
-
-            masterVolumeBar.onValueChanged.AddListener(SetMasterVolume);
-            bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
-            effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
-
-            // 초기 볼륨 설정
-            masterVolumeBar.value = masterVolume;
-            bgmVolumeBar.value = volumeLevels[SoundType.Bgm];
-            effectVolumeBar.value = volumeLevels[SoundType.Effect];
+            InitializeVolumeBars();
         }
         else
         {
             Destroy(gameObject);
         }
     }
+
+    public static void InitializeVolumeBars()
+    {
+        instance.FindVolumeBars();
+
+        if (instance.masterVolumeBar != null)
+        {
+            instance.masterVolumeBar.onValueChanged.AddListener(SetMasterVolume);
+            instance.masterVolumeBar.value = instance.masterVolume;
+        }
+
+        if (instance.bgmVolumeBar != null)
+        {
+            instance.bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
+            instance.bgmVolumeBar.value = instance.volumeLevels[SoundType.Bgm];
+        }
+
+        if (instance.effectVolumeBar != null)
+        {
+            instance.effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
+            instance.effectVolumeBar.value = instance.volumeLevels[SoundType.Effect];
+        }
+    }
+
     //볼륨 바 업뎃(없으면 찾기)
     private void FindVolumeBars()
     {
-        masterVolumeBar = GameObject.Find("MasterBar").GetComponent<Scrollbar>();
-        bgmVolumeBar = GameObject.Find("BgmBar").GetComponent<Scrollbar>();
-        effectVolumeBar = GameObject.Find("EffectBar").GetComponent<Scrollbar>();
+        masterVolumeBar = GameObject.Find("MasterBar")?.GetComponent<Scrollbar>();
+        bgmVolumeBar = GameObject.Find("BgmBar")?.GetComponent<Scrollbar>();
+        effectVolumeBar = GameObject.Find("EffectBar")?.GetComponent<Scrollbar>();
     }
 
     // 마스터 볼륨 조절
