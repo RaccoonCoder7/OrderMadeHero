@@ -37,8 +37,8 @@
 
 <b>포스터</b>
 <div align="left">
-<img src="./ImagesForReadMe/포스터.jpg", height="600x", width="400px">
-<img src="./ImagesForReadMe/체험부스_이벤트안내.jpg", height="600x", width="400px">
+<img src="./ImagesForReadMe/포스터.jpg", height="480x", width="320px">
+<img src="./ImagesForReadMe/체험부스_이벤트안내.jpg", height="480x", width="320px">
 </div>
 
 </br>
@@ -46,5 +46,5 @@
 <b>컨벤션 체험부스 사진</b>
 <div align="left">
 <img src="./ImagesForReadMe/부스사진2.jpg", height="400x", width="266px">
-<img src="./ImagesForReadMe/부스사진1.jpg", height="200x", width="600px">
+<img src="./ImagesForReadMe/부스사진1.jpg", height="150x", width="450px">
 </div>
