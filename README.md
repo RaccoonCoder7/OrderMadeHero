@@ -26,4 +26,25 @@
 <b>피버모드(개발중)</b></br>
 [![피버모드](http://img.youtube.com/vi/7DSJ52XEqy8/0.jpg)](https://youtu.be/7DSJ52XEqy8)
 
+</br>
 
+<b>이슈트래커 (스프레드시트로 제작한 프로젝트 관리 툴)</b>
+<div align="left">
+<img src="./ImagesForReadMe/이슈트래커.PNG", height="400x", width="1200px">
+</div>
+
+</br>
+
+<b>포스터</b>
+<div align="left">
+<img src="./ImagesForReadMe/포스터.jpg", height="600x", width="400px">
+<img src="./ImagesForReadMe/체험부스_이벤트안내.jpg", height="600x", width="400px">
+</div>
+
+</br>
+
+<b>컨벤션 체험부스 사진</b>
+<div align="left">
+<img src="./ImagesForReadMe/부스사진2.jpg", height="400x", width="266px">
+<img src="./ImagesForReadMe/부스사진1.jpg", height="200x", width="600px">
+</div>
