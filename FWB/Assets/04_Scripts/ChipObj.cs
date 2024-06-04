@@ -69,11 +69,11 @@ public class ChipObj : MonoBehaviour
             newRow[i].col = new bool[rowNum];
         }
 
-        for (int y = 0; y < rowNum; y++)
+        for (int x = 0; x < colNum; x++)
         {
-            for (int x = 0; x < colNum; x++)
+            for (int y = 0; y < rowNum; y++)
             {
-                newRow[x].col[y] = row[rowNum - 1 - y].col[x];
+                newRow[x].col[y] = row[y].col[colNum - 1 - x];
             }
         }
 
