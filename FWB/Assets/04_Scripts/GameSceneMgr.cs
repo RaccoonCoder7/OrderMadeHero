@@ -24,6 +24,7 @@ public class GameSceneMgr : MonoBehaviour
     public Button pc;
     public Button popupDodge;
     public Button save;
+    public Button dataSave;
     public Button load;
     public Button ok;
     public Button yes;
@@ -183,6 +184,8 @@ public class GameSceneMgr : MonoBehaviour
     private RectTransform blueprintImgRectTr;
     private SpriteChange indexSC;
     private int previousMobAvatarIndex = -1;
+    private string saveSlot;
+    private bool isSaving;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -250,8 +253,9 @@ public class GameSceneMgr : MonoBehaviour
         weaponLeft.onClick.AddListener(OnClickWeaponLeft);
         weaponRight.onClick.AddListener(OnClickWeaponRight);
         weaponCreate.onClick.AddListener(OnClickWeaponCreate);
-        // save.onClick.AddListener(OnClickSave);
-        // load.onClick.AddListener(OnClickSave);
+        save.onClick.AddListener(OnClickSave);
+        dataSave.onClick.AddListener(OnClickDataSave);
+        load.onClick.AddListener(OnClickDataLoad);
         returnBtn.onClick.AddListener(OnClickReturn);
         gotoMain.onClick.AddListener(OnClickGoToMain);
         popupYes.onClick.AddListener(OnClickPopupYes);
@@ -452,11 +456,30 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickSlot()
     {
+        saveSlot = EventSystem.current.currentSelectedGameObject.name;
+        Debug.Log(saveSlot);
+    }
+
+    public void OnClickDataSave()
+    {
+        isSaving = true;
+        saveLoadPopup.SetActive(true);
+    }
+    
+    public void OnClickDataLoad()
+    {
+        isSaving = false;
         saveLoadPopup.SetActive(true);
     }
 
     public void OnClickPopupYes()
     {
+        if(isSaving)
+        {
+            DataSaveLoad.dataSave.SaveData(saveSlot);
+        }
+        else
+            DataSaveLoad.dataSave.LoadData(saveSlot);
         saveLoadPopup.SetActive(false);
     }
 

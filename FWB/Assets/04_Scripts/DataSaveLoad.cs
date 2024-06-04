@@ -38,6 +38,7 @@ public class PlayerData
 public class DataSaveLoad : MonoBehaviour
 {
     public bool isLoaded = false;
+    private string folderPath;
     
     public static DataSaveLoad dataSave { get; private set; }
 
@@ -54,9 +55,10 @@ public class DataSaveLoad : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        folderPath = Application.persistentDataPath + "/saves";
     }
     
-    public void SaveData()
+    public void SaveData(string fileName)
     {
         Debug.Log("data saved");
         PlayerData data = new PlayerData(CommonTool.In.playerName,
@@ -71,21 +73,27 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.dayCustomerCnt);
 
         string json = JsonUtility.ToJson(data);
-        string path = Application.persistentDataPath + "/save.json";
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json);
+        string newJson = System.Convert.ToBase64String(bytes);
         
-        File.WriteAllText(path, json);
+        Directory.CreateDirectory(folderPath);
+        string filePath = folderPath + "/"+ fileName + ".json";
+        
+        File.WriteAllText(filePath, newJson);
     }
 
-    public void LoadData()
+    public void LoadData(string fileName)
     {
         isLoaded = true;
         
+        string filePath = folderPath + "/"+ fileName + ".json";
         Debug.Log("data loaded");
-        string path = Application.persistentDataPath + "/save.json";
-        if (File.Exists(path))
+        if (File.Exists(filePath))
         {
-            string json = File.ReadAllText(path);
-            PlayerData data = JsonUtility.FromJson<PlayerData>(json);
+            string json = File.ReadAllText(filePath);
+            byte[] bytes = System.Convert.FromBase64String(json);
+            string newJson = System.Text.Encoding.UTF8.GetString(bytes);
+            PlayerData data = JsonUtility.FromJson<PlayerData>(newJson);
         
             CommonTool.In.playerName = data.playerName;
             GameMgr.In.credit = data.playerCredit;
@@ -98,7 +106,11 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.daySpendCredit = data.playerDaySpent;
             GameMgr.In.dayCustomerCnt = data.customerCnt;
             
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            StartCoroutine(CommonTool.In.AsyncChangeScene("GameScene"));
+        }
+        else
+        {
+            Debug.LogError("no data");
         }
     }
 }
