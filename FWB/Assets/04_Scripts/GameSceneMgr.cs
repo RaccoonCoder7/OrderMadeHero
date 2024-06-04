@@ -19,7 +19,6 @@ using static GameMgr;
 /// </summary>
 public class GameSceneMgr : MonoBehaviour
 {
-    public static GameSceneMgr Instance { get; private set; }
 
     [Header("UI")]
     public Button pc;
@@ -234,18 +233,6 @@ public class GameSceneMgr : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;

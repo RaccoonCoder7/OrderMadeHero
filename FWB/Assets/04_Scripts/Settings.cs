@@ -12,10 +12,10 @@ public class Settings : MonoBehaviour
     [SerializeField] private Button textSpeedMidButton;
     [SerializeField] private Button textSpeedFastButton;
 
-    private GameSceneMgr gameSceneMgr;
+    [SerializeField] private GameSceneMgr gameSceneMgr;
+
     void Start()
     {
-        gameSceneMgr = GameSceneMgr.Instance;
         // 버튼에 이벤트 리스너 연결
         autoTextOnButton.onClick.AddListener(EnableAutoText);
         autoTextOffButton.onClick.AddListener(DisableAutoText);

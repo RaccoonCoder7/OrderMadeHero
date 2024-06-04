@@ -30091,6 +30091,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5648171853497534755, guid: 6c75cb9a3c90d3247a086a0c2a7f9d3f, type: 3}
+      propertyPath: gameSceneMgr
+      value: 
+      objectReference: {fileID: 723337247}
     - target: {fileID: 6101994555985461776, guid: 6c75cb9a3c90d3247a086a0c2a7f9d3f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.2
