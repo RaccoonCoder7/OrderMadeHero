@@ -21,7 +21,7 @@
 
 ## 사진/영상 (영상은 클릭 시 유튜브로 이동 됨)
 <b>샘플 플레이 영상</b></br>
-[![샘플 플레이 영상](http://img.youtube.com/vi/QMhspj4xvK4/0.jpg)](https://youtu.be/QMhspj4xvK4)
+[![샘플 플레이 영상](http://img.youtube.com/vi/bg39hYSBE0E/0.jpg)](https://youtu.be/bg39hYSBE0E)
 
 <b>피버모드(개발중)</b></br>
 [![피버모드](http://img.youtube.com/vi/7DSJ52XEqy8/0.jpg)](https://youtu.be/7DSJ52XEqy8)
