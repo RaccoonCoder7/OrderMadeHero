@@ -639,7 +639,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             else if (angle.z < 91)
             {
-                chipOffset = new Vector3((-dragImgRectTr.sizeDelta.x) / 2, (-dragImgRectTr.sizeDelta.y) / 2);
+                chipOffset = new Vector3((-dragImgRectTr.sizeDelta.y) / 2, (-dragImgRectTr.sizeDelta.x) / 2);
             }
             else if (angle.z < 181)
             {
@@ -647,7 +647,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             else if (angle.z < 271)
             {
-                chipOffset = new Vector3((dragImgRectTr.sizeDelta.x) / 2, (dragImgRectTr.sizeDelta.y) / 2);
+                chipOffset = new Vector3((dragImgRectTr.sizeDelta.y) / 2, (dragImgRectTr.sizeDelta.x) / 2);
             }
             dragImgRectTr.localPosition = Input.mousePosition + chipOffset - resolutionOffset;
 
