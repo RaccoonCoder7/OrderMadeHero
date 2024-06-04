@@ -44,7 +44,7 @@ public class Settings : MonoBehaviour
     {
         if (gameSceneMgr != null)
         {
-            gameSceneMgr.textDelayTime = 0.2f;
+            gameSceneMgr.textDelayTime = 0.06f;
             UpdateButtonStates();
         }
     }
@@ -62,7 +62,7 @@ public class Settings : MonoBehaviour
     {
         if (gameSceneMgr != null)
         {
-            gameSceneMgr.textDelayTime = 0.002f;
+            gameSceneMgr.textDelayTime = 0.003f;
             UpdateButtonStates();
         }
     }
@@ -72,9 +72,9 @@ public class Settings : MonoBehaviour
         if (gameSceneMgr != null)
         {
             float delay = gameSceneMgr.textDelayTime;
-            textSpeedSlowButton.interactable = delay != 0.2f;
+            textSpeedSlowButton.interactable = delay != 0.06f;
             textSpeedMidButton.interactable = delay != 0.02f;
-            textSpeedFastButton.interactable = delay != 0.002f;
+            textSpeedFastButton.interactable = delay != 0.003f;
 
         }
     }
