@@ -6,6 +6,8 @@ using UnityEngine.UI;
 /// </summary>
 public class EventFlowDay1 : EventFlow
 {
+    private Coroutine naviBlinkRoutine;
+
     public override void StartFlow()
     {
         mgr.StartText("Tutorial", EndTutorialRoutine, SkipTutorialRoutine);
@@ -14,7 +16,7 @@ public class EventFlowDay1 : EventFlow
     private void EndTutorialRoutine()
     {
         mgr.EndText(false);
-        CommonTool.In.cancelText.color = new Color(30f/255f, 30f/255f, 30f/255f, 1);
+        CommonTool.In.cancelText.color = new Color(30f / 255f, 30f / 255f, 30f / 255f, 1);
 
         mgr.yes.onClick.RemoveAllListeners();
         mgr.yes.onClick.AddListener(() =>
@@ -155,7 +157,7 @@ public class EventFlowDay1 : EventFlow
         mgr.mainChatPanel.SetActive(false);
         mgr.alertPanel.SetActive(true);
         mgr.alertDodge.onClick.RemoveAllListeners();
-        
+
         foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
         {
             foreach (var bp in category.bluePrintList)
@@ -186,15 +188,30 @@ public class EventFlowDay1 : EventFlow
     private void EndTutorial7Routine()
     {
         mgr.EndText();
+
+        naviBlinkRoutine = StartCoroutine(mgr.BlinkNavi());
+        mgr.StartText("Tutorial8", EndTutorial8Routine, EndTutorial8Routine);
+    }
+
+    private void SkipTutorial7Routine()
+    {
+        mgr.imageList.Find(x => x.key.Equals("샤일로")).imageObj.SetActive(false);
+        mgr.mainChatPanel.SetActive(false);
+        EndTutorial7Routine();
+    }
+
+    private void EndTutorial8Routine()
+    {
+        mgr.EndText();
         mgr.prevChatTarget = GameSceneMgr.ChatTarget.None;
         mgr.pcChatPanel.SetActive(false);
         CommonTool.In.SetFocusOff();
 
-        var coroutine = StartCoroutine(mgr.BlinkNavi());
+        mgr.pc.image.raycastTarget = true;
         mgr.pc.onClick.RemoveAllListeners();
         mgr.pc.onClick.AddListener(() =>
         {
-            StopCoroutine(coroutine);
+            StopCoroutine(naviBlinkRoutine);
             mgr.deskNavi.SetActive(true);
             mgr.RefreshCreditPanel();
             CommonTool.In.cancelText.color = Color.white;
@@ -205,13 +222,7 @@ public class EventFlowDay1 : EventFlow
                 EndFlow();
             });
             mgr.pc.onClick.RemoveAllListeners();
+            mgr.pc.image.raycastTarget = false;
         });
-    }
-
-    private void SkipTutorial7Routine()
-    {
-        mgr.imageList.Find(x => x.key.Equals("샤일로")).imageObj.SetActive(false);
-        mgr.mainChatPanel.SetActive(false);
-        EndTutorial7Routine();
     }
 }

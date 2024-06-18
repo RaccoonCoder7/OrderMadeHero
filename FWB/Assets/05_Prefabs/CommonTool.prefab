@@ -771,6 +771,9 @@ MonoBehaviour:
   - key: Tutorial7
     ta: {fileID: 4900000, guid: d5cd6da961409844b9d36a3beff381b1, type: 3}
     lines: []
+  - key: Tutorial8
+    ta: {fileID: 4900000, guid: 81cda3db0fa87a24da41e75921756255, type: 3}
+    lines: []
   - key: Day2_1
     ta: {fileID: 4900000, guid: 2d0c204369e9a8942b8f9d435b2a186d, type: 3}
     lines: []
@@ -968,6 +971,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1a8c469297793994aaca92839c2b50ad, type: 3}
   - {fileID: 8300000, guid: b90ec6568edfc194caa73eb60246f2d5, type: 3}
   - {fileID: 8300000, guid: 7702bd192da26bc429d7d8356a9df241, type: 3}
+  masterVolumeBar: {fileID: 0}
+  bgmVolumeBar: {fileID: 0}
+  effectVolumeBar: {fileID: 0}
 --- !u!1 &3087253591335596369
 GameObject:
   m_ObjectHideFlags: 0

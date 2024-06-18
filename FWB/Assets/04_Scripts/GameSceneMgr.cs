@@ -465,7 +465,7 @@ public class GameSceneMgr : MonoBehaviour
         isSaving = true;
         saveLoadPopup.SetActive(true);
     }
-    
+
     public void OnClickDataLoad()
     {
         isSaving = false;
@@ -474,7 +474,7 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickPopupYes()
     {
-        if(isSaving)
+        if (isSaving)
         {
             DataSaveLoad.dataSave.SaveData(saveSlot);
         }
@@ -707,6 +707,7 @@ public class GameSceneMgr : MonoBehaviour
         EndText();
         isNormalOrdering = false;
 
+        pc.image.raycastTarget = true;
         var coroutine = StartCoroutine(BlinkNavi());
         pc.onClick.RemoveAllListeners();
         pc.onClick.AddListener(() =>
@@ -721,6 +722,7 @@ public class GameSceneMgr : MonoBehaviour
                 StartCoroutine(FadeToNextDay());
             });
             pc.onClick.RemoveAllListeners();
+            pc.image.raycastTarget = false;
             UpdateDayEndMessage();
             FameUIFill();
             TendUIMove();
@@ -1184,7 +1186,7 @@ public class GameSceneMgr : MonoBehaviour
                 order.orderEnable = false;
             }
         }
-        
+
         GameMgr.In.orderedBluePrintKeyList.Clear();
 
         onEndRoutine.Invoke();
