@@ -57,13 +57,17 @@ public class CommonTool : SingletonMono<CommonTool>
 
         foreach (var script in scriptList)
         {
-            string fileName = script.key + ".txt";
-            var path = Path.Combine(Application.persistentDataPath, script.key + ".txt");
-            if (!File.Exists(path))
-            {
-                File.WriteAllText(path, script.ta.text);
-            }
-            script.lines = File.ReadAllText(path).Split('\n').ToList();
+            // Save text to local and use local file
+            // string fileName = script.key + ".txt";
+            // var path = Path.Combine(Application.persistentDataPath, script.key + ".txt");
+            // if (!File.Exists(path))
+            // {
+            //     File.WriteAllText(path, script.ta.text);
+            // }
+            // script.lines = File.ReadAllText(path).Split('\n').ToList();
+
+            // Use TextAsset
+            script.lines = script.ta.text.Split('\n').ToList();
         }
     }
 
