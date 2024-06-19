@@ -29941,7 +29941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2263017765837962665, guid: 6c75cb9a3c90d3247a086a0c2a7f9d3f, type: 3}
       propertyPath: m_Name
-      value: EX_Menu
+      value: Setting
       objectReference: {fileID: 0}
     - target: {fileID: 2263017765837962665, guid: 6c75cb9a3c90d3247a086a0c2a7f9d3f, type: 3}
       propertyPath: m_IsActive
