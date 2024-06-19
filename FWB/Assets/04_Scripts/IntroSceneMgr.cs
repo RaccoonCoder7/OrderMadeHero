@@ -48,6 +48,7 @@ public class IntroSceneMgr : MonoBehaviour
     private float duration = 0.5f;
 
     public AudioSource bgmAudioSource;
+    private bool isNameBeingValidated = false;
 
     public enum TextFlowType
     {
@@ -275,6 +276,8 @@ public class IntroSceneMgr : MonoBehaviour
 
     private void ValidateName(string playerName)
     {
+        if (isNameBeingValidated) return;
+
         if (playerName.Trim().Equals(string.Empty))
         {
             inputField.text = string.Empty;
@@ -287,7 +290,9 @@ public class IntroSceneMgr : MonoBehaviour
             CommonTool.In.OpenAlertPanel(playerNameRule);
             return;
         }
-        
+
+        isNameBeingValidated = true;
+        inputField.interactable = false; 
         StopCoroutine(BlinkCoroutine());
         var msg = "이 이름으로 하시겠습니까? [" + playerName + "]";
         CommonTool.In.OpenConfirmPanel(msg,
@@ -300,6 +305,8 @@ public class IntroSceneMgr : MonoBehaviour
         () =>
         {
             inputField.text = string.Empty;
+            inputField.interactable = true;
+            isNameBeingValidated = false;
             StartCoroutine(BlinkCoroutine());
         });
     }
