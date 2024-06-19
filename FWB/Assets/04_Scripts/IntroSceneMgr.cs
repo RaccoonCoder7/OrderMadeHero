@@ -80,7 +80,6 @@ public class IntroSceneMgr : MonoBehaviour
         textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
         StartCoroutine(BlinkCoroutine());
-        StartCoroutine(SoundManager.BGMPlayer());
     }
     
     private IEnumerator BlinkCoroutine()
