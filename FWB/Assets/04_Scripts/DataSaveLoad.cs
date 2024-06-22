@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
+using JetBrains.Annotations;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class PlayerData
@@ -38,7 +40,21 @@ public class PlayerData
 public class DataSaveLoad : MonoBehaviour
 {
     public bool isLoaded = false;
-    private string folderPath;
+    private readonly string folderPath = Application.persistentDataPath + "/saves";
+
+    public GameObject slots1, slots2, slots3;
+    public GameObject slotNum1, slotNum2, slotNum3;
+    public Button toLeft, toRight;
+    public Sprite orange, blue;
+    
+    private enum SlotState
+    {
+        First,
+        Second,
+        Third
+    }
+
+    private SlotState state;
     
     public static DataSaveLoad dataSave { get; private set; }
 
@@ -55,9 +71,52 @@ public class DataSaveLoad : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        folderPath = Application.persistentDataPath + "/saves";
+    }
+
+    private void Start()
+    {
+        toLeft.onClick.AddListener(ClickToLeft);
+        toRight.onClick.AddListener(ClickToRight);
+        state = SlotState.First;
+    }
+
+    private void Update()
+    {
+        SetActiveSlot();
+    }
+
+    private void ClickToLeft()
+    {
+        state = SwitchToNextState(state, false);
+    }
+
+    private void ClickToRight()
+    {
+        state = SwitchToNextState(state, true);
     }
     
+    private SlotState SwitchToNextState(SlotState currentState, bool isRightDirection)
+    {
+        switch (currentState)
+        {
+            case SlotState.First:
+                return isRightDirection ? SlotState.Second : SlotState.Third;
+            case SlotState.Second:
+                return isRightDirection ? SlotState.Third : SlotState.First;
+            case SlotState.Third:
+                return isRightDirection ? SlotState.First : SlotState.Second;
+            default:
+                throw new InvalidOperationException("invalid state");
+        }
+    }
+    
+    private void SetActiveSlot()
+    {
+        slots1.SetActive(state == SlotState.First);
+        slots2.SetActive(state == SlotState.Second);
+        slots3.SetActive(state == SlotState.Third);
+    }
+
     public void SaveData(string fileName)
     {
         Debug.Log("data saved");
