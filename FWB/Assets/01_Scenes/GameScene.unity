@@ -11733,7 +11733,6 @@ MonoBehaviour:
   eventBtn1: {fileID: 1750749023}
   eventBtn2: {fileID: 983879719}
   returnBtn: {fileID: 183621329}
-  gotoMain: {fileID: 0}
   popupYes: {fileID: 1876549020}
   popupNo: {fileID: 1130864855}
   setting: {fileID: 1337264435}
@@ -11749,14 +11748,14 @@ MonoBehaviour:
   shopDodge: {fileID: 861087566}
   saveLoadButtons:
   - {fileID: 332197039}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6469619204414293603}
+  - {fileID: 6469619204732827305}
+  - {fileID: 6469619204518443811}
+  - {fileID: 6469619205199780779}
+  - {fileID: 6469619205140196063}
+  - {fileID: 6469619204246571694}
+  - {fileID: 6469619206057805211}
+  - {fileID: 6469619205691213390}
   alertDodge: {fileID: 1329548013}
   creditDodge: {fileID: 224808705}
   chatName: {fileID: 728199291}
@@ -32234,7 +32233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1868761795
 RectTransform:
   m_ObjectHideFlags: 0

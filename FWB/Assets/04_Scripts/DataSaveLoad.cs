@@ -40,7 +40,7 @@ public class PlayerData
 public class DataSaveLoad : MonoBehaviour
 {
     public bool isLoaded = false;
-    private readonly string folderPath = Application.persistentDataPath + "/saves";
+    private string folderPath;
 
     public GameObject slots1, slots2, slots3;
     public GameObject slotNum1, slotNum2, slotNum3;
@@ -78,6 +78,7 @@ public class DataSaveLoad : MonoBehaviour
         toLeft.onClick.AddListener(ClickToLeft);
         toRight.onClick.AddListener(ClickToRight);
         state = SlotState.First;
+        folderPath = Application.persistentDataPath + "/saves";
     }
 
     private void Update()

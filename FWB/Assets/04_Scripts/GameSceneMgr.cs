@@ -32,7 +32,7 @@ public class GameSceneMgr : MonoBehaviour
     public Button eventBtn1;
     public Button eventBtn2;
     public Button returnBtn;
-    public Button gotoMain;
+    //public Button gotoMain;
     public Button popupYes;
     public Button popupNo;
     public Button setting;
@@ -257,7 +257,7 @@ public class GameSceneMgr : MonoBehaviour
         dataSave.onClick.AddListener(OnClickDataSave);
         load.onClick.AddListener(OnClickDataLoad);
         returnBtn.onClick.AddListener(OnClickReturn);
-        gotoMain.onClick.AddListener(OnClickGoToMain);
+        //gotoMain.onClick.AddListener(OnClickGoToMain);
         popupYes.onClick.AddListener(OnClickPopupYes);
         popupNo.onClick.AddListener(OnClickPopupNo);
         setting.onClick.AddListener(OnClickSetting);
@@ -449,10 +449,10 @@ public class GameSceneMgr : MonoBehaviour
         saveLoadPanel.SetActive(false);
     }
 
-    public void OnClickGoToMain()
-    {
-        StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
-    }
+    //public void OnClickGoToMain()
+    //{
+    //    StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
+    //}
 
     public void OnClickSlot()
     {
