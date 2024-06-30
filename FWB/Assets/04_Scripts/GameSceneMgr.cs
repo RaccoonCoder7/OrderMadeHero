@@ -335,23 +335,30 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickWeaponLeft()
     {
-        if (currentSelectedWeaponIndex <= 0)
+        for (int i = currentSelectedWeaponIndex - 1; i >= 0; i--)
         {
+            if (string.IsNullOrEmpty(bluePrintSlotList[i].key))
+            {
+                continue;
+            }
+            
+            bluePrintSlotList[i].button.onClick.Invoke();
             return;
         }
-
-        bluePrintSlotList[currentSelectedWeaponIndex - 1].button.onClick.Invoke();
     }
 
     public void OnClickWeaponRight()
     {
-        if (currentSelectedWeaponIndex + 1 >= bluePrintSlotList.Count
-         || string.IsNullOrEmpty(bluePrintSlotList[currentSelectedWeaponIndex + 1].key))
+        for (int i = currentSelectedWeaponIndex + 1; i < bluePrintSlotList.Count; i++)
         {
+            if (string.IsNullOrEmpty(bluePrintSlotList[i].key))
+            {
+                continue;
+            }
+            
+            bluePrintSlotList[i].button.onClick.Invoke();
             return;
         }
-
-        bluePrintSlotList[currentSelectedWeaponIndex + 1].button.onClick.Invoke();
     }
 
     public void OnClickWeaponCreate()
@@ -1489,7 +1496,7 @@ public class GameSceneMgr : MonoBehaviour
         {
             if (string.IsNullOrEmpty(bluePrintSlotList[i].key))
             {
-                break;
+                continue;
             }
 
             if (i == targetNum)
