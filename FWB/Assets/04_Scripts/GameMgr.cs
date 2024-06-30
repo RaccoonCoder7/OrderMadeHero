@@ -80,11 +80,11 @@ public class GameMgr : SingletonMono<GameMgr>
             week++;
             day = (Day)1;
         }
-        
+
         fame = ClampValue(fame, maxFame, minFame);
         tendency = ClampValue(tendency, maxTend, minTend);
     }
-    
+
     //private void IncreaseValue(ref int value, int increase, int max, int min = System.Int32.MinValue)
     //{
     //    if (value <= max && value >= min)
@@ -175,6 +175,14 @@ public class GameMgr : SingletonMono<GameMgr>
     public AbilityTable.Ability GetAbility(string abilityKey)
     {
         return abilityTable.abilityList.Find(x => x.abilityKey.Equals(abilityKey));
+    }
+
+    /// <summary>
+    /// 키 값에 맞는 요청사항 정보를 반환
+    /// </summary>
+    public RequestDataTable.Request GetRequest(string requestKey)
+    {
+        return requestTable.requestList.Find(x => x.requestKey.Equals(requestKey));
     }
 
     /// <summary>

@@ -1256,21 +1256,25 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
         // check ability
-        foreach (var requiredAbility in GameMgr.In.currentOrder.requiredAbilityList)
+        if (GameMgr.In.currentOrder.gimmick != OrderTable.Gimmick.SatisfyOneRequest)
         {
-            var targetAbility = currentAbilityInPuzzleDic.FirstOrDefault(x => x.Key.abilityKey.Equals(requiredAbility.abilityKey));
-            if (targetAbility.Equals(default(KeyValuePair<Ability, int>)))
+            foreach (var requiredAbility in GameMgr.In.currentOrder.requiredAbilityList)
             {
-                Debug.Log("능력치 요구조건 불충족");
-                return false;
-            }
+                var targetAbility = currentAbilityInPuzzleDic.FirstOrDefault(x => x.Key.abilityKey.Equals(requiredAbility.abilityKey));
+                if (targetAbility.Equals(default(KeyValuePair<Ability, int>)))
+                {
+                    Debug.Log("능력치 요구조건 불충족");
+                    return false;
+                }
 
-            if (targetAbility.Value < requiredAbility.count)
-            {
-                Debug.Log("능력치 요구조건 불충족");
-                return false;
+                if (targetAbility.Value < requiredAbility.count)
+                {
+                    Debug.Log("능력치 요구조건 불충족");
+                    return false;
+                }
             }
         }
+
 
         // check condition
         foreach (var pair in currentChipInPuzzleDic)
@@ -1285,7 +1289,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
         // check gimmick
-        if (!GameMgr.In.orderTable.IsGimmickMatched(puzzleFrameList))
+        if (!GameMgr.In.orderTable.IsGimmickMatched(puzzleFrameList, currentAbilityInPuzzleDic))
         {
             Debug.Log("특수요구조건 불충족");
             return false;
