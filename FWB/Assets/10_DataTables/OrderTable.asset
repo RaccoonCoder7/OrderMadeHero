@@ -192,6 +192,56 @@ MonoBehaviour:
     gimmick: 0
     orderCondition: Day3
     orderEnable: 0
+  - orderKey: NormalOrder_22
+    ta: {fileID: 4900000, guid: 9352a5e0be7cff74782f99a1b5b6675d, type: 3}
+    requiredBlueprintKeyList:
+    - b_bayonet
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    orderCondition: Day3
+    orderEnable: 0
+  - orderKey: NormalOrder_23
+    ta: {fileID: 4900000, guid: 75992dd4665fbc044b45e5e3abd61f9a, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    orderCondition: 
+    orderEnable: 1
+  - orderKey: NormalOrder_24
+    ta: {fileID: 4900000, guid: b16e5803968ab6e4d9002929c527a18c, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    orderCondition: 
+    orderEnable: 1
+  - orderKey: NormalOrder_25
+    ta: {fileID: 4900000, guid: e16cf65471516984490077b38c9c2be3, type: 3}
+    requiredBlueprintKeyList:
+    - b_bayonet
+    requiredAbilityList: []
+    condition: 1
+    gimmick: 0
+    orderCondition: Day3
+    orderEnable: 0
+  - orderKey: NormalOrder_26
+    ta: {fileID: 4900000, guid: b9c48cfde2bf75842b8b8ebb295c7ff9, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    orderCondition: 
+    orderEnable: 1
+  - orderKey: NormalOrder_27
+    ta: {fileID: 4900000, guid: 566c9602382688a4f8876c8f140ca80f, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    orderCondition: 
+    orderEnable: 1
   mappingTextList:
   - mappingKey: "\uCCAD\uC0AC\uC9C4"
     mappingType: 0
