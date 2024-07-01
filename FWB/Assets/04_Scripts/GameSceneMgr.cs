@@ -8,8 +8,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using System.Drawing;
-using System.Globalization;
-using System.Net.Mime;
 using static SpriteChange;
 using DG.Tweening;
 using UnityEngine.Serialization;
@@ -188,10 +186,6 @@ public class GameSceneMgr : MonoBehaviour
     private int previousMobAvatarIndex = -1;
     private string saveSlot;
     private bool isSaving;
-    private string saveName;
-    private string saveDate;
-    private string saveProgress;
-    private string saveChapter;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
