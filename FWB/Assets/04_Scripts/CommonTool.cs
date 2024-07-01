@@ -132,7 +132,7 @@ public class CommonTool : SingletonMono<CommonTool>
     /// <summary>
     /// 화면에 포커스를 줌
     /// </summary>
-    public void SetFocus(Vector2 pos, Vector2 size)
+    public void SetFocus(Vector2 pos, Vector2 size, params RectTransform[] excludeRects)
     {
         focusPanel.SetActive(true);
 
@@ -151,6 +151,38 @@ public class CommonTool : SingletonMono<CommonTool>
         focusMaskRectTr_Right.sizeDelta = new Vector2(1920 - (pos.x + size.x), 1080);
         focusMaskRectTr_Top.sizeDelta = new Vector2(1920, 1080 - (pos.y + size.y));
         focusMaskRectTr_Bottom.sizeDelta = new Vector2(1920, pos.y);
+
+        if (excludeRects != null)
+        {
+            foreach (var excludeRect in excludeRects)
+            {
+                if (excludeRect != null)
+                {
+                    ExcludeRect(excludeRect);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Exclude
+    /// </summary>
+    /// 
+
+    private void ExcludeRect(RectTransform excludeRect)
+    {
+        Vector3[] corners = new Vector3[4];
+        excludeRect.GetWorldCorners(corners);
+        
+        Vector2 excludeLeftBottomLocal;
+        Vector2 excludeRightTopLocal;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(focusMaskRectTr, corners[0], null, out excludeLeftBottomLocal);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(focusMaskRectTr, corners[2], null, out excludeRightTopLocal);
+
+        focusMaskRectTr_Left.sizeDelta = new Vector2(Mathf.Min(focusMaskRectTr_Left.sizeDelta.x, excludeLeftBottomLocal.x), 1080);
+        focusMaskRectTr_Right.sizeDelta = new Vector2(Mathf.Min(focusMaskRectTr_Right.sizeDelta.x, 1920 - excludeRightTopLocal.x), 1080);
+        focusMaskRectTr_Top.sizeDelta = new Vector2(1920, Mathf.Min(focusMaskRectTr_Top.sizeDelta.y, 1080 - excludeRightTopLocal.y));
+        focusMaskRectTr_Bottom.sizeDelta = new Vector2(1920, Mathf.Min(focusMaskRectTr_Bottom.sizeDelta.y, excludeLeftBottomLocal.y));
     }
 
     /// <summary>

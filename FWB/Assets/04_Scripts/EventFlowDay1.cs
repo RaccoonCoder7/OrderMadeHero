@@ -61,8 +61,8 @@ public class EventFlowDay1 : EventFlow
     private void EndTutorial3Routine()
     {
         mgr.EndText(false);
-        mgr.yesText.text = "Yes";
-        mgr.noText.text = "No";
+        mgr.yesText.text = "네";
+        mgr.noText.text = "아니오";
         mgr.yes.interactable = true;
         mgr.no.interactable = false;
         mgr.ActiveYesNoButton(true);

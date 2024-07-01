@@ -1329,7 +1329,7 @@ public class GameSceneMgr : MonoBehaviour
                             int height = int.Parse(splittedData[4]);
                             var pos = new Vector2(posX, posY);
                             var size = new Vector2(width, height);
-                            CommonTool.In.SetFocus(pos, size);
+                            CommonTool.In.SetFocus(pos, size, pcChatPanel.GetComponent<RectTransform>(), chatTargetText.rectTransform);
                         }
                     }
                     else if (com.StartsWith("!credit"))
