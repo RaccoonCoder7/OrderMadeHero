@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Net.Mime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -21,8 +23,9 @@ public class PlayerData
     public int playerDayTend;
     public int playerDaySpent;
     public int customerCnt;
+    public string savedDate;
 
-    public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, int daySpent, int cusCnt)
+    public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, int daySpent, int cusCnt, string date)
     {
         playerName = name;
         playerCredit = credit;
@@ -34,6 +37,7 @@ public class PlayerData
         playerDayTend = dayTend;
         playerDaySpent = daySpent;
         customerCnt = cusCnt;
+        savedDate = date;
     }
 }
 
@@ -43,9 +47,7 @@ public class DataSaveLoad : MonoBehaviour
     private string folderPath;
 
     public GameObject slots1, slots2, slots3;
-    public GameObject slotNum1, slotNum2, slotNum3;
     public Button toLeft, toRight;
-    public Sprite orange, blue;
     
     private enum SlotState
     {
@@ -130,11 +132,12 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.dayFame,
             GameMgr.In.dayTendency,
             GameMgr.In.daySpendCredit,
-            GameMgr.In.dayCustomerCnt);
+            GameMgr.In.dayCustomerCnt,
+            DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
         string json = JsonUtility.ToJson(data);
         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(json);
-        string newJson = System.Convert.ToBase64String(bytes);
+        string newJson = Convert.ToBase64String(bytes);
         
         Directory.CreateDirectory(folderPath);
         string filePath = folderPath + "/"+ fileName + ".json";
@@ -151,7 +154,7 @@ public class DataSaveLoad : MonoBehaviour
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            byte[] bytes = System.Convert.FromBase64String(json);
+            byte[] bytes = Convert.FromBase64String(json);
             string newJson = System.Text.Encoding.UTF8.GetString(bytes);
             PlayerData data = JsonUtility.FromJson<PlayerData>(newJson);
         
