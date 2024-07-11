@@ -288,6 +288,17 @@ MonoBehaviour:
     orderCondition: AfterOneOrder
     orderEnable: 0
     addedRequestKeyList: []
+  - orderKey: NormalOrder_30
+    ta: {fileID: 4900000, guid: a88046a7a4162ad48a7d4380ef878444, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList:
+    - abilityKey: a_cool
+      count: 5
+    condition: 0
+    gimmick: 0
+    orderCondition: 
+    orderEnable: 1
+    addedRequestKeyList: []
   mappingTextList:
   - mappingKey: "\uCCAD\uC0AC\uC9C4"
     mappingType: 0
