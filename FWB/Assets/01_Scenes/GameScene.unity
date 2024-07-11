@@ -13323,7 +13323,7 @@ MonoBehaviour:
   - col: 000000000100000000000000
   - col: 010000000100000001000000
   - col: 000000000100000000000000
-  posOffset: 
+  posOffset: 00000000000000000000000000000000
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -14741,7 +14741,7 @@ MonoBehaviour:
   row:
   - col: 0100000001000000
   - col: 0100000001000000
-  posOffset: 
+  posOffset: 00000000000000000000000000000000
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -19888,7 +19888,7 @@ MonoBehaviour:
   - col: 010000000000000000000000
   - col: 000000000100000000000000
   - col: 000000000000000001000000
-  posOffset: 
+  posOffset: 00000000000000000000000000000000
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -22464,7 +22464,7 @@ MonoBehaviour:
   row:
   - col: 01000000
   - col: 01000000
-  posOffset: 
+  posOffset: 00000000000000000000000000000000
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -29849,7 +29849,7 @@ MonoBehaviour:
   rowNum: 1
   row:
   - col: 010000000100000001000000
-  posOffset: 
+  posOffset: 00000000000000000000000000000000
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -33858,7 +33858,7 @@ MonoBehaviour:
   - col: 0000000001000000
   - col: 0100000000000000
   - col: 0000000001000000
-  posOffset: 
+  posOffset: 00000000000000000000000000000000
   originRow: []
   currentRow: []
   originPosOffset: 
