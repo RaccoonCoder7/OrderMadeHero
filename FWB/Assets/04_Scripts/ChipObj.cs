@@ -13,10 +13,15 @@ public class ChipObj : MonoBehaviour
     public int colNum;
     public int rowNum;
     public Col[] row;
+    public int[] posOffset;
     [HideInInspector]
     public Col[] originRow;
     [HideInInspector]
     public Col[] currentRow;
+    [HideInInspector]
+    public int[] originPosOffset;
+    [HideInInspector]
+    public int[] currentPosOffset;
     [HideInInspector]
     public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
     [Header("UI")]
@@ -30,7 +35,7 @@ public class ChipObj : MonoBehaviour
     [System.Serializable]
     public class Col
     {
-        public bool[] col;
+        public int[] col;
     }
 
     /// <summary>
@@ -43,7 +48,7 @@ public class ChipObj : MonoBehaviour
         for (int i = 0; i < rowNum; i++)
         {
             row[i] = new Col();
-            row[i].col = new bool[colNum];
+            row[i].col = new int[colNum];
         }
     }
 
@@ -52,28 +57,30 @@ public class ChipObj : MonoBehaviour
         if (originRow == null || originRow.Length == 0)
         {
             originRow = (Col[])row.Clone();
+            originPosOffset = (int[])posOffset.Clone();
         }
     }
 
     public void SaveCurrentRow()
     {
         currentRow = (Col[])row.Clone();
+        currentPosOffset = (int[])posOffset.Clone();
     }
 
     public void RotateRight()
     {
-        var newRow = new Col[colNum];
-        for (int i = 0; i < colNum; i++)
+        var newRow = new Col[row[0].col.Length];
+        for (int i = 0; i < row[0].col.Length; i++)
         {
             newRow[i] = new Col();
-            newRow[i].col = new bool[rowNum];
+            newRow[i].col = new int[row.Length];
         }
 
-        for (int x = 0; x < colNum; x++)
+        for (int x = 0; x < row[0].col.Length; x++)
         {
-            for (int y = 0; y < rowNum; y++)
+            for (int y = 0; y < row.Length; y++)
             {
-                newRow[x].col[y] = row[y].col[colNum - 1 - x];
+                newRow[x].col[y] = row[y].col[row[0].col.Length - 1 - x];
             }
         }
 
@@ -81,6 +88,12 @@ public class ChipObj : MonoBehaviour
         rowNum = colNum;
         colNum = tempRownum;
         row = newRow;
+
+        int temp = posOffset[3];
+        posOffset[3] = posOffset[2];
+        posOffset[2] = posOffset[1];
+        posOffset[1] = posOffset[0];
+        posOffset[0] = temp;
     }
 
     public void ResetColToOriginData()
@@ -88,8 +101,7 @@ public class ChipObj : MonoBehaviour
         if (originRow != null && originRow.Length > 0)
         {
             row = (Col[])originRow.Clone();
-            rowNum = originRow.Length;
-            colNum = originRow[0].col.Length;
+            posOffset = (int[])originPosOffset.Clone();
         }
     }
 
@@ -98,8 +110,7 @@ public class ChipObj : MonoBehaviour
         if (currentRow != null)
         {
             row = (Col[])currentRow.Clone();
-            rowNum = currentRow.Length;
-            colNum = currentRow[0].col.Length;
+            posOffset = (int[])currentPosOffset.Clone();
         }
     }
 
@@ -111,7 +122,7 @@ public class ChipObj : MonoBehaviour
         {
             for (int j = 0; j < colNum; j++)
             {
-                if (row[i].col[j]) size++;
+                if (row[i].col[j] == 1) size++;
             }
         }
         return size;

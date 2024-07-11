@@ -80,7 +80,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         public int patternNum = 0;
         public int x;
         public int y;
-        public ChipObj chip;
+        public List<ChipObj> chipList = new List<ChipObj>();
+        public int chipType;
 
         public PuzzleFrameData(int patternNum, int x, int y)
         {
@@ -436,7 +437,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                     chipInstance.name = currentSelectedChip.name;
                                     for (int i = 0; i < fittableFrames.Count; i++)
                                     {
-                                        fittableFrames[i].chip = chipInstance;
+                                        fittableFrames[i].chipList.Add(chipInstance);
                                     }
 
                                     chipInstance.transform.parent = frame.transform;
@@ -485,6 +486,17 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                     }
                                     else
                                     {
+                                        foreach (var fr in puzzleFrameList)
+                                        {
+                                            if (fr.pfd.chipList.Contains(currentSelectedChip))
+                                            {
+                                                fr.pfd.chipList.Remove(currentSelectedChip);
+                                                if (fr.pfd.chipList.Count == 0)
+                                                {
+                                                    fr.pfd.chipType = 0;
+                                                }
+                                            }
+                                        }
                                         DestroyImmediate(currentSelectedChip.gameObject);
                                     }
                                     success = true;
@@ -564,7 +576,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 if (result.gameObject.name.Contains("PuzzleFrame"))
                 {
                     isFromPuzzle = true;
-                    targetChip = result.gameObject.GetComponent<PuzzleFrame>().pfd.chip;
+                    var pfd = result.gameObject.GetComponent<PuzzleFrame>().pfd;
+                    if (pfd.chipType == 2 || pfd.chipType == 0)
+                    {
+                        return;
+                    }
+                    targetChip = pfd.chipList[0];
                     break;
                 }
             }
@@ -693,7 +710,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         foreach (var frame in puzzleFrameList)
         {
-            if (frame.pfd.patternNum == 1 && frame.pfd.chip == null)
+            if (frame.pfd.patternNum == 1 && frame.pfd.chipList.Count == 0)
             {
                 if (IsChipWithinFrame(chipCenter, frame))
                 {
@@ -705,7 +722,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         foreach (var frame in puzzleFrameList)
         {
-            if (frame.pfd.patternNum == 1 && frame.pfd.chip == null)
+            if (frame.pfd.patternNum == 1 && frame.pfd.chipList.Count == 0)
             {
                 if (IsChipWithinFrame(chipCenter, frame))
                 {
@@ -784,6 +801,17 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     if (isFromPuzzle)
                     {
+                        foreach (var fr in puzzleFrameList)
+                        {
+                            if (fr.pfd.chipList.Contains(currentSelectedChip))
+                            {
+                                fr.pfd.chipList.Remove(currentSelectedChip);
+                                if (fr.pfd.chipList.Count == 0)
+                                {
+                                    fr.pfd.chipType = 0;
+                                }
+                            }
+                        }
                         DestroyImmediate(currentSelectedChip.gameObject);
 
                         if (currentChipInPuzzleDic[currentSelectedChipData] == 1)
@@ -822,7 +850,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             chipInstance.name = currentSelectedChip.name;
                             for (int i = 0; i < fittableFrames.Count; i++)
                             {
-                                fittableFrames[i].chip = chipInstance;
+                                fittableFrames[i].chipList.Add(chipInstance);
                             }
 
                             chipInstance.transform.parent = frame.transform;
@@ -871,6 +899,17 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             }
                             else
                             {
+                                foreach (var fr in puzzleFrameList)
+                                {
+                                    if (fr.pfd.chipList.Contains(currentSelectedChip))
+                                    {
+                                        fr.pfd.chipList.Remove(currentSelectedChip);
+                                        if (fr.pfd.chipList.Count == 0)
+                                        {
+                                            fr.pfd.chipType = 0;
+                                        }
+                                    }
+                                }
                                 DestroyImmediate(currentSelectedChip.gameObject);
                             }
 
@@ -961,12 +1000,15 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private List<PuzzleFrameData> GetFittableFrameList(PuzzleFrameData[,] targetTable, ChipObj chip, int x, int y)
     {
         List<PuzzleFrameData> pfdList = new List<PuzzleFrameData>();
+        List<int> chipTypeList = new List<int>();
         var table = chip.row;
+        x += chip.posOffset[0];
+        y += chip.posOffset[1];
         for (int i = 0; i < table.Length; i++)
         {
             for (int j = 0; j < table[i].col.Length; j++)
             {
-                if (!table[i].col[j])
+                if (table[i].col[j] == 0)
                 {
                     continue;
                 }
@@ -974,9 +1016,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 if (targetTable.GetLength(0) <= y + j) return null;
                 if (targetTable.GetLength(1) <= x + i) return null;
 
-                if (targetTable[y + j, x + i].patternNum == 0)
+                if (table[i].col[j] == 1)
                 {
-                    return null;
+                    if (targetTable[y + j, x + i].patternNum == 0)
+                    {
+                        return null;
+                    }
                 }
 
                 if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
@@ -984,14 +1029,35 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     return null;
                 }
 
-                if (targetTable[y + j, x + i].chip != null && !targetTable[y + j, x + i].chip.Equals(chip))
+                if (targetTable[y + j, x + i].chipList.Count > 0)
                 {
-                    return null;
+                    if (table[i].col[j] != 2 || targetTable[y + j, x + i].chipType != 2)
+                    {
+                        if (targetTable[y + j, x + i].chipList.Count != 1 || targetTable[y + j, x + i].chipList[0] != chip)
+                        {
+                            return null;
+                        }
+                    }
                 }
 
+                if (targetTable[y + j, x + i].chipList.Count > 0 && !targetTable[y + j, x + i].chipList.Contains(chip))
+                {
+                    if (table[i].col[j] != 2 || targetTable[y + j, x + i].chipType != 2)
+                    {
+                        return null;
+                    }
+                }
+
+                chipTypeList.Add(table[i].col[j]);
                 pfdList.Add(targetTable[y + j, x + i]);
             }
         }
+
+        for (int i = 0; i < pfdList.Count; i++)
+        {
+            pfdList[i].chipType = chipTypeList[i];
+        }
+
         return pfdList;
     }
 
@@ -1116,13 +1182,16 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void OnClickRevertChips()
     {
-        foreach (var frame in puzzleFrameList)
+        foreach (var fr in puzzleFrameList)
         {
-            foreach (Transform tr in frame.transform)
+            fr.pfd.chipList.Clear();
+            fr.pfd.chipType = 0;
+            foreach (Transform tr in fr.transform)
             {
                 DestroyImmediate(tr.gameObject);
             }
         }
+
         if (makingDone != null && isTutorial)
         {
             makingDone.gameObject.SetActive(false);
@@ -1277,12 +1346,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 
         // check condition
-        foreach (var pair in currentChipInPuzzleDic)
-        {
-            var chipObj = chipList.Find(x => x.chipKey.Equals(pair.Key.chipKey));
-            chipObjDic.Add(chipObj, pair.Value);
-        }
-        if (!GameMgr.In.orderTable.IsConditionMatched(enabledFrameCnt, chipObjDic, currentAbilityInPuzzleDic, GameMgr.In.currentOrder.condition))
+        if (!GameMgr.In.orderTable.IsConditionMatched(enabledFrameCnt, GetTotalSizeOfChips(), currentAbilityInPuzzleDic, GameMgr.In.currentOrder.condition))
         {
             Debug.Log("상태 요구조건 불충족");
             return false;
@@ -1300,7 +1364,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private bool isPerfectState()
     {
-        bool isPerfect = GameMgr.In.orderTable.GetTotalSizeOfChips(chipObjDic) == enabledFrameCnt;
+        bool isPerfect = GetTotalSizeOfChips() == enabledFrameCnt;
         if (!isPerfect) Debug.Log("완벽한 상태가 아님");
         return isPerfect;
     }
@@ -1334,6 +1398,21 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         return bonus;
     }
 
+    private int GetTotalSizeOfChips()
+    {
+        int totalSize = 0;
+        foreach (var frame in puzzleFrameList)
+        {
+            if (frame.pfd.patternNum == 0) continue;
+            if (frame.pfd.chipList.Count == 0) continue;
+            if (string.IsNullOrEmpty(frame.pfd.chipList[0].chipKey)) continue;
+
+            totalSize++;
+        }
+
+        return totalSize;
+    }
+
     [ContextMenu("LogPuzzleFrameDatas")]
     private void LogPuzzleFrameDatas()
     {
@@ -1341,9 +1420,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         int i = 0;
         foreach (var frame in currPuzzle.frameDataTable)
         {
-            if (frame != null && frame.chip != null)
+            if (frame != null && frame.chipList.Count > 0)
             {
-                sb2.Append(frame.chip.chipKey).Append(", ");
+                sb2.Append(frame.chipList[0].chipKey).Append(", ");
             }
             else
             {

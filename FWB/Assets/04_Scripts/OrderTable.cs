@@ -233,7 +233,7 @@ public class OrderTable : ScriptableObject
         return newOrder;
     }
 
-    public bool IsConditionMatched(int frameCnt, Dictionary<ChipObj, int> chipObjDic, Dictionary<Ability, int> abilityDic, Condition condition)
+    public bool IsConditionMatched(int frameCnt, int totalSizeOfChips, Dictionary<Ability, int> abilityDic, Condition condition)
     {
         if (condition == Condition.상태없음 || condition == Condition.허술한)
         {
@@ -243,11 +243,9 @@ public class OrderTable : ScriptableObject
         switch (condition)
         {
             case Condition.완벽한:
-                int totalSize1 = GetTotalSizeOfChips(chipObjDic);
-                return totalSize1 == frameCnt;
+                return totalSizeOfChips == frameCnt;
             case Condition.적당한:
-                int totalSize2 = GetTotalSizeOfChips(chipObjDic);
-                return totalSize2 >= frameCnt / 2;
+                return totalSizeOfChips >= frameCnt / 2;
             case Condition.조악한:
                 var durability = abilityDic.FirstOrDefault(x => x.Key.abilityKey.Equals("a_durability"));
                 // TODO: 청사진 필수 내구도를 제외하는 로직 추가
@@ -343,17 +341,6 @@ public class OrderTable : ScriptableObject
                 return false;
         }
         return false;
-    }
-
-    public int GetTotalSizeOfChips(Dictionary<ChipObj, int> chipObjDic)
-    {
-        int totalSize = 0;
-        foreach (var pair in chipObjDic)
-        {
-            totalSize += pair.Key.GetChipSize() * pair.Value;
-        }
-
-        return totalSize;
     }
 
     private bool IsRequestSatisfied(List<RequiredAbility> requiredAbilityList, Dictionary<Ability, int> currentAbilityInPuzzleDic)
