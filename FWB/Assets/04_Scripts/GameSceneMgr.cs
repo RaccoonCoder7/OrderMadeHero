@@ -11,6 +11,7 @@ using System.Drawing;
 using static SpriteChange;
 using DG.Tweening;
 using UnityEngine.Serialization;
+using UnityEngine.Windows;
 using static WeaponDataTable;
 using static GameMgr;
 
@@ -33,8 +34,8 @@ public class GameSceneMgr : MonoBehaviour
     public Button eventBtn2;
     public Button returnBtn;
     //public Button gotoMain;
-    public Button popupYes;
-    public Button popupNo;
+    public List<Button> popupYes = new List<Button>();
+    public List<Button> popupNo = new List<Button>();
     public Button setting;
     public Button skip;
     public Button shop;
@@ -56,7 +57,12 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject popupPanel;
     public GameObject fullPanel;
     public GameObject saveLoadPanel;
-    public GameObject saveLoadPopup;
+    public GameObject savePopup;
+    public GameObject loadPopup;
+    public GameObject saveOverPopup;
+    public GameObject noDataPopup;
+    public Sprite selectedSaveSlot;
+    public Sprite defaultSaveSlot;
     public GameObject day;
     public GameObject renom;
     public GameObject renomMask;
@@ -186,6 +192,8 @@ public class GameSceneMgr : MonoBehaviour
     private int previousMobAvatarIndex = -1;
     private string saveSlot;
     private bool isSaving;
+    private Texture2D currentScreen;
+    private GameObject lastSelectedSlot = null;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -258,8 +266,6 @@ public class GameSceneMgr : MonoBehaviour
         load.onClick.AddListener(OnClickDataLoad);
         returnBtn.onClick.AddListener(OnClickReturn);
         //gotoMain.onClick.AddListener(OnClickGoToMain);
-        popupYes.onClick.AddListener(OnClickPopupYes);
-        popupNo.onClick.AddListener(OnClickPopupNo);
         setting.onClick.AddListener(OnClickSetting);
         skip.onClick.AddListener(OnClickSkip);
         shopBlueprintTab.onClick.AddListener(OnClickShopBlueprintTab);
@@ -268,6 +274,16 @@ public class GameSceneMgr : MonoBehaviour
         foreach (var btn in saveLoadButtons)
         {
             btn.onClick.AddListener(OnClickSlot);
+        }
+        
+        foreach (var btn in popupYes)
+        {
+            btn.onClick.AddListener(OnClickPopupYes);
+        }
+        
+        foreach (var btn in popupNo)
+        {
+            btn.onClick.AddListener(OnClickPopupNo);
         }
 
         eventFlowList = GetComponents<EventFlow>().ToList();
@@ -448,6 +464,7 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickSave()
     {
+        currentScreen = DataSaveLoad.dataSave.MakeScreenShot();
         saveLoadPanel.SetActive(true);
     }
 
@@ -463,20 +480,56 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickSlot()
     {
-        saveSlot = EventSystem.current.currentSelectedGameObject.name;
+        var currSelectedObj = EventSystem.current.currentSelectedGameObject;
+        if (lastSelectedSlot != null) 
+        {
+            lastSelectedSlot.GetComponent<Image>().sprite = defaultSaveSlot;
+        }
+        currSelectedObj.GetComponent<Image>().sprite = selectedSaveSlot;
+        saveSlot = currSelectedObj.name;
+        lastSelectedSlot = currSelectedObj;
+        
         Debug.Log(saveSlot);
     }
 
     public void OnClickDataSave()
     {
         isSaving = true;
-        saveLoadPopup.SetActive(true);
+        if (File.Exists(Application.persistentDataPath + "/saves" + "/" + saveSlot + ".json"))
+        {
+            saveOverPopup.SetActive(true);
+        }
+        else
+            savePopup.SetActive(true);
     }
 
     public void OnClickDataLoad()
     {
-        isSaving = false;
-        saveLoadPopup.SetActive(true);
+        if (File.Exists(Application.persistentDataPath + "/saves" + "/" + saveSlot + ".json"))
+        {
+            isSaving = false;
+            loadPopup.SetActive(true);
+        }
+        else
+            StartCoroutine(NoDataBlinker());
+    }
+
+    private IEnumerator NoDataBlinker()
+    {
+        noDataPopup.SetActive(true);
+        float elapsedTime = 0f;
+        float blinkInterval = 1f / 2f;
+        bool isVisible = true;
+
+        while (elapsedTime < 2f)
+        {
+            isVisible = !isVisible;
+            noDataPopup.SetActive(isVisible);
+            elapsedTime += blinkInterval;
+            yield return new WaitForSeconds(blinkInterval);
+        }
+        
+        noDataPopup.SetActive(false);
     }
 
     public void OnClickPopupYes()
@@ -484,10 +537,17 @@ public class GameSceneMgr : MonoBehaviour
         if (isSaving)
         {
             DataSaveLoad.dataSave.SaveData(saveSlot);
+            DataSaveLoad.dataSave.SaveSS(currentScreen, saveSlot);
+            savePopup.SetActive(false);
+            saveOverPopup.SetActive(false);
         }
         else
+        {
             DataSaveLoad.dataSave.LoadData(saveSlot);
-        saveLoadPopup.SetActive(false);
+            loadPopup.SetActive(false);
+        }
+        GameObject slotObj = GameObject.Find(saveSlot);
+        slotObj.GetComponent<SaveSlot>().CallSlotInfo();
     }
 
     public void OnClickSetting()
@@ -514,7 +574,9 @@ public class GameSceneMgr : MonoBehaviour
 
     public void OnClickPopupNo()
     {
-        saveLoadPopup.SetActive(false);
+        savePopup.SetActive(false);
+        loadPopup.SetActive(false);
+        saveOverPopup.SetActive(false);
     }
 
     public void OnClickChatBox()

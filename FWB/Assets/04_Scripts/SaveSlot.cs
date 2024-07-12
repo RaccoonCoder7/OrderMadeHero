@@ -13,6 +13,7 @@ public class SaveSlot : MonoBehaviour
     public Text saveDate;
     public Text progress;
     public Text chapter;
+    public Image saveScreen;
 
     private void Start()
     {
@@ -26,6 +27,8 @@ public class SaveSlot : MonoBehaviour
         string filePath = folderPath + "/"+ fileName + ".json";
         if (File.Exists(filePath))
         {
+            var savedSS = DataSaveLoad.dataSave.LoadSS(fileName);
+            saveScreen.sprite = Sprite.Create(savedSS, new Rect(0, 0, savedSS.width, savedSS.height), new Vector2(0.5f, 0.5f));
             string json = File.ReadAllText(filePath);
             byte[] bytes = Convert.FromBase64String(json);
             string newJson = System.Text.Encoding.UTF8.GetString(bytes);
@@ -34,6 +37,7 @@ public class SaveSlot : MonoBehaviour
             playerName.text = data.playerName;
             progress.text = "Week: " + data.weekData + "  " + "Day: " + data.dayData;
             saveDate.text = data.savedDate;
+            chapter.text = "CH.01";
         }
         else
         {

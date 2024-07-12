@@ -43,6 +43,7 @@ public class DataSaveLoad : MonoBehaviour
 
     public GameObject slots1, slots2, slots3;
     public Button toLeft, toRight;
+    public Camera mainCam;
     
     private enum SlotState
     {
@@ -113,6 +114,43 @@ public class DataSaveLoad : MonoBehaviour
         slots1.SetActive(state == SlotState.First);
         slots2.SetActive(state == SlotState.Second);
         slots3.SetActive(state == SlotState.Third);
+    }
+
+    public Texture2D MakeScreenShot()
+    {
+        RenderTexture renderTexture = new RenderTexture(Screen.width, Screen.height, 24);
+        mainCam.targetTexture = renderTexture;
+        Texture2D screenshot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+
+        mainCam.Render();
+        RenderTexture.active = renderTexture;
+        screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        screenshot.Apply();
+
+        mainCam.targetTexture = null;
+        RenderTexture.active = null;
+        Destroy(renderTexture);
+
+        return screenshot;
+    }
+
+    public void SaveSS(Texture2D screenshot, string fileName)
+    {
+        byte[] bytes = screenshot.EncodeToPNG();
+        File.WriteAllBytes(folderPath + "/" + fileName + "_screenshot.png", bytes);
+    }
+
+    public Texture2D LoadSS(string fileName)
+    {
+        string filePath = folderPath + "/" + fileName + "_screenshot.png";
+        if (File.Exists(filePath))
+        {
+            byte[] bytes = File.ReadAllBytes(filePath);
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(bytes);
+            return texture;
+        }
+        return null;
     }
 
     public void SaveData(string fileName)
