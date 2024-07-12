@@ -89,3 +89,10 @@ MonoBehaviour:
     requiredAbilityList:
     - abilityKey: a_attack
       count: 4
+  - requestKey: r_cool
+    name: "\uBA4B\uC788\uB294"
+    orderCondition: Day8
+    orderEnable: 0
+    requiredAbilityList:
+    - abilityKey: a_cool
+      count: 1

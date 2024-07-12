@@ -296,8 +296,19 @@ MonoBehaviour:
       count: 5
     condition: 0
     gimmick: 0
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: Day8
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_31
+    ta: {fileID: 4900000, guid: cb6ee8468a45e1046bc222fd781999d0, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList:
+    - abilityKey: a_cool
+      count: 1
+    condition: 0
+    gimmick: 0
+    orderCondition: Day8
+    orderEnable: 0
     addedRequestKeyList: []
   mappingTextList:
   - mappingKey: "\uCCAD\uC0AC\uC9C4"

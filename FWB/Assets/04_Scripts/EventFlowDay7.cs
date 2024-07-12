@@ -72,6 +72,23 @@ public class EventFlowDay7 : EventFlow
         mgr.mainChatPanel.SetActive(false);
         mgr.pcChatPanel.SetActive(false);
         mgr.isEventFlowing = false;
+
+        foreach (var order in GameMgr.In.orderTable.orderList)
+        {
+            if (order.orderCondition.Equals("Day8"))
+            {
+                order.orderEnable = true;
+            }
+        }
+
+        foreach (var request in GameMgr.In.requestTable.requestList)
+        {
+            if (request.orderCondition.Equals("Day8"))
+            {
+                request.orderEnable = true;
+            }
+        }
+
         StartCoroutine(QuitGame());
     }
 
