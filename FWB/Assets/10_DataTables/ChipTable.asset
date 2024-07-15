@@ -233,7 +233,7 @@ MonoBehaviour:
       \uC7A5\uCC29 \uAC00\uB2A5\uD569\uB2C8\uB2E4."
     howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
     price: 0
-    createEnable: 1
+    createEnable: 0
     chipSprite: {fileID: 21300000, guid: 7bf8d9dcf639e2049a5e3ac459a18f9c, type: 3}
     abilityList:
     - abilityKey: a_divine

@@ -977,6 +977,8 @@ public class GameSceneMgr : MonoBehaviour
                                     GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     PlayerPrefs.SetInt(chipList[tempNum].chipKey, 3);
+                                    puzzleMgr.creatableChipKeyList.Add(chip.chipKey);
+                                    puzzleMgr.RefreshChips();
                                     StartCoroutine(DrMadChatRoutine());
                                     shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();

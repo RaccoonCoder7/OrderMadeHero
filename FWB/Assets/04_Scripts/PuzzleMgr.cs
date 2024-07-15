@@ -42,6 +42,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Action<int> OnMakingDone;
     [HideInInspector]
     public bool isTutorial = true;
+    [HideInInspector]
+    public List<string> creatableChipKeyList = new List<string>();
 
     private RectTransform dragImgRectTr;
     private Puzzle currPuzzle;
@@ -59,7 +61,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private SpriteChange sortOrderSC;
     private List<PuzzleFrame> puzzleFrameList = new List<PuzzleFrame>();
     private List<string> filterAbilityKeyList = new List<string>();
-    private List<string> creatableChipKeyList = new List<string>();
     private Dictionary<Chip, int> currentChipInPuzzleDic = new Dictionary<Chip, int>();
     private Dictionary<Ability, int> currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
     private Dictionary<ChipObj, int> chipObjDic = new Dictionary<ChipObj, int>();
@@ -146,26 +147,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 }
                 filter.isOn = !filter.isOn;
 
-                foreach (var chip in chipList)
-                {
-                    if (!creatableChipKeyList.Contains(chip.chipKey))
-                    {
-                        continue;
-                    }
-
-                    bool isActive = true;
-                    var chipData = GameMgr.In.GetChip(chip.chipKey);
-                    foreach (var filterAbilityKey in filterAbilityKeyList)
-                    {
-                        var targetAbility = chipData.abilityList.Find(x => x.abilityKey.Equals(filterAbilityKey));
-                        if (targetAbility == null)
-                        {
-                            isActive = false;
-                            break;
-                        }
-                    }
-                    chip.backgroundSC.gameObject.SetActive(isActive);
-                }
+                RefreshChips();
             });
         }
     }
@@ -755,6 +737,31 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         return false;
     }
+
+    public void RefreshChips()
+    {
+        foreach (var chip in chipList)
+        {
+            if (!creatableChipKeyList.Contains(chip.chipKey))
+            {
+                continue;
+            }
+
+            bool isActive = true;
+            var chipData = GameMgr.In.GetChip(chip.chipKey);
+            foreach (var filterAbilityKey in filterAbilityKeyList)
+            {
+                var targetAbility = chipData.abilityList.Find(x => x.abilityKey.Equals(filterAbilityKey));
+                if (targetAbility == null)
+                {
+                    isActive = false;
+                    break;
+                }
+            }
+            chip.backgroundSC.gameObject.SetActive(isActive);
+        }
+    }
+
 
     public void OnEndDrag(PointerEventData eventData)
     {
