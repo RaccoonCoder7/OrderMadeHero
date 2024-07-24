@@ -35,5 +35,6 @@ public class WeaponDataTable : ScriptableObject
         public Sprite blueprintSprite;
         public Sprite icon;
         public List<ChipAbility> requiredChipAbilityList = new List<ChipAbility>();
+        public List<string> enableChipKeyList = new List<string>();
     }
 }

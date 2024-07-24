@@ -506,6 +506,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         SetBluePrintDatas();
         SetPuzzle();
         SetChipDatas();
+        RefreshChips();
     }
 
     public void StartFeverModePuzzle()
@@ -748,6 +749,16 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
 
             bool isActive = true;
+            if (chip.enableOnSpecificBlueprint)
+            {
+                isActive = GameMgr.In.currentBluePrint.enableChipKeyList.Contains(chip.chipKey);
+                if (!isActive)
+                {
+                    chip.backgroundSC.gameObject.SetActive(false);
+                    continue;
+                }
+            }
+
             var chipData = GameMgr.In.GetChip(chip.chipKey);
             foreach (var filterAbilityKey in filterAbilityKeyList)
             {

@@ -1491,6 +1491,7 @@ MonoBehaviour:
   - col: 0100000001000000
   - col: 0000000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -4053,6 +4054,7 @@ MonoBehaviour:
   - col: 01000000
   - col: 01000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -4724,6 +4726,7 @@ MonoBehaviour:
   - col: 0100000001000000
   - col: 0100000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -14851,6 +14854,7 @@ MonoBehaviour:
   - col: 01000000010000000100000001000000
   - col: 00000000010000000000000000000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 1
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -18853,6 +18857,7 @@ MonoBehaviour:
   - col: 0100000000000000
   - col: 0000000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -19716,6 +19721,7 @@ MonoBehaviour:
   - col: 010000000100000001000000
   - col: 000000000100000000000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -21719,6 +21725,7 @@ MonoBehaviour:
   - col: 0100000001000000
   - col: 0100000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -22030,6 +22037,7 @@ MonoBehaviour:
   - col: 02000000
   - col: 01000000
   posOffset: ffffffff000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -23523,6 +23531,7 @@ MonoBehaviour:
   - col: 0100000000000000
   - col: 0100000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -25380,6 +25389,7 @@ MonoBehaviour:
   - col: 0000000001000000
   - col: 0100000000000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -27184,6 +27194,7 @@ MonoBehaviour:
   mgr2: {fileID: 723337247}
   isFeverMode: 0
   isTutorial: 1
+  creatableChipKeyList: []
 --- !u!114 &995046951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29991,6 +30002,7 @@ MonoBehaviour:
   - col: 000000000100000000000000
   - col: 000000000000000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -33861,6 +33873,7 @@ MonoBehaviour:
   - col: 01000000
   - col: 01000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -34186,6 +34199,7 @@ MonoBehaviour:
   - col: 0100000001000000
   - col: 0100000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -38971,6 +38985,7 @@ MonoBehaviour:
   row:
   - col: 0100000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -44464,6 +44479,7 @@ MonoBehaviour:
   row:
   - col: 010000000100000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -49694,6 +49710,7 @@ MonoBehaviour:
   - col: 0100000000000000
   - col: 0000000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -55928,6 +55945,7 @@ MonoBehaviour:
   - col: 020000000100000002000000
   - col: 000000000200000000000000
   posOffset: ffffffffffffffffffffffffffffffff
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -56300,6 +56318,7 @@ MonoBehaviour:
   - col: 01000000
   - col: 01000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 1
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -56625,6 +56644,7 @@ MonoBehaviour:
   - col: 0000000001000000
   - col: 0100000001000000
   posOffset: 00000000000000000000000000000000
+  enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
@@ -63592,7 +63612,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchorMin.x
@@ -63600,15 +63620,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -63640,11 +63660,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

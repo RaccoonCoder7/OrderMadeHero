@@ -14,6 +14,7 @@ public class ChipObj : MonoBehaviour
     public int rowNum;
     public Col[] row;
     public int[] posOffset;
+    public bool enableOnSpecificBlueprint;
     [HideInInspector]
     public Col[] originRow;
     [HideInInspector]
