@@ -32,6 +32,7 @@ MonoBehaviour:
       requiredChipAbilityList:
       - abilityKey: a_attack
         count: 1
+      enableChipKeyList: []
     - bluePrintKey: b_longSword
       name: "\uC7A5\uAC80"
       comment: "\uAC80\uC744 \uC5B4\uB514\uAE4C\uC9C0 \uB298\uB9B4 \uC218 \uC788\uC744\uAE4C? "
@@ -48,6 +49,7 @@ MonoBehaviour:
         count: 1
       - abilityKey: a_acuity
         count: 1
+      enableChipKeyList: []
     - bluePrintKey: b_katana
       name: "\uCE74\uD0C0\uB098"
       comment: "\uC774 \uAC80\uC744 \uC544\uC8FC \uBE60\uB974\uAC8C \uBF51\uC744
@@ -63,6 +65,7 @@ MonoBehaviour:
       requiredChipAbilityList:
       - abilityKey: a_speed
         count: 1
+      enableChipKeyList: []
     - bluePrintKey: b_bayonet
       name: "\uB300\uAC80"
       comment: "\uD070\uAC8C \uCD5C\uACE0\uB2E4."
@@ -79,6 +82,7 @@ MonoBehaviour:
         count: 2
       - abilityKey: a_weight
         count: 1
+      enableChipKeyList: []
     - bluePrintKey: b_rapier
       name: "\uB808\uC774\uD53C\uC5B4"
       comment: 
@@ -95,6 +99,7 @@ MonoBehaviour:
         count: 1
       - abilityKey: a_penetrate
         count: 1
+      enableChipKeyList: []
   - categoryKey: t_blunt
     name: "\uB454\uAE30\uB958"
     onSprite: {fileID: 21300000, guid: 6a5be7610ea54074dae1a49701dc434a, type: 3}
@@ -114,6 +119,7 @@ MonoBehaviour:
       requiredChipAbilityList:
       - abilityKey: a_weight
         count: 1
+      enableChipKeyList: []
     - bluePrintKey: b_hammer
       name: "\uB9DD\uCE58"
       comment: "\uB9DD\uCE58 \uB098\uAC00\uC2E0\uB2E4!\\n[\uB9DD\uCE58\uB2D8\uC774
@@ -129,6 +135,7 @@ MonoBehaviour:
       requiredChipAbilityList:
       - abilityKey: a_weight
         count: 1
+      enableChipKeyList: []
     - bluePrintKey: b_ceremonialAx
       name: "\uC758\uC2DD\uC6A9 \uB3C4\uB07C"
       comment: "\uC774\uC0C1\uD558\uAC8C \uAC00\uBCBC\uC6B4 \uB3C4\uB07C, \uBA4B\uC2A4\uB7EC\uC6B4\uAC8C
@@ -145,6 +152,7 @@ MonoBehaviour:
       requiredChipAbilityList:
       - abilityKey: a_cool
         count: 3
+      enableChipKeyList: []
     - bluePrintKey: b_battleAx
       name: "\uC804\uD22C \uB3C4\uB07C"
       comment: "\uC774\uB984\uC744 \uBD99\uC5EC\uC8FC\uACE0 \uB0A0\uC744 \uB9E4\uC77C\uB9E4\uC77C
@@ -162,6 +170,7 @@ MonoBehaviour:
         count: 2
       - abilityKey: a_weight
         count: 1
+      enableChipKeyList: []
     - bluePrintKey: b_morningStar
       name: "\uBAA8\uB2DD\uC2A4\uD0C0"
       comment: "\uC544\uCE68\uC5D0 \uC77C\uC5B4\uB09C \uC2A4\uD0C0\uB294? \uBAA8\uB2DD\uC2A4\uD0C0"
@@ -180,6 +189,7 @@ MonoBehaviour:
         count: 1
       - abilityKey: a_penetrate
         count: 1
+      enableChipKeyList: []
   - categoryKey: t_gun
     name: "\uCD1D\uAE30\uB958"
     onSprite: {fileID: 21300000, guid: c2e6f36731d776f4c8b81fb1f5532986, type: 3}
@@ -189,12 +199,79 @@ MonoBehaviour:
     name: "\uD65C\uB958"
     onSprite: {fileID: 21300000, guid: edde638cc30226e46a352c781042360e, type: 3}
     offSprite: {fileID: 21300000, guid: ff7c522357180734d842cbeea383bca1, type: 3}
-    bluePrintList: []
+    bluePrintList:
+    - bluePrintKey: b_crossBow
+      name: "\uD06C\uB85C\uC2A4\uBCF4\uC6B0"
+      comment: "\uD654\uC0B4\uC744 \uC3D8\uB294 \uCD1D\uC774\uB098 \uB2E4\uB984\uC5C6\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 3000
+      sellPrice: 850
+      puzzleCsv: {fileID: 4900000, guid: 02ee87c0a878e7049ab2c2c973b94ce5, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 21300000, guid: 1a4a6a4840cd4624cb18e9c13591d652, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 3
+      enableChipKeyList:
+      - c_bowstring
   - categoryKey: t_staff
     name: "\uC9C0\uD321\uC774\uB958"
     onSprite: {fileID: 21300000, guid: 09ae8f26a1209ef4d924abaf32d2a9cf, type: 3}
     offSprite: {fileID: 21300000, guid: 453e5a47dd2d0b849829b9f8f182d030, type: 3}
-    bluePrintList: []
+    bluePrintList:
+    - bluePrintKey: b_staff
+      name: "\uAE30\uBCF8 \uC2A4\uD0DC\uD504"
+      comment: "\uD654\uC57D\uC744 \uC774\uC6A9\uD574 \uB0A9\uD0C4\uC744 \uBC1C\uC0AC\uD558\uB294
+        \uBB34\uAE30\uB77C\uB2C8, \uB108\uBB34 \uAD6C\uC2DC\uB300\uC801\uC774\uB2E4.
+        \uD488\uC704\uC788\uAC8C \uB9C8\uBC95\uC73C\uB85C \uC2F8\uC6B0\uC790."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 5000
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: d8329fef501c4024baa2b6b7accba6bb, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 21300000, guid: fc58651990a5c9d47b8aaf1525251b3f, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_spell
+        count: 1
+      enableChipKeyList: []
+    - bluePrintKey: b_electricStaff
+      name: "\uC804\uAE30 \uC2A4\uD0DC\uD504"
+      comment: "\uBA54\uD14C\uC624\uC2DC\uD2F0 \uC804\uAE30\uACF5\uC0AC\uAC00 \uC774
+        \uC2A4\uD0DC\uD504\uB97C \uC2EB\uC5B4\uD569\uB2C8\uB2E4."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 10000
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 5033e6f59e839704b93f69e6e512f01d, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 21300000, guid: f79b9fe85dcf2c84699b221b4b1141e5, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_electricity
+        count: 1
+      enableChipKeyList: []
+    - bluePrintKey: b_fireStaff
+      name: "\uD654\uC5FC \uC2A4\uD0DC\uD504"
+      comment: "\uBA54\uD14C\uC624 \uC2DC\uD2F0 \uD654\uC7AC \uC6D0\uC778 1\uC704\uC774\uB2E4.
+        \uBA54\uD14C\uC624\uC2DC\uD2F0\uC2A4\uD0EC\uD504\uD611\uD68C\uAC00 \uB85C\uBE44\uB97C
+        \uC5F4\uC2EC\uD788 \uD588\uC73C\uB2C8\uAE50 \uADDC\uC81C \uAC71\uC815\uC5C6\uC774
+        \uB9C8\uAD6C \uBD88 \uC0AC\uB974\uACE0 \uB2E4\uB2C8\uC790."
+      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      buyPrice: 10000
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 487832d8b1a449b4fa801d49096bab3c, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      blueprintSprite: {fileID: 21300000, guid: f6ba522f77b51084cb55ebad0d70f5e0, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: a_fire
+        count: 1
+      enableChipKeyList: []
   - categoryKey: t_special
     name: "\uD2B9\uC218\uBB34\uAE30\uB958"
     onSprite: {fileID: 21300000, guid: 7ec9ae169bb62674487503e83524207c, type: 3}

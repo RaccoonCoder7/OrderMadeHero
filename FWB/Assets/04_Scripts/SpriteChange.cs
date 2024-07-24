@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     public Sprite onSprite;
     public Sprite offSprite;
@@ -18,6 +18,7 @@ public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         OnFocus,
         OnClick,
+        OnPush,
         Auto
     }
 
@@ -112,6 +113,22 @@ public class SpriteChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 SetOnSprite();
             }
             isOriginImg = !isOriginImg;
+        }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (type == SpriteChangeType.OnPush)
+        {
+            SetOnSprite();
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (type == SpriteChangeType.OnPush)
+        {
+            SetOffSprite();
         }
     }
 }

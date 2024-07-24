@@ -47,6 +47,8 @@ public class GameSceneMgr : MonoBehaviour
     public Button shopBlueprintTab;
     public Button shopChipsetTab;
     public Button shopDodge;
+    public Button shopPageUp;
+    public Button shopPageDown;
     public List<Button> saveLoadButtons = new List<Button>();
     public Button alertDodge;
     public Button creditDodge;
@@ -171,6 +173,7 @@ public class GameSceneMgr : MonoBehaviour
     private int normalOrderLineIndex = 0;
     private int normalOrderPrevLineIndex = 0;
     private int currentSelectedWeaponIndex = -1;
+    private int currentShopPage = 0;
     private float textSkipWaitTime = 1f;
     private string prevText;
     private string currentSelectedWeaponCategoryKey;
@@ -270,17 +273,19 @@ public class GameSceneMgr : MonoBehaviour
         skip.onClick.AddListener(OnClickSkip);
         shopBlueprintTab.onClick.AddListener(OnClickShopBlueprintTab);
         shopChipsetTab.onClick.AddListener(OnClickShopChipsetTab);
+        shopPageUp.onClick.AddListener(OnClickShopPageUp);
+        shopPageDown.onClick.AddListener(OnClickShopPageDown);
 
         foreach (var btn in saveLoadButtons)
         {
             btn.onClick.AddListener(OnClickSlot);
         }
-        
+
         foreach (var btn in popupYes)
         {
             btn.onClick.AddListener(OnClickPopupYes);
         }
-        
+
         foreach (var btn in popupNo)
         {
             btn.onClick.AddListener(OnClickPopupNo);
@@ -357,7 +362,7 @@ public class GameSceneMgr : MonoBehaviour
             {
                 continue;
             }
-            
+
             bluePrintSlotList[i].button.onClick.Invoke();
             return;
         }
@@ -371,7 +376,7 @@ public class GameSceneMgr : MonoBehaviour
             {
                 continue;
             }
-            
+
             bluePrintSlotList[i].button.onClick.Invoke();
             return;
         }
@@ -481,14 +486,14 @@ public class GameSceneMgr : MonoBehaviour
     public void OnClickSlot()
     {
         var currSelectedObj = EventSystem.current.currentSelectedGameObject;
-        if (lastSelectedSlot != null) 
+        if (lastSelectedSlot != null)
         {
             lastSelectedSlot.GetComponent<Image>().sprite = defaultSaveSlot;
         }
         currSelectedObj.GetComponent<Image>().sprite = selectedSaveSlot;
         saveSlot = currSelectedObj.name;
         lastSelectedSlot = currSelectedObj;
-        
+
         Debug.Log(saveSlot);
     }
 
@@ -528,7 +533,7 @@ public class GameSceneMgr : MonoBehaviour
             elapsedTime += blinkInterval;
             yield return new WaitForSeconds(blinkInterval);
         }
-        
+
         noDataPopup.SetActive(false);
     }
 
@@ -607,6 +612,7 @@ public class GameSceneMgr : MonoBehaviour
         shopBlueprintTabImg.sprite = shopTabSpriteList[1];
         shopChipsetTabImg.sprite = shopTabSpriteList[2];
         currentShopTab = ShopTab.Blueprint;
+        currentShopPage = 0;
         RefreshShopUI();
     }
 
@@ -616,6 +622,19 @@ public class GameSceneMgr : MonoBehaviour
         shopChipsetTabImg.sprite = shopTabSpriteList[3];
         shopBlueprintTabImg.sprite = shopTabSpriteList[0];
         currentShopTab = ShopTab.Chipset;
+        currentShopPage = 0;
+        RefreshShopUI();
+    }
+
+    public void OnClickShopPageUp()
+    {
+        currentShopPage--;
+        RefreshShopUI();
+    }
+
+    public void OnClickShopPageDown()
+    {
+        currentShopPage++;
         RefreshShopUI();
     }
 
@@ -821,6 +840,7 @@ public class GameSceneMgr : MonoBehaviour
 
         int listCnt = 0;
         shopUISlotList.Clear();
+        int startIndex = (currentShopPage) * 10;
         if (currentShopTab == ShopTab.Blueprint)
         {
             List<BluePrint> bluePrintList = new List<BluePrint>();
@@ -836,7 +856,7 @@ public class GameSceneMgr : MonoBehaviour
             }
             listCnt = bluePrintList.Count;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = startIndex; i < startIndex + 10; i++)
             {
                 if (i < listCnt)
                 {
@@ -921,7 +941,7 @@ public class GameSceneMgr : MonoBehaviour
             {
                 listCnt = chipList.Count;
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = startIndex; i < startIndex + 10; i++)
             {
                 if (i < listCnt)
                 {
@@ -998,6 +1018,9 @@ public class GameSceneMgr : MonoBehaviour
                 Instantiate(shopUiSlotNoItemPrefab, shopItemParentTr);
             }
         }
+
+        shopPageUp.interactable = currentShopPage > 0;
+        shopPageDown.interactable = 10 * (currentShopPage + 1) < listCnt;
     }
 
     public void SetShopButtonListener()
