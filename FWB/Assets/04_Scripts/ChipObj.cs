@@ -101,6 +101,8 @@ public class ChipObj : MonoBehaviour
     {
         if (originRow != null && originRow.Length > 0)
         {
+            rowNum = originRow.Length;
+            colNum = originRow[0].col.Length;
             row = (Col[])originRow.Clone();
             posOffset = (int[])originPosOffset.Clone();
         }
@@ -110,6 +112,8 @@ public class ChipObj : MonoBehaviour
     {
         if (currentRow != null)
         {
+            rowNum = currentRow.Length;
+            colNum = currentRow[0].col.Length;
             row = (Col[])currentRow.Clone();
             posOffset = (int[])currentPosOffset.Clone();
         }
