@@ -39,6 +39,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Button revertChips;
     public GameSceneMgr mgr2;
     public bool isFeverMode;
+    public Sprite chipBackgroundOnSprite;
+    public Sprite chipBackgroundOffSprite;
     public Action<int> OnMakingDone;
     [HideInInspector]
     public bool isTutorial = true;
@@ -338,7 +340,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 }
                 prevMousePos = Input.mousePosition;
 
-                VisualChipLocation(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                // VisualChipLocation(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             }
         }
 
@@ -595,6 +597,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                         selectedChipName.text = currentSelectedChipData.chipName;
                         selectedChipPrice.text = "개당 " + currentSelectedChipData.price + " c";
                         selectedChipDesc.text = currentSelectedChipData.desc;
+                        foreach (var chip in chipList)
+                        {
+                            var sprite = chip == currentSelectedChip ? chipBackgroundOnSprite : chipBackgroundOffSprite;
+                            chip.parentImage.sprite = sprite;
+                        }
+                        currentSelectedChip.transform.parent.GetComponent<Image>().sprite = chipBackgroundOnSprite;
                     }
                     return;
                 }
@@ -672,7 +680,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             dragImgRectTr.localPosition += (Vector3)eventData.delta / canvas.scaleFactor;
 
-            VisualChipLocation(eventData.position);
+            // VisualChipLocation(eventData.position);
         }
     }
 
@@ -754,7 +762,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 isActive = GameMgr.In.currentBluePrint.enableChipKeyList.Contains(chip.chipKey);
                 if (!isActive)
                 {
-                    chip.backgroundSC.gameObject.SetActive(false);
+                    chip.transform.parent.gameObject.SetActive(false);
                     continue;
                 }
             }
@@ -769,7 +777,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     break;
                 }
             }
-            chip.backgroundSC.gameObject.SetActive(isActive);
+            chip.transform.parent.gameObject.SetActive(isActive);
         }
     }
 
@@ -1113,7 +1121,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         foreach (var chip in chipList)
         {
             chip.SaveOriginRow();
-            chip.backgroundSC.gameObject.SetActive(creatableChipKeyList.Contains(chip.chipKey));
+            chip.transform.parent.gameObject.SetActive(creatableChipKeyList.Contains(chip.chipKey));
         }
         SortChipList();
     }
@@ -1152,7 +1160,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             var matchedChip = this.chipList.Find(x => x.chipKey.Equals(orderedChipKeyList[i]));
             if (matchedChip == null) continue;
 
-            matchedChip.backgroundSC.transform.SetSiblingIndex(i);
+            matchedChip.transform.parent.SetSiblingIndex(i);
         }
     }
 

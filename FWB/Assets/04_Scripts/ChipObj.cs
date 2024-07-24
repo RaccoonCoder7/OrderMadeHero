@@ -27,8 +27,8 @@ public class ChipObj : MonoBehaviour
     public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
     [Header("UI")]
     public RawImage image;
+    public Image parentImage;
     public RectTransform rectTr;
-    public SpriteChange backgroundSC;
 
     private int size;
 
