@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
+[Serializable]
 public class PlayerData
 {
     public string playerName;
@@ -19,8 +19,8 @@ public class PlayerData
     public int playerDaySpent;
     public int customerCnt;
     public string savedDate;
-
-    public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, int daySpent, int cusCnt, string date)
+    public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, 
+        int daySpent, int cusCnt, string date)
     {
         playerName = name;
         playerCredit = credit;
@@ -36,6 +36,28 @@ public class PlayerData
     }
 }
 
+[System.Serializable]
+public class UnlockedWeaponInfo 
+{
+    
+    public List<BluePrintState> bluePrintStatesList = new List<BluePrintState>();
+    public List<ChipState> chipStatesList = new List<ChipState>();
+
+    [System.Serializable]
+    public class BluePrintState
+    {
+    public string bluePrintKey;
+    public bool createEnable;
+    public bool orderEnable;
+    }
+    [System.Serializable]
+    public class ChipState 
+    {
+        public string chipKey;
+        public bool createEnable;
+    }
+}
+
 public class DataSaveLoad : MonoBehaviour
 {
     public bool isLoaded = false;
@@ -44,6 +66,9 @@ public class DataSaveLoad : MonoBehaviour
     public GameObject slots1, slots2, slots3;
     public Button toLeft, toRight;
     public Camera mainCam;
+
+    public WeaponDataTable weaponDataTable;
+    public ChipTable chipTable;
     
     private enum SlotState
     {
@@ -84,6 +109,60 @@ public class DataSaveLoad : MonoBehaviour
         if (GameSceneMgr.isSavePopupActive)
         {
             SetActiveSlot();
+        }
+    }
+    
+    private UnlockedWeaponInfo GenerateUnlockedWeaponInfo()
+    {
+        var result = new UnlockedWeaponInfo();
+        foreach (var category in weaponDataTable.bluePrintCategoryList)
+        {
+            foreach (var bluePrint in category.bluePrintList)
+            {
+                if (bluePrint.createEnable || bluePrint.orderEnable)
+                {
+                    result.bluePrintStatesList.Add(new UnlockedWeaponInfo.BluePrintState() { bluePrintKey = bluePrint.bluePrintKey, createEnable = bluePrint.createEnable, orderEnable = bluePrint.orderEnable});
+                }
+            }
+        }
+        foreach (var chip in chipTable.chipList)
+        {
+            if(chip.createEnable)
+            {
+                result.chipStatesList.Add(new UnlockedWeaponInfo.ChipState() { chipKey = chip.chipKey, createEnable = chip.createEnable } );
+            }
+        }
+        return result;
+    }
+    
+    private void ApplyUnlockedWeaponInfo(UnlockedWeaponInfo info)
+    {
+        foreach (var bluePrintState in info.bluePrintStatesList)
+        {
+            foreach (var category in weaponDataTable.bluePrintCategoryList)
+            {
+                foreach (var bluePrint in category.bluePrintList)
+                {
+                    if (bluePrint.bluePrintKey == bluePrintState.bluePrintKey)
+                    {
+                        bluePrint.createEnable = bluePrintState.createEnable;
+                        bluePrint.orderEnable = bluePrintState.orderEnable;
+                        break;
+                    }
+                }
+            }
+        }
+
+        foreach (var chipState in info.chipStatesList)
+        {
+            foreach (var chip in chipTable.chipList)
+            {
+                if (chip.chipKey == chipState.chipKey)
+                {
+                    chip.createEnable = chipState.createEnable;
+                    break;
+                }
+            }
         }
     }
 
@@ -194,14 +273,39 @@ public class DataSaveLoad : MonoBehaviour
         string filePath = folderPath + "/"+ fileName + ".json";
         
         File.WriteAllText(filePath, newJson);
+        
+        UnlockedWeaponInfo unlockedWeaponInfo = GenerateUnlockedWeaponInfo();
+
+        string unlockedWeaponInfoJson = JsonUtility.ToJson(unlockedWeaponInfo);
+        bytes = System.Text.Encoding.UTF8.GetBytes(unlockedWeaponInfoJson);
+        newJson = Convert.ToBase64String(bytes);
+
+        filePath = folderPath + "/"+ fileName + "_unlocked_info.json";
+    
+        File.WriteAllText(filePath, newJson);
     }
+
 
     public void LoadData(string fileName)
     {
         isLoaded = true;
         
         string filePath = folderPath + "/"+ fileName + ".json";
+        string unlockedFilePath = folderPath + "/"+ fileName + "_unlocked_info.json";
         Debug.Log("data loaded");
+        if (File.Exists(unlockedFilePath))
+        {
+            string json = File.ReadAllText(unlockedFilePath);
+            byte[] bytes = Convert.FromBase64String(json);
+            string newJson = System.Text.Encoding.UTF8.GetString(bytes);
+            UnlockedWeaponInfo unlockedWeaponInfo = JsonUtility.FromJson<UnlockedWeaponInfo>(newJson);
+    
+            ApplyUnlockedWeaponInfo(unlockedWeaponInfo);
+        }
+        else
+        {
+            Debug.LogError("No unlocked info data");
+        } 
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);

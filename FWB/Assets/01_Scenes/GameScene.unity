@@ -48226,6 +48226,8 @@ MonoBehaviour:
   toLeft: {fileID: 1771000694}
   toRight: {fileID: 835444361}
   mainCam: {fileID: 1554640783}
+  weaponDataTable: {fileID: 11400000, guid: 5e69e9e400c87c44f948125ac3ad41c1, type: 2}
+  chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
 --- !u!4 &1769507458
 Transform:
   m_ObjectHideFlags: 0

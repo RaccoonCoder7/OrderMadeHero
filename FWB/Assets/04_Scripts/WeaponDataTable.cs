@@ -9,7 +9,7 @@ using static ChipTable;
 public class WeaponDataTable : ScriptableObject
 {
     public List<BluePrintCategory> bluePrintCategoryList = new List<BluePrintCategory>();
-
+    
     [System.Serializable]
     public class BluePrintCategory
     {
