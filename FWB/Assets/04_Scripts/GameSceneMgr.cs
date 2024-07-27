@@ -63,8 +63,12 @@ public class GameSceneMgr : MonoBehaviour
     public GameObject loadPopup;
     public GameObject saveOverPopup;
     public GameObject noDataPopup;
+    public static bool isSavePopupActive = false;
     public Sprite selectedSaveSlot;
     public Sprite defaultSaveSlot;
+    public GameObject slots1, slots2, slots3;
+    public Button toLeft, toRight;
+    public Camera mainCam;
     public GameObject day;
     public GameObject renom;
     public GameObject renomMask;
@@ -259,6 +263,8 @@ public class GameSceneMgr : MonoBehaviour
         CommonTool.In.shopFollowUI = shopFollowUI;
         alertPanelImg = alertPanel.GetComponentInChildren<Image>();
         indexSC = index.GetComponent<SpriteChange>();
+        
+        DataSaveLoad.dataSave.AssignSceneObjects(slots1, slots2, slots3, toLeft, toRight, mainCam);
 
         popupDodge.onClick.AddListener(OnClickDodgePopup);
         weaponLeft.onClick.AddListener(OnClickWeaponLeft);
@@ -471,11 +477,13 @@ public class GameSceneMgr : MonoBehaviour
     {
         currentScreen = DataSaveLoad.dataSave.MakeScreenShot();
         saveLoadPanel.SetActive(true);
+        isSavePopupActive = true;
     }
 
     public void OnClickReturn()
     {
         saveLoadPanel.SetActive(false);
+        isSavePopupActive = false;
     }
 
     //public void OnClickGoToMain()
@@ -551,6 +559,7 @@ public class GameSceneMgr : MonoBehaviour
             DataSaveLoad.dataSave.LoadData(saveSlot);
             loadPopup.SetActive(false);
         }
+        isSavePopupActive = false;
         GameObject slotObj = GameObject.Find(saveSlot);
         slotObj.GetComponent<SaveSlot>().CallSlotInfo();
     }

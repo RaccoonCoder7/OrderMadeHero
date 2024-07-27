@@ -1482,7 +1482,6 @@ MonoBehaviour:
   image: {fileID: 53967593}
   parentImage: {fileID: 680022903}
   rectTr: {fileID: 53967591}
-  backgroundSC: {fileID: 0}
 --- !u!114 &53967593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4046,7 +4045,6 @@ MonoBehaviour:
   image: {fileID: 163776497}
   parentImage: {fileID: 1292248165}
   rectTr: {fileID: 163776495}
-  backgroundSC: {fileID: 0}
 --- !u!114 &163776497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4701,7 +4699,6 @@ MonoBehaviour:
   image: {fileID: 185018905}
   parentImage: {fileID: 1763954810}
   rectTr: {fileID: 185018903}
-  backgroundSC: {fileID: 0}
 --- !u!114 &185018905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14722,7 +14719,6 @@ MonoBehaviour:
   image: {fileID: 581577042}
   parentImage: {fileID: 1066340991}
   rectTr: {fileID: 581577040}
-  backgroundSC: {fileID: 0}
 --- !u!114 &581577042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18771,7 +18767,6 @@ MonoBehaviour:
   image: {fileID: 721092582}
   parentImage: {fileID: 1547879999}
   rectTr: {fileID: 721092580}
-  backgroundSC: {fileID: 0}
 --- !u!114 &721092582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18901,6 +18896,12 @@ MonoBehaviour:
   noDataPopup: {fileID: 419747470}
   selectedSaveSlot: {fileID: 21300000, guid: bfb9dd5de52fe6245b0e53647af66134, type: 3}
   defaultSaveSlot: {fileID: 21300000, guid: 5947458cd40a0ab4896832a111f518c4, type: 3}
+  slots1: {fileID: 2047128430}
+  slots2: {fileID: 1738902949}
+  slots3: {fileID: 817947245}
+  toLeft: {fileID: 1771000694}
+  toRight: {fileID: 835444361}
+  mainCam: {fileID: 1554640783}
   day: {fileID: 1103311611}
   renom: {fileID: 1749971001}
   renomMask: {fileID: 1563022996}
@@ -19620,7 +19621,6 @@ MonoBehaviour:
   image: {fileID: 734449124}
   parentImage: {fileID: 306374810}
   rectTr: {fileID: 734449122}
-  backgroundSC: {fileID: 0}
 --- !u!114 &734449124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21688,7 +21688,6 @@ MonoBehaviour:
   image: {fileID: 782795612}
   parentImage: {fileID: 9515489}
   rectTr: {fileID: 782795610}
-  backgroundSC: {fileID: 0}
 --- !u!114 &782795612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22001,7 +22000,6 @@ MonoBehaviour:
   image: {fileID: 795660168}
   parentImage: {fileID: 2141546936}
   rectTr: {fileID: 795660166}
-  backgroundSC: {fileID: 0}
 --- !u!114 &795660168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22772,7 +22770,7 @@ GameObject:
   - component: {fileID: 835444362}
   - component: {fileID: 835444361}
   m_Layer: 5
-  m_Name: ToRight
+  m_Name: ToRightSave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23496,7 +23494,6 @@ MonoBehaviour:
   image: {fileID: 864489916}
   parentImage: {fileID: 414241846}
   rectTr: {fileID: 864489914}
-  backgroundSC: {fileID: 0}
 --- !u!114 &864489916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25355,7 +25352,6 @@ MonoBehaviour:
   image: {fileID: 943715813}
   parentImage: {fileID: 978047651}
   rectTr: {fileID: 943715811}
-  backgroundSC: {fileID: 0}
 --- !u!114 &943715813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29953,7 +29949,6 @@ MonoBehaviour:
   image: {fileID: 1063448238}
   parentImage: {fileID: 1426133682}
   rectTr: {fileID: 1063448236}
-  backgroundSC: {fileID: 0}
 --- !u!114 &1063448238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33789,7 +33784,6 @@ MonoBehaviour:
   image: {fileID: 1206600468}
   parentImage: {fileID: 290160903}
   rectTr: {fileID: 1206600466}
-  backgroundSC: {fileID: 0}
 --- !u!114 &1206600468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34116,7 +34110,6 @@ MonoBehaviour:
   image: {fileID: 1225258630}
   parentImage: {fileID: 734048079}
   rectTr: {fileID: 1225258628}
-  backgroundSC: {fileID: 0}
 --- !u!114 &1225258630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38885,7 +38878,6 @@ MonoBehaviour:
   image: {fileID: 1413577397}
   parentImage: {fileID: 163901601}
   rectTr: {fileID: 1413577395}
-  backgroundSC: {fileID: 0}
 --- !u!114 &1413577397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44344,7 +44336,6 @@ MonoBehaviour:
   image: {fileID: 1610709201}
   parentImage: {fileID: 400009908}
   rectTr: {fileID: 1610709199}
-  backgroundSC: {fileID: 0}
 --- !u!114 &1610709201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48262,7 +48253,7 @@ GameObject:
   - component: {fileID: 1771000695}
   - component: {fileID: 1771000694}
   m_Layer: 5
-  m_Name: ToLeft
+  m_Name: ToLeftSave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49558,7 +49549,6 @@ MonoBehaviour:
   image: {fileID: 1787549707}
   parentImage: {fileID: 242026256}
   rectTr: {fileID: 1787549705}
-  backgroundSC: {fileID: 0}
 --- !u!114 &1787549707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55776,7 +55766,6 @@ MonoBehaviour:
   image: {fileID: 2058871729}
   parentImage: {fileID: 1826872871}
   rectTr: {fileID: 2058871727}
-  backgroundSC: {fileID: 0}
 --- !u!114 &2058871729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56150,7 +56139,6 @@ MonoBehaviour:
   image: {fileID: 2067224671}
   parentImage: {fileID: 494131691}
   rectTr: {fileID: 2067224669}
-  backgroundSC: {fileID: 0}
 --- !u!114 &2067224671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56477,7 +56465,6 @@ MonoBehaviour:
   image: {fileID: 2085145307}
   parentImage: {fileID: 1191536878}
   rectTr: {fileID: 2085145305}
-  backgroundSC: {fileID: 0}
 --- !u!114 &2085145307
 MonoBehaviour:
   m_ObjectHideFlags: 0

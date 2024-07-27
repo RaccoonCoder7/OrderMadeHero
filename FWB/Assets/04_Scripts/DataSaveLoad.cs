@@ -81,7 +81,10 @@ public class DataSaveLoad : MonoBehaviour
 
     private void Update()
     {
-        SetActiveSlot();
+        if (GameSceneMgr.isSavePopupActive)
+        {
+            SetActiveSlot();
+        }
     }
 
     private void ClickToLeft()
@@ -116,6 +119,21 @@ public class DataSaveLoad : MonoBehaviour
         slots3.SetActive(state == SlotState.Third);
     }
 
+    public void AssignSceneObjects(GameObject s1, GameObject s2, GameObject s3, Button left, Button right, Camera mCam)
+    {
+        slots1 = s1;
+        slots2 = s2;
+        slots3 = s3;
+        
+        toLeft = left;
+        toRight = right;
+
+        mainCam = mCam;
+
+        toLeft.onClick.AddListener(ClickToLeft);
+        toRight.onClick.AddListener(ClickToRight);
+    }
+    
     public Texture2D MakeScreenShot()
     {
         RenderTexture renderTexture = new RenderTexture(Screen.width, Screen.height, 24);
