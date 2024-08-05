@@ -1254,7 +1254,15 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             fr.pfd.chipList.Clear();
             fr.pfd.chipType = 0;
-            // TODO: 칩제거
+            if (fr.pfd.patternNum != 0)
+            {
+                fr.SetBackgroundImage(frameBackgroundOffTexture);
+            }
+        }
+
+        for (int i = puzzleChipParent.childCount - 1; 0 <= i; i--)
+        {
+            DestroyImmediate(puzzleChipParent.GetChild(i).gameObject);
         }
 
         if (makingDone != null && isTutorial)
@@ -1276,7 +1284,19 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             if (isPerfectState()) score++;
         }
 
-        // TODO: 칩제거
+        for (int i = puzzleChipParent.childCount - 1; 0 <= i; i--)
+        {
+            DestroyImmediate(puzzleChipParent.GetChild(i).gameObject);
+        }
+
+        selectedChipName.text = string.Empty;
+        selectedChipPrice.text = string.Empty;
+        selectedChipDesc.text = string.Empty;
+        foreach (var chip in chipList)
+        {
+            chip.parentImage.sprite = chipBackgroundOffSprite;
+        }
+
         foreach (var obj in puzzleFrameList)
         {
             Destroy(obj.gameObject);
