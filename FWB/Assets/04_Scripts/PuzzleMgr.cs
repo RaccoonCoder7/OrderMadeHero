@@ -41,6 +41,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public bool isFeverMode;
     public Sprite chipBackgroundOnSprite;
     public Sprite chipBackgroundOffSprite;
+    public Transform puzzleChipParent;
+    public Texture frameBackgroundOffTexture;
+    public Texture frameBackgroundOnTexture;
     public Action<int> OnMakingDone;
     [HideInInspector]
     public bool isTutorial = true;
@@ -375,11 +378,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             if (pressedChipIndexList.Contains(pressedChipIndex) && currentSelectedChip != null)
             {
-                foreach (var frame in puzzleFrameList)
-                {
-                    frame.SetHighlight(false, Color.red);
-                }
-
                 var angle = dragImgRectTr.localEulerAngles;
                 if (currentSelectedChip != null)
                 {
@@ -810,11 +808,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             return;
         }
 
-        foreach (var frame in puzzleFrameList)
-        {
-            frame.SetHighlight(false, Color.red);
-        }
-
         var angle = dragImgRectTr.localEulerAngles;
         if (currentSelectedChip != null)
         {
@@ -850,6 +843,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 if (fr.pfd.chipList.Count == 0)
                                 {
                                     fr.pfd.chipType = 0;
+                                    if (fr.pfd.patternNum != 0)
+                                    {
+                                        fr.SetBackgroundImage(frameBackgroundOffTexture);
+                                    }
                                 }
                             }
                         }
@@ -938,6 +935,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 pos.x += dragImgRectTr.rect.width * (chipInstance.rowNum * 1f / chipInstance.colNum);
                             }
                             chipInstance.rectTr.localPosition = pos;
+                            chipInstance.rectTr.parent = puzzleChipParent;
 
                             if (!isFromPuzzle)
                             {
@@ -962,10 +960,25 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                         if (fr.pfd.chipList.Count == 0)
                                         {
                                             fr.pfd.chipType = 0;
+                                            if (fr.pfd.patternNum != 0)
+                                            {
+                                                fr.SetBackgroundImage(frameBackgroundOffTexture);
+                                            }
                                         }
                                     }
                                 }
                                 DestroyImmediate(currentSelectedChip.gameObject);
+                            }
+
+                            foreach (var fr in puzzleFrameList)
+                            {
+                                if (fr.pfd.chipList.Contains(chipInstance))
+                                {
+                                    if (fr.pfd.patternNum != 0)
+                                    {
+                                        fr.SetBackgroundImage(frameBackgroundOnTexture);
+                                    }
+                                }
                             }
 
                             if (isTutorial)
@@ -1241,10 +1254,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             fr.pfd.chipList.Clear();
             fr.pfd.chipType = 0;
-            foreach (Transform tr in fr.transform)
-            {
-                DestroyImmediate(tr.gameObject);
-            }
+            // TODO: 칩제거
         }
 
         if (makingDone != null && isTutorial)
@@ -1266,6 +1276,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             if (isPerfectState()) score++;
         }
 
+        // TODO: 칩제거
         foreach (var obj in puzzleFrameList)
         {
             Destroy(obj.gameObject);

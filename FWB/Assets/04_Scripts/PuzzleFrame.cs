@@ -18,4 +18,8 @@ public class PuzzleFrame : MonoBehaviour
         image.color = isActive ? color : Color.white;
     }
 
+    public void SetBackgroundImage(Texture texture)
+    {
+        image.texture = texture;
+    }
 }
