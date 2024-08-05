@@ -24,6 +24,14 @@ public class ChipObj : MonoBehaviour
     [HideInInspector]
     public int[] currentPosOffset;
     [HideInInspector]
+    public int originRowNum;
+    [HideInInspector]
+    public int originColNum;
+    [HideInInspector]
+    public int currentRowNum;
+    [HideInInspector]
+    public int currentColNum;
+    [HideInInspector]
     public List<ChipAbility> chipAbilityList = new List<ChipAbility>();
     [Header("UI")]
     public RawImage image;
@@ -59,6 +67,8 @@ public class ChipObj : MonoBehaviour
         {
             originRow = (Col[])row.Clone();
             originPosOffset = (int[])posOffset.Clone();
+            originRowNum = rowNum;
+            originColNum = colNum;
         }
     }
 
@@ -66,6 +76,8 @@ public class ChipObj : MonoBehaviour
     {
         currentRow = (Col[])row.Clone();
         currentPosOffset = (int[])posOffset.Clone();
+        currentRowNum = rowNum;
+        currentColNum = colNum;
     }
 
     public void RotateRight()
@@ -101,8 +113,8 @@ public class ChipObj : MonoBehaviour
     {
         if (originRow != null && originRow.Length > 0)
         {
-            rowNum = originRow.Length;
-            colNum = originRow[0].col.Length;
+            rowNum = originRowNum;
+            colNum = originColNum;
             row = (Col[])originRow.Clone();
             posOffset = (int[])originPosOffset.Clone();
         }
@@ -112,8 +124,8 @@ public class ChipObj : MonoBehaviour
     {
         if (currentRow != null)
         {
-            rowNum = currentRow.Length;
-            colNum = currentRow[0].col.Length;
+            rowNum = currentRowNum;
+            colNum = currentColNum;
             row = (Col[])currentRow.Clone();
             posOffset = (int[])currentPosOffset.Clone();
         }

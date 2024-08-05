@@ -1478,6 +1478,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 53967593}
   parentImage: {fileID: 680022903}
@@ -4033,14 +4037,20 @@ MonoBehaviour:
   colNum: 1
   rowNum: 2
   row:
-  - col: 01000000
-  - col: 01000000
-  posOffset: 00000000000000000000000000000000
+  - col: 000000000200000000000000
+  - col: 020000000100000002000000
+  - col: 020000000100000002000000
+  - col: 000000000200000000000000
+  posOffset: ffffffffffffffffffffffffffffffff
   enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 163776497}
   parentImage: {fileID: 1292248165}
@@ -4695,6 +4705,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 185018905}
   parentImage: {fileID: 1763954810}
@@ -14715,6 +14729,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 581577042}
   parentImage: {fileID: 1066340991}
@@ -18763,6 +18781,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 721092582}
   parentImage: {fileID: 1547879999}
@@ -19617,6 +19639,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 734449124}
   parentImage: {fileID: 306374810}
@@ -21684,6 +21710,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 782795612}
   parentImage: {fileID: 9515489}
@@ -21996,6 +22026,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 795660168}
   parentImage: {fileID: 2141546936}
@@ -23490,6 +23524,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 864489916}
   parentImage: {fileID: 414241846}
@@ -25348,6 +25386,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 943715813}
   parentImage: {fileID: 978047651}
@@ -29945,6 +29987,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 1063448238}
   parentImage: {fileID: 1426133682}
@@ -33780,6 +33826,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 1206600468}
   parentImage: {fileID: 290160903}
@@ -34106,6 +34156,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 1225258630}
   parentImage: {fileID: 734048079}
@@ -38874,6 +38928,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 1413577397}
   parentImage: {fileID: 163901601}
@@ -44332,6 +44390,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 1610709201}
   parentImage: {fileID: 400009908}
@@ -49547,6 +49609,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 1787549707}
   parentImage: {fileID: 242026256}
@@ -55764,6 +55830,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 2058871729}
   parentImage: {fileID: 1826872871}
@@ -56137,6 +56207,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 2067224671}
   parentImage: {fileID: 494131691}
@@ -56463,6 +56537,10 @@ MonoBehaviour:
   currentRow: []
   originPosOffset: 
   currentPosOffset: 
+  originRowNum: 0
+  originColNum: 0
+  currentRowNum: 0
+  currentColNum: 0
   chipAbilityList: []
   image: {fileID: 2085145307}
   parentImage: {fileID: 1191536878}
