@@ -44,6 +44,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Transform puzzleChipParent;
     public Texture frameBackgroundOffTexture;
     public Texture frameBackgroundOnTexture;
+    public Texture framePreviewOffTexture;
+    public Texture framePreviewOnTexture;
     public Action<int> OnMakingDone;
     [HideInInspector]
     public bool isTutorial = true;
@@ -69,6 +71,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Dictionary<Chip, int> currentChipInPuzzleDic = new Dictionary<Chip, int>();
     private Dictionary<Ability, int> currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
     private Dictionary<ChipObj, int> chipObjDic = new Dictionary<ChipObj, int>();
+    private List<PuzzleFrameData> previewTargetPfd = new List<PuzzleFrameData>();
 
     private float lastRotationTime = 0f;
     private float rotationDebounceTime = 0.01f; // 디바운싱 시간 설정
@@ -88,6 +91,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         public int y;
         public List<ChipObj> chipList = new List<ChipObj>();
         public int chipType;
+        public int previewTypeNum;
 
         public PuzzleFrameData(int patternNum, int x, int y)
         {
@@ -194,6 +198,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 dragImgRectTr.localPosition += chipOffset;
 
                 currentSelectedChip.RotateRight();
+                VisualChipLocation(Input.mousePosition);
             }
         }
 
@@ -692,72 +697,38 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (currentSelectedChip != null)
         {
             dragImgRectTr.localPosition += (Vector3)eventData.delta / canvas.scaleFactor;
-
-            // VisualChipLocation(eventData.position);
+            VisualChipLocation(eventData.position);
         }
     }
 
-    private bool CanPlaceChip(PuzzleFrame frame)
+    public void VisualChipLocation(Vector2 position)
     {
-        var fittableFrames = GetFittableFrameList(currPuzzle.frameDataTable, currentSelectedChip, frame.pfd.x, frame.pfd.y);
-        return fittableFrames != null;
-    }
-
-    public void VisualChipLocation(Vector2 chipCenter)
-    {
-        foreach (var frame in puzzleFrameList)
+        ped.position = position;
+        List<RaycastResult> results = new List<RaycastResult>();
+        es.RaycastAll(ped, results);
+        if (results.Count > 0)
         {
-            frame.SetHighlight(false, Color.red);
-        }
-
-        bool overallCanPlace = false;
-
-        foreach (var frame in puzzleFrameList)
-        {
-            if (frame.pfd.patternNum == 1 && frame.pfd.chipList.Count == 0)
+            PuzzleFrame frame = null;
+            foreach (var result in results)
             {
-                if (IsChipWithinFrame(chipCenter, frame))
-                {
-                    overallCanPlace = CanPlaceChip(frame);
-                    break;
-                }
+                frame = result.gameObject.GetComponent<PuzzleFrame>();
+                if (frame != null) break;
             }
-        }
 
-        foreach (var frame in puzzleFrameList)
-        {
-            if (frame.pfd.patternNum == 1 && frame.pfd.chipList.Count == 0)
+            foreach (var pfd in previewTargetPfd)
             {
-                if (IsChipWithinFrame(chipCenter, frame))
-                {
-                    frame.SetHighlight(true, overallCanPlace ? Color.green : Color.red);
-                }
+                pfd.previewTypeNum = 0;
             }
-        }
-    }
 
-    private bool IsChipWithinFrame(Vector2 chipCenter, PuzzleFrame frame)
-    {
-        RectTransform frameRect = frame.GetComponent<RectTransform>();
-        chipCenter.x -= (currentSelectedChip.rowNum - 1) * chipSize / 2;
-        chipCenter.y -= (currentSelectedChip.colNum - 1) * chipSize / 2;
-
-        for (int i = 0; i < currentSelectedChip.rowNum; i++)
-        {
-            for (int j = 0; j < currentSelectedChip.colNum; j++)
+            bool isFittable = false;
+            if (frame != null)
             {
-                Vector2 checkPosition = new Vector2(
-                    chipCenter.x + i * chipSize,
-                    chipCenter.y + j * chipSize
-                );
-
-                if (RectTransformUtility.RectangleContainsScreenPoint(frameRect, checkPosition, canvas.worldCamera))
-                {
-                    return true;
-                }
+                isFittable = SetPreviewTypeNum(currPuzzle.frameDataTable, currentSelectedChip, frame.pfd.x, frame.pfd.y);
             }
+            var color = isFittable ? new Color(1, 1, 1, 0.65f) : new Color(0.9f, 0.25f, 0.25f, 0.65f);
+            dragImg.color = color;
+            RefreshPuzzleBackgroundImages();
         }
-        return false;
     }
 
     public void RefreshChips()
@@ -807,6 +778,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             return;
         }
+
+        foreach (var pfd in previewTargetPfd)
+        {
+            pfd.previewTypeNum = 0;
+        }
+        RefreshPuzzleBackgroundImages();
 
         var angle = dragImgRectTr.localEulerAngles;
         if (currentSelectedChip != null)
@@ -1007,6 +984,30 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         isFromPuzzle = false;
     }
 
+    private void RefreshPuzzleBackgroundImages()
+    {
+        foreach (var pf in puzzleFrameList)
+        {
+            if (pf.pfd.patternNum == 0) continue;
+
+            switch (pf.pfd.previewTypeNum)
+            {
+                case 0:
+                    var texture = pf.pfd.chipList.Count > 0 ? frameBackgroundOnTexture : frameBackgroundOffTexture;
+                    pf.SetBackgroundImage(texture);
+                    break;
+                case 1:
+                    pf.SetBackgroundImage(framePreviewOffTexture);
+                    break;
+                case 2:
+                    pf.SetBackgroundImage(framePreviewOnTexture);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     private void SetPuzzle()
     {
         currPuzzle = GetPuzzle();
@@ -1127,6 +1128,84 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
         return pfdList;
+    }
+
+    private bool SetPreviewTypeNum(PuzzleFrameData[,] targetTable, ChipObj chip, int x, int y)
+    {
+        foreach (var pfd in previewTargetPfd)
+        {
+            pfd.previewTypeNum = 0;
+        }
+        previewTargetPfd.Clear();
+        bool isFittable = true;
+        var table = chip.row;
+        x += chip.posOffset[0];
+        y += chip.posOffset[1];
+        for (int i = 0; i < table.Length; i++)
+        {
+            for (int j = 0; j < table[i].col.Length; j++)
+            {
+                if (table[i].col[j] == 0)
+                {
+                    continue;
+                }
+
+                if (targetTable.GetLength(0) <= y + j)
+                {
+                    isFittable = false;
+                    continue;
+                }
+                if (targetTable.GetLength(1) <= x + i)
+                {
+                    isFittable = false;
+                    continue;
+                }
+
+                if (table[i].col[j] == 1)
+                {
+                    if (targetTable[y + j, x + i].patternNum == 0)
+                    {
+                        isFittable = false;
+                        continue;
+                    }
+                }
+
+                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
+                {
+                    isFittable = false;
+                    continue;
+                }
+
+                if (targetTable[y + j, x + i].chipList.Count > 0)
+                {
+                    if (table[i].col[j] != 2 || targetTable[y + j, x + i].chipType != 2)
+                    {
+                        if (targetTable[y + j, x + i].chipList.Count != 1 || targetTable[y + j, x + i].chipList[0] != chip)
+                        {
+                            isFittable = false;
+                            targetTable[y + j, x + i].previewTypeNum = 1;
+                            previewTargetPfd.Add(targetTable[y + j, x + i]);
+                            continue;
+                        }
+                    }
+                }
+
+                if (targetTable[y + j, x + i].chipList.Count > 0 && !targetTable[y + j, x + i].chipList.Contains(chip))
+                {
+                    if (table[i].col[j] != 2 || targetTable[y + j, x + i].chipType != 2)
+                    {
+                        isFittable = false;
+                        targetTable[y + j, x + i].previewTypeNum = 1;
+                        previewTargetPfd.Add(targetTable[y + j, x + i]);
+                        continue;
+                    }
+                }
+
+                targetTable[y + j, x + i].previewTypeNum = 2;
+                previewTargetPfd.Add(targetTable[y + j, x + i]);
+            }
+        }
+        return isFittable;
     }
 
     private void SetOrderDatas()

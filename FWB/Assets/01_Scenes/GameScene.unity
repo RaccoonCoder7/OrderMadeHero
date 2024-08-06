@@ -27176,6 +27176,8 @@ MonoBehaviour:
   puzzleChipParent: {fileID: 1588898367}
   frameBackgroundOffTexture: {fileID: 2800000, guid: 9c04ed0454df1e0429b676d8f9d62747, type: 3}
   frameBackgroundOnTexture: {fileID: 2800000, guid: 434b83aba4b16a549825db80239eafd9, type: 3}
+  framePreviewOffTexture: {fileID: 2800000, guid: e8198682da7ccb84eb7d9b2dc99de332, type: 3}
+  framePreviewOnTexture: {fileID: 2800000, guid: afa9b1155bbc92e41b686576f31b8dec, type: 3}
   isTutorial: 1
   creatableChipKeyList: []
 --- !u!114 &995046951
