@@ -292,7 +292,8 @@ public class IntroSceneMgr : MonoBehaviour
         }
 
         isNameBeingValidated = true;
-        inputField.interactable = false; 
+        StartCoroutine(SetInteractableDelayed(false));
+
         StopCoroutine(BlinkCoroutine());
         var msg = "이 이름으로 하시겠습니까? [" + playerName + "]";
         CommonTool.In.OpenConfirmPanel(msg,
@@ -310,7 +311,11 @@ public class IntroSceneMgr : MonoBehaviour
             StartCoroutine(BlinkCoroutine());
         });
     }
-
+    private IEnumerator SetInteractableDelayed(bool interactable)
+    {
+        yield return new WaitForEndOfFrame();
+        inputField.interactable = interactable;
+    }
     private void OnClickAuto()
     {
         switch (textFlowType)
