@@ -703,7 +703,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void VisualChipLocation(Vector2 position)
     {
-        ped.position = position;
+        var offset = (new Vector2(currentSelectedChip.rowNum - 1, currentSelectedChip.colNum - 1) * chipSize) / 2;
+        ped.position = position + new Vector2(-offset.x, offset.y);
         List<RaycastResult> results = new List<RaycastResult>();
         es.RaycastAll(ped, results);
         if (results.Count > 0)
