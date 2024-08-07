@@ -869,7 +869,7 @@ public class GameSceneMgr : MonoBehaviour
             {
                 if (i < listCnt)
                 {
-                    var state = PlayerPrefs.GetInt(bluePrintList[i].bluePrintKey);
+                    var state = bluePrintList[i].weaponState;
                     bool isSellable = state < 3;
                     ShopUISlot targetSlotPrefab = isSellable ? shopUiSlotPrefab : shopUiSlotSoldOutPrefab;
                     ShopUISlot item = Instantiate(targetSlotPrefab, shopItemParentTr);
@@ -922,7 +922,7 @@ public class GameSceneMgr : MonoBehaviour
                                     GameMgr.In.credit -= item.price;
                                     GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
-                                    PlayerPrefs.SetInt(bluePrintList[tempNum].bluePrintKey, 3);
+                                    state = 3;
                                     StartCoroutine(DrMadChatRoutine());
                                     shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();
@@ -954,7 +954,7 @@ public class GameSceneMgr : MonoBehaviour
             {
                 if (i < listCnt)
                 {
-                    var state = PlayerPrefs.GetInt(chipList[i].chipKey);
+                    var state = chipList[i].chipState;
                     bool isSellable = state < 3;
                     ShopUISlot targetSlotPrefab = isSellable ? shopUiSlotPrefab : shopUiSlotSoldOutPrefab;
                     ShopUISlot item = Instantiate(targetSlotPrefab, shopItemParentTr);
@@ -1005,7 +1005,7 @@ public class GameSceneMgr : MonoBehaviour
                                     GameMgr.In.credit -= item.price;
                                     GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
-                                    PlayerPrefs.SetInt(chipList[tempNum].chipKey, 3);
+                                    state = 3;
                                     puzzleMgr.creatableChipKeyList.Add(chip.chipKey);
                                     StartCoroutine(DrMadChatRoutine());
                                     shopPopupPanel.gameObject.SetActive(false);

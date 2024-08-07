@@ -36,25 +36,27 @@ public class PlayerData
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class UnlockedWeaponInfo 
 {
     
     public List<BluePrintState> bluePrintStatesList = new List<BluePrintState>();
     public List<ChipState> chipStatesList = new List<ChipState>();
 
-    [System.Serializable]
+    [Serializable]
     public class BluePrintState
     {
     public string bluePrintKey;
     public bool createEnable;
     public bool orderEnable;
+    public int bpWeaponState;
     }
-    [System.Serializable]
+    [Serializable]
     public class ChipState 
     {
         public string chipKey;
         public bool createEnable;
+        public int bpChipState;
     }
 }
 
@@ -121,7 +123,7 @@ public class DataSaveLoad : MonoBehaviour
             {
                 if (bluePrint.createEnable || bluePrint.orderEnable)
                 {
-                    result.bluePrintStatesList.Add(new UnlockedWeaponInfo.BluePrintState() { bluePrintKey = bluePrint.bluePrintKey, createEnable = bluePrint.createEnable, orderEnable = bluePrint.orderEnable});
+                    result.bluePrintStatesList.Add(new UnlockedWeaponInfo.BluePrintState() { bluePrintKey = bluePrint.bluePrintKey, createEnable = bluePrint.createEnable, orderEnable = bluePrint.orderEnable, bpWeaponState = bluePrint.weaponState});
                 }
             }
         }
@@ -129,7 +131,7 @@ public class DataSaveLoad : MonoBehaviour
         {
             if(chip.createEnable)
             {
-                result.chipStatesList.Add(new UnlockedWeaponInfo.ChipState() { chipKey = chip.chipKey, createEnable = chip.createEnable } );
+                result.chipStatesList.Add(new UnlockedWeaponInfo.ChipState() { chipKey = chip.chipKey, createEnable = chip.createEnable, bpChipState = chip.chipState} );
             }
         }
         return result;
@@ -147,6 +149,7 @@ public class DataSaveLoad : MonoBehaviour
                     {
                         bluePrint.createEnable = bluePrintState.createEnable;
                         bluePrint.orderEnable = bluePrintState.orderEnable;
+                        bluePrint.weaponState = bluePrintState.bpWeaponState;
                         break;
                     }
                 }
@@ -160,6 +163,7 @@ public class DataSaveLoad : MonoBehaviour
                 if (chip.chipKey == chipState.chipKey)
                 {
                     chip.createEnable = chipState.createEnable;
+                    chip.chipState = chipState.bpChipState;
                     break;
                 }
             }
