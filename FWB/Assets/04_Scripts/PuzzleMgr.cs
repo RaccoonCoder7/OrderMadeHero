@@ -62,12 +62,14 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private bool isAscending;
     private int enabledFrameCnt;
     private int pressedChipIndex = -1;
+    private int currentTagCnt;
     private Vector3 resolutionOffset;
     private Vector3 chipOffset;
     private Vector3 prevMousePos;
     private SpriteChange sortOrderSC;
     private List<PuzzleFrame> puzzleFrameList = new List<PuzzleFrame>();
     private List<string> filterAbilityKeyList = new List<string>();
+    private List<string> etcAbilityKeyList = new List<string>();
     private Dictionary<Chip, int> currentChipInPuzzleDic = new Dictionary<Chip, int>();
     private Dictionary<Ability, int> currentAbilityInPuzzleDic = new Dictionary<Ability, int>();
     private Dictionary<ChipObj, int> chipObjDic = new Dictionary<ChipObj, int>();
@@ -115,18 +117,36 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         resolutionOffset = new Vector3(canvasScaler.referenceResolution.x, canvasScaler.referenceResolution.y, 0) / 2;
 
+        List<string> existAbilityList = new List<string>();
+        foreach (var filter in abilityFilterList)
+        {
+            existAbilityList.Add(filter.abilityKey);
+        }
+        var abilityList = GameMgr.In.abilityTable.abilityList;
+        foreach (var ability in abilityList)
+        {
+            if (!existAbilityList.Contains(ability.abilityKey))
+            {
+                etcAbilityKeyList.Add(ability.abilityKey);
+            }
+        }
+
         for (int i = 0; i < abilityFilterList.Count; i++)
         {
             int tempNum = i;
             abilityFilterList[tempNum].button.onClick.AddListener(() =>
             {
                 var filter = abilityFilterList[tempNum];
+                AbilityFilterUI tag;
                 if (filter.isOn)
                 {
+                    currentTagCnt--;
                     filter.image.sprite = filter.offSprite;
-                    filterAbilityKeyList.Remove(filter.abilityKey);
-
-                    var tag = abilityTagList.Find(x => x.abilityKey.Equals(filter.abilityKey));
+                    if (!filter.abilityKey.Equals("ETC"))
+                    {
+                        filterAbilityKeyList.Remove(filter.abilityKey);
+                    }
+                    tag = abilityTagList.Find(x => x.abilityKey.Equals(filter.abilityKey));
                     tag.abilityKey = string.Empty;
                     tag.transform.SetSiblingIndex(2);
                     tag.image.sprite = tag.offSprite;
@@ -136,18 +156,26 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 }
                 else
                 {
-                    if (filterAbilityKeyList.Count >= 3)
+                    if (currentTagCnt >= 3)
                     {
                         return;
                     }
+                    currentTagCnt++;
                     filter.image.sprite = filter.onSprite;
-                    filterAbilityKeyList.Add(filter.abilityKey);
 
-                    var tag = abilityTagList.First(x => string.IsNullOrEmpty(x.abilityKey));
+                    tag = abilityTagList.First(x => string.IsNullOrEmpty(x.abilityKey));
+                    if (filter.abilityKey.Equals("ETC"))
+                    {
+                        tag.textForTag.text = "이능력";
+                    }
+                    else
+                    {
+                        filterAbilityKeyList.Add(filter.abilityKey);
+                        tag.textForTag.text = GameMgr.In.GetAbility(filter.abilityKey).name;
+                    }
                     tag.abilityKey = filter.abilityKey;
-                    tag.transform.SetSiblingIndex(filterAbilityKeyList.Count - 1);
+                    tag.transform.SetSiblingIndex(currentTagCnt - 1);
                     tag.image.sprite = tag.onSprite;
-                    tag.textForTag.text = GameMgr.In.GetAbility(filter.abilityKey).name;
                     tag.button.interactable = true;
                     tag.button.onClick.AddListener(() =>
                     {
@@ -734,6 +762,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void RefreshChips()
     {
+        var etc = abilityTagList.Find(x => x.abilityKey.Equals("ETC"));
         foreach (var chip in chipList)
         {
             if (!creatableChipKeyList.Contains(chip.chipKey))
@@ -753,6 +782,24 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
 
             var chipData = GameMgr.In.GetChip(chip.chipKey);
+            if (etc != null)
+            {
+                bool isContains = false;
+                foreach (var ability in chipData.abilityList)
+                {
+                    if (etcAbilityKeyList.Contains(ability.abilityKey))
+                    {
+                        isContains = true;
+                        break;
+                    }
+                }
+                if (!isContains)
+                {
+                    chip.transform.parent.gameObject.SetActive(false);
+                    continue;
+                }
+            }
+
             foreach (var filterAbilityKey in filterAbilityKeyList)
             {
                 var targetAbility = chipData.abilityList.Find(x => x.abilityKey.Equals(filterAbilityKey));
@@ -1386,6 +1433,22 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         currentChipInPuzzleDic.Clear();
         currentAbilityInPuzzleDic.Clear();
         chipObjDic.Clear();
+        currentTagCnt = 0;
+        filterAbilityKeyList.Clear();
+        foreach (var filter in abilityFilterList)
+        {
+            filter.image.sprite = filter.offSprite;
+            filter.isOn = false;
+        }
+        foreach (var tag in abilityTagList)
+        {
+            tag.abilityKey = string.Empty;
+            tag.image.sprite = tag.offSprite;
+            tag.textForTag.text = string.Empty;
+            tag.button.interactable = false;
+            tag.button.onClick.RemoveAllListeners();
+        }
+
         currentAbilityText.text = string.Empty;
         usedChipText.text = string.Empty;
 
