@@ -28,7 +28,7 @@ public class SoundManager : MonoBehaviour
 
     private Dictionary<SoundType, float> volumeLevels = new Dictionary<SoundType, float>()
     {
-        { SoundType.Bgm, 1f },
+        { SoundType.Bgm, 0.2f },
         { SoundType.Effect, 1f }
     };
 
@@ -64,13 +64,13 @@ public class SoundManager : MonoBehaviour
         if (instance.bgmVolumeBar != null)
         {
             instance.bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
-            instance.bgmVolumeBar.value = instance.volumeLevels[SoundType.Bgm];
+            instance.bgmVolumeBar.value = instance.bgmAudioSource.volume;
         }
 
         if (instance.effectVolumeBar != null)
         {
             instance.effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
-            instance.effectVolumeBar.value = instance.volumeLevels[SoundType.Effect];
+            instance.effectVolumeBar.value = instance.effectAudioSource.volume;
         }
     }
 
