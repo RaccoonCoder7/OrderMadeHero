@@ -259,7 +259,6 @@ public class IntroSceneMgr : MonoBehaviour
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
-        StopCoroutine(SoundManager.BGMPlayer());
         onEndText = CommonTool.In.AsyncChangeScene("GameScene");
         StartNextLine();
     }

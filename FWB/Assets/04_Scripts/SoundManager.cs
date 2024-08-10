@@ -40,7 +40,8 @@ public class SoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             effectAudioSource = GetComponent<AudioSource>();
             bgmAudioSource = gameObject.AddComponent<AudioSource>();
-            bgmAudioSource.loop = true; // BGM ±âº» ¼³Á¤À¸·Î ·çÇÁ
+            bgmAudioSource.volume = 0.2f;
+            bgmAudioSource.loop = true; // BGM ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
             InitializeVolumeBars();
         }
@@ -73,7 +74,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    //º¼·ý ¹Ù ¾÷µ«(¾øÀ¸¸é Ã£±â)
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½)
     private void FindVolumeBars()
     {
         masterVolumeBar = GameObject.Find("MasterBar")?.GetComponent<Scrollbar>();
@@ -81,47 +82,40 @@ public class SoundManager : MonoBehaviour
         effectVolumeBar = GameObject.Find("EffectBar")?.GetComponent<Scrollbar>();
     }
 
-    // ¸¶½ºÅÍ º¼·ý Á¶Àý
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public static void SetMasterVolume(float volume)
     {
         instance.masterVolume = Mathf.Clamp01(volume);
         UpdateVolumes();
     }
 
-    // °³º° º¼·ý Á¶Àý
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public static void SetVolume(SoundType sound, float volume)
     {
         instance.volumeLevels[sound] = Mathf.Clamp01(volume);
         UpdateVolumes();
     }
 
-    // º¼·ý ¾÷µ¥ÀÌÆ®
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     private static void UpdateVolumes()
     {
         instance.bgmAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Bgm];
         instance.effectAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Effect];
     }
 
-    // BGM ÇÃ·¹ÀÌ¾î (¹«ÇÑ·çÇÁ)
-    public static IEnumerator BGMPlayer()
+    // BGM ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ (ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ï¿½)
+    public static void BGMPlayer(string clipName)
     {
-        string activeSceneName = SceneManager.GetActiveScene().name;
-        AudioClip bgmClip = instance.bgmList.FirstOrDefault(x => x.name.Equals(activeSceneName));
-
+        AudioClip bgmClip = instance.bgmList.FirstOrDefault(x => x.name.Equals(clipName));
         if (bgmClip != null && instance.bgmAudioSource.clip != bgmClip)
         {
             instance.bgmAudioSource.Stop();
-            yield return null;
             instance.bgmAudioSource.clip = bgmClip;
             instance.bgmAudioSource.Play();
         }
-        else
-        {
-            yield return null;
-        }
     }
 
-    // È¿°úÀ½ ÇÃ·¹ÀÌ (ÇÑ¹ø)
+    // È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ (ï¿½Ñ¹ï¿½)
     public static void PlayOneShot(string audioName)
     {
         var clip = instance.effectList.FirstOrDefault(x => x.name.Equals(audioName));
@@ -131,7 +125,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // ±âº»Àû »ç¿îµå ÇÃ·¹ÀÌ
+    // ï¿½âº»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½
     public static void PlaySound(SoundType sound, int index, float volume = 1f)
     {
         AudioClip clip = null;

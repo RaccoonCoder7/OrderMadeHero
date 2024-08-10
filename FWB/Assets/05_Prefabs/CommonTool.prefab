@@ -338,7 +338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 451.00003, y: -258}
+  m_AnchoredPosition: {x: 451, y: -258}
   m_SizeDelta: {x: 136, y: 51}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3087253590565496317
@@ -957,8 +957,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmList:
   - {fileID: 8300000, guid: a038fbf8cc3a28e4eaae7b46d9b3f9eb, type: 3}
-  - {fileID: 8300000, guid: 8d7c8922f3661ac4ebd5e912e414463a, type: 3}
-  - {fileID: 8300000, guid: 826fb72da87108e42adf51986cab5312, type: 3}
+  - {fileID: 8300000, guid: 78472871b64992f478369946c7f8fdfa, type: 3}
+  - {fileID: 8300000, guid: cec2d7742746ca443919e51e7803d8f7, type: 3}
   effectList:
   - {fileID: 8300000, guid: ef6edc293d43de441a47697bed82590b, type: 3}
   - {fileID: 8300000, guid: b8b1cfe68299a00499d88efa3f420e86, type: 3}

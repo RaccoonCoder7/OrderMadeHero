@@ -10,10 +10,9 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using static SpriteChange;
 using DG.Tweening;
-using UnityEngine.Serialization;
-using UnityEngine.Windows;
 using static WeaponDataTable;
 using static GameMgr;
+using System.IO;
 
 /// <summary>
 /// 게임 씬의 UI와 동작(메인 게임 플로우)를 관리
@@ -254,7 +253,6 @@ public class GameSceneMgr : MonoBehaviour
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;
-        StartCoroutine(SoundManager.BGMPlayer());
 
         blueprintImgRectTr = blueprintImg.GetComponent<RectTransform>();
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
