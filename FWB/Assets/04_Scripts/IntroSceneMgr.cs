@@ -8,7 +8,7 @@ using DG.Tweening;
 /// <summary>
 /// 프롤로그 씬의 동작을 관리
 /// </summary>
-public class IntroSceneMgr : MonoBehaviour
+public class IntroSceneMgr : MonoBehaviour, IDialogue
 {
     public CustomScrollBar scrollBar;
     public InputField inputField;
@@ -28,14 +28,14 @@ public class IntroSceneMgr : MonoBehaviour
     public GameObject historyPanel;
     public Text targetText;
     public Text historyText;
-    public float textDelayTime;
+    public float textDelayTime { get; set; }
     public List<ImageData> imageList = new List<ImageData>();
     public List<Sprite> buttonImageList = new List<Sprite>();
 
     private bool isOnConversation;
     private bool isTextFlowing;
     private bool skipLine;
-    private bool autoTextSkip;
+    public bool autoTextSkip { get; set; }
     private List<string> lines = new List<string>();
     private int lineCnt = -1;
     private float textSkipWaitTime = 1f;

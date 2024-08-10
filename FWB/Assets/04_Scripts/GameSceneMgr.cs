@@ -17,7 +17,7 @@ using System.IO;
 /// <summary>
 /// 게임 씬의 UI와 동작(메인 게임 플로우)를 관리
 /// </summary>
-public class GameSceneMgr : MonoBehaviour
+public class GameSceneMgr : MonoBehaviour, IDialogue
 {
 
     [Header("UI")]
@@ -141,8 +141,7 @@ public class GameSceneMgr : MonoBehaviour
     public SpriteAnimation shopSpriteAnim;
     [HideInInspector]
     public Text chatTargetText;
-    [Header("Data")]
-    public float textDelayTime;
+    public float textDelayTime { get; set; }
     [HideInInspector]
     public bool isEventFlowing;
     [HideInInspector]
@@ -169,7 +168,7 @@ public class GameSceneMgr : MonoBehaviour
     private bool isTextFlowing;
     private bool skipLine;
     private bool isWaitingForText;
-    public bool autoTextSkip;
+    public bool autoTextSkip { get; set; }
     private List<string> lines = new List<string>();
     private int lineCnt = 0;
     private string prevOrderKey = "";
