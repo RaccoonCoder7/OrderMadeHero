@@ -198,6 +198,7 @@ public class GameMgr : SingletonMono<GameMgr>
                 bool enable = string.IsNullOrEmpty(bp.howToGet);
                 bp.orderEnable = enable;
                 bp.createEnable = enable;
+                bp.weaponState = 0;
             }
         }
 
@@ -210,6 +211,7 @@ public class GameMgr : SingletonMono<GameMgr>
         {
             bool enable = string.IsNullOrEmpty(chip.howToGet);
             chip.createEnable = enable;
+            chip.chipState = 0;
         }
 
         foreach (var request in requestTable.requestList)
