@@ -51,6 +51,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public List<Button> saveLoadButtons = new List<Button>();
     public Button alertDodge;
     public Button creditDodge;
+    public Button bankruptDodge;
     public Text chatName;
     public GameObject mainChatPanel;
     public GameObject pcChatPanel;
@@ -84,6 +85,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public List<Sprite> getItemSprites = new List<Sprite>();
     public List<String> getItemTexts = new List<String>();
     public GameObject creditPanel;
+    public GameObject bankruptPanel;
     public GameObject shopUiSlotNoItemPrefab;
     public GameObject shopDrMadChat;
     public GameObject shopControlBlockingPanel;
@@ -199,6 +201,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private bool isSaving;
     private Texture2D currentScreen;
     private GameObject lastSelectedSlot = null;
+    private bool isBankrupt = false;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -695,8 +698,19 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         if (GameMgr.In.day == Day.금)
         {
             GameMgr.In.dayRentCost = -100;
-            GameMgr.In.credit += GameMgr.In.dayRentCost;
-            goldText.text = GameMgr.In.credit.ToString();
+            var money = GameMgr.In.credit + GameMgr.In.dayRentCost;
+            if (money <= 0)
+            {
+                isBankrupt = true;
+                goldText.text = GameMgr.In.credit.ToString();
+            }
+            else
+            {
+                goldText.text = GameMgr.In.credit.ToString();
+                GameMgr.In.lastWeekCredit = GameMgr.In.credit;
+                GameMgr.In.lastWeekFame = GameMgr.In.fame;
+                GameMgr.In.lastWeekTend = GameMgr.In.tendency;
+            }
         }
         else
         {
@@ -813,7 +827,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             creditDodge.onClick.RemoveAllListeners();
             creditDodge.onClick.AddListener(() =>
             {
-                StartCoroutine(FadeToNextDay());
+                if (isBankrupt)
+                {
+                    Bankrupt();
+                }
+                else
+                {
+                    StartCoroutine(FadeToNextDay());
+                }
             });
             pc.onClick.RemoveAllListeners();
             pc.image.raycastTarget = false;
@@ -821,6 +842,26 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             FameUIFill();
             TendUIMove();
         });
+    }
+    
+    public void Bankrupt()
+    {
+        creditPanel.SetActive(false);
+        isEventFlowing = false;
+        bankruptPanel.SetActive(true);
+        bankruptDodge.onClick.RemoveAllListeners();
+        bankruptDodge.onClick.AddListener(() =>
+        {
+            GameMgr.In.credit = GameMgr.In.lastWeekCredit;
+            GameMgr.In.fame = GameMgr.In.lastWeekFame;
+            GameMgr.In.tendency = GameMgr.In.lastWeekTend;
+            GameMgr.In.ResetDayData();
+            GameMgr.In.day = (Day)1;
+            bankruptPanel.SetActive(false);
+            CommonTool.In.AsyncChangeScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        });
+        FameUIFill();
+        TendUIMove();
     }
 
     public void SkipToLastLine()
@@ -919,7 +960,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     GameMgr.In.credit -= item.price;
                                     GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
-                                    state = 3;
+                                    bluePrintList[tempNum].weaponState = 3;
                                     StartCoroutine(DrMadChatRoutine());
                                     shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();
@@ -1002,7 +1043,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     GameMgr.In.credit -= item.price;
                                     GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
-                                    state = 3;
+                                    chipList[tempNum].chipState = 3;
                                     puzzleMgr.creatableChipKeyList.Add(chip.chipKey);
                                     StartCoroutine(DrMadChatRoutine());
                                     shopPopupPanel.gameObject.SetActive(false);
