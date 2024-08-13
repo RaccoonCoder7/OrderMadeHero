@@ -20,6 +20,8 @@ public class SoundManager : MonoBehaviour
     private AudioSource effectAudioSource;
     private AudioSource bgmAudioSource;
     private float masterVolume = 1f;
+    private float savedBgmVolume;
+    private float savedEffectVolume;
 
     [Header("UI Elements")]
     [SerializeField] private Scrollbar masterVolumeBar;
@@ -41,7 +43,7 @@ public class SoundManager : MonoBehaviour
             effectAudioSource = GetComponent<AudioSource>();
             bgmAudioSource = gameObject.AddComponent<AudioSource>();
             bgmAudioSource.volume = 0.2f;
-            bgmAudioSource.loop = true; // BGM �⺻ �������� ����
+            bgmAudioSource.loop = true;
 
             InitializeVolumeBars();
         }
@@ -54,6 +56,7 @@ public class SoundManager : MonoBehaviour
     public static void InitializeVolumeBars()
     {
         instance.FindVolumeBars();
+        LoadVolumeSettings();
 
         if (instance.masterVolumeBar != null)
         {
@@ -64,17 +67,16 @@ public class SoundManager : MonoBehaviour
         if (instance.bgmVolumeBar != null)
         {
             instance.bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
-            instance.bgmVolumeBar.value = instance.bgmAudioSource.volume;
+            instance.bgmVolumeBar.value = instance.savedBgmVolume;
         }
 
         if (instance.effectVolumeBar != null)
         {
             instance.effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
-            instance.effectVolumeBar.value = instance.effectAudioSource.volume;
+            instance.effectVolumeBar.value = instance.savedEffectVolume;
         }
     }
 
-    //���� �� ����(������ ã��)
     private void FindVolumeBars()
     {
         masterVolumeBar = GameObject.Find("MasterBar")?.GetComponent<Scrollbar>();
@@ -82,28 +84,32 @@ public class SoundManager : MonoBehaviour
         effectVolumeBar = GameObject.Find("EffectBar")?.GetComponent<Scrollbar>();
     }
 
-    // ������ ���� ����
     public static void SetMasterVolume(float volume)
     {
         instance.masterVolume = Mathf.Clamp01(volume);
         UpdateVolumes();
     }
 
-    // ���� ���� ����
     public static void SetVolume(SoundType sound, float volume)
     {
-        instance.volumeLevels[sound] = Mathf.Clamp01(volume);
+        volume = Mathf.Clamp01(volume);
+        instance.volumeLevels[sound] = volume;
+
+        if (sound == SoundType.Bgm)
+            instance.savedBgmVolume = volume;
+        else if (sound == SoundType.Effect)
+            instance.savedEffectVolume = volume;
+
         UpdateVolumes();
     }
 
-    // ���� ������Ʈ
+
     private static void UpdateVolumes()
     {
         instance.bgmAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Bgm];
         instance.effectAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Effect];
     }
 
-    // BGM �÷��̾� (���ѷ���)
     public static void BGMPlayer(string clipName)
     {
         AudioClip bgmClip = instance.bgmList.FirstOrDefault(x => x.name.Equals(clipName));
@@ -114,8 +120,30 @@ public class SoundManager : MonoBehaviour
             instance.bgmAudioSource.Play();
         }
     }
+    public static void SaveVolumeSettings()
+    {
+        PlayerPrefs.SetFloat("MasterVolume", instance.masterVolume);
+        PlayerPrefs.SetFloat("BgmVolume", instance.volumeLevels[SoundType.Bgm]);
+        PlayerPrefs.SetFloat("EffectVolume", instance.volumeLevels[SoundType.Effect]);
+        PlayerPrefs.Save(); 
+    }
 
-    // ȿ���� �÷��� (�ѹ�)
+    public static void LoadVolumeSettings()
+    {
+        if (PlayerPrefs.HasKey("MasterVolume"))
+        {
+            instance.masterVolume = PlayerPrefs.GetFloat("MasterVolume");
+        }
+        if (PlayerPrefs.HasKey("BgmVolume"))
+        {
+            instance.volumeLevels[SoundType.Bgm] = PlayerPrefs.GetFloat("BgmVolume");
+        }
+        if (PlayerPrefs.HasKey("EffectVolume"))
+        {
+            instance.volumeLevels[SoundType.Effect] = PlayerPrefs.GetFloat("EffectVolume");
+        }
+    }
+
     public static void PlayOneShot(string audioName)
     {
         var clip = instance.effectList.FirstOrDefault(x => x.name.Equals(audioName));
@@ -125,7 +153,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // �⺻�� ���� �÷���
     public static void PlaySound(SoundType sound, int index, float volume = 1f)
     {
         AudioClip clip = null;
