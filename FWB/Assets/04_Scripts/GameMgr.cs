@@ -30,6 +30,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int lastWeekCredit;
     public int lastWeekFame;
     public int lastWeekTend;
+    public int isEventOn = 0;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;

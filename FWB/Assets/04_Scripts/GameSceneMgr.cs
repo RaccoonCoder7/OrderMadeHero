@@ -61,6 +61,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject saveLoadPanel;
     public GameObject savePopup;
     public GameObject loadPopup;
+    public GameObject popUpDim;
     public GameObject saveOverPopup;
     public GameObject noDataPopup;
     public static bool isSavePopupActive = false;
@@ -308,28 +309,58 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
         // TODO: day limit 추가
-        for (int i = startDay; i <= 7; i++)
+        if (!DataSaveLoad.dataSave.isLoaded)
         {
-            string eventKey = "day" + i;
-            var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
-            isEventFlowing = true;
-            if (targetEvent)
+            for (int i = startDay; i <= 7; i++)
             {
-                yield return StartCoroutine(StartEventFlow(targetEvent));
-            }
-            else
-            {
-                yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-            }
+                string eventKey = "day" + i;
+                var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+                isEventFlowing = true;
+                if (targetEvent)
+                {
+                    yield return StartCoroutine(StartEventFlow(targetEvent));
+                }
+                else
+                {
+                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                }
 
-            if (isEventFlowing)
-            {
-                yield return null;
-            }
+                if (isEventFlowing)
+                {
+                    yield return null;
+                }
 
-            if (i < 7)
+                if (i < 7)
+                {
+                    NextDay();
+                }
+            }
+        }
+        else
+        {
+            for (int i = (int)GameMgr.In.day; i <= 7; i++)
             {
-                NextDay();
+                string eventKey = "day" + i;
+                var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+                isEventFlowing = true;
+                if (targetEvent)
+                {
+                    yield return StartCoroutine(StartEventFlow(targetEvent));
+                }
+                else
+                {
+                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                }
+
+                if (isEventFlowing)
+                {
+                    yield return null;
+                }
+
+                if (i < 7)
+                {
+                    NextDay();
+                }
             }
         }
     }
@@ -510,10 +541,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         isSaving = true;
         if (File.Exists(Application.persistentDataPath + "/saves" + "/" + saveSlot + ".json"))
         {
+            popUpDim.SetActive(true);
             saveOverPopup.SetActive(true);
         }
         else
+        {
+            popUpDim.SetActive(true);
             savePopup.SetActive(true);
+        }
     }
 
     public void OnClickDataLoad()
@@ -521,10 +556,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         if (File.Exists(Application.persistentDataPath + "/saves" + "/" + saveSlot + ".json"))
         {
             isSaving = false;
+            popUpDim.SetActive(true);
             loadPopup.SetActive(true);
         }
         else
+        {
+            popUpDim.SetActive(true);
             StartCoroutine(NoDataBlinker());
+        }
     }
 
     private IEnumerator NoDataBlinker()
@@ -541,7 +580,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             elapsedTime += blinkInterval;
             yield return new WaitForSeconds(blinkInterval);
         }
-
+        popUpDim.SetActive(false);
         noDataPopup.SetActive(false);
     }
 
@@ -588,6 +627,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void OnClickPopupNo()
     {
+        popUpDim.SetActive(false);
         savePopup.SetActive(false);
         loadPopup.SetActive(false);
         saveOverPopup.SetActive(false);
@@ -841,6 +881,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             UpdateDayEndMessage();
             FameUIFill();
             TendUIMove();
+            if ((int)GameMgr.In.day <= 7)
+            {
+                GameMgr.In.isEventOn = 1;
+            }
         });
     }
     
