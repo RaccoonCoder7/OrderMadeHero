@@ -8,7 +8,7 @@ using DG.Tweening;
 /// <summary>
 /// 프롤로그 씬의 동작을 관리
 /// </summary>
-public class IntroSceneMgr : MonoBehaviour
+public class IntroSceneMgr : MonoBehaviour, IDialogue
 {
     public CustomScrollBar scrollBar;
     public InputField inputField;
@@ -28,14 +28,14 @@ public class IntroSceneMgr : MonoBehaviour
     public GameObject historyPanel;
     public Text targetText;
     public Text historyText;
-    public float textDelayTime;
+    public float textDelayTime { get; set; }
     public List<ImageData> imageList = new List<ImageData>();
     public List<Sprite> buttonImageList = new List<Sprite>();
 
     private bool isOnConversation;
     private bool isTextFlowing;
     private bool skipLine;
-    private bool autoTextSkip;
+    public bool autoTextSkip { get; set; }
     private List<string> lines = new List<string>();
     private int lineCnt = -1;
     private float textSkipWaitTime = 1f;
@@ -259,7 +259,6 @@ public class IntroSceneMgr : MonoBehaviour
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
-        StopCoroutine(SoundManager.BGMPlayer());
         onEndText = CommonTool.In.AsyncChangeScene("GameScene");
         StartNextLine();
     }
@@ -292,7 +291,8 @@ public class IntroSceneMgr : MonoBehaviour
         }
 
         isNameBeingValidated = true;
-        inputField.interactable = false; 
+        StartCoroutine(SetInteractableDelayed(false));
+
         StopCoroutine(BlinkCoroutine());
         var msg = "이 이름으로 하시겠습니까? [" + playerName + "]";
         CommonTool.In.OpenConfirmPanel(msg,
@@ -310,7 +310,11 @@ public class IntroSceneMgr : MonoBehaviour
             StartCoroutine(BlinkCoroutine());
         });
     }
-
+    private IEnumerator SetInteractableDelayed(bool interactable)
+    {
+        yield return new WaitForEndOfFrame();
+        inputField.interactable = interactable;
+    }
     private void OnClickAuto()
     {
         switch (textFlowType)

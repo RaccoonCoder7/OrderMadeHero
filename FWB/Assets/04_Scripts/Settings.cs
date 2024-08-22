@@ -24,10 +24,15 @@ public class Settings : MonoBehaviour
     [SerializeField] private Sprite textSpeedFastActiveSprite;
     [SerializeField] private Sprite textSpeedFastInactiveSprite;
 
-    [SerializeField] private GameSceneMgr gameSceneMgr;
+    private IDialogue dialogue;
 
     void Start()
     {
+        dialogue = FindObjectOfType<GameSceneMgr>() as IDialogue;
+        if (dialogue == null)
+        {
+            dialogue = FindObjectOfType<IntroSceneMgr>() as IDialogue;
+        }
         // 버튼에 이벤트 리스너 연결
         autoTextOnButton.onClick.AddListener(EnableAutoText);
         autoTextOffButton.onClick.AddListener(DisableAutoText);
@@ -42,39 +47,39 @@ public class Settings : MonoBehaviour
 
     private void EnableAutoText()
     {
-        gameSceneMgr.autoTextSkip = true;
+        dialogue.autoTextSkip = true;
         UpdateButtonStates();
     }
 
     private void DisableAutoText()
     {
-        gameSceneMgr.autoTextSkip = false;
+        dialogue.autoTextSkip = false;
         UpdateButtonStates();
     }
 
     private void SetTextSpeedSlow()
     {
-        if (gameSceneMgr != null)
+        if (dialogue != null)
         {
-            gameSceneMgr.textDelayTime = 0.06f;
+            dialogue.textDelayTime = 0.06f;
             UpdateButtonStates();
         }
     }
 
     private void SetTextSpeedMid()
     {
-        if (gameSceneMgr != null)
+        if (dialogue != null)
         {
-            gameSceneMgr.textDelayTime = 0.02f;
+            dialogue.textDelayTime = 0.02f;
             UpdateButtonStates();
         }
     }
 
     private void SetTextSpeedFast()
     {
-        if (gameSceneMgr != null)
+        if (dialogue != null)
         {
-            gameSceneMgr.textDelayTime = 0f;
+            dialogue.textDelayTime = 0f;
             UpdateButtonStates();
         }
     }
@@ -87,7 +92,7 @@ public class Settings : MonoBehaviour
 
     private void UpdateButtonStates()
     {
-        if (gameSceneMgr.autoTextSkip)
+        if (dialogue.autoTextSkip)
         {
             autoTextOnButton.image.sprite = autoTextOnActiveSprite;
             autoTextOffButton.image.sprite = autoTextOffInactiveSprite;
@@ -98,7 +103,7 @@ public class Settings : MonoBehaviour
             autoTextOffButton.image.sprite = autoTextOffActiveSprite;
         }
 
-        float delay = gameSceneMgr.textDelayTime;
+        float delay = dialogue.textDelayTime;
         if (delay == 0.06f)
         {
             textSpeedSlowButton.image.sprite = textSpeedSlowActiveSprite;

@@ -20,6 +20,8 @@ public class SoundManager : MonoBehaviour
     private AudioSource effectAudioSource;
     private AudioSource bgmAudioSource;
     private float masterVolume = 1f;
+    private float savedBgmVolume;
+    private float savedEffectVolume;
 
     [Header("UI Elements")]
     [SerializeField] private Scrollbar masterVolumeBar;
@@ -28,7 +30,7 @@ public class SoundManager : MonoBehaviour
 
     private Dictionary<SoundType, float> volumeLevels = new Dictionary<SoundType, float>()
     {
-        { SoundType.Bgm, 1f },
+        { SoundType.Bgm, 0.2f },
         { SoundType.Effect, 1f }
     };
 
@@ -40,7 +42,8 @@ public class SoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             effectAudioSource = GetComponent<AudioSource>();
             bgmAudioSource = gameObject.AddComponent<AudioSource>();
-            bgmAudioSource.loop = true; // BGM 기본 설정으로 루프
+            bgmAudioSource.volume = 0.2f;
+            bgmAudioSource.loop = true;
 
             InitializeVolumeBars();
         }
@@ -53,6 +56,7 @@ public class SoundManager : MonoBehaviour
     public static void InitializeVolumeBars()
     {
         instance.FindVolumeBars();
+        LoadVolumeSettings();
 
         if (instance.masterVolumeBar != null)
         {
@@ -63,17 +67,16 @@ public class SoundManager : MonoBehaviour
         if (instance.bgmVolumeBar != null)
         {
             instance.bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
-            instance.bgmVolumeBar.value = instance.volumeLevels[SoundType.Bgm];
+            instance.bgmVolumeBar.value = instance.savedBgmVolume;
         }
 
         if (instance.effectVolumeBar != null)
         {
             instance.effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
-            instance.effectVolumeBar.value = instance.volumeLevels[SoundType.Effect];
+            instance.effectVolumeBar.value = instance.savedEffectVolume;
         }
     }
 
-    //볼륨 바 업뎃(없으면 찾기)
     private void FindVolumeBars()
     {
         masterVolumeBar = GameObject.Find("MasterBar")?.GetComponent<Scrollbar>();
@@ -81,47 +84,66 @@ public class SoundManager : MonoBehaviour
         effectVolumeBar = GameObject.Find("EffectBar")?.GetComponent<Scrollbar>();
     }
 
-    // 마스터 볼륨 조절
     public static void SetMasterVolume(float volume)
     {
         instance.masterVolume = Mathf.Clamp01(volume);
         UpdateVolumes();
     }
 
-    // 개별 볼륨 조절
     public static void SetVolume(SoundType sound, float volume)
     {
-        instance.volumeLevels[sound] = Mathf.Clamp01(volume);
+        volume = Mathf.Clamp01(volume);
+        instance.volumeLevels[sound] = volume;
+
+        if (sound == SoundType.Bgm)
+            instance.savedBgmVolume = volume;
+        else if (sound == SoundType.Effect)
+            instance.savedEffectVolume = volume;
+
         UpdateVolumes();
     }
 
-    // 볼륨 업데이트
+
     private static void UpdateVolumes()
     {
         instance.bgmAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Bgm];
         instance.effectAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Effect];
     }
 
-    // BGM 플레이어 (무한루프)
-    public static IEnumerator BGMPlayer()
+    public static void BGMPlayer(string clipName)
     {
-        string activeSceneName = SceneManager.GetActiveScene().name;
-        AudioClip bgmClip = instance.bgmList.FirstOrDefault(x => x.name.Equals(activeSceneName));
-
+        AudioClip bgmClip = instance.bgmList.FirstOrDefault(x => x.name.Equals(clipName));
         if (bgmClip != null && instance.bgmAudioSource.clip != bgmClip)
         {
             instance.bgmAudioSource.Stop();
-            yield return null;
             instance.bgmAudioSource.clip = bgmClip;
             instance.bgmAudioSource.Play();
         }
-        else
+    }
+    public static void SaveVolumeSettings()
+    {
+        PlayerPrefs.SetFloat("MasterVolume", instance.masterVolume);
+        PlayerPrefs.SetFloat("BgmVolume", instance.volumeLevels[SoundType.Bgm]);
+        PlayerPrefs.SetFloat("EffectVolume", instance.volumeLevels[SoundType.Effect]);
+        PlayerPrefs.Save(); 
+    }
+
+    public static void LoadVolumeSettings()
+    {
+        if (PlayerPrefs.HasKey("MasterVolume"))
         {
-            yield return null;
+            instance.masterVolume = PlayerPrefs.GetFloat("MasterVolume");
+        }
+        if (PlayerPrefs.HasKey("BgmVolume"))
+        {
+            instance.volumeLevels[SoundType.Bgm] = PlayerPrefs.GetFloat("BgmVolume");
+        }
+        if (PlayerPrefs.HasKey("EffectVolume"))
+        {
+            instance.volumeLevels[SoundType.Effect] = PlayerPrefs.GetFloat("EffectVolume");
         }
     }
 
-    // 효과음 플레이 (한번)
     public static void PlayOneShot(string audioName)
     {
         var clip = instance.effectList.FirstOrDefault(x => x.name.Equals(audioName));
@@ -131,7 +153,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // 기본적 사운드 플레이
     public static void PlaySound(SoundType sound, int index, float volume = 1f)
     {
         AudioClip clip = null;

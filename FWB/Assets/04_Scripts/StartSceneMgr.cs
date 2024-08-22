@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -25,12 +26,11 @@ public class StartSceneMgr : MonoBehaviour
 
         StartCoroutine(CommonTool.In.FadeIn());
         StartCoroutine(sa.StartLoopAnim());
-        StartCoroutine(SoundManager.BGMPlayer());
+        SoundManager.BGMPlayer(SceneManager.GetActiveScene().name);
     }
 
     private void ChangeToInitScene()
     {
-        StopCoroutine(SoundManager.BGMPlayer());
         StartCoroutine(CommonTool.In.AsyncChangeScene("IntroScene"));
     }
 

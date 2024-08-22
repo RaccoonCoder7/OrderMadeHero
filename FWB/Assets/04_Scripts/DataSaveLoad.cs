@@ -19,8 +19,9 @@ public class PlayerData
     public int playerDaySpent;
     public int customerCnt;
     public string savedDate;
+    public int isEventOngoing = 0;
     public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, 
-        int daySpent, int cusCnt, string date)
+        int daySpent, int cusCnt, int dayEvent, string date)
     {
         playerName = name;
         playerCredit = credit;
@@ -32,29 +33,32 @@ public class PlayerData
         playerDayTend = dayTend;
         playerDaySpent = daySpent;
         customerCnt = cusCnt;
+        isEventOngoing = dayEvent;
         savedDate = date;
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class UnlockedWeaponInfo 
 {
     
     public List<BluePrintState> bluePrintStatesList = new List<BluePrintState>();
     public List<ChipState> chipStatesList = new List<ChipState>();
 
-    [System.Serializable]
+    [Serializable]
     public class BluePrintState
     {
     public string bluePrintKey;
     public bool createEnable;
     public bool orderEnable;
+    public int bpWeaponState;
     }
-    [System.Serializable]
+    [Serializable]
     public class ChipState 
     {
         public string chipKey;
         public bool createEnable;
+        public int bpChipState;
     }
 }
 
@@ -121,7 +125,7 @@ public class DataSaveLoad : MonoBehaviour
             {
                 if (bluePrint.createEnable || bluePrint.orderEnable)
                 {
-                    result.bluePrintStatesList.Add(new UnlockedWeaponInfo.BluePrintState() { bluePrintKey = bluePrint.bluePrintKey, createEnable = bluePrint.createEnable, orderEnable = bluePrint.orderEnable});
+                    result.bluePrintStatesList.Add(new UnlockedWeaponInfo.BluePrintState() { bluePrintKey = bluePrint.bluePrintKey, createEnable = bluePrint.createEnable, orderEnable = bluePrint.orderEnable, bpWeaponState = bluePrint.weaponState});
                 }
             }
         }
@@ -129,7 +133,7 @@ public class DataSaveLoad : MonoBehaviour
         {
             if(chip.createEnable)
             {
-                result.chipStatesList.Add(new UnlockedWeaponInfo.ChipState() { chipKey = chip.chipKey, createEnable = chip.createEnable } );
+                result.chipStatesList.Add(new UnlockedWeaponInfo.ChipState() { chipKey = chip.chipKey, createEnable = chip.createEnable, bpChipState = chip.chipState} );
             }
         }
         return result;
@@ -147,6 +151,7 @@ public class DataSaveLoad : MonoBehaviour
                     {
                         bluePrint.createEnable = bluePrintState.createEnable;
                         bluePrint.orderEnable = bluePrintState.orderEnable;
+                        bluePrint.weaponState = bluePrintState.bpWeaponState;
                         break;
                     }
                 }
@@ -160,6 +165,7 @@ public class DataSaveLoad : MonoBehaviour
                 if (chip.chipKey == chipState.chipKey)
                 {
                     chip.createEnable = chipState.createEnable;
+                    chip.chipState = chipState.bpChipState;
                     break;
                 }
             }
@@ -263,6 +269,7 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.dayTendency,
             GameMgr.In.daySpendCredit,
             GameMgr.In.dayCustomerCnt,
+            GameMgr.In.isEventOn,
             DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
         string json = JsonUtility.ToJson(data);
@@ -323,6 +330,7 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.dayTendency = data.playerDayTend;
             GameMgr.In.daySpendCredit = data.playerDaySpent;
             GameMgr.In.dayCustomerCnt = data.customerCnt;
+            GameMgr.In.isEventOn = data.isEventOngoing;
             
             StartCoroutine(CommonTool.In.AsyncChangeScene("GameScene"));
         }

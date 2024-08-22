@@ -7,15 +7,7 @@ public class EventFlowDay6 : EventFlow
 {
     public override void StartFlow()
     {
-        if (DataSaveLoad.dataSave.isLoaded == true)
-        {
-            StartCoroutine(mgr.StartNormalRoutine(GameMgr.In.dayCustomerCnt, mgr.EndNormalOrderRoutine));
-            DataSaveLoad.dataSave.isLoaded = false;
-        }
-        else
-        {
-            mgr.StartText("Day6_1", EndDay6_1Routine, EndDay6_1Routine);
-        }
+        mgr.StartText("Day6_1", EndDay6_1Routine, EndDay6_1Routine);
     }
 
     private void EndDay6_1Routine() //칩셋 획득 이벤트 

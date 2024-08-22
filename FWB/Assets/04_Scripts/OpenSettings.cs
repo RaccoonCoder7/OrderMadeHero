@@ -26,7 +26,7 @@ public class OpenSettings : MonoBehaviour
     {
         if (exMenu != null)
         {
-            exMenu.SetActive(true);
+            exMenu.SetActive(!exMenu.activeSelf);
             SoundManager.InitializeVolumeBars();
         }
     }

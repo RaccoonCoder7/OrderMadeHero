@@ -27,6 +27,10 @@ public class GameMgr : SingletonMono<GameMgr>
     public int maxFame = 1000;
     public int minTend = -1000;
     public int maxTend = 1000;
+    public int lastWeekCredit;
+    public int lastWeekFame;
+    public int lastWeekTend;
+    public int isEventOn = 0;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
@@ -84,14 +88,6 @@ public class GameMgr : SingletonMono<GameMgr>
         fame = ClampValue(fame, maxFame, minFame);
         tendency = ClampValue(tendency, maxTend, minTend);
     }
-
-    //private void IncreaseValue(ref int value, int increase, int max, int min = System.Int32.MinValue)
-    //{
-    //    if (value <= max && value >= min)
-    //    {
-    //        value += increase;
-    //    }
-    //}
 
     private int ClampValue(int value, int max, int min)
     {
@@ -203,6 +199,7 @@ public class GameMgr : SingletonMono<GameMgr>
                 bool enable = string.IsNullOrEmpty(bp.howToGet);
                 bp.orderEnable = enable;
                 bp.createEnable = enable;
+                bp.weaponState = 0;
             }
         }
 
@@ -215,6 +212,7 @@ public class GameMgr : SingletonMono<GameMgr>
         {
             bool enable = string.IsNullOrEmpty(chip.howToGet);
             chip.createEnable = enable;
+            chip.chipState = 0;
         }
 
         foreach (var request in requestTable.requestList)

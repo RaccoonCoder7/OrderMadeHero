@@ -232,6 +232,7 @@ public class CommonTool : SingletonMono<CommonTool>
         }
 
         asyncLoad.allowSceneActivation = true;
+        SoundManager.BGMPlayer(sceneName);
     }
 
 }

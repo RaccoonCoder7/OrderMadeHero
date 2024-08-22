@@ -10,6 +10,7 @@ public class EventFlowDay1 : EventFlow
 
     public override void StartFlow()
     {
+        GameMgr.In.isEventOn = 1;
         mgr.StartText("Tutorial", EndTutorialRoutine, SkipTutorialRoutine);
     }
 
