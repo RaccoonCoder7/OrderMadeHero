@@ -46,6 +46,7 @@ public class BossBattleManager : MonoBehaviour
     private bool isHero;
     private float initialGageWidth;
     private List<Color> originalChipColors;
+    private List<Color> originalRawChipColors;
     private Vector2 initialGagePos;
 
     private void Start()
@@ -74,25 +75,41 @@ public class BossBattleManager : MonoBehaviour
     private void SaveOriginalChipColors()
     {
         originalChipColors = new List<Color>();
+        originalRawChipColors = new List<Color>();
+
         var images = chipsetPanel.GetComponentsInChildren<Image>();
+        var rawImages = chipsetPanel.GetComponentsInChildren<RawImage>();
+
         foreach (var image in images)
         {
             originalChipColors.Add(image.color);
+        }
+
+        foreach (var rawImage in rawImages)
+        {
+            originalRawChipColors.Add(rawImage.color);
         }
     }
 
     private void RestoreOriginalChipColors()
     {
         var images = chipsetPanel.GetComponentsInChildren<Image>();
+        var rawImages = chipsetPanel.GetComponentsInChildren<RawImage>();
+
         for (int i = 0; i < images.Length; i++)
         {
             images[i].color = originalChipColors[i];
+        }
+
+        for (int i = 0; i < rawImages.Length; i++)
+        {
+            rawImages[i].color = originalRawChipColors[i];
         }
     }
 
     private void DetermineBossAndAlly()
     {
-        if (gameMgr.tendency >= 0)
+        if (gameMgr.tendency >= 1)
         {
             isHero = true;
             allyImage.sprite = bunnyNormalSprite;
@@ -131,7 +148,7 @@ public class BossBattleManager : MonoBehaviour
         SetTableDatasForBossBattle();
         ResetGameState();
 
-        puzzleMgr.isFeverMode = true;
+        puzzleMgr.isFeverMode = false;
         puzzleMgr.isTutorial = false;
         isGamePlaying = true;
 
@@ -160,7 +177,6 @@ public class BossBattleManager : MonoBehaviour
     {
         var blueprint = GetRandomBlueprint();
         gameMgr.currentBluePrint = blueprint;
-        puzzleMgr.StartFeverModePuzzle();
     }
 
     private WeaponDataTable.BluePrint GetRandomBlueprint()
@@ -188,12 +204,12 @@ public class BossBattleManager : MonoBehaviour
         {
             if (currentPuzzleIndex == 1)
             {
-                Debug.Log("Hero: Bunny Gimmick - Hide Chipset Info");
+                Debug.Log("Hero: Puppet Gimmick - Hide Chipset Info");
                 HideChipsetInfo();
             }
             else if (currentPuzzleIndex == 3)
             {
-                Debug.Log("Hero: Bunny Gimmick - Invert Screen");
+                Debug.Log("Hero: Puppet Gimmick - Invert Screen");
                 InvertScreen();
             }
         }
@@ -201,14 +217,14 @@ public class BossBattleManager : MonoBehaviour
         {
             if (currentPuzzleIndex == 1)
             {
-                Debug.Log("Villain: Puppet Gimmick - Reduce Time to 45s");
+                Debug.Log("Villain: Bunny Gimmick - Reduce Time to 45s");
                 maxTime = 45f;
                 timer = maxTime;
                 UpdateGage();
             }
             else if (currentPuzzleIndex == 3)
             {
-                Debug.Log("Villain: Puppet Gimmick - Reduce Time to 30s");
+                Debug.Log("Villain: Bunny Gimmick - Reduce Time to 30s");
                 maxTime = 30f;
                 timer = maxTime;
                 UpdateGage();
@@ -300,7 +316,6 @@ public class BossBattleManager : MonoBehaviour
     private void EndBossBattle(bool success)
     {
         isGamePlaying = false;
-        puzzleMgr.isFeverMode = false;
 
         if (success)
         {
@@ -403,9 +418,24 @@ public class BossBattleManager : MonoBehaviour
 
     private void HideChipsetInfo()
     {
-        foreach (var image in chipsetPanel.GetComponentsInChildren<Image>())
+        foreach (Transform chipSlot in chipsetPanel.transform)
         {
-            image.color = new Color(0, 0, 0, 0);
+            var chipSlotImage = chipSlot.GetComponent<Image>();
+            if (chipSlotImage != null)
+            {
+                chipSlotImage.color = Color.black;
+            }
+
+            foreach (var image in chipSlot.GetComponentsInChildren<Image>())
+            {
+                image.color = Color.black;
+            }
+
+            foreach (var rawImage in chipSlot.GetComponentsInChildren<RawImage>())
+            {
+                rawImage.color = Color.black;
+            }
         }
     }
+
 }
