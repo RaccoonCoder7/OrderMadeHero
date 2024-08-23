@@ -34,7 +34,7 @@ MonoBehaviour:
     requiredAbilityList:
     - abilityKey: a_durability
       count: 2
-  - requestKey: a_hard
+  - requestKey: r_hard
     name: "\uAD73\uAC74\uD55C"
     orderCondition: Day3
     orderEnable: 0

@@ -1742,7 +1742,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             SetIndexBlueprintImgAspect(weapon.blueprintSprite);
         }
         weaponName.text = weapon.name;
-        comment.text = weapon.comment;
+        comment.text = weapon.comment.Replace("\\n", "\n");
         weaponCategory.text = GameMgr.In.GetWeaponCategory(currentSelectedWeaponCategoryKey).name;
         howToGet.text = weapon.howToGet;
 
