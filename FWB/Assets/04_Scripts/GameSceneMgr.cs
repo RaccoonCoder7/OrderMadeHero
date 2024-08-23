@@ -310,8 +310,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
         // TODO: day limit 추가
-        if (!DataSaveLoad.dataSave.isLoaded)
+        //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
+        if (startDay != 1)
         {
+            GameMgr.In.isEventOn = 1;
             for (int i = startDay; i <= 7; i++)
             {
                 string eventKey = "day" + i;
@@ -339,28 +341,58 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
         else
         {
-            for (int i = (int)GameMgr.In.day; i <= 7; i++)
+            if (!DataSaveLoad.dataSave.isLoaded)
             {
-                string eventKey = "day" + i;
-                var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
-                isEventFlowing = true;
-                if (targetEvent)
+                for (int i = startDay; i <= 7; i++)
                 {
-                    yield return StartCoroutine(StartEventFlow(targetEvent));
-                }
-                else
-                {
-                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                }
+                    string eventKey = "day" + i;
+                    var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+                    isEventFlowing = true;
+                    if (targetEvent)
+                    {
+                        yield return StartCoroutine(StartEventFlow(targetEvent));
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    }
 
-                if (isEventFlowing)
-                {
-                    yield return null;
-                }
+                    if (isEventFlowing)
+                    {
+                        yield return null;
+                    }
 
-                if (i < 7)
+                    if (i < 7)
+                    {
+                        NextDay();
+                    }
+                }
+            }
+            else
+            {
+                for (int i = (int)GameMgr.In.day; i <= 7; i++)
                 {
-                    NextDay();
+                    string eventKey = "day" + i;
+                    var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+                    isEventFlowing = true;
+                    if (targetEvent)
+                    {
+                        yield return StartCoroutine(StartEventFlow(targetEvent));
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    }
+
+                    if (isEventFlowing)
+                    {
+                        yield return null;
+                    }
+
+                    if (i < 7)
+                    {
+                        NextDay();
+                    }
                 }
             }
         }
