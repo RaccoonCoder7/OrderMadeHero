@@ -92,6 +92,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject shopControlBlockingPanel;
     public GameObject deskNavi;
     public GameObject shopPopupPanel;
+    public GameObject weaponDatasBlock;
     public ShopUISlot shopUiSlotPrefab;
     public ShopUISlot shopUiSlotSoldOutPrefab;
     public UISlot uiSlotPrefab;
