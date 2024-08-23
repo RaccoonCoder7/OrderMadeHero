@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class EventFlowDay1 : EventFlow
 {
     private Coroutine naviBlinkRoutine;
+    private Coroutine blueprintButtonBlinkRoutine;
 
     public override void StartFlow()
     {
@@ -104,6 +106,7 @@ public class EventFlowDay1 : EventFlow
         mgr.EndText();
         mgr.popupChatPanel.SetActive(false);
         CommonTool.In.SetFocus(new Vector2(285, 620), new Vector2(60, 60));
+        blueprintButtonBlinkRoutine = StartCoroutine(BlinkBlueprintButton());
         mgr.bluePrintSlotList[0].button.onClick.AddListener(OnClickBlueprintSlot);
     }
 
@@ -111,6 +114,8 @@ public class EventFlowDay1 : EventFlow
     {
         CommonTool.In.SetFocusOff();
         mgr.StartText("Tutorial5_1", EndTutorial5_1Routine, EndTutorial5_1Routine);
+        StopCoroutine(blueprintButtonBlinkRoutine);
+        mgr.bluePrintSlotList[0].image.color = Color.white;
         mgr.bluePrintSlotList[0].button.onClick.RemoveListener(OnClickBlueprintSlot);
     }
 
@@ -225,5 +230,17 @@ public class EventFlowDay1 : EventFlow
             mgr.pc.onClick.RemoveAllListeners();
             mgr.pc.image.raycastTarget = false;
         });
+    }
+
+    private IEnumerator BlinkBlueprintButton()
+    {
+        var targetImg = mgr.bluePrintSlotList[0].image;
+        bool isOn = false;
+        while (true)
+        {
+            targetImg.color = isOn ? Color.black : Color.white;
+            isOn = !isOn;
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 }

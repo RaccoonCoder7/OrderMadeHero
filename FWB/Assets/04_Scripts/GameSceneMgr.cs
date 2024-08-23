@@ -186,6 +186,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private Action onEndText;
     private Action onSkip;
     private Coroutine textFlowCoroutine;
+    private Coroutine drMadChatRoutine;
     private Point cursorPos = new Point();
     private bool visible;
     private bool isShopAnimating;
@@ -1005,7 +1006,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     bluePrintList[tempNum].weaponState = 3;
-                                    StartCoroutine(DrMadChatRoutine());
+                                    if (drMadChatRoutine != null)
+                                    {
+                                        StopCoroutine(drMadChatRoutine);
+                                        drMadChatRoutine = null;
+                                    }
+                                    drMadChatRoutine = StartCoroutine(ShowDrMadChat());
                                     shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();
                                     shopPopupUI.yes.onClick.RemoveAllListeners();
@@ -1089,7 +1095,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     goldText.text = GameMgr.In.credit.ToString();
                                     chipList[tempNum].chipState = 3;
                                     puzzleMgr.creatableChipKeyList.Add(chip.chipKey);
-                                    StartCoroutine(DrMadChatRoutine());
+                                    if (drMadChatRoutine != null)
+                                    {
+                                        StopCoroutine(drMadChatRoutine);
+                                        drMadChatRoutine = null;
+                                    }
+                                    drMadChatRoutine = StartCoroutine(ShowDrMadChat());
                                     shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();
                                     shopPopupUI.yes.onClick.RemoveAllListeners();
@@ -1734,7 +1745,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
     }
 
-    private IEnumerator DrMadChatRoutine()
+    private IEnumerator ShowDrMadChat()
     {
         if (isShopTutorial)
         {

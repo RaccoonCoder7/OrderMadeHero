@@ -1141,7 +1141,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     }
                 }
 
-                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
+                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y || x + i < 0 || y + j < 0)
                 {
                     return null;
                 }
@@ -1218,7 +1218,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     }
                 }
 
-                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
+                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y || x + i < 0 || y + j < 0)
                 {
                     isFittable = false;
                     continue;
