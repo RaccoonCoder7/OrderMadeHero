@@ -244,7 +244,7 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: Day3
+    orderCondition: tendency
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_23
@@ -254,8 +254,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_24
     ta: {fileID: 4900000, guid: b16e5803968ab6e4d9002929c527a18c, type: 3}
@@ -264,8 +264,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_25
     ta: {fileID: 4900000, guid: e16cf65471516984490077b38c9c2be3, type: 3}
@@ -275,7 +275,7 @@ MonoBehaviour:
     condition: 1
     gimmick: 0
     camp: 1
-    orderCondition: Day3
+    orderCondition: tendency
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_26
@@ -285,8 +285,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_27
     ta: {fileID: 4900000, guid: 566c9602382688a4f8876c8f140ca80f, type: 3}
@@ -295,8 +295,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_28
     ta: {fileID: 4900000, guid: 481bbf05131398a4591d75f6e146cef1, type: 3}
@@ -305,8 +305,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 7
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_29
     ta: {fileID: 4900000, guid: 468798b32aed54e4ba4ed61971faf273, type: 3}
@@ -315,7 +315,7 @@ MonoBehaviour:
     condition: 0
     gimmick: 6
     camp: 1
-    orderCondition: AfterOneOrder
+    orderCondition: tendency
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_30
@@ -339,7 +339,7 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: Day8
+    orderCondition: tendency
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_32
@@ -351,7 +351,7 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: Day3
+    orderCondition: tendency
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_33
@@ -475,8 +475,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_45
     ta: {fileID: 4900000, guid: 7a297763e2bfbeb458a10f74a3089e90, type: 3}
@@ -485,8 +485,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_46
     ta: {fileID: 4900000, guid: 4b502d8de9a04f3428f048007dc72cb2, type: 3}
@@ -495,8 +495,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_47
     ta: {fileID: 4900000, guid: e2abd8ca05b1f9040821ec5a87c79fe4, type: 3}
@@ -505,8 +505,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 1
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_48
     ta: {fileID: 4900000, guid: 04a2ff8a520fb31498cda383b7d043de, type: 3}
@@ -517,8 +517,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_49
     ta: {fileID: 4900000, guid: d4578a2adf9a16543a1668823c1bed15, type: 3}
@@ -527,8 +527,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_50
     ta: {fileID: 4900000, guid: cbdd92bfdca85bc4c8272e513cbfa825, type: 3}
@@ -537,8 +537,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 3
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_51
     ta: {fileID: 4900000, guid: c683f2cbb86b93e4fb66ebf8be9455cd, type: 3}
@@ -547,8 +547,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 6
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_52
     ta: {fileID: 4900000, guid: c1104347f0594a844a0ed6abc88db012, type: 3}
@@ -557,8 +557,8 @@ MonoBehaviour:
     condition: 1
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_53
     ta: {fileID: 4900000, guid: 6d0a577f9a74e0e4185a6e8e245c4364, type: 3}
@@ -567,8 +567,8 @@ MonoBehaviour:
     condition: 2
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_54
     ta: {fileID: 4900000, guid: 46a8139df5cf9d34c99f9fb5647e9159, type: 3}
@@ -579,8 +579,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_55
     ta: {fileID: 4900000, guid: d5853093af38acb4cb2ec0aeb9e81e3c, type: 3}
@@ -589,8 +589,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_56
     ta: {fileID: 4900000, guid: 450884568a0ec5d4588c855c01c39040, type: 3}
@@ -599,8 +599,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_57
     ta: {fileID: 4900000, guid: 526a263112234684ab47af7f492a6a8f, type: 3}
@@ -609,8 +609,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_58
     ta: {fileID: 4900000, guid: 82c4a1459a467874b942196e40358048, type: 3}
@@ -619,8 +619,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_59
     ta: {fileID: 4900000, guid: cd0b08e1c479e344490598c54240147a, type: 3}
@@ -629,8 +629,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_60
     ta: {fileID: 4900000, guid: 6879fa6a743cdc446b11ce34e8c57366, type: 3}
@@ -639,8 +639,8 @@ MonoBehaviour:
     condition: 2
     gimmick: 0
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_61
     ta: {fileID: 4900000, guid: e68a38fcd66d4df4f97ed2d12a270e20, type: 3}
@@ -649,8 +649,8 @@ MonoBehaviour:
     condition: 0
     gimmick: 3
     camp: 2
-    orderCondition: 
-    orderEnable: 1
+    orderCondition: tendency
+    orderEnable: 0
     addedRequestKeyList: []
   mappingTextList:
   - mappingKey: "\uCCAD\uC0AC\uC9C4"
