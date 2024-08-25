@@ -1324,7 +1324,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         else
         {
-            orderedChipKeyList = chipList.OrderByDescending(x => x.price).ThenByDescending(x => x.chipKey).Select(x => x.chipKey).ToList();
+            orderedChipKeyList = chipList.OrderByDescending(x => x.price).ThenBy(x => x.chipKey).Select(x => x.chipKey).ToList();
         }
 
         for (int i = 0; i < orderedChipKeyList.Count; i++)

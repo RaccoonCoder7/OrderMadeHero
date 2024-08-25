@@ -93,6 +93,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject deskNavi;
     public GameObject shopPopupPanel;
     public GameObject weaponDatasBlock;
+    public GameObject renomUIBlock;
+    public GameObject tendencyUIBlock;
     public ShopUISlot shopUiSlotPrefab;
     public ShopUISlot shopUiSlotSoldOutPrefab;
     public UISlot uiSlotPrefab;
@@ -794,8 +796,16 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.daySpendCredit;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
         creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
-        creditRenom.text = GameMgr.In.dayFame.ToString();
-        creditTendency.text = GameMgr.In.dayTendency.ToString();
+        if (renom.activeInHierarchy)
+        {
+            renomUIBlock.SetActive(true);
+            creditRenom.text = GameMgr.In.dayFame.ToString();
+        }
+        if (tendency.activeInHierarchy)
+        {
+            tendencyUIBlock.SetActive(true);
+            creditTendency.text = GameMgr.In.dayTendency.ToString();
+        }
     }
 
     public void RefreshPopupPanel()
