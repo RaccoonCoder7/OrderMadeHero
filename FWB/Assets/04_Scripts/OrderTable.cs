@@ -22,6 +22,7 @@ public class OrderTable : ScriptableObject
         public List<RequiredAbility> requiredAbilityList = new List<RequiredAbility>();
         public Condition condition = Condition.상태없음;
         public Gimmick gimmick = Gimmick.None;
+        public Camp camp = Camp.None;
         public string orderCondition;
         public bool orderEnable = true;
         [HideInInspector]
@@ -74,6 +75,14 @@ public class OrderTable : ScriptableObject
         HighestAttack,
         PreviousOrder,
         SatisfyOneRequest,
+    }
+
+    [System.Serializable]
+    public enum Camp
+    {
+        None,
+        Hero,
+        Villain
     }
 
 
@@ -311,7 +320,7 @@ public class OrderTable : ScriptableObject
                     List<RequiredAbility> requiredAbilityList = new List<RequiredAbility>();
                     var removeTargetRequestKey = GameMgr.In.currentOrder.addedRequestKeyList[i];
                     var removeTargetRequest = GameMgr.In.GetRequest(removeTargetRequestKey);
-                    
+
                     foreach (var ability in GameMgr.In.currentOrder.requiredAbilityList)
                     {
                         int abilityCount = ability.count;

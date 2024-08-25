@@ -17,11 +17,29 @@ public class Test : MonoBehaviour
     public float testValue;
     public BluePrintTable bluePrintTable;
     public WeaponDataTable weaponDataTable;
+    public OrderTable orderTable;
     public Image testImg;
     public Image testImg2;
     public AnimationCurve curve;
     public SpriteAnimation sa;
 
+
+
+    /// <summary>
+    /// 히어로/빌런 주문 설정
+    /// </summary>
+    [ContextMenu("SetHeroVillainOrders")]
+    public void SetHeroVillainOrders()
+    {
+        foreach(var order in orderTable.orderList)
+        {
+            if (order.camp == OrderTable.Camp.Hero || order.camp == OrderTable.Camp.Villain)
+            {
+                order.orderEnable = false;
+                order.orderCondition = "tendency";
+            }
+        }
+    }
 
     /// <summary>
     /// 화면 포커스 기능 테스트

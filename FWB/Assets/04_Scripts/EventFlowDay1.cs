@@ -183,6 +183,14 @@ public class EventFlowDay1 : EventFlow
             }
         }
 
+        foreach (var order in GameMgr.In.orderTable.orderList)
+        {
+            if (order.orderCondition.Equals("튜토리얼"))
+            {
+                order.orderEnable = true;
+            }
+        }
+
         mgr.alertDodge.onClick.AddListener(() =>
         {
             mgr.alertPanel.SetActive(false);
