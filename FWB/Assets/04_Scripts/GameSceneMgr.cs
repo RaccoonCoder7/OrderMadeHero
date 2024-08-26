@@ -92,6 +92,9 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject shopControlBlockingPanel;
     public GameObject deskNavi;
     public GameObject shopPopupPanel;
+    public GameObject weaponDatasBlock;
+    public GameObject renomUIBlock;
+    public GameObject tendencyUIBlock;
     public ShopUISlot shopUiSlotPrefab;
     public ShopUISlot shopUiSlotSoldOutPrefab;
     public UISlot uiSlotPrefab;
@@ -186,6 +189,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private Action onEndText;
     private Action onSkip;
     private Coroutine textFlowCoroutine;
+    private Coroutine drMadChatRoutine;
     private Point cursorPos = new Point();
     private bool visible;
     private bool isShopAnimating;
@@ -309,8 +313,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
         // TODO: day limit 추가
-        if (!DataSaveLoad.dataSave.isLoaded)
+        //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
+        if (startDay != 1)
         {
+            GameMgr.In.isEventOn = 1;
             for (int i = startDay; i <= 7; i++)
             {
                 string eventKey = "day" + i;
@@ -338,28 +344,58 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
         else
         {
-            for (int i = (int)GameMgr.In.day; i <= 7; i++)
+            if (!DataSaveLoad.dataSave.isLoaded)
             {
-                string eventKey = "day" + i;
-                var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
-                isEventFlowing = true;
-                if (targetEvent)
+                for (int i = startDay; i <= 7; i++)
                 {
-                    yield return StartCoroutine(StartEventFlow(targetEvent));
-                }
-                else
-                {
-                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                }
+                    string eventKey = "day" + i;
+                    var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+                    isEventFlowing = true;
+                    if (targetEvent)
+                    {
+                        yield return StartCoroutine(StartEventFlow(targetEvent));
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    }
 
-                if (isEventFlowing)
-                {
-                    yield return null;
-                }
+                    if (isEventFlowing)
+                    {
+                        yield return null;
+                    }
 
-                if (i < 7)
+                    if (i < 7)
+                    {
+                        NextDay();
+                    }
+                }
+            }
+            else
+            {
+                for (int i = (int)GameMgr.In.day; i <= 7; i++)
                 {
-                    NextDay();
+                    string eventKey = "day" + i;
+                    var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+                    isEventFlowing = true;
+                    if (targetEvent)
+                    {
+                        yield return StartCoroutine(StartEventFlow(targetEvent));
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    }
+
+                    if (isEventFlowing)
+                    {
+                        yield return null;
+                    }
+
+                    if (i < 7)
+                    {
+                        NextDay();
+                    }
                 }
             }
         }
@@ -760,8 +796,16 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.daySpendCredit;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
         creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
-        creditRenom.text = GameMgr.In.dayFame.ToString();
-        creditTendency.text = GameMgr.In.dayTendency.ToString();
+        if (renom.activeInHierarchy)
+        {
+            renomUIBlock.SetActive(true);
+            creditRenom.text = GameMgr.In.dayFame.ToString();
+        }
+        if (tendency.activeInHierarchy)
+        {
+            tendencyUIBlock.SetActive(true);
+            creditTendency.text = GameMgr.In.dayTendency.ToString();
+        }
     }
 
     public void RefreshPopupPanel()
@@ -1005,7 +1049,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     GameMgr.In.daySpendCredit -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     bluePrintList[tempNum].weaponState = 3;
-                                    StartCoroutine(DrMadChatRoutine());
+                                    if (drMadChatRoutine != null)
+                                    {
+                                        StopCoroutine(drMadChatRoutine);
+                                        drMadChatRoutine = null;
+                                    }
+                                    drMadChatRoutine = StartCoroutine(ShowDrMadChat());
                                     shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();
                                     shopPopupUI.yes.onClick.RemoveAllListeners();
@@ -1089,7 +1138,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     goldText.text = GameMgr.In.credit.ToString();
                                     chipList[tempNum].chipState = 3;
                                     puzzleMgr.creatableChipKeyList.Add(chip.chipKey);
-                                    StartCoroutine(DrMadChatRoutine());
+                                    if (drMadChatRoutine != null)
+                                    {
+                                        StopCoroutine(drMadChatRoutine);
+                                        drMadChatRoutine = null;
+                                    }
+                                    drMadChatRoutine = StartCoroutine(ShowDrMadChat());
                                     shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();
                                     shopPopupUI.yes.onClick.RemoveAllListeners();
@@ -1699,7 +1753,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             SetIndexBlueprintImgAspect(weapon.blueprintSprite);
         }
         weaponName.text = weapon.name;
-        comment.text = weapon.comment;
+        comment.text = weapon.comment.Replace("\\n", "\n");
         weaponCategory.text = GameMgr.In.GetWeaponCategory(currentSelectedWeaponCategoryKey).name;
         howToGet.text = weapon.howToGet;
 
@@ -1734,7 +1788,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
     }
 
-    private IEnumerator DrMadChatRoutine()
+    private IEnumerator ShowDrMadChat()
     {
         if (isShopTutorial)
         {

@@ -78,7 +78,7 @@ MonoBehaviour:
     desc: "\uBB34\uAE30\uC5D0 \uB0B4\uAD6C\uB3C4\uB97C \uC81C\uACF5\uD558\uB294 \uAE30\uBCF8
       \uCE69\uC14B\uC785\uB2C8\uB2E4"
     howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-    price: 0
+    price: 50
     createEnable: 0
     chipState: 0
     chipSprite: {fileID: 21300000, guid: 8e991239ad40f05419f85f3e42b1dc53, type: 3}

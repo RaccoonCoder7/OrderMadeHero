@@ -56,6 +56,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Puzzle currPuzzle;
     private ChipObj currentSelectedChip;
     private Chip currentSelectedChipData;
+    private ScrollText scrollText;
     private CanvasScaler canvasScaler;
     private PointerEventData ped;
     private bool isFromPuzzle;
@@ -114,6 +115,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         canvasScaler = canvas.GetComponent<CanvasScaler>();
         ped = new PointerEventData(es);
         sortOrderSC = sortOrderBtn.GetComponent<SpriteChange>();
+        scrollText = orderText.GetComponent<ScrollText>();
 
         resolutionOffset = new Vector3(canvasScaler.referenceResolution.x, canvasScaler.referenceResolution.y, 0) / 2;
 
@@ -1141,7 +1143,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     }
                 }
 
-                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
+                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y || x + i < 0 || y + j < 0)
                 {
                     return null;
                 }
@@ -1218,7 +1220,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     }
                 }
 
-                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y)
+                if (x + i >= currPuzzle.x || y + j >= currPuzzle.y || x + i < 0 || y + j < 0)
                 {
                     isFittable = false;
                     continue;
@@ -1260,6 +1262,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         var order = GameMgr.In.currentOrder;
         this.orderText.text = mgr2.mainChatText.text.Replace(" ▼", "").Replace("\n", " ");
+        scrollText.OnTextChanged();
     }
 
     private void SetBluePrintDatas()
@@ -1321,7 +1324,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         else
         {
-            orderedChipKeyList = chipList.OrderByDescending(x => x.price).ThenByDescending(x => x.chipKey).Select(x => x.chipKey).ToList();
+            orderedChipKeyList = chipList.OrderByDescending(x => x.price).ThenBy(x => x.chipKey).Select(x => x.chipKey).ToList();
         }
 
         for (int i = 0; i < orderedChipKeyList.Count; i++)
