@@ -31,6 +31,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int lastWeekFame;
     public int lastWeekTend;
     public int isEventOn = 0;
+    public bool lastweek=false;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
@@ -82,11 +83,13 @@ public class GameMgr : SingletonMono<GameMgr>
         if ((int)day > System.Enum.GetValues(typeof(Day)).Length)
         {
             week++;
+            if (week > 4) week = 1;
             day = (Day)1;
         }
 
         fame = ClampValue(fame, maxFame, minFame);
         tendency = ClampValue(tendency, maxTend, minTend);
+        CheckLastWeek();
     }
 
     private int ClampValue(int value, int max, int min)
@@ -220,4 +223,10 @@ public class GameMgr : SingletonMono<GameMgr>
             request.orderEnable = string.IsNullOrEmpty(request.orderCondition);
         }
     }
+
+    public void CheckLastWeek()
+    {
+        lastweek = (day == Day.토 && week == 4);
+    }
+
 }

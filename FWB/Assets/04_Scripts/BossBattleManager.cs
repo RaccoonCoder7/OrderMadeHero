@@ -12,7 +12,6 @@ public class BossBattleManager : MonoBehaviour
 
     [Header("UI")]
     public RectTransform gageRectTr;
-    public Image bossImage;
     public Text teamDialogue;
     public Image allyImage;
     public Button clearPuzzleButton;
@@ -49,15 +48,53 @@ public class BossBattleManager : MonoBehaviour
     private List<Color> originalRawChipColors;
     private Vector2 initialGagePos;
 
+    private bool lastWeekStatus;
+    private bool isGameCanvasActive;
+
     private void Start()
     {
         Initialize();
-        StartCoroutine(StartBossBattle());
+        lastWeekStatus = gameMgr.lastweek;
+        isGameCanvasActive = gameCanvas.enabled;
+        SetUIActive(lastWeekStatus);
+        if (lastWeekStatus && isGameCanvasActive)
+        {
+            StartCoroutine(StartBossBattle());
+            Debug.Log("BossBattle Start");
+        }
     }
 
     private void Update()
     {
-        if (isGamePlaying)
+        if (gameMgr.lastweek != lastWeekStatus)
+        {
+            lastWeekStatus = gameMgr.lastweek;
+            SetUIActive(lastWeekStatus);
+            if (lastWeekStatus && isGameCanvasActive)
+            {
+                Debug.Log("BossBattle Start");
+                StartCoroutine(StartBossBattle());
+            }
+            else
+            {
+                Debug.Log("BossBattle Stop");
+                StopAllCoroutines();
+                ResetGameState();
+            }
+        }
+
+        if (gameCanvas.enabled != isGameCanvasActive)
+        {
+            isGameCanvasActive = gameCanvas.enabled;
+            if (isGameCanvasActive && lastWeekStatus)
+            {
+                SetUIActive(true);
+                Debug.Log("GameCanvas activated, starting BossBattle");
+                StartCoroutine(StartBossBattle());
+            }
+        }
+
+        if (isGamePlaying && isGameCanvasActive && lastWeekStatus)
         {
             UpdateTimer();
         }
@@ -70,6 +107,14 @@ public class BossBattleManager : MonoBehaviour
         SaveOriginalChipColors();
         clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
+    }
+
+    private void SetUIActive(bool isActive)
+    {
+        gageRectTr.gameObject.SetActive(isActive);
+        clearPuzzleButton.gameObject.SetActive(isActive);
+        failPuzzleButton.gameObject.SetActive(isActive);
+        dialogueBox.gameObject.SetActive(isActive);
     }
 
     private void SaveOriginalChipColors()
@@ -109,17 +154,15 @@ public class BossBattleManager : MonoBehaviour
 
     private void DetermineBossAndAlly()
     {
-        if (gameMgr.tendency >= 1)
+        if (gameMgr.tendency >= 0)
         {
             isHero = true;
             allyImage.sprite = bunnyNormalSprite;
-            bossImage.sprite = puppetSprite;
         }
         else
         {
             isHero = false;
             allyImage.sprite = puppetSprite;
-            bossImage.sprite = bunnyNormalSprite;
         }
     }
 
@@ -359,6 +402,8 @@ public class BossBattleManager : MonoBehaviour
 
     private void UpdateTimer()
     {
+        if (!isGameCanvasActive && !lastWeekStatus) return;
+
         timer -= Time.deltaTime;
         UpdateGage();
         if (timer <= 0)
