@@ -12,6 +12,7 @@ public class BossBattleManager : MonoBehaviour
 
     [Header("UI")]
     public RectTransform gageRectTr;
+    public RectTransform gage;
     public Text teamDialogue;
     public Image allyImage;
     public Button clearPuzzleButton;
@@ -111,7 +112,7 @@ public class BossBattleManager : MonoBehaviour
 
     private void SetUIActive(bool isActive)
     {
-        gageRectTr.gameObject.SetActive(isActive);
+        gage.gameObject.SetActive(isActive);
         clearPuzzleButton.gameObject.SetActive(isActive);
         failPuzzleButton.gameObject.SetActive(isActive);
         dialogueBox.gameObject.SetActive(isActive);
