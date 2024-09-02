@@ -268,7 +268,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         CommonTool.In.shopFollowUI = shopFollowUI;
         alertPanelImg = alertPanel.GetComponentInChildren<Image>();
         indexSC = index.GetComponent<SpriteChange>();
-        
+
         DataSaveLoad.dataSave.AssignSceneObjects(slots1, slots2, slots3, toLeft, toRight, mainCam);
 
         popupDodge.onClick.AddListener(OnClickDodgePopup);
@@ -931,7 +931,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
         });
     }
-    
+
     public void Bankrupt()
     {
         creditPanel.SetActive(false);
@@ -1361,6 +1361,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     break;
                 case OrderState.Rejected:
                     AdjustFame(-25);
+                    if (order.camp == OrderTable.Camp.Hero)
+                    {
+                        AdjustTendency(-25);
+                    }
+                    else if (order.camp == OrderTable.Camp.Villain)
+                    {
+                        AdjustTendency(25);
+                    }
                     TendUIMove();
                     FameUIFill();
                     lineCnt = -1;
@@ -1850,6 +1858,21 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         else if (GameMgr.In.fame > GameMgr.In.maxFame)
         {
             GameMgr.In.fame = GameMgr.In.maxFame;
+        }
+    }
+
+    public void AdjustTendency(int val)
+    {
+        GameMgr.In.tendency += val;
+        GameMgr.In.dayTendency += val;
+
+        if (GameMgr.In.tendency < GameMgr.In.minTend)
+        {
+            GameMgr.In.tendency = GameMgr.In.minTend;
+        }
+        else if (GameMgr.In.tendency > GameMgr.In.maxTend)
+        {
+            GameMgr.In.tendency = GameMgr.In.maxTend;
         }
     }
 

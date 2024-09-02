@@ -1460,6 +1460,18 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             case 0:
                 GameMgr.In.dayFame -= 25;
                 GameMgr.In.fame -= 25;
+
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    GameMgr.In.tendency -= 25;
+                    GameMgr.In.dayTendency -= 25;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    GameMgr.In.tendency += 25;
+                    GameMgr.In.dayTendency += 25;
+                }
+
                 if (!isFeverMode)
                 {
                     mgr2.orderState = GameSceneMgr.OrderState.Failed;
@@ -1468,6 +1480,18 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             case 1:
                 GameMgr.In.dayFame -= 10;
                 GameMgr.In.fame -= 10;
+
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    GameMgr.In.tendency -= 10;
+                    GameMgr.In.dayTendency -= 10;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    GameMgr.In.tendency += 10;
+                    GameMgr.In.dayTendency += 10;
+                }
+
                 if (!isFeverMode)
                 {
                     mgr2.orderState = GameSceneMgr.OrderState.Failed;
@@ -1488,6 +1512,18 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 }
                 GameMgr.In.dayFame += 10;
                 GameMgr.In.fame += 10;
+
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    GameMgr.In.tendency += 10;
+                    GameMgr.In.dayTendency += 10;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    GameMgr.In.tendency -= 10;
+                    GameMgr.In.dayTendency -= 10;
+                }
+
                 if (!isFeverMode)
                 {
                     mgr2.orderState = GameSceneMgr.OrderState.Succeed;
@@ -1505,6 +1541,18 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 GameMgr.In.dayBonusRevenue += bonus2;
                 GameMgr.In.dayFame += 25;
                 GameMgr.In.fame += 25;
+
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    GameMgr.In.tendency += 25;
+                    GameMgr.In.dayTendency += 25;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    GameMgr.In.tendency -= 25;
+                    GameMgr.In.dayTendency -= 25;
+                }
+
                 if (!isFeverMode)
                 {
                     mgr2.orderState = GameSceneMgr.OrderState.Succeed;
