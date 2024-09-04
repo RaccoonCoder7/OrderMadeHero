@@ -16,12 +16,13 @@ public class PlayerData
     public int playerFame;
     public int playerDayFame;
     public int playerDayTend;
-    public int playerDaySpent;
+    public int playerDayShopBuyCost;
+    public int playerDayChipUseCost;
     public int customerCnt;
     public string savedDate;
     public int isEventOngoing = 0;
     public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, 
-        int daySpent, int cusCnt, int dayEvent, string date)
+        int dayShopBuy, int dayChipUse, int cusCnt, int dayEvent, string date)
     {
         playerName = name;
         playerCredit = credit;
@@ -31,7 +32,8 @@ public class PlayerData
         playerFame = fame;
         playerDayFame = dayFame;
         playerDayTend = dayTend;
-        playerDaySpent = daySpent;
+        playerDayShopBuyCost = dayShopBuy;
+        playerDayChipUseCost = dayChipUse;
         customerCnt = cusCnt;
         isEventOngoing = dayEvent;
         savedDate = date;
@@ -267,7 +269,8 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.fame,
             GameMgr.In.dayFame,
             GameMgr.In.dayTendency,
-            GameMgr.In.daySpendCredit,
+            GameMgr.In.dayShopBuyCost,
+            GameMgr.In.dayChipUseCost,
             GameMgr.In.dayCustomerCnt,
             GameMgr.In.isEventOn,
             DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
@@ -328,7 +331,8 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.fame = data.playerFame;
             GameMgr.In.dayFame = data.playerDayFame;
             GameMgr.In.dayTendency = data.playerDayTend;
-            GameMgr.In.daySpendCredit = data.playerDaySpent;
+            GameMgr.In.dayShopBuyCost = data.playerDayShopBuyCost;
+            GameMgr.In.dayChipUseCost = data.playerDayChipUseCost;
             GameMgr.In.dayCustomerCnt = data.customerCnt;
             GameMgr.In.isEventOn = data.isEventOngoing;
             

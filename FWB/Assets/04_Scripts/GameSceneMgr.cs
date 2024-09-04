@@ -116,7 +116,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Text creditTitle;
     public Text creditRevenue;
     public Text creditBonusRevenue;
-    public Text creditChipsetCost;
+    public Text creditShopBuyCost;
+    public Text creditChipUseCost;
     public Text creditRentCost;
     public Text creditTotalRevenue;
     public Text creditCustomerCnt;
@@ -317,7 +318,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         if (startDay != 1)
         {
             GameMgr.In.isEventOn = 1;
-            for (int i = startDay; i <= 7; i++)
+            for (int i = startDay; i <= GameMgr.In.endDay; i++)
             {
                 string eventKey = "day" + i;
                 var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
@@ -328,7 +329,38 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 else
                 {
-                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    var val = UnityEngine.Random.Range(0, 100);
+                    // 테스트코드. 부등호 방향 바꿔야 함
+                    if (val < GameMgr.In.feverModeProbability)
+                    {
+                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    }
+                    else
+                    {
+                        // 테스트코드. 제거해야 함.
+                        puzzleMgr.makingDone.gameObject.SetActive(true);
+                        renom.SetActive(true);
+                        gold.SetActive(true);
+                        foreach (var chip in GameMgr.In.chipTable.chipList)
+                        {
+                            chip.createEnable = true;
+                        }
+                        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                        {
+                            foreach (var bp in bpc.bluePrintList)
+                            {
+                                bp.createEnable = true;
+                            }
+                        }
+
+                        // TODO: 피버모드 시작 연출 + Yes / No 선택 가능하도록 수정
+                        GameMgr.In.feverModeProbability /= 10;
+                        gamePanel.SetActive(true);
+                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
+                        goldText.text = GameMgr.In.credit.ToString();
+                        FameUIFill();
+                        // TODO: 피버모드 종료 연출
+                    }
                 }
 
                 if (isEventFlowing)
@@ -770,7 +802,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         creditTitle.text = GameMgr.In.week + "주차 " + GameMgr.In.day + "요일";
         creditRevenue.text = "무기판매 +" + GameMgr.In.dayRevenue;
         creditBonusRevenue.text = "완성보너스 +" + GameMgr.In.dayBonusRevenue;
-        creditChipsetCost.text = "칩셋구입 " + GameMgr.In.daySpendCredit;
+        creditShopBuyCost.text = "상점구매비 " + GameMgr.In.dayShopBuyCost;
+        creditChipUseCost.text = "칩셋사용비 " + GameMgr.In.dayChipUseCost;
         if (GameMgr.In.day == Day.금)
         {
             GameMgr.In.dayRentCost = -100;
@@ -793,7 +826,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.dayRentCost = 0;
         }
         creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
-        var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost + GameMgr.In.daySpendCredit;
+        var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost
+                         + GameMgr.In.dayShopBuyCost + GameMgr.In.dayChipUseCost;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
         creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
         if (renom.activeInHierarchy)
@@ -1046,7 +1080,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     var bp = GameMgr.In.GetWeapon(bluePrintList[tempNum].bluePrintKey);
                                     bp.createEnable = true;
                                     GameMgr.In.credit -= item.price;
-                                    GameMgr.In.daySpendCredit -= item.price;
+                                    GameMgr.In.dayShopBuyCost -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     bluePrintList[tempNum].weaponState = 3;
                                     if (drMadChatRoutine != null)
@@ -1134,7 +1168,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     var chip = GameMgr.In.GetChip(chipList[tempNum].chipKey);
                                     chip.createEnable = true;
                                     GameMgr.In.credit -= item.price;
-                                    GameMgr.In.daySpendCredit -= item.price;
+                                    GameMgr.In.dayShopBuyCost -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     chipList[tempNum].chipState = 3;
                                     puzzleMgr.creatableChipKeyList.Add(chip.chipKey);
