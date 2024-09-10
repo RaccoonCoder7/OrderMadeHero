@@ -17,11 +17,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip[] bgmList;
     [SerializeField] private AudioClip[] effectList;
     private static SoundManager instance;
-    private AudioSource effectAudioSource;
-    private AudioSource bgmAudioSource;
+    public AudioSource effectAudioSource;
+    public AudioSource bgmAudioSource;
     private float masterVolume = 1f;
-    private float savedBgmVolume;
-    private float savedEffectVolume;
 
     [Header("UI Elements")]
     [SerializeField] private Scrollbar masterVolumeBar;
@@ -40,11 +38,39 @@ public class SoundManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            effectAudioSource = GetComponent<AudioSource>();
-            bgmAudioSource = gameObject.AddComponent<AudioSource>();
-            bgmAudioSource.volume = 0.2f;
-            bgmAudioSource.loop = true;
 
+            GameObject bgmObject = GameObject.Find("BGM");
+            if (bgmObject != null)
+            {
+                bgmAudioSource = bgmObject.GetComponent<AudioSource>();
+                if (bgmAudioSource == null)
+                {
+                    bgmAudioSource = bgmObject.AddComponent<AudioSource>();
+                }
+                bgmAudioSource.loop = true;
+            }
+            else
+            {
+                Debug.LogError("BGM GameObject not found.");
+                return;
+            }
+
+            GameObject effectObject = GameObject.Find("Effect");
+            if (effectObject != null)
+            {
+                effectAudioSource = effectObject.GetComponent<AudioSource>();
+                if (effectAudioSource == null)
+                {
+                    effectAudioSource = effectObject.AddComponent<AudioSource>();
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Effect GameObject not found");
+            }
+
+            FindVolumeBars();
+            LoadVolumeSettings();
             InitializeVolumeBars();
         }
         else
@@ -52,6 +78,8 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
 
     public static void InitializeVolumeBars()
     {
@@ -67,13 +95,13 @@ public class SoundManager : MonoBehaviour
         if (instance.bgmVolumeBar != null)
         {
             instance.bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
-            instance.bgmVolumeBar.value = instance.savedBgmVolume;
+            instance.bgmVolumeBar.value = instance.bgmAudioSource.volume;
         }
 
         if (instance.effectVolumeBar != null)
         {
             instance.effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
-            instance.effectVolumeBar.value = instance.savedEffectVolume;
+            instance.effectVolumeBar.value = instance.effectAudioSource.volume;
         }
     }
 
@@ -96,9 +124,9 @@ public class SoundManager : MonoBehaviour
         instance.volumeLevels[sound] = volume;
 
         if (sound == SoundType.Bgm)
-            instance.savedBgmVolume = volume;
+            instance.bgmAudioSource.volume = volume;
         else if (sound == SoundType.Effect)
-            instance.savedEffectVolume = volume;
+            instance.effectAudioSource.volume = volume;
 
         UpdateVolumes();
     }
@@ -106,9 +134,17 @@ public class SoundManager : MonoBehaviour
 
     private static void UpdateVolumes()
     {
-        instance.bgmAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Bgm];
-        instance.effectAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Effect];
+        if (instance.bgmAudioSource != null)
+        {
+            instance.bgmAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Bgm];
+        }
+
+        if (instance.effectAudioSource != null)
+        {
+            instance.effectAudioSource.volume = instance.masterVolume * instance.volumeLevels[SoundType.Effect];
+        }
     }
+
 
     public static void BGMPlayer(string clipName)
     {
@@ -125,7 +161,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetFloat("MasterVolume", instance.masterVolume);
         PlayerPrefs.SetFloat("BgmVolume", instance.volumeLevels[SoundType.Bgm]);
         PlayerPrefs.SetFloat("EffectVolume", instance.volumeLevels[SoundType.Effect]);
-        PlayerPrefs.Save(); 
+        PlayerPrefs.Save();
     }
 
     public static void LoadVolumeSettings()

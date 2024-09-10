@@ -1418,6 +1418,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5557554756728431601, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: bgmAudioSource
+      value: 
+      objectReference: {fileID: 1608240224}
+    - target: {fileID: 5557554756728431601, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: effectAudioSource
+      value: 
+      objectReference: {fileID: 723337249}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
 --- !u!1 &53967590
@@ -46671,6 +46679,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!82 &1608240224 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5982718834984252204, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+  m_PrefabInstance: {fileID: 53273566}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1610709198
 GameObject:
   m_ObjectHideFlags: 0
