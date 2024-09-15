@@ -262,9 +262,4 @@ public class GameMgr : SingletonMono<GameMgr>
             request.orderEnable = string.IsNullOrEmpty(request.orderCondition);
         }
     }
-
-    public void CheckLastWeek()
-    {
-        lastweek = (day == Day.토 && week == 4);
-    }
 }
