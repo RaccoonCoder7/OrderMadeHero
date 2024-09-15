@@ -652,6 +652,36 @@ MonoBehaviour:
     orderCondition: tendency
     orderEnable: 0
     addedRequestKeyList: []
+  - orderKey: NormalOrder_62
+    ta: {fileID: 4900000, guid: 51bfae1f31590a94cbd324053f82197e, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 3
+    camp: 0
+    orderCondition: tendency
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_63
+    ta: {fileID: 4900000, guid: 1ba8c606334b4ff48a39fde97c1ea029, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 3
+    camp: 2
+    orderCondition: tendency
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_64
+    ta: {fileID: 4900000, guid: 97b0f5ad7ab5f9247bfc2e1a2a2d647a, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 3
+    camp: 2
+    orderCondition: tendency
+    orderEnable: 0
+    addedRequestKeyList: []
   mappingTextList:
   - mappingKey: "\uCCAD\uC0AC\uC9C4"
     mappingType: 0

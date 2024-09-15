@@ -14,7 +14,8 @@ public class GameMgr : SingletonMono<GameMgr>
     public Day day = Day.월;
     public int week = 1;
     public int credit;
-    public int daySpendCredit;
+    public int dayShopBuyCost;
+    public int dayChipUseCost;
     public int dayBonusRevenue;
     public int dayRentCost = -100;
     public int dayRevenue;
@@ -31,7 +32,10 @@ public class GameMgr : SingletonMono<GameMgr>
     public int lastWeekFame;
     public int lastWeekTend;
     public int isEventOn = 0;
-    public bool lastweek=false;
+    public int endDay = 28;
+    public int continuousSuccessCnt = 1;
+    public int continuousPerfectCnt = 1;
+    public float feverModeProbability;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
@@ -66,7 +70,8 @@ public class GameMgr : SingletonMono<GameMgr>
     /// </summary>
     public void ResetDayData()
     {
-        daySpendCredit = 0;
+        dayShopBuyCost = 0;
+        dayChipUseCost = 0;
         dayBonusRevenue = 0;
         dayRevenue = 0;
         dayCustomerCnt = 0;
@@ -83,13 +88,12 @@ public class GameMgr : SingletonMono<GameMgr>
         if ((int)day > System.Enum.GetValues(typeof(Day)).Length)
         {
             week++;
-            if (week > 4) week = 1;
             day = (Day)1;
+            GameMgr.In.feverModeProbability = 0;
         }
 
         fame = ClampValue(fame, maxFame, minFame);
         tendency = ClampValue(tendency, maxTend, minTend);
-        CheckLastWeek();
     }
 
     private int ClampValue(int value, int max, int min)
@@ -193,6 +197,39 @@ public class GameMgr : SingletonMono<GameMgr>
         orderedBluePrintKeyList.Add(currentBluePrint.bluePrintKey);
     }
 
+    /// <summary>
+    /// 피버모드 발생 확률 조정
+    /// </summary>
+    /// <param name="score"></param>
+    public void AdjustFeverModeProbability(int score)
+    {
+        switch (score)
+        {
+            case 0:
+            case 1:
+                continuousSuccessCnt = 1;
+                continuousPerfectCnt = 1;
+                feverModeProbability /= 2;
+                break;
+            case 2:
+                feverModeProbability += continuousSuccessCnt * 2;
+                if (feverModeProbability > 100)
+                {
+                    feverModeProbability = 100;
+                }
+                continuousSuccessCnt++;
+                break;
+            case 3:
+                feverModeProbability += continuousPerfectCnt * 4;
+                if (feverModeProbability > 100)
+                {
+                    feverModeProbability = 100;
+                }
+                continuousPerfectCnt++;
+                break;
+        }
+    }
+
     private void ResetDataTables()
     {
         foreach (var category in weaponDataTable.bluePrintCategoryList)
@@ -223,10 +260,4 @@ public class GameMgr : SingletonMono<GameMgr>
             request.orderEnable = string.IsNullOrEmpty(request.orderCondition);
         }
     }
-
-    public void CheckLastWeek()
-    {
-        lastweek = (day == Day.토 && week == 4);
-    }
-
 }

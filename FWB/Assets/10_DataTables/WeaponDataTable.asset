@@ -217,7 +217,9 @@ MonoBehaviour:
       weaponState: 0
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
-      requiredChipAbilityList: []
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 1
       enableChipKeyList: []
   - categoryKey: t_bow
     name: "\uD65C\uB958"
@@ -319,5 +321,9 @@ MonoBehaviour:
       weaponState: 0
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
-      requiredChipAbilityList: []
+      requiredChipAbilityList:
+      - abilityKey: a_speed
+        count: 1
+      - abilityKey: a_weight
+        count: -1
       enableChipKeyList: []

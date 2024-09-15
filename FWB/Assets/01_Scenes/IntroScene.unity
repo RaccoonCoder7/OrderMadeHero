@@ -1254,6 +1254,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464999218}
   m_CullTransparentMesh: 1
+--- !u!82 &469981170 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5982718834984252204, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+  m_PrefabInstance: {fileID: 586455500}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &526892843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,12 +1511,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5557554756728431601, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: bgmAudioSource
+      value: 
+      objectReference: {fileID: 469981170}
+    - target: {fileID: 5557554756728431601, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: effectVolumeBar
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5557554756728431601, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: masterVolumeBar
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982718834984252204, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982718834984252204, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 78472871b64992f478369946c7f8fdfa, type: 3}
+    - target: {fileID: 5982718834984252204, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}

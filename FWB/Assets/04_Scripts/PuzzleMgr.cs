@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,6 +77,31 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Dictionary<ChipObj, int> chipObjDic = new Dictionary<ChipObj, int>();
     private List<PuzzleFrameData> previewTargetPfd = new List<PuzzleFrameData>();
 
+    [Header("FeverMode")]
+    public RectTransform gageRectTr;
+    public float maxPosX;
+    public float maxTime;
+    public int maxPuzzleCnt;
+    public GameObject particleParentObj;
+    public GameObject normalParticleParentObj;
+    public GameObject resultParticleParentObj;
+    public GameObject greenParticleParentObj;
+    public GameObject yellowParticleParentObj;
+    public GameObject redParticleParentObj;
+    public GameObject whiteParticleParentObj;
+    public GameObject blueParticleParentObj;
+    public GameObject purpleParticleParentObj;
+    private Image gageImage;
+    private bool isPuzzleCompleted;
+    private bool isGamePlaying;
+    private int succeedPuzzleCnt;
+    private int feverModeFame;
+    private int feverModeRevenue;
+    private int feverModeCombo;
+    private int feverModeMaxCombo;
+    private Coroutine resultParticleRoutine;
+    private List<WeaponDataTable.BluePrint> orderableBlueprintList = new List<WeaponDataTable.BluePrint>();
+
     private float lastRotationTime = 0f;
     private float rotationDebounceTime = 0.01f; // 디바운싱 시간 설정
     public class Puzzle
@@ -116,6 +142,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         ped = new PointerEventData(es);
         sortOrderSC = sortOrderBtn.GetComponent<SpriteChange>();
         scrollText = orderText.GetComponent<ScrollText>();
+        gageImage = gageRectTr.GetComponent<Image>();
 
         resolutionOffset = new Vector3(canvasScaler.referenceResolution.x, canvasScaler.referenceResolution.y, 0) / 2;
 
@@ -336,6 +363,21 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            OnClickMakingDone();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (creatableChipKeyList == null || creatableChipKeyList.Count == 0)
+            {
+                return;
+            }
+
+
+        }
+
         if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
          || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.X))
         {
@@ -548,7 +590,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         chipSize = 64;
         creditText.text = GameMgr.In.credit.ToString();
-        orderText.text = string.Empty;
         SetBluePrintDatas();
         SetPuzzle();
         SetChipDatas();
@@ -1455,61 +1496,120 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         currentAbilityText.text = string.Empty;
         usedChipText.text = string.Empty;
 
+        int chipPrice = 0;
+        foreach (var chip in currentChipInPuzzleDic)
+        {
+            chipPrice += chip.Key.price;
+        }
+
+        int fame = 0;
+        int tendency = 0;
+        int credit = 0;
+        int revenue = 0;
+        int bonus = 0;
         switch (score)
         {
             case 0:
-                GameMgr.In.dayFame -= 25;
-                GameMgr.In.fame -= 25;
-                if (!isFeverMode)
+                fame -= 25;
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
                 {
-                    mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                    tendency -= 25;
                 }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    tendency += 25;
+                }
+                credit -= chipPrice;
+
+                mgr2.orderState = GameSceneMgr.OrderState.Failed;
                 break;
             case 1:
-                GameMgr.In.dayFame -= 10;
-                GameMgr.In.fame -= 10;
-                if (!isFeverMode)
+                fame -= 10;
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
                 {
-                    mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                    tendency -= 10;
                 }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    tendency += 10;
+                }
+                revenue += chipPrice;
+
+                mgr2.orderState = GameSceneMgr.OrderState.Failed;
                 break;
             case 2:
+                fame += 10;
+                int sellPrice1 = GameMgr.In.currentBluePrint.sellPrice;
+                sellPrice1 += chipPrice;
                 if (!isTutorial)
                 {
-                    int sellPrice1 = GameMgr.In.currentBluePrint.sellPrice;
-                    int bonus1 = GetBonusCredit(sellPrice1);
-                    GameMgr.In.credit += sellPrice1 + bonus1;
-                    if (!isFeverMode)
-                    {
-                        mgr2.goldText.text = GameMgr.In.credit.ToString();
-                    }
-                    GameMgr.In.dayRevenue += sellPrice1;
-                    GameMgr.In.dayBonusRevenue += bonus1;
+                    bonus = GetBonusCredit(sellPrice1);
+                    credit += sellPrice1 + bonus;
                 }
-                GameMgr.In.dayFame += 10;
-                GameMgr.In.fame += 10;
-                if (!isFeverMode)
+                else
                 {
-                    mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                    credit += sellPrice1;
                 }
+                revenue += sellPrice1;
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    tendency += 10;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    tendency -= 10;
+                }
+
+                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
                 break;
             case 3:
+                fame += 25;
                 int sellPrice2 = GameMgr.In.currentBluePrint.sellPrice;
-                int bonus2 = GetBonusCredit(sellPrice2, 0.1f);
-                GameMgr.In.credit += sellPrice2 + bonus2;
+                sellPrice2 += chipPrice;
+                bonus = GetBonusCredit(sellPrice2, 0.1f);
+                credit += sellPrice2 + bonus;
                 if (!isFeverMode)
                 {
                     mgr2.goldText.text = GameMgr.In.credit.ToString();
                 }
-                GameMgr.In.dayRevenue += sellPrice2;
-                GameMgr.In.dayBonusRevenue += bonus2;
-                GameMgr.In.dayFame += 25;
-                GameMgr.In.fame += 25;
-                if (!isFeverMode)
+                revenue += sellPrice2;
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
                 {
-                    mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                    tendency += 25;
                 }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    tendency -= 25;
+                }
+
+                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
                 break;
+        }
+
+        if (isFeverMode)
+        {
+            feverModeFame = fame;
+            feverModeRevenue = revenue;
+        }
+        else
+        {
+            GameMgr.In.fame += fame;
+            GameMgr.In.dayFame += fame;
+            GameMgr.In.tendency += tendency;
+            GameMgr.In.dayTendency += tendency;
+            GameMgr.In.credit += credit;
+            GameMgr.In.dayChipUseCost -= chipPrice;
+            GameMgr.In.dayRevenue = revenue;
+            GameMgr.In.dayBonusRevenue = bonus;
+
+            mgr2.FameUIFill();
+            mgr2.TendUIMove();
+            mgr2.goldText.text = GameMgr.In.credit.ToString();
+        }
+
+        if (GameMgr.In.week > 1)
+        {
+            GameMgr.In.AdjustFeverModeProbability(score);
         }
 
         if (isTutorial)
@@ -1643,6 +1743,189 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
         return totalSize;
+    }
+
+    private void EndFeverMode()
+    {
+        isFeverMode = false;
+        isGamePlaying = false;
+        GameMgr.In.feverModeProbability = 0;
+        GameMgr.In.continuousSuccessCnt = 0;
+        GameMgr.In.continuousPerfectCnt = 0;
+
+        particleParentObj.SetActive(false);
+        CommonTool.In.OpenAlertPanel("완성한 퍼즐 갯수: " + succeedPuzzleCnt);
+
+        float bonus = 0;
+        if (feverModeMaxCombo >= 5)
+        {
+            bonus = 1.5f;
+        }
+        else if (feverModeMaxCombo >= 3)
+        {
+            bonus = 1.25f;
+        }
+
+        float credit = feverModeRevenue * bonus;
+        float fame = feverModeFame * bonus;
+        GameMgr.In.fame += (int)fame;
+        GameMgr.In.dayFame += (int)fame;
+        GameMgr.In.credit += (int)credit;
+        GameMgr.In.dayBonusRevenue += (int)bonus;
+        GameMgr.In.dayRevenue += feverModeRevenue;
+
+        succeedPuzzleCnt = 0;
+    }
+
+    private void StartNewFeverModePuzzle()
+    {
+        var index = UnityEngine.Random.Range(0, orderableBlueprintList.Count);
+
+        var key = orderableBlueprintList[index].bluePrintKey;
+        GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(key);
+        StartFeverModePuzzle();
+    }
+
+    private void OnFeverModeMakingDone(int result)
+    {
+        isPuzzleCompleted = true;
+
+        normalParticleParentObj.SetActive(false);
+        resultParticleParentObj.SetActive(true);
+        switch (result)
+        {
+            case 1:
+                whiteParticleParentObj.SetActive(true);
+                blueParticleParentObj.SetActive(false);
+                purpleParticleParentObj.SetActive(false);
+                feverModeCombo = 0;
+                break;
+            case 2:
+                whiteParticleParentObj.SetActive(false);
+                blueParticleParentObj.SetActive(true);
+                purpleParticleParentObj.SetActive(false);
+                succeedPuzzleCnt++;
+                feverModeCombo++;
+                if (feverModeMaxCombo < feverModeCombo) feverModeMaxCombo = feverModeCombo;
+                break;
+            case 3:
+                whiteParticleParentObj.SetActive(false);
+                blueParticleParentObj.SetActive(false);
+                purpleParticleParentObj.SetActive(true);
+                succeedPuzzleCnt++;
+                feverModeCombo++;
+                if (feverModeMaxCombo < feverModeCombo) feverModeMaxCombo = feverModeCombo;
+                break;
+        }
+
+        if (resultParticleRoutine != null)
+        {
+            StopCoroutine(resultParticleRoutine);
+        }
+        resultParticleRoutine = StartCoroutine(ReturnToNormalParticles());
+    }
+
+    public IEnumerator StartFeverMode()
+    {
+        isFeverMode = true;
+        isTutorial = false;
+        isGamePlaying = true;
+        particleParentObj.SetActive(true);
+        orderText.text = "제한시간 내에 최대한 많은 무기를 만드세요!";
+
+        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+        {
+            foreach (var bp in bpc.bluePrintList)
+            {
+                if (bp.createEnable) orderableBlueprintList.Add(bp);
+            }
+        }
+
+        StartCoroutine(StartTimeLimitGaging());
+
+        for (int i = 0; i < maxPuzzleCnt; i++)
+        {
+            StartNewFeverModePuzzle();
+            OnMakingDone += OnFeverModeMakingDone;
+
+            isPuzzleCompleted = false;
+            while (!isPuzzleCompleted)
+            {
+                if (!isGamePlaying)
+                {
+                    yield break;
+                }
+                yield return null;
+            }
+        }
+
+        EndFeverMode();
+    }
+
+    private IEnumerator StartTimeLimitGaging()
+    {
+        float gageWidth = gageRectTr.sizeDelta.x;
+        float minPosX = maxPosX - Mathf.Abs(gageWidth);
+        float currentPercent = 1;
+        Vector2 currentPos = gageRectTr.anchoredPosition;
+        currentPos.x = maxPosX;
+        gageRectTr.anchoredPosition = currentPos;
+
+        while (currentPos.x >= minPosX)
+        {
+            if (!isGamePlaying)
+            {
+                yield break;
+            }
+
+            float percentAtThisFrame = Time.deltaTime / maxTime;
+            currentPos.x -= percentAtThisFrame * gageWidth;
+            currentPercent -= percentAtThisFrame;
+            gageRectTr.anchoredPosition = currentPos;
+
+            if (currentPercent > 0.5f)
+            {
+                if (gageImage.color != Color.green)
+                {
+                    gageImage.color = Color.green;
+                    greenParticleParentObj.SetActive(true);
+                    yellowParticleParentObj.SetActive(false);
+                    redParticleParentObj.SetActive(false);
+                }
+            }
+            else if (currentPercent < 0.15f)
+            {
+                if (gageImage.color != Color.red)
+                {
+                    gageImage.color = Color.red;
+                    greenParticleParentObj.SetActive(false);
+                    yellowParticleParentObj.SetActive(false);
+                    redParticleParentObj.SetActive(true);
+                }
+            }
+            else
+            {
+                if (gageImage.color != Color.yellow)
+                {
+                    gageImage.color = Color.yellow;
+                    greenParticleParentObj.SetActive(false);
+                    yellowParticleParentObj.SetActive(true);
+                    redParticleParentObj.SetActive(false);
+                }
+            }
+
+            yield return null;
+        }
+
+        EndFeverMode();
+    }
+
+    private IEnumerator ReturnToNormalParticles()
+    {
+        yield return new WaitForSeconds(1);
+        normalParticleParentObj.SetActive(true);
+        resultParticleParentObj.SetActive(false);
+        resultParticleRoutine = null;
     }
 
     [ContextMenu("LogPuzzleFrameDatas")]
