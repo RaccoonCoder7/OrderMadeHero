@@ -32,6 +32,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int lastWeekFame;
     public int lastWeekTend;
     public int isEventOn = 0;
+    public bool lastweek = false;
     public int endDay = 28;
     public int continuousSuccessCnt = 1;
     public int continuousPerfectCnt = 1;
@@ -88,6 +89,7 @@ public class GameMgr : SingletonMono<GameMgr>
         if ((int)day > System.Enum.GetValues(typeof(Day)).Length)
         {
             week++;
+            if (week > 4) week = 1;
             day = (Day)1;
             GameMgr.In.feverModeProbability = 0;
         }
@@ -259,5 +261,10 @@ public class GameMgr : SingletonMono<GameMgr>
         {
             request.orderEnable = string.IsNullOrEmpty(request.orderCondition);
         }
+    }
+
+    public void CheckLastWeek()
+    {
+        lastweek = (day == Day.토 && week == 4);
     }
 }
