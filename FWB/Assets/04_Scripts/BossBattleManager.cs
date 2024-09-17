@@ -49,13 +49,16 @@ public class BossBattleManager : MonoBehaviour
     private List<Color> originalRawChipColors;
     private Vector2 initialGagePos;
 
-    private bool lastWeekStatus;
+    public bool lastWeekStatus = false;
+    private bool isBossBattleActive = false;
     private bool isGameCanvasActive;
+
+    public delegate void BossBattleResult(bool success);
+    public event BossBattleResult OnBossBattleEnded;
 
     private void Start()
     {
         Initialize();
-        lastWeekStatus = gameMgr.lastweek;
         isGameCanvasActive = gameCanvas.enabled;
         SetUIActive(lastWeekStatus);
         if (lastWeekStatus && isGameCanvasActive)
@@ -67,20 +70,21 @@ public class BossBattleManager : MonoBehaviour
 
     private void Update()
     {
-        if (gameMgr.lastweek != lastWeekStatus)
+        if (lastWeekStatus && !isBossBattleActive)
         {
-            lastWeekStatus = gameMgr.lastweek;
             SetUIActive(lastWeekStatus);
             if (lastWeekStatus && isGameCanvasActive)
             {
                 Debug.Log("BossBattle Start");
                 StartCoroutine(StartBossBattle());
+                isBossBattleActive = true;
             }
             else
             {
                 Debug.Log("BossBattle Stop");
                 StopAllCoroutines();
                 ResetGameState();
+                isBossBattleActive = false;
             }
         }
 
@@ -92,6 +96,7 @@ public class BossBattleManager : MonoBehaviour
                 SetUIActive(true);
                 Debug.Log("GameCanvas activated, starting BossBattle");
                 StartCoroutine(StartBossBattle());
+                isBossBattleActive = true;
             }
         }
 
@@ -106,7 +111,11 @@ public class BossBattleManager : MonoBehaviour
         initialGageWidth = gageRectTr.sizeDelta.x;
         initialGagePos = gageRectTr.anchoredPosition;
         SaveOriginalChipColors();
+
+        clearPuzzleButton.onClick.RemoveAllListeners();
         clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
+
+        failPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
     }
 
@@ -155,6 +164,7 @@ public class BossBattleManager : MonoBehaviour
 
     private void DetermineBossAndAlly()
     {
+        Debug.Log(gameMgr.tendency);
         if (gameMgr.tendency >= 0)
         {
             isHero = true;
@@ -188,34 +198,33 @@ public class BossBattleManager : MonoBehaviour
 
     private IEnumerator StartBossBattle()
     {
+        ResetGameState();
         DetermineBossAndAlly();
         SetTableDatasForBossBattle();
-        ResetGameState();
 
         puzzleMgr.isFeverMode = false;
         puzzleMgr.isTutorial = false;
         isGamePlaying = true;
+
+        puzzleMgr.OnMakingDone += OnBossBattleMakingDone;
 
         yield return ShowDialogue("보스 전투 시작!");
 
         while (currentPuzzleIndex < maxPuzzleCnt)
         {
             StartNewBossBattlePuzzle();
-            puzzleMgr.OnMakingDone += OnBossBattleMakingDone;
-
             isPuzzleCompleted = false;
             yield return new WaitUntil(() => isPuzzleCompleted);
 
             ApplyBossGimmick();
             yield return ShowGimmickDialogue();
 
-            puzzleMgr.OnMakingDone -= OnBossBattleMakingDone;
-
             currentPuzzleIndex++;
         }
 
         EndBossBattle(true);
     }
+
 
     private void StartNewBossBattlePuzzle()
     {
@@ -365,7 +374,6 @@ public class BossBattleManager : MonoBehaviour
         {
             teamDialogue.text = "보스 처치 성공";
             CommonTool.In.OpenAlertPanel("보스 처치 성공! 보상: 우호 성향치 200, 명성치 200, 크레딧 1만");
-
             gameMgr.fame += 200;
             gameMgr.credit += 10000;
             if (isHero)
@@ -376,16 +384,21 @@ public class BossBattleManager : MonoBehaviour
             {
                 gameMgr.tendency -= 200;
             }
+            gameCanvas.gameObject.SetActive(false);
+            OnBossBattleEnded?.Invoke(success);
         }
         else
         {
             teamDialogue.text = "보스 처치 실패...";
             CommonTool.In.OpenAlertPanel("보스 처치 실패... 보스전을 다시 시작합니다.");
+            StartCoroutine(StartBossBattle());
         }
+        clearPuzzleButton.onClick.RemoveAllListeners();
+        failPuzzleButton.onClick.RemoveAllListeners();
 
         ResetGameState();
         ResetScreen();
-        StartCoroutine(StartBossBattle());
+        OnBossBattleEnded?.Invoke(success);
     }
 
     private void ResetGameState()
@@ -399,6 +412,13 @@ public class BossBattleManager : MonoBehaviour
         RestoreOriginalChipColors();
         UpdateGage();
         UpdateCharacterPopup(true);
+
+        puzzleMgr.OnMakingDone -= OnBossBattleMakingDone;
+        clearPuzzleButton.onClick.RemoveAllListeners();
+        failPuzzleButton.onClick.RemoveAllListeners();
+
+        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
+        failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
     }
 
     private void UpdateTimer()

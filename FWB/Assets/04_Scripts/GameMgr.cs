@@ -32,7 +32,6 @@ public class GameMgr : SingletonMono<GameMgr>
     public int lastWeekFame;
     public int lastWeekTend;
     public int isEventOn = 0;
-    public bool lastweek = false;
     public int endDay = 28;
     public int continuousSuccessCnt = 1;
     public int continuousPerfectCnt = 1;
