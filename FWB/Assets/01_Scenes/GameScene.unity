@@ -1419,6 +1419,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5557554756728431601, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: effectObject
+      value: 
+      objectReference: {fileID: 723337246}
+    - target: {fileID: 5557554756728431601, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: bgmAudioSource
       value: 
       objectReference: {fileID: 1608240224}
@@ -20114,6 +20118,7 @@ MonoBehaviour:
   shopUISlotList: []
   puzzleMgr: {fileID: 0}
   isOnConversation: 0
+  isBankrupt: 0
 --- !u!4 &723337248
 Transform:
   m_ObjectHideFlags: 0

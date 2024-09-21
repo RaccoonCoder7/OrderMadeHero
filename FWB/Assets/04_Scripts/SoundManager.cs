@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource effectAudioSource;
     public AudioSource bgmAudioSource;
     private float masterVolume = 1f;
-
+    
     [Header("UI Elements")]
     [SerializeField] private Scrollbar masterVolumeBar;
     [SerializeField] private Scrollbar bgmVolumeBar;
@@ -55,7 +56,7 @@ public class SoundManager : MonoBehaviour
                 return;
             }
 
-            GameObject effectObject = GameObject.Find("Effect");
+            GameObject effectObject = GameObject.Find("GameSceneMgr");
             if (effectObject != null)
             {
                 effectAudioSource = effectObject.GetComponent<AudioSource>();
@@ -69,6 +70,8 @@ public class SoundManager : MonoBehaviour
                 Debug.LogWarning("Effect GameObject not found");
             }
 
+            StartCoroutine(FindEffectSource());
+
             FindVolumeBars();
             LoadVolumeSettings();
             InitializeVolumeBars();
@@ -79,7 +82,29 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-
+    private IEnumerator FindEffectSource()
+    {
+        while (true)
+        {
+            if (effectAudioSource == null)
+            {
+                GameObject effectObject = GameObject.Find("GameSceneMgr");
+                if (effectObject != null)
+                {
+                    effectAudioSource = effectObject.GetComponent<AudioSource>();
+                    if (effectAudioSource == null)
+                    {
+                        effectAudioSource = effectObject.AddComponent<AudioSource>();
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Effect GameObject not found");
+                }
+            }
+            yield return null;
+        }
+    }
 
     public static void InitializeVolumeBars()
     {

@@ -13,6 +13,7 @@ using DG.Tweening;
 using static WeaponDataTable;
 using static GameMgr;
 using System.IO;
+using UnityEditorInternal;
 
 /// <summary>
 /// 게임 씬의 UI와 동작(메인 게임 플로우)를 관리
@@ -207,7 +208,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private bool isSaving;
     private Texture2D currentScreen;
     private GameObject lastSelectedSlot = null;
-    private bool isBankrupt = false;
+    public bool isBankrupt = false;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -405,6 +406,16 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
             else
             {
+                gold.SetActive(true);
+                day.SetActive(true);
+                if ((int)GameMgr.In.day > 2)
+                {
+                    renom.SetActive(true);
+                }
+                else if ((int)GameMgr.In.day > 5)
+                {
+                    tendency.SetActive(true);
+                }
                 for (int i = (int)GameMgr.In.day; i <= 7; i++)
                 {
                     string eventKey = "day" + i;
@@ -969,6 +980,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void Bankrupt()
     {
+        string eventKey = "day" + (GameMgr.In.day - 4);
+        var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
         creditPanel.SetActive(false);
         isEventFlowing = false;
         bankruptPanel.SetActive(true);
@@ -979,10 +992,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.fame = GameMgr.In.lastWeekFame;
             GameMgr.In.tendency = GameMgr.In.lastWeekTend;
             GameMgr.In.ResetDayData();
-            GameMgr.In.day = (Day)1;
+            GameMgr.In.day -= 4;
             bankruptPanel.SetActive(false);
             CommonTool.In.AsyncChangeScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         });
+        StartCoroutine(StartEventFlow(targetEvent));
         FameUIFill();
         TendUIMove();
     }
