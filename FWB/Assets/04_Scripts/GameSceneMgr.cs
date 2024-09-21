@@ -666,6 +666,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             DataSaveLoad.dataSave.LoadData(saveSlot);
             loadPopup.SetActive(false);
         }
+        popUpDim.SetActive(false);
         isSavePopupActive = false;
         GameObject slotObj = GameObject.Find(saveSlot);
         slotObj.GetComponent<SaveSlot>().CallSlotInfo();

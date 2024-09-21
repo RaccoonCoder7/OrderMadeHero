@@ -189,11 +189,11 @@ public class DataSaveLoad : MonoBehaviour
         switch (currentState)
         {
             case SlotState.First:
-                return isRightDirection ? SlotState.Second : SlotState.Third;
+                return isRightDirection ? SlotState.Third : SlotState.Second;
             case SlotState.Second:
-                return isRightDirection ? SlotState.Third : SlotState.First;
+                return isRightDirection ? SlotState.First : SlotState.Third;
             case SlotState.Third:
-                return isRightDirection ? SlotState.First : SlotState.Second;
+                return isRightDirection ? SlotState.Second : SlotState.First;
             default:
                 throw new InvalidOperationException("invalid state");
         }
