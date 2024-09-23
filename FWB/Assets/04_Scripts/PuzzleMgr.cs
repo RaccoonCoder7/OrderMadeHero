@@ -1101,49 +1101,13 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void SetPuzzle()
     {
-        currPuzzle = GetPuzzle();
+        currPuzzle = CommonTool.In.GetPuzzle();
         InstantiateFrames(currPuzzle.frameDataTable);
         enabledFrameCnt = 0;
         foreach (var frameData in currPuzzle.frameDataTable)
         {
             if (frameData.patternNum == 1) enabledFrameCnt++;
         }
-    }
-
-    private Puzzle GetPuzzle()
-    {
-        Puzzle puzzle = new Puzzle();
-        var lines = GameMgr.In.currentBluePrint.puzzleCsv.text.Split('\n');
-        var lineList = new List<string>();
-        foreach (var line in lines)
-        {
-            var trimLine = line.Trim();
-            if (!string.IsNullOrEmpty(trimLine))
-            {
-                lineList.Add(trimLine);
-            }
-        }
-        puzzle.y = lineList.Count;
-        puzzle.x = lineList[0].Split(',').Length;
-        puzzle.frameDataTable = new PuzzleFrameData[puzzle.y, puzzle.x];
-        for (int i = 0; i < lineList.Count; i++)
-        {
-            var elements = lineList[i].Split(',');
-            if (i == 0) puzzle.x = elements.Length;
-
-            for (int j = 0; j < elements.Length; j++)
-            {
-                int targetNum = 0;
-                if (!Int32.TryParse(elements[j], out targetNum))
-                {
-                    Debug.Log("퍼즐조각정보 로드 실패. puzzle" + GameMgr.In.currentBluePrint.puzzleCsv.text + ": " + i + ", " + j);
-                    return null;
-                }
-                puzzle.frameDataTable[i, j] = new PuzzleFrameData(targetNum, j, i);
-            }
-        }
-
-        return puzzle;
     }
 
     private void InstantiateFrames(PuzzleFrameData[,] frameDataTable)

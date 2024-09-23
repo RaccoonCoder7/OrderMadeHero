@@ -101,6 +101,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public UISlot uiSlotPrefab;
     public ShopFollowUI shopFollowUI;
     public ShopPopupUI shopPopupUI;
+    public BlueprintImgChanger blueprintImgChanger;
     public GameObject mobNpc;
     public Text mainChatText;
     public Text mascotChatText;
@@ -1821,6 +1822,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         comment.text = weapon.comment.Replace("\\n", "\n");
         weaponCategory.text = GameMgr.In.GetWeaponCategory(currentSelectedWeaponCategoryKey).name;
         howToGet.text = weapon.howToGet;
+
+        blueprintImgChanger.SetBlueprintImage(weapon);
 
         string result = string.Empty;
         var abilityList = GameMgr.In.abilityTable.abilityList;
