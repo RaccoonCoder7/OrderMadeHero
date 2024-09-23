@@ -178,7 +178,7 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
                 yield return new WaitForSeconds(textDelayTime);
                 if (j == 0)
                 {
-                    scrollBar.AutoScrollToDown();
+                    StartCoroutine(scrollBar.DelayScroll());
                 }
 
                 if (skipLine)
@@ -352,7 +352,7 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
 
     private void OnClickHistory()
     {
-        StartCoroutine(DelayScroll());
+        StartCoroutine(scrollBar.DelayScroll());
         historyPanel.SetActive(!historyPanel.activeSelf);
     }
 
@@ -364,11 +364,5 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
     private string ReplaceKeyword(string line)
     {
         return line.Replace("{username}", CommonTool.In.playerName);
-    }
-
-    private IEnumerator DelayScroll()
-    {
-        yield return null;
-        scrollBar.AutoScrollToDown();
     }
 }

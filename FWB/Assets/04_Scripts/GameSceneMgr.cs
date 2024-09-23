@@ -53,6 +53,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Button alertDodge;
     public Button creditDodge;
     public Button bankruptDodge;
+    public Button history;
+    public Button historyDodge;
     public Text chatName;
     public GameObject mainChatPanel;
     public GameObject pcChatPanel;
@@ -80,6 +82,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject gamePanel;
     // public GameObject cursor;
     public GameObject alertPanel;
+    public GameObject historyPanel;
     private Image alertPanelImg;
     public Sprite chipsetAlertImg;
     public GameObject getItemImg;
@@ -102,6 +105,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public ShopFollowUI shopFollowUI;
     public ShopPopupUI shopPopupUI;
     public BlueprintImgChanger blueprintImgChanger;
+    public CustomScrollBar scrollBar;
     public GameObject mobNpc;
     public Text mainChatText;
     public Text mascotChatText;
@@ -133,6 +137,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Text specialGimmick;
     public Text weaponCategory;
     public Text howToGet;
+    public Text historyText;
     public Image blueprintImg;
     public List<Sprite> bgImgList = new List<Sprite>();
     public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
@@ -289,6 +294,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         shopChipsetTab.onClick.AddListener(OnClickShopChipsetTab);
         shopPageUp.onClick.AddListener(OnClickShopPageUp);
         shopPageDown.onClick.AddListener(OnClickShopPageDown);
+        history.onClick.AddListener(OnClickHistory);
+        historyDodge.onClick.AddListener(OnClickHistory);
 
         foreach (var btn in saveLoadButtons)
         {
@@ -773,6 +780,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         if (isShopAnimating) return;
         isShopAnimating = true;
         StartCoroutine(StartShopOutAnim());
+    }
+
+    public void OnClickHistory()
+    {
+        StartCoroutine(scrollBar.DelayScroll());
+        historyPanel.SetActive(!historyPanel.activeSelf);
     }
 
     public void ActiveYesNoButton(bool isActive)
@@ -1652,7 +1665,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     {
                         lineCnt++;
                         prevText = string.Empty;
-                        //historyText.text += "\n";
+                        historyText.text += "\n";
                     }
                 }
 
@@ -1721,11 +1734,15 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
 
             isTextFlowing = true;
-            //historyText.text += lines[i] + "\n";
+            historyText.text += lines[currentLineIdex] + "\n";
             for (int j = 0; j < lines[currentLineIdex].Length; j++)
             {
                 chatTargetText.text = prevText + lines[currentLineIdex].Substring(0, j + 1);
                 yield return new WaitForSeconds(textDelayTime);
+                if (j == 0)
+                {
+                    StartCoroutine(scrollBar.DelayScroll());
+                }
 
                 if (skipLine)
                 {
@@ -1870,6 +1887,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public IEnumerator FadeToNextDay()
     {
+        historyText.text = string.Empty;
         creditPanel.SetActive(false);
         yield return StartCoroutine(CommonTool.In.FadeOut());
         yield return StartCoroutine(CommonTool.In.FadeIn());

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -26,7 +27,7 @@ public class CustomScrollBar : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     void Update()
     {
         if (buttonPressed) return;
-        
+
         Vector3 localPos = rect.localPosition;
         localPos.y = scrollBar.value * range + minRange;
         if (localPos.y < minRange) localPos.y = minRange;
@@ -38,6 +39,12 @@ public class CustomScrollBar : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         scrollBar.value = 0;
         rect.localPosition = new Vector3(rect.localPosition.x, minRange, rect.localPosition.z);
+    }
+
+    public IEnumerator DelayScroll()
+    {
+        yield return null;
+        AutoScrollToDown();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
