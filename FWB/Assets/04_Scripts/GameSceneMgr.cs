@@ -88,6 +88,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject getItemImg;
     public GameObject getItemText;
     public List<Sprite> getItemSprites = new List<Sprite>();
+    public List<Sprite> emojiSprites = new List<Sprite>();
     public List<String> getItemTexts = new List<String>();
     public GameObject creditPanel;
     public GameObject bankruptPanel;
@@ -99,6 +100,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject weaponDatasBlock;
     public GameObject renomUIBlock;
     public GameObject tendencyUIBlock;
+    public List<GameObject> mobAvatarList = new List<GameObject>();
     public ShopUISlot shopUiSlotPrefab;
     public ShopUISlot shopUiSlotSoldOutPrefab;
     public UISlot uiSlotPrefab;
@@ -106,7 +108,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public ShopPopupUI shopPopupUI;
     public BlueprintImgChanger blueprintImgChanger;
     public CustomScrollBar scrollBar;
-    public GameObject mobNpc;
     public Text mainChatText;
     public Text mascotChatText;
     public Text popupChatText;
@@ -139,7 +140,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Text howToGet;
     public Text historyText;
     public Image blueprintImg;
-    public List<Sprite> bgImgList = new List<Sprite>();
+    public Image emoji;
     public List<IntroSceneMgr.ImageData> imageList = new List<IntroSceneMgr.ImageData>();
     public List<UISlot> bluePrintSlotList = new List<UISlot>();
     [Header("For Test")]
@@ -151,7 +152,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public RectTransform popupChatPanelRect;
     public Sprite blankSlotSprite;
     public List<Sprite> shopTabSpriteList;
-    public List<Sprite> mobSpriteList;
     public SpriteAnimation shopSpriteAnim;
     [HideInInspector]
     public Text chatTargetText;
@@ -174,9 +174,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     [HideInInspector]
     public PuzzleMgr puzzleMgr;
 
-    private int page;
     private int fadeSpeed = 1;
-    private List<EventTrigger> eventTriggerList = new List<EventTrigger>();
     [SerializeField]
     private bool isOnConversation;
     private bool isTextFlowing;
@@ -193,11 +191,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private float textSkipWaitTime = 1f;
     private string prevText;
     private string currentSelectedWeaponCategoryKey;
-    private string currentOrderText;
     private Action onEndText;
     private Action onSkip;
     private Coroutine textFlowCoroutine;
     private Coroutine drMadChatRoutine;
+    private Coroutine emojiRoutine;
     private Point cursorPos = new Point();
     private bool visible;
     private bool isShopAnimating;
@@ -209,7 +207,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private List<GameObject> activatedObjList = new List<GameObject>();
     private RectTransform blueprintImgRectTr;
     private SpriteChange indexSC;
-    private int previousMobAvatarIndex = -1;
+    private int previousMobAvatarIndex = 0;
     private string saveSlot;
     private bool isSaving;
     private Texture2D currentScreen;
@@ -548,29 +546,17 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void MobSpriteRandomChange()
     {
-        if (mobSpriteList.Count > 0)
+        int randomIndex = 0;
+        do
         {
-            int randomIndex = 0;
-            do
-            {
-                randomIndex = UnityEngine.Random.Range(0, mobSpriteList.Count);
-            } while (previousMobAvatarIndex == randomIndex);
-            previousMobAvatarIndex = randomIndex;
-            Sprite randomSprite = mobSpriteList[randomIndex];
+            randomIndex = UnityEngine.Random.Range(0, mobAvatarList.Count);
+        } while (previousMobAvatarIndex == randomIndex);
 
-            var image = mobNpc.GetComponent<Image>();
-            image.sprite = randomSprite;
+        mobAvatarList[previousMobAvatarIndex].SetActive(false);
+        mobAvatarList[randomIndex].SetActive(true);
 
-            RectTransform rectTransform = image.rectTransform;
-            float fixedHeight = (randomIndex >= 0 && randomIndex <= 2) ? 410.0f : 520.0f;
-            rectTransform.anchoredPosition = (randomIndex >= 0 && randomIndex <= 2) ? new Vector2(-675, -135) : new Vector2(-630, -80);
-            float spriteRatio = randomSprite.rect.width / randomSprite.rect.height;
-            rectTransform.sizeDelta = new Vector2(fixedHeight * spriteRatio, fixedHeight);
-        }
-        else
-        {
-            Debug.LogWarning("모브 스프라이트 없음.");
-        }
+        previousMobAvatarIndex = randomIndex;
+
     }
     public void SetIndexBlueprintImgAspect(Sprite targetSprite)
     {
@@ -1319,7 +1305,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private void EndOrder()
     {
         EndText();
-
+        HideEmoji();
         orderState = OrderState.Finished;
     }
 
@@ -1438,6 +1424,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     lines = rejectTextList;
                     isOnConversation = true;
                     this.onEndText = EndOrder;
+                    emojiRoutine = StartCoroutine(ShowEmoji());
                     textFlowCoroutine = StartCoroutine(StartTextFlow());
                     StartNextLine();
                     break;
@@ -1471,6 +1458,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         lineCnt = -1;
                         lines = orderState == OrderState.Succeed ? successTextList : failTextList;
                         this.onEndText = EndOrder;
+                        emojiRoutine = StartCoroutine(ShowEmoji());
                         textFlowCoroutine = StartCoroutine(StartTextFlow());
                         StartNextLine();
                     }
@@ -1865,6 +1853,16 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         targetSlot.button.onClick.RemoveAllListeners();
     }
 
+    private void HideEmoji()
+    {
+        if (emojiRoutine != null)
+        {
+            StopCoroutine(emojiRoutine);
+            emojiRoutine = null;
+        }
+        emoji.gameObject.SetActive(false);
+    }
+
     private IEnumerator StartEventFlow(EventFlow targetEvent)
     {
         targetEvent.StartFlow();
@@ -1884,6 +1882,25 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         shopDrMadChat.SetActive(true);
         yield return new WaitForSeconds(2f);
         shopDrMadChat.SetActive(false);
+    }
+
+    public IEnumerator ShowEmoji()
+    {
+        switch (orderState)
+        {
+            case OrderState.Succeed:
+                emoji.sprite = emojiSprites[0];
+                break;
+            case OrderState.Failed:
+                emoji.sprite = emojiSprites[1];
+                break;
+            case OrderState.Rejected:
+                emoji.sprite = emojiSprites[2];
+                break;
+        }
+        emoji.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        emoji.gameObject.SetActive(false);
     }
 
     public IEnumerator FadeToNextDay()

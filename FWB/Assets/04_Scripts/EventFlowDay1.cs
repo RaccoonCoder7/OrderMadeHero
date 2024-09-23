@@ -161,6 +161,7 @@ public class EventFlowDay1 : EventFlow
     private void OnMakingDone(int result)
     {
         GameMgr.In.dayCustomerCnt = 1;
+        StartCoroutine(ShowEmoji());
         mgr.StartText("Tutorial6", EndTutorial6Routine, SkipTutorial6Routine);
         mgr.puzzleMgr.OnMakingDone -= OnMakingDone;
     }
@@ -268,5 +269,12 @@ public class EventFlowDay1 : EventFlow
             isOn = !isOn;
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    private IEnumerator ShowEmoji()
+    {
+        mgr.emoji.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        mgr.emoji.gameObject.SetActive(false);
     }
 }
