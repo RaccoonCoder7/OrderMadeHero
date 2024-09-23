@@ -1618,6 +1618,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             }
                             chatName.text = speaker;
                         }
+                        historyText.text += "\n" + speaker + "\n";
                     }
                     else if (com.StartsWith("!sound"))
                     {
@@ -1665,7 +1666,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     {
                         lineCnt++;
                         prevText = string.Empty;
-                        historyText.text += "\n";
+                        // historyText.text += "\n";
                     }
                 }
 
