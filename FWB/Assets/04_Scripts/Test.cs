@@ -25,6 +25,21 @@ public class Test : MonoBehaviour
 
 
     /// <summary>
+    /// 씬에 있는 모든 버튼의 Navigation을 비활성화
+    /// </summary>
+    [ContextMenu("DisableNavigationOfButtons")]
+    public void DisableNavigationOfButtons()
+    {
+        var buttons = Resources.FindObjectsOfTypeAll<Button>();
+        foreach (var btn in buttons)
+        {
+            var nav = btn.navigation;
+            nav.mode = Navigation.Mode.None;
+            btn.navigation = nav;
+        }
+    }
+
+    /// <summary>
     /// orderCondition 딕셔너리화
     /// </summary>
     [ContextMenu("MoveOrderConditionDatas")]
