@@ -1618,7 +1618,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             }
                             chatName.text = speaker;
                         }
-                        historyText.text += "\n" + speaker + "\n";
+                        historyText.text += "\n<color=\"red\">" + speaker + "</color>\n";
                     }
                     else if (com.StartsWith("!sound"))
                     {
