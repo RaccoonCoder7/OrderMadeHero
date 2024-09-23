@@ -24,6 +24,20 @@ public class Test : MonoBehaviour
     public SpriteAnimation sa;
 
 
+    /// <summary>
+    /// orderCondition 딕셔너리화
+    /// </summary>
+    [ContextMenu("MoveOrderConditionDatas")]
+    public void MoveOrderConditionDatas()
+    {
+        foreach (var order in orderTable.orderList)
+        {
+            // if (!string.IsNullOrEmpty(order.orderCondition))
+            // {
+            //     order.orderConditionDictionary.Add(order.orderCondition, false);
+            // }
+        }
+    }
 
     /// <summary>
     /// 히어로/빌런 주문 설정
@@ -31,12 +45,12 @@ public class Test : MonoBehaviour
     [ContextMenu("SetHeroVillainOrders")]
     public void SetHeroVillainOrders()
     {
-        foreach(var order in orderTable.orderList)
+        foreach (var order in orderTable.orderList)
         {
             if (order.camp == OrderTable.Camp.Hero || order.camp == OrderTable.Camp.Villain)
             {
                 order.orderEnable = false;
-                order.orderCondition = "tendency";
+                // order.orderCondition = "tendency";
             }
         }
     }

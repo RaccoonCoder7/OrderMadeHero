@@ -245,7 +245,7 @@ public class GameMgr : SingletonMono<GameMgr>
 
         foreach (var order in orderTable.orderList)
         {
-            order.orderEnable = string.IsNullOrEmpty(order.orderCondition);
+            order.orderEnable = order.orderConditionDictionary.Count > 0;
         }
 
         foreach (var chip in chipTable.chipList)

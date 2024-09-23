@@ -21,6 +21,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_1
@@ -31,6 +34,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_2
@@ -41,6 +47,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_3
@@ -51,6 +60,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_4
@@ -61,6 +73,10 @@ MonoBehaviour:
     gimmick: 1
     camp: 0
     orderCondition: AfterOneOrder
+    orderConditionDictionary:
+      m_keys:
+      - AfterOneOrder
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_5
@@ -71,6 +87,10 @@ MonoBehaviour:
     gimmick: 3
     camp: 0
     orderCondition: AfterOneOrder
+    orderConditionDictionary:
+      m_keys:
+      - AfterOneOrder
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_6
@@ -81,6 +101,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_7
@@ -91,6 +114,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_8
@@ -101,6 +127,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_9
@@ -111,6 +140,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_10
@@ -121,6 +153,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_11
@@ -131,6 +166,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_12
@@ -143,6 +181,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_13
@@ -153,6 +194,9 @@ MonoBehaviour:
     gimmick: 4
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_14
@@ -163,6 +207,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_15
@@ -173,6 +220,10 @@ MonoBehaviour:
     gimmick: 6
     camp: 0
     orderCondition: AfterOneOrder
+    orderConditionDictionary:
+      m_keys:
+      - AfterOneOrder
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_16
@@ -183,6 +234,10 @@ MonoBehaviour:
     gimmick: 3
     camp: 0
     orderCondition: AfterOneOrder
+    orderConditionDictionary:
+      m_keys:
+      - AfterOneOrder
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_17
@@ -193,6 +248,9 @@ MonoBehaviour:
     gimmick: 5
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_18
@@ -203,6 +261,10 @@ MonoBehaviour:
     gimmick: 2
     camp: 0
     orderCondition: AfterOneOrder
+    orderConditionDictionary:
+      m_keys:
+      - AfterOneOrder
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_19
@@ -213,6 +275,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_20
@@ -223,6 +288,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_21
@@ -234,6 +302,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: Day3
+    orderConditionDictionary:
+      m_keys:
+      - Day3
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_22
@@ -245,6 +317,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_23
@@ -255,6 +331,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_24
@@ -265,6 +345,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_25
@@ -276,6 +360,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_26
@@ -286,6 +374,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_27
@@ -296,6 +388,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_28
@@ -306,6 +402,10 @@ MonoBehaviour:
     gimmick: 7
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_29
@@ -316,6 +416,10 @@ MonoBehaviour:
     gimmick: 6
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_30
@@ -328,6 +432,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: Day8
+    orderConditionDictionary:
+      m_keys:
+      - Day8
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_31
@@ -340,6 +448,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_32
@@ -352,6 +464,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_33
@@ -362,6 +478,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_34
@@ -372,6 +491,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_35
@@ -383,6 +505,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_36
@@ -393,6 +518,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_37
@@ -403,6 +531,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_38
@@ -414,6 +545,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_39
@@ -425,6 +559,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: "\uD29C\uD1A0\uB9AC\uC5BC"
+    orderConditionDictionary:
+      m_keys:
+      - "\uD29C\uD1A0\uB9AC\uC5BC"
+      m_values: 00
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_40
@@ -435,6 +573,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_41
@@ -446,6 +587,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: day3
+    orderConditionDictionary:
+      m_keys:
+      - day3
+      m_values: 00
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_42
@@ -456,6 +601,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_43
@@ -466,6 +614,9 @@ MonoBehaviour:
     gimmick: 0
     camp: 0
     orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_44
@@ -476,6 +627,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_45
@@ -486,6 +641,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_46
@@ -496,6 +655,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_47
@@ -506,6 +669,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 1
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_48
@@ -518,6 +685,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_49
@@ -528,6 +699,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_50
@@ -538,6 +713,10 @@ MonoBehaviour:
     gimmick: 3
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_51
@@ -548,6 +727,10 @@ MonoBehaviour:
     gimmick: 6
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_52
@@ -558,6 +741,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_53
@@ -568,6 +755,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_54
@@ -580,6 +771,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_55
@@ -590,6 +785,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_56
@@ -600,6 +799,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_57
@@ -610,6 +813,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_58
@@ -620,6 +827,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_59
@@ -630,6 +841,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_60
@@ -640,6 +855,10 @@ MonoBehaviour:
     gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_61
@@ -650,6 +869,11 @@ MonoBehaviour:
     gimmick: 3
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      - AfterOneOrder
+      m_values: 0000
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_62
@@ -657,19 +881,26 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
-    gimmick: 3
+    gimmick: 0
     camp: 0
-    orderCondition: tendency
-    orderEnable: 0
+    orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
+    orderEnable: 1
     addedRequestKeyList: []
   - orderKey: NormalOrder_63
     ta: {fileID: 4900000, guid: 1ba8c606334b4ff48a39fde97c1ea029, type: 3}
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
-    gimmick: 3
+    gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_64
@@ -677,9 +908,151 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
-    gimmick: 3
+    gimmick: 0
     camp: 2
     orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_65
+    ta: {fileID: 4900000, guid: ec3e59374760c0544ab0c8889d659ecf, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    camp: 0
+    orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
+    orderEnable: 1
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_66
+    ta: {fileID: 4900000, guid: 74fb20cb6d7d5a84bac285f5e1b8fd0f, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    camp: 0
+    orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
+    orderEnable: 1
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_67
+    ta: {fileID: 4900000, guid: 3c2da3bcd9f2e324185bc505be17d4bd, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    camp: 0
+    orderCondition: 
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
+    orderEnable: 1
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_68
+    ta: {fileID: 4900000, guid: dd891f139c97edd49a8a39b4a704f42c, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 3
+    camp: 0
+    orderCondition: AfterOneOrder
+    orderConditionDictionary:
+      m_keys:
+      - AfterOneOrder
+      m_values: 00
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_69
+    ta: {fileID: 4900000, guid: e1f85ff6a9cbb1d4eaca672d017f4ea3, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    camp: 1
+    orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_70
+    ta: {fileID: 4900000, guid: 6acc00d49d01fe9459676064b55f94d7, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    camp: 1
+    orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_71
+    ta: {fileID: 4900000, guid: 00e4f3a45f2252d4e897cad269267415, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    camp: 1
+    orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_72
+    ta: {fileID: 4900000, guid: 6d65ee8f563265b43b9ecd23e9871a8e, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    camp: 1
+    orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_73
+    ta: {fileID: 4900000, guid: 9e836998d03565c48bde3dc509718bf4, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 6
+    camp: 2
+    orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      - AfterOneOrder
+      m_values: 0000
+    orderEnable: 0
+    addedRequestKeyList: []
+  - orderKey: NormalOrder_74
+    ta: {fileID: 4900000, guid: 90a69fb832de9c9499954db3a28c24fe, type: 3}
+    requiredBlueprintKeyList: []
+    requiredAbilityList: []
+    condition: 0
+    gimmick: 0
+    camp: 2
+    orderCondition: tendency
+    orderConditionDictionary:
+      m_keys:
+      - tendency
+      m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
   mappingTextList:

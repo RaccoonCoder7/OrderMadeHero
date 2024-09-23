@@ -1441,9 +1441,13 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     {
                         foreach (var o in GameMgr.In.orderTable.orderList)
                         {
-                            if (o.orderCondition.Equals("AfterOneOrder"))
+                            if (o.orderConditionDictionary.ContainsKey("AfterOneOrder"))
                             {
-                                o.orderEnable = true;
+                                o.orderConditionDictionary["AfterOneOrder"] = true;
+                                if (!o.orderConditionDictionary.ContainsValue(false))
+                                {
+                                    o.orderEnable = true;
+                                }
                             }
                         }
 
@@ -1476,9 +1480,13 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         foreach (var order in GameMgr.In.orderTable.orderList)
         {
-            if (order.orderCondition.Equals("AfterOneOrder"))
+            if (order.orderConditionDictionary.ContainsKey("AfterOneOrder"))
             {
-                order.orderEnable = false;
+                order.orderConditionDictionary["AfterOneOrder"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
             }
         }
 

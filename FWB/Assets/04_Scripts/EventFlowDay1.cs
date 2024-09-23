@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -185,9 +186,13 @@ public class EventFlowDay1 : EventFlow
 
         foreach (var order in GameMgr.In.orderTable.orderList)
         {
-            if (order.orderCondition.Equals("튜토리얼"))
+            if (order.orderConditionDictionary.ContainsKey("튜토리얼"))
             {
-                order.orderEnable = true;
+                order.orderConditionDictionary["튜토리얼"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
             }
         }
 
