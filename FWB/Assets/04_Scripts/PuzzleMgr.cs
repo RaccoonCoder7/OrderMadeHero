@@ -82,6 +82,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public float maxPosX;
     public float maxTime;
     public int maxPuzzleCnt;
+    public GameObject gageParentObj;
     public GameObject particleParentObj;
     public GameObject normalParticleParentObj;
     public GameObject resultParticleParentObj;
@@ -1718,6 +1719,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         GameMgr.In.continuousPerfectCnt = 0;
 
         particleParentObj.SetActive(false);
+        gageParentObj.SetActive(false);
         CommonTool.In.OpenAlertPanel("완성한 퍼즐 갯수: " + succeedPuzzleCnt);
 
         float bonus = 0;
@@ -1795,6 +1797,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         isTutorial = false;
         isGamePlaying = true;
         particleParentObj.SetActive(true);
+        gageParentObj.SetActive(true);
         orderText.text = "제한시간 내에 최대한 많은 무기를 만드세요!";
 
         foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
