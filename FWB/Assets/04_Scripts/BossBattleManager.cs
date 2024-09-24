@@ -59,51 +59,24 @@ public class BossBattleManager : MonoBehaviour
     private void Start()
     {
         Initialize();
-        isGameCanvasActive = gameCanvas.enabled;
-        SetUIActive(lastWeekStatus);
-        if (lastWeekStatus && isGameCanvasActive)
-        {
-            StartCoroutine(StartBossBattle());
-            Debug.Log("BossBattle Start");
-        }
+        CheckStartConditions();
     }
 
     private void Update()
     {
-        if (lastWeekStatus && !isBossBattleActive)
-        {
-            SetUIActive(lastWeekStatus);
-            if (lastWeekStatus && isGameCanvasActive)
-            {
-                Debug.Log("BossBattle Start");
-                StartCoroutine(StartBossBattle());
-                isBossBattleActive = true;
-            }
-            else
-            {
-                Debug.Log("BossBattle Stop");
-                StopAllCoroutines();
-                ResetGameState();
-                isBossBattleActive = false;
-            }
-        }
-
+        gameCanvas.enabled = true;
         if (gameCanvas.enabled != isGameCanvasActive)
         {
+            Debug.Log("gameCanvas enabled state changed: " + gameCanvas.enabled);
             isGameCanvasActive = gameCanvas.enabled;
-            if (isGameCanvasActive && lastWeekStatus)
-            {
-                SetUIActive(true);
-                Debug.Log("GameCanvas activated, starting BossBattle");
-                StartCoroutine(StartBossBattle());
-                isBossBattleActive = true;
-            }
         }
 
+        CheckStartConditions();
         if (isGamePlaying && isGameCanvasActive && lastWeekStatus)
         {
             UpdateTimer();
         }
+        
     }
 
     private void Initialize()
@@ -119,13 +92,39 @@ public class BossBattleManager : MonoBehaviour
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
     }
 
+    private void CheckStartConditions()
+    {
+        if (gameCanvas.enabled != isGameCanvasActive)
+        {
+            Debug.Log("gameCanvas 상태 변경 감지: " + gameCanvas.enabled);
+            isGameCanvasActive = gameCanvas.enabled;
+        }
+
+        if (lastWeekStatus && !isBossBattleActive && isGameCanvasActive)
+        {
+            Debug.Log("BossBattle 시작 조건 충족: lastWeekStatus=" + lastWeekStatus + ", isGameCanvasActive=" + isGameCanvasActive);
+            StartCoroutine(StartBossBattle());
+            isBossBattleActive = true;
+        }
+    }
+
+
+    private void ActivateBossBattleUI()
+    {
+        Debug.Log("ActivateBossBattleUI 호출됨");
+        gameCanvas.enabled = true;
+        SetUIActive(true);
+    }
+
     private void SetUIActive(bool isActive)
     {
+        Debug.Log("UI 활성화 상태 설정: " + isActive);
         gage.gameObject.SetActive(isActive);
         clearPuzzleButton.gameObject.SetActive(isActive);
         failPuzzleButton.gameObject.SetActive(isActive);
         dialogueBox.gameObject.SetActive(isActive);
     }
+
 
     private void SaveOriginalChipColors()
     {
@@ -196,8 +195,14 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-    private IEnumerator StartBossBattle()
+    public IEnumerator StartBossBattle()
     {
+        // 활성화 확인 로그 추가
+        Debug.Log("StartBossBattle called with gameCanvas active: " + gameCanvas.enabled);
+
+        // 게임 캔버스 활성화
+        ActivateBossBattleUI();
+
         ResetGameState();
         DetermineBossAndAlly();
         SetTableDatasForBossBattle();
@@ -503,5 +508,4 @@ public class BossBattleManager : MonoBehaviour
             }
         }
     }
-
 }
