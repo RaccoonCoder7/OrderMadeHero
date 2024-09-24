@@ -180,6 +180,9 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private bool isTextFlowing;
     private bool skipLine;
     private bool isWaitingForText;
+    private bool isFeverModeTutorialDone;
+    private bool isFeverMode;
+    private bool isFeverModeConfirmed;
     public bool autoTextSkip { get; set; }
     private List<string> lines = new List<string>();
     private int lineCnt = 0;
@@ -213,7 +216,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private Texture2D currentScreen;
     private GameObject lastSelectedSlot = null;
     public bool isBankrupt = false;
-    private Image lastSelectedSlotImage = null;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -298,7 +300,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         foreach (var btn in saveLoadButtons)
         {
-            btn.onClick.AddListener(() => {OnClickSlot(btn);});
+            btn.onClick.AddListener(OnClickSlot);
         }
 
         foreach (var btn in popupYes)
@@ -323,7 +325,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         // TODO: day limit 추가
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
-        if (startDay != 1 && !isBankrupt)
+        if (startDay != 1)
         {
             GameMgr.In.isEventOn = 1;
             for (int i = startDay; i <= GameMgr.In.endDay; i++)
@@ -337,38 +339,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 else
                 {
-                    var val = UnityEngine.Random.Range(0, 100);
-                    // 테스트코드. 부등호 방향 바꿔야 함
-                    if (val < GameMgr.In.feverModeProbability)
-                    {
-                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                    }
-                    else
-                    {
-                        // 테스트코드. 제거해야 함.
-                        puzzleMgr.makingDone.gameObject.SetActive(true);
-                        renom.SetActive(true);
-                        gold.SetActive(true);
-                        foreach (var chip in GameMgr.In.chipTable.chipList)
-                        {
-                            chip.createEnable = true;
-                        }
-                        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
-                        {
-                            foreach (var bp in bpc.bluePrintList)
-                            {
-                                bp.createEnable = true;
-                            }
-                        }
-
-                        // TODO: 피버모드 시작 연출 + Yes / No 선택 가능하도록 수정
-                        GameMgr.In.feverModeProbability /= 10;
-                        gamePanel.SetActive(true);
-                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
-                        goldText.text = GameMgr.In.credit.ToString();
-                        FameUIFill();
-                        // TODO: 피버모드 종료 연출
-                    }
+                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
                 }
 
                 if (isEventFlowing)
@@ -376,118 +347,68 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     yield return null;
                 }
 
-                if (i < 7)
-                {
-                    NextDay();
-                }
+                NextDay();
             }
         }
         else
         {
-            if (!DataSaveLoad.dataSave.isLoaded && !isBankrupt)
+            if (!DataSaveLoad.dataSave.isLoaded)
             {
-                StartCoroutine(TestDoNormalJob(startDay));
-            }
-            else if (isBankrupt)
-            {
-                isBankrupt = false;
-                isEventFlowing = false;
-                GameMgr.In.isEventOn = 1;
-                StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                for (int i = startDay; i <= 7; i++)
+                {
+                    string eventKey = "day" + i;
+                    var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+                    isEventFlowing = true;
+                    if (targetEvent)
+                    {
+                        yield return StartCoroutine(StartEventFlow(targetEvent));
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    }
+
+                    if (isEventFlowing)
+                    {
+                        yield return null;
+                    }
+
+                    NextDay();
+                }
             }
             else
             {
                 gold.SetActive(true);
-                goldText.text = GameMgr.In.credit.ToString();
                 day.SetActive(true);
-                dateText.text = GameMgr.In.day.ToString();
                 if ((int)GameMgr.In.day > 2)
                 {
                     renom.SetActive(true);
-                    FameUIFill();
                 }
-                else if((int)GameMgr.In.day == 2 && GameMgr.In.isEventOn == 0)
-                {
-                    renom.SetActive(true);
-                    FameUIFill();
-                }
-                if ((int)GameMgr.In.day > 5)
+                else if ((int)GameMgr.In.day > 5)
                 {
                     tendency.SetActive(true);
-                    TendUIMove();
-                    FameUIFill();
                 }
-                else if ((int)GameMgr.In.day == 5 && GameMgr.In.isEventOn == 0)
+                for (int i = (int)GameMgr.In.day; i <= 7; i++)
                 {
-                    tendency.SetActive(true);
-                    TendUIMove();
-                    FameUIFill();
-                }
-
-                if (GameMgr.In.dayCustomerCnt <= 0 && GameMgr.In.isEventOn == 0)
-                {
-                    isNormalOrdering = false;
-
-                    pc.image.raycastTarget = true;
-                    var coroutine = StartCoroutine(BlinkNavi());
-                    pc.onClick.RemoveAllListeners();
-                    pc.onClick.AddListener(() =>
+                    string eventKey = "day" + i;
+                    var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+                    isEventFlowing = true;
+                    if (targetEvent)
                     {
-                        StopCoroutine(coroutine);
-                        deskNavi.SetActive(true);
-                        RefreshCreditPanel();
-                        creditPanel.SetActive(true);
-                        creditDodge.onClick.RemoveAllListeners();
-                        creditDodge.onClick.AddListener(() =>
-                        {
-                            if (isBankrupt)
-                            {
-                                Bankrupt(); 
-                            }
-                            else
-                            {
-                                StartCoroutine(FadeToNextDay());
-                                StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
-                            }
-                        });
-                        pc.onClick.RemoveAllListeners();
-                        pc.image.raycastTarget = false;
-                        UpdateDayEndMessage();
-                        FameUIFill();
-                        TendUIMove();
-                    });
-                }
-                else
-                {
-                    StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
-                }
-            }
-        }
-    }
+                        yield return StartCoroutine(StartEventFlow(targetEvent));
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    }
 
-    private IEnumerator TestDoNormalJob(int eventStartDay)
-    {
-        for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
-        {
-            string eventKey = "day" + i;
-            var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
-            isEventFlowing = true;
-            if (targetEvent)
-            {
-                yield return StartCoroutine(StartEventFlow(targetEvent));
-            }
-            else
-            {
-                yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-            }
-            if (isEventFlowing)
-            {
-                yield return null;
-            }
+                    if (isEventFlowing)
+                    {
+                        yield return null;
+                    }
 
-            if (i < 7)
-            {
-                NextDay();
+                    NextDay();
+                }
             }
         }
     }
@@ -637,16 +558,17 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     //    StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
     //}
 
-    public void OnClickSlot(Button btn)
+    public void OnClickSlot()
     {
-        if (lastSelectedSlotImage != null)
+        var currSelectedObj = EventSystem.current.currentSelectedGameObject;
+        if (lastSelectedSlot != null)
         {
-            lastSelectedSlotImage.sprite = defaultSaveSlot;
+            lastSelectedSlot.GetComponent<Image>().sprite = defaultSaveSlot;
         }
-        lastSelectedSlotImage = btn.GetComponent<Image>();
-        lastSelectedSlotImage.sprite = selectedSaveSlot;
+        currSelectedObj.GetComponent<Image>().sprite = selectedSaveSlot;
+        saveSlot = currSelectedObj.name;
+        lastSelectedSlot = currSelectedObj;
 
-        saveSlot = btn.name;
         Debug.Log(saveSlot);
     }
 
@@ -1021,6 +943,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void Bankrupt()
     {
+        string eventKey = "day" + (GameMgr.In.day - 4);
+        var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
         creditPanel.SetActive(false);
         isEventFlowing = false;
         bankruptPanel.SetActive(true);
@@ -1033,8 +957,9 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.ResetDayData();
             GameMgr.In.day -= 4;
             bankruptPanel.SetActive(false);
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+            CommonTool.In.AsyncChangeScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         });
+        StartCoroutine(StartEventFlow(targetEvent));
         FameUIFill();
         TendUIMove();
     }
@@ -1384,6 +1309,39 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         index.onClick.RemoveAllListeners();
     }
 
+    private void EndFeverModeStartChat()
+    {
+        ActiveYesNoButton(true);
+
+        yes.onClick.RemoveAllListeners();
+        yes.onClick.AddListener(() =>
+        {
+            EndText();
+            ActiveYesNoButton(false);
+            isFeverModeConfirmed = true;
+            isFeverMode = true;
+        });
+
+        no.onClick.RemoveAllListeners();
+        no.onClick.AddListener(() =>
+        {
+            EndText();
+            ActiveYesNoButton(false);
+            isFeverModeConfirmed = true;
+        });
+
+        if (!isFeverModeTutorialDone)
+        {
+            StartText("FeverMode_Tutorial", () =>
+            {
+                mainChatPanel.SetActive(true);
+                pcChatPanel.SetActive(false);
+                EndText();
+            });
+            isFeverModeTutorialDone = true;
+        }
+    }
+
     public IEnumerator FadeInOutDateMessage()
     {
         float fadeValue = 0;
@@ -1408,6 +1366,63 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         GameMgr.In.dayCustomerCnt = customerCnt;
         for (int i = 0; i < customerCnt; i++)
         {
+            isFeverMode = false;
+            if (GameMgr.In.week > 1)
+            {
+                var val = UnityEngine.Random.Range(0, 100);
+                if (val <= GameMgr.In.feverModeProbability)
+                {
+                    // 테스트코드. 제거해야 함.
+                    puzzleMgr.makingDone.gameObject.SetActive(true);
+                    renom.SetActive(true);
+                    gold.SetActive(true);
+                    foreach (var chip in GameMgr.In.chipTable.chipList)
+                    {
+                        chip.createEnable = true;
+                    }
+                    foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                    {
+                        foreach (var bp in bpc.bluePrintList)
+                        {
+                            bp.createEnable = true;
+                        }
+                    }
+                    // 테스트코드
+
+                    StartText("FeverMode_1", EndFeverModeStartChat, EndFeverModeStartChat);
+
+                    while (!isFeverModeConfirmed)
+                    {
+                        yield return null;
+                    }
+                    isFeverModeConfirmed = false;
+
+                    GameMgr.In.feverModeProbability /= 10;
+                    if (isFeverMode)
+                    {
+                        gamePanel.SetActive(true);
+                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
+                        goldText.text = GameMgr.In.credit.ToString();
+                        FameUIFill();
+                    }
+
+                    bool end = false;
+                    StartText("FeverMode_1_End", () =>
+                    {
+                        imageList.Find(x => x.key.Equals("단체손님")).imageObj.SetActive(false);
+                        mainChatPanel.SetActive(false);
+                        end = true;
+                        EndText();
+                    });
+                    while (!end)
+                    {
+                        yield return null;
+                    }
+
+                    continue;
+                }
+            }
+
             MobSpriteRandomChange();
             var orderTextList = new List<string>();
             var rejectTextList = new List<string>();
@@ -1924,18 +1939,23 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public IEnumerator ShowEmoji()
     {
+        var targetAudioName = "";
         switch (orderState)
         {
             case OrderState.Succeed:
                 emoji.sprite = emojiSprites[0];
+                targetAudioName = "success";
                 break;
             case OrderState.Failed:
                 emoji.sprite = emojiSprites[1];
+                targetAudioName = "fail";
                 break;
             case OrderState.Rejected:
                 emoji.sprite = emojiSprites[2];
+                targetAudioName = "reject";
                 break;
         }
+        SoundManager.PlayOneShot(targetAudioName);
         emoji.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         emoji.gameObject.SetActive(false);
