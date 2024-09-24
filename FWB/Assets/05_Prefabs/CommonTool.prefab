@@ -843,6 +843,15 @@ MonoBehaviour:
   - key: Day7_4
     ta: {fileID: 4900000, guid: 3d681d065fc131943a8750f59f7aae35, type: 3}
     lines: []
+  - key: FeverMode_1
+    ta: {fileID: 4900000, guid: 4fa767872f087b343b2befc0664cfe80, type: 3}
+    lines: []
+  - key: FeverMode_1_End
+    ta: {fileID: 4900000, guid: 9941a1d525278a44cad3ca41ba96fca7, type: 3}
+    lines: []
+  - key: FeverMode_Tutorial
+    ta: {fileID: 4900000, guid: 0def92b7d36b9ae498312a441b9ccc64, type: 3}
+    lines: []
   - key: Dummy
     ta: {fileID: 4900000, guid: 76842090dce760a40bbb050d59301a1f, type: 3}
     lines: []
@@ -971,6 +980,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1a8c469297793994aaca92839c2b50ad, type: 3}
   - {fileID: 8300000, guid: b90ec6568edfc194caa73eb60246f2d5, type: 3}
   - {fileID: 8300000, guid: 7702bd192da26bc429d7d8356a9df241, type: 3}
+  effectAudioSource: {fileID: 0}
+  bgmAudioSource: {fileID: 0}
   masterVolumeBar: {fileID: 0}
   bgmVolumeBar: {fileID: 0}
   effectVolumeBar: {fileID: 0}

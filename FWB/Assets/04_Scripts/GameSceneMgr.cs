@@ -180,6 +180,9 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private bool isTextFlowing;
     private bool skipLine;
     private bool isWaitingForText;
+    private bool isFeverModeTutorialDone;
+    private bool isFeverMode;
+    private bool isFeverModeConfirmed;
     public bool autoTextSkip { get; set; }
     private List<string> lines = new List<string>();
     private int lineCnt = 0;
@@ -336,38 +339,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 else
                 {
-                    var val = UnityEngine.Random.Range(0, 100);
-                    // 테스트코드. 부등호 방향 바꿔야 함
-                    if (val < GameMgr.In.feverModeProbability)
-                    {
-                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                    }
-                    else
-                    {
-                        // 테스트코드. 제거해야 함.
-                        puzzleMgr.makingDone.gameObject.SetActive(true);
-                        renom.SetActive(true);
-                        gold.SetActive(true);
-                        foreach (var chip in GameMgr.In.chipTable.chipList)
-                        {
-                            chip.createEnable = true;
-                        }
-                        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
-                        {
-                            foreach (var bp in bpc.bluePrintList)
-                            {
-                                bp.createEnable = true;
-                            }
-                        }
-
-                        // TODO: 피버모드 시작 연출 + Yes / No 선택 가능하도록 수정
-                        GameMgr.In.feverModeProbability /= 10;
-                        gamePanel.SetActive(true);
-                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
-                        goldText.text = GameMgr.In.credit.ToString();
-                        FameUIFill();
-                        // TODO: 피버모드 종료 연출
-                    }
+                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
                 }
 
                 if (isEventFlowing)
@@ -375,10 +347,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     yield return null;
                 }
 
-                if (i < 7)
-                {
-                    NextDay();
-                }
+                NextDay();
             }
         }
         else
@@ -404,10 +373,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         yield return null;
                     }
 
-                    if (i < 7)
-                    {
-                        NextDay();
-                    }
+                    NextDay();
                 }
             }
             else
@@ -441,10 +407,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         yield return null;
                     }
 
-                    if (i < 7)
-                    {
-                        NextDay();
-                    }
+                    NextDay();
                 }
             }
         }
@@ -1346,6 +1309,39 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         index.onClick.RemoveAllListeners();
     }
 
+    private void EndFeverModeStartChat()
+    {
+        ActiveYesNoButton(true);
+
+        yes.onClick.RemoveAllListeners();
+        yes.onClick.AddListener(() =>
+        {
+            EndText();
+            ActiveYesNoButton(false);
+            isFeverModeConfirmed = true;
+            isFeverMode = true;
+        });
+
+        no.onClick.RemoveAllListeners();
+        no.onClick.AddListener(() =>
+        {
+            EndText();
+            ActiveYesNoButton(false);
+            isFeverModeConfirmed = true;
+        });
+
+        if (!isFeverModeTutorialDone)
+        {
+            StartText("FeverMode_Tutorial", () =>
+            {
+                mainChatPanel.SetActive(true);
+                pcChatPanel.SetActive(false);
+                EndText();
+            });
+            isFeverModeTutorialDone = true;
+        }
+    }
+
     public IEnumerator FadeInOutDateMessage()
     {
         float fadeValue = 0;
@@ -1370,6 +1366,63 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         GameMgr.In.dayCustomerCnt = customerCnt;
         for (int i = 0; i < customerCnt; i++)
         {
+            isFeverMode = false;
+            if (GameMgr.In.week > 1)
+            {
+                var val = UnityEngine.Random.Range(0, 100);
+                if (val <= GameMgr.In.feverModeProbability)
+                {
+                    // 테스트코드. 제거해야 함.
+                    puzzleMgr.makingDone.gameObject.SetActive(true);
+                    renom.SetActive(true);
+                    gold.SetActive(true);
+                    foreach (var chip in GameMgr.In.chipTable.chipList)
+                    {
+                        chip.createEnable = true;
+                    }
+                    foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                    {
+                        foreach (var bp in bpc.bluePrintList)
+                        {
+                            bp.createEnable = true;
+                        }
+                    }
+                    // 테스트코드
+
+                    StartText("FeverMode_1", EndFeverModeStartChat, EndFeverModeStartChat);
+
+                    while (!isFeverModeConfirmed)
+                    {
+                        yield return null;
+                    }
+                    isFeverModeConfirmed = false;
+
+                    GameMgr.In.feverModeProbability /= 10;
+                    if (isFeverMode)
+                    {
+                        gamePanel.SetActive(true);
+                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
+                        goldText.text = GameMgr.In.credit.ToString();
+                        FameUIFill();
+                    }
+
+                    bool end = false;
+                    StartText("FeverMode_1_End", () =>
+                    {
+                        imageList.Find(x => x.key.Equals("단체손님")).imageObj.SetActive(false);
+                        mainChatPanel.SetActive(false);
+                        end = true;
+                        EndText();
+                    });
+                    while (!end)
+                    {
+                        yield return null;
+                    }
+
+                    continue;
+                }
+            }
+
             MobSpriteRandomChange();
             var orderTextList = new List<string>();
             var rejectTextList = new List<string>();

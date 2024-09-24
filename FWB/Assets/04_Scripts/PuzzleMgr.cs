@@ -100,8 +100,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private int succeedPuzzleCnt;
     private int feverModeFame;
     private int feverModeRevenue;
-    private int feverModeCombo;
-    private int feverModeMaxCombo;
     private Coroutine resultParticleRoutine;
     private List<WeaponDataTable.BluePrint> orderableBlueprintList = new List<WeaponDataTable.BluePrint>();
 
@@ -1809,28 +1807,17 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         particleParentObj.SetActive(false);
         gageParentObj.SetActive(false);
         filterAndSortParent.SetActive(true);
-        CommonTool.In.OpenAlertPanel("완성한 퍼즐 갯수: " + succeedPuzzleCnt);
+        // CommonTool.In.OpenAlertPanel("완성한 퍼즐 갯수: " + succeedPuzzleCnt);
 
-        float bonus = 0;
-        if (feverModeMaxCombo >= 5)
-        {
-            bonus = 1.5f;
-        }
-        else if (feverModeMaxCombo >= 3)
-        {
-            bonus = 1.25f;
-        }
-
-        float credit = feverModeRevenue * bonus;
-        float fame = feverModeFame * bonus;
+        float credit = feverModeRevenue;
+        float fame = feverModeFame;
         GameMgr.In.fame += (int)fame;
         GameMgr.In.dayFame += (int)fame;
         GameMgr.In.credit += (int)credit;
-        GameMgr.In.dayBonusRevenue += (int)bonus;
         GameMgr.In.dayRevenue += feverModeRevenue;
 
         succeedPuzzleCnt = 0;
-
+        gameObject.SetActive(false);
     }
 
     private void StartNewFeverModePuzzle()
@@ -1854,23 +1841,18 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 whiteParticleParentObj.SetActive(true);
                 blueParticleParentObj.SetActive(false);
                 purpleParticleParentObj.SetActive(false);
-                feverModeCombo = 0;
                 break;
             case 2:
                 whiteParticleParentObj.SetActive(false);
                 blueParticleParentObj.SetActive(true);
                 purpleParticleParentObj.SetActive(false);
                 succeedPuzzleCnt++;
-                feverModeCombo++;
-                if (feverModeMaxCombo < feverModeCombo) feverModeMaxCombo = feverModeCombo;
                 break;
             case 3:
                 whiteParticleParentObj.SetActive(false);
                 blueParticleParentObj.SetActive(false);
                 purpleParticleParentObj.SetActive(true);
                 succeedPuzzleCnt++;
-                feverModeCombo++;
-                if (feverModeMaxCombo < feverModeCombo) feverModeMaxCombo = feverModeCombo;
                 break;
         }
 
