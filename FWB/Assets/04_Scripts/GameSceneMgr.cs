@@ -216,6 +216,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private Texture2D currentScreen;
     private GameObject lastSelectedSlot = null;
     public bool isBankrupt = false;
+    private Image lastSelectedSlotImage = null;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -300,7 +301,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         foreach (var btn in saveLoadButtons)
         {
-            btn.onClick.AddListener(OnClickSlot);
+            btn.onClick.AddListener(() => {OnClickSlot(btn);});
         }
 
         foreach (var btn in popupYes)
@@ -325,7 +326,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         // TODO: day limit 추가
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
-        if (startDay != 1)
+        if (startDay != 1 && !isBankrupt)
         {
             GameMgr.In.isEventOn = 1;
             for (int i = startDay; i <= GameMgr.In.endDay; i++)
@@ -339,7 +340,38 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 else
                 {
-                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    var val = UnityEngine.Random.Range(0, 100);
+                    // 테스트코드. 부등호 방향 바꿔야 함
+                    if (val < GameMgr.In.feverModeProbability)
+                    {
+                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                    }
+                    else
+                    {
+                        // 테스트코드. 제거해야 함.
+                        puzzleMgr.makingDone.gameObject.SetActive(true);
+                        renom.SetActive(true);
+                        gold.SetActive(true);
+                        foreach (var chip in GameMgr.In.chipTable.chipList)
+                        {
+                            chip.createEnable = true;
+                        }
+                        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                        {
+                            foreach (var bp in bpc.bluePrintList)
+                            {
+                                bp.createEnable = true;
+                            }
+                        }
+
+                        // TODO: 피버모드 시작 연출 + Yes / No 선택 가능하도록 수정
+                        GameMgr.In.feverModeProbability /= 10;
+                        gamePanel.SetActive(true);
+                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
+                        goldText.text = GameMgr.In.credit.ToString();
+                        FameUIFill();
+                        // TODO: 피버모드 종료 연출
+                    }
                 }
 
                 if (isEventFlowing)
@@ -347,68 +379,118 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     yield return null;
                 }
 
-                NextDay();
+                if (i < 7)
+                {
+                    NextDay();
+                }
             }
         }
         else
         {
-            if (!DataSaveLoad.dataSave.isLoaded)
+            if (!DataSaveLoad.dataSave.isLoaded && !isBankrupt)
             {
-                for (int i = startDay; i <= 7; i++)
-                {
-                    string eventKey = "day" + i;
-                    var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
-                    isEventFlowing = true;
-                    if (targetEvent)
-                    {
-                        yield return StartCoroutine(StartEventFlow(targetEvent));
-                    }
-                    else
-                    {
-                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                    }
-
-                    if (isEventFlowing)
-                    {
-                        yield return null;
-                    }
-
-                    NextDay();
-                }
+                StartCoroutine(TestDoNormalJob(startDay));
+            }
+            else if (isBankrupt)
+            {
+                isBankrupt = false;
+                isEventFlowing = false;
+                GameMgr.In.isEventOn = 1;
+                StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
             }
             else
             {
                 gold.SetActive(true);
+                goldText.text = GameMgr.In.credit.ToString();
                 day.SetActive(true);
+                dateText.text = GameMgr.In.day.ToString();
                 if ((int)GameMgr.In.day > 2)
                 {
                     renom.SetActive(true);
+                    FameUIFill();
                 }
-                else if ((int)GameMgr.In.day > 5)
+                else if((int)GameMgr.In.day == 2 && GameMgr.In.isEventOn == 0)
+                {
+                    renom.SetActive(true);
+                    FameUIFill();
+                }
+                if ((int)GameMgr.In.day > 5)
                 {
                     tendency.SetActive(true);
+                    TendUIMove();
+                    FameUIFill();
                 }
-                for (int i = (int)GameMgr.In.day; i <= 7; i++)
+                else if ((int)GameMgr.In.day == 5 && GameMgr.In.isEventOn == 0)
                 {
-                    string eventKey = "day" + i;
-                    var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
-                    isEventFlowing = true;
-                    if (targetEvent)
-                    {
-                        yield return StartCoroutine(StartEventFlow(targetEvent));
-                    }
-                    else
-                    {
-                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                    }
-
-                    if (isEventFlowing)
-                    {
-                        yield return null;
-                    }
-
-                    NextDay();
+                    tendency.SetActive(true);
+                    TendUIMove();
+                    FameUIFill();
                 }
+
+                if (GameMgr.In.dayCustomerCnt <= 0 && GameMgr.In.isEventOn == 0)
+                {
+                    isNormalOrdering = false;
+
+                    pc.image.raycastTarget = true;
+                    var coroutine = StartCoroutine(BlinkNavi());
+                    pc.onClick.RemoveAllListeners();
+                    pc.onClick.AddListener(() =>
+                    {
+                        StopCoroutine(coroutine);
+                        deskNavi.SetActive(true);
+                        RefreshCreditPanel();
+                        creditPanel.SetActive(true);
+                        creditDodge.onClick.RemoveAllListeners();
+                        creditDodge.onClick.AddListener(() =>
+                        {
+                            if (isBankrupt)
+                            {
+                                Bankrupt(); 
+                            }
+                            else
+                            {
+                                StartCoroutine(FadeToNextDay());
+                                StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                            }
+                        });
+                        pc.onClick.RemoveAllListeners();
+                        pc.image.raycastTarget = false;
+                        UpdateDayEndMessage();
+                        FameUIFill();
+                        TendUIMove();
+                    });
+                }
+                else
+                {
+                    StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                }
+            }
+        }
+    }
+
+    private IEnumerator TestDoNormalJob(int eventStartDay)
+    {
+        for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
+        {
+            string eventKey = "day" + i;
+            var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+            isEventFlowing = true;
+            if (targetEvent)
+            {
+                yield return StartCoroutine(StartEventFlow(targetEvent));
+            }
+            else
+            {
+                yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+            }
+            if (isEventFlowing)
+            {
+                yield return null;
+            }
+
+            if (i < 7)
+            {
+                NextDay();
             }
         }
     }
@@ -558,17 +640,16 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     //    StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
     //}
 
-    public void OnClickSlot()
+    public void OnClickSlot(Button btn)
     {
-        var currSelectedObj = EventSystem.current.currentSelectedGameObject;
-        if (lastSelectedSlot != null)
+        if (lastSelectedSlotImage != null)
         {
-            lastSelectedSlot.GetComponent<Image>().sprite = defaultSaveSlot;
+            lastSelectedSlotImage.sprite = defaultSaveSlot;
         }
-        currSelectedObj.GetComponent<Image>().sprite = selectedSaveSlot;
-        saveSlot = currSelectedObj.name;
-        lastSelectedSlot = currSelectedObj;
+        lastSelectedSlotImage = btn.GetComponent<Image>();
+        lastSelectedSlotImage.sprite = selectedSaveSlot;
 
+        saveSlot = btn.name;
         Debug.Log(saveSlot);
     }
 
@@ -943,8 +1024,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void Bankrupt()
     {
-        string eventKey = "day" + (GameMgr.In.day - 4);
-        var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
         creditPanel.SetActive(false);
         isEventFlowing = false;
         bankruptPanel.SetActive(true);
@@ -957,9 +1036,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.ResetDayData();
             GameMgr.In.day -= 4;
             bankruptPanel.SetActive(false);
-            CommonTool.In.AsyncChangeScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
         });
-        StartCoroutine(StartEventFlow(targetEvent));
         FameUIFill();
         TendUIMove();
     }
