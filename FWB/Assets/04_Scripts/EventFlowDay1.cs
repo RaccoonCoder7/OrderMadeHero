@@ -273,6 +273,7 @@ public class EventFlowDay1 : EventFlow
 
     private IEnumerator ShowEmoji()
     {
+        SoundManager.PlayOneShot("success");
         mgr.emoji.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         mgr.emoji.gameObject.SetActive(false);

@@ -980,6 +980,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1a8c469297793994aaca92839c2b50ad, type: 3}
   - {fileID: 8300000, guid: b90ec6568edfc194caa73eb60246f2d5, type: 3}
   - {fileID: 8300000, guid: 7702bd192da26bc429d7d8356a9df241, type: 3}
+  - {fileID: 8300000, guid: 9a7865b6b68af5a4c95bef15190eb977, type: 3}
+  - {fileID: 8300000, guid: 7421e7731ecc0914680af5edc2966b9b, type: 3}
+  - {fileID: 8300000, guid: dbda12aff72f2594f87c9f3e00307aa3, type: 3}
+  - {fileID: 8300000, guid: 34650ed4a2cbef5499122e1467b93696, type: 3}
   effectAudioSource: {fileID: 0}
   bgmAudioSource: {fileID: 0}
   masterVolumeBar: {fileID: 0}

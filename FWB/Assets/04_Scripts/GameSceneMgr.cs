@@ -1939,18 +1939,23 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public IEnumerator ShowEmoji()
     {
+        var targetAudioName = "";
         switch (orderState)
         {
             case OrderState.Succeed:
                 emoji.sprite = emojiSprites[0];
+                targetAudioName = "success";
                 break;
             case OrderState.Failed:
                 emoji.sprite = emojiSprites[1];
+                targetAudioName = "fail";
                 break;
             case OrderState.Rejected:
                 emoji.sprite = emojiSprites[2];
+                targetAudioName = "reject";
                 break;
         }
+        SoundManager.PlayOneShot(targetAudioName);
         emoji.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         emoji.gameObject.SetActive(false);
