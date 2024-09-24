@@ -1467,6 +1467,10 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (score == 2)
         {
             if (isPerfectState()) score++;
+            if (score == 2 && isFeverMode)
+            {
+                if (hasBasicChipsets()) score++;
+            }
         }
 
         for (int i = puzzleChipParent.childCount - 1; 0 <= i; i--)
@@ -1558,8 +1562,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             case 2:
                 fame += 10;
                 int sellPrice1 = GameMgr.In.currentBluePrint.sellPrice;
+                if (isFeverMode)
+                {
+                    sellPrice1 = (int)(sellPrice1 * 0.4f);
+                }
                 sellPrice1 += chipPrice;
-                if (!isTutorial)
+                if (!isTutorial && !isFeverMode)
                 {
                     bonus = GetBonusCredit(sellPrice1);
                     credit += sellPrice1 + bonus;
@@ -1583,9 +1591,16 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             case 3:
                 fame += 25;
                 int sellPrice2 = GameMgr.In.currentBluePrint.sellPrice;
+                if (isFeverMode)
+                {
+                    sellPrice2 = (int)(sellPrice2 * 0.4f) + 50;
+                }
                 sellPrice2 += chipPrice;
-                bonus = GetBonusCredit(sellPrice2, 0.1f);
-                credit += sellPrice2 + bonus;
+                if (!isFeverMode)
+                {
+                    bonus = GetBonusCredit(sellPrice2, 0.1f);
+                    credit += sellPrice2 + bonus;
+                }
                 if (!isFeverMode)
                 {
                     mgr2.goldText.text = GameMgr.In.credit.ToString();
@@ -1717,6 +1732,26 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         bool isPerfect = GetTotalSizeOfChips() == enabledFrameCnt;
         if (!isPerfect) Debug.Log("완벽한 상태가 아님");
         return isPerfect;
+    }
+
+    private bool hasBasicChipsets()
+    {
+        bool hasAttack = false;
+        bool hasAcuity = false;
+        foreach (var chip in currentChipInPuzzleDic.Keys)
+        {
+            if (!hasAttack && chip.chipKey.Equals("c_attack"))
+            {
+                hasAttack = true;
+            }
+            if (!hasAcuity && chip.chipKey.Equals("c_acuity"))
+            {
+                hasAcuity = true;
+            }
+
+            if (hasAttack && hasAcuity) return true;
+        }
+        return false;
     }
 
     private int GetBonusCredit(int sellPrice, float additionalBonus = -1f)
