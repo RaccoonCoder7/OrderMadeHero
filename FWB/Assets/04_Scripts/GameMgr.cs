@@ -17,7 +17,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int dayShopBuyCost;
     public int dayChipUseCost;
     public int dayBonusRevenue;
-    public int dayRentCost = -100;
+    public int dayRentCost = 0;
     public int dayRevenue;
     public int dayCustomerCnt;
     public int dayFame;
@@ -28,10 +28,11 @@ public class GameMgr : SingletonMono<GameMgr>
     public int maxFame = 1000;
     public int minTend = -1000;
     public int maxTend = 1000;
-    public int lastWeekCredit;
-    public int lastWeekFame;
-    public int lastWeekTend;
+    public int lastDayCredit = 0;
+    public int lastDayFame = 0;
+    public int lastDayTend = 0;
     public int isEventOn = 0;
+    public bool isBankrupt = false;
     public int endDay = 28;
     public int continuousSuccessCnt = 1;
     public int continuousPerfectCnt = 1;

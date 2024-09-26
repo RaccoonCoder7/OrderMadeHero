@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ using static WeaponDataTable;
 using static GameMgr;
 using System.IO;
 using UnityEditorInternal;
+using Debug = UnityEngine.Debug;
 
 /// <summary>
 /// 게임 씬의 UI와 동작(메인 게임 플로우)를 관리
@@ -118,6 +120,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Text eventBtntext1;
     public Text eventBtntext2;
     public Text dateText;
+    public Text weekText;
     public Text dateMessage;
     public Text goldText;
     public Text creditTitle;
@@ -214,9 +217,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private string saveSlot;
     private bool isSaving;
     private Texture2D currentScreen;
-    private GameObject lastSelectedSlot = null;
-    public bool isBankrupt = false;
+    private GameObject lastSelectedSlot = null; 
     private Image lastSelectedSlotImage = null;
+    public bool gameoverTest = false;
+    private bool dailyRoutineEndFlag = false;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -326,7 +330,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         // TODO: day limit 추가
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
-        if (startDay != 1 && !isBankrupt)
+        if (startDay != 1 && !GameMgr.In.isBankrupt && !gameoverTest)
         {
             GameMgr.In.isEventOn = 1;
             for (int i = startDay; i <= GameMgr.In.endDay; i++)
@@ -387,45 +391,23 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
         else
         {
-            if (!DataSaveLoad.dataSave.isLoaded && !isBankrupt)
+            if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
             {
+                OnBasicUI(startDay);
+                GameMgr.In.isEventOn = 1;
                 StartCoroutine(TestDoNormalJob(startDay));
             }
-            else if (isBankrupt)
+            else if (GameMgr.In.isBankrupt)
             {
-                isBankrupt = false;
+                OnBasicUI((int)GameMgr.In.day);
+                Debug.Log("Bankrupt refresh");
+                GameMgr.In.isBankrupt = false;
                 isEventFlowing = false;
-                GameMgr.In.isEventOn = 1;
                 StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
             }
             else
             {
-                gold.SetActive(true);
-                goldText.text = GameMgr.In.credit.ToString();
-                day.SetActive(true);
-                dateText.text = GameMgr.In.day.ToString();
-                if ((int)GameMgr.In.day > 2)
-                {
-                    renom.SetActive(true);
-                    FameUIFill();
-                }
-                else if((int)GameMgr.In.day == 2 && GameMgr.In.isEventOn == 0)
-                {
-                    renom.SetActive(true);
-                    FameUIFill();
-                }
-                if ((int)GameMgr.In.day > 5)
-                {
-                    tendency.SetActive(true);
-                    TendUIMove();
-                    FameUIFill();
-                }
-                else if ((int)GameMgr.In.day == 5 && GameMgr.In.isEventOn == 0)
-                {
-                    tendency.SetActive(true);
-                    TendUIMove();
-                    FameUIFill();
-                }
+                OnBasicUI((int)GameMgr.In.day);
 
                 if (GameMgr.In.dayCustomerCnt <= 0 && GameMgr.In.isEventOn == 0)
                 {
@@ -443,7 +425,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         creditDodge.onClick.RemoveAllListeners();
                         creditDodge.onClick.AddListener(() =>
                         {
-                            if (isBankrupt)
+                            if (GameMgr.In.isBankrupt)
                             {
                                 Bankrupt(); 
                             }
@@ -468,19 +450,63 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
     }
 
+    private void OnBasicUI(int gameStartDay)
+    {
+        gold.SetActive(true);
+        goldText.text = GameMgr.In.credit.ToString();
+        day.SetActive(true);
+        dateText.text = GameMgr.In.day.ToString();
+        weekText.text = GameMgr.In.week + "주차";
+        if (GameMgr.In.week == 1)
+        {
+            if (gameStartDay > 2)
+            {
+                renom.SetActive(true);
+                FameUIFill();
+            }
+            else if (gameStartDay == 2 && GameMgr.In.isEventOn == 0)
+            {
+                renom.SetActive(true);
+                FameUIFill();
+            }
+
+            if (gameStartDay > 5)
+            {
+                tendency.SetActive(true);
+                TendUIMove();
+                FameUIFill();
+            }
+            else if (gameStartDay == 5 && GameMgr.In.isEventOn == 0)
+            {
+                tendency.SetActive(true);
+                TendUIMove();
+                FameUIFill();
+            }
+        }
+        else
+        {
+            renom.SetActive(true);
+            tendency.SetActive(true);
+            TendUIMove();
+            FameUIFill();
+        }
+    }
+
     private IEnumerator TestDoNormalJob(int eventStartDay)
     {
+        Debug.Log("Start Event Sequence");
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
         {
             string eventKey = "day" + i;
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
             isEventFlowing = true;
-            if (targetEvent)
+            if (targetEvent != null && GameMgr.In.week == 1)
             {
                 yield return StartCoroutine(StartEventFlow(targetEvent));
             }
-            else
+            else if(!GameMgr.In.isBankrupt)
             {
+                Debug.Log("Start Order");
                 yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
             }
             if (isEventFlowing)
@@ -488,7 +514,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 yield return null;
             }
 
-            if (i < 7)
+            if (i < GameMgr.In.endDay && GameMgr.In.isBankrupt == false)
             {
                 NextDay();
             }
@@ -860,13 +886,56 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         creditBonusRevenue.text = "완성보너스 +" + GameMgr.In.dayBonusRevenue;
         creditShopBuyCost.text = "상점구매비 " + GameMgr.In.dayShopBuyCost;
         creditChipUseCost.text = "칩셋사용비 " + GameMgr.In.dayChipUseCost;
+
+        int week = GameMgr.In.week;
+        switch (week)
+        {
+            case 1:
+                goldText.text = GameMgr.In.credit.ToString();
+                break;
+            case 2:
+                GameMgr.In.dayRentCost = -100;
+                break;
+            case 3:
+                GameMgr.In.dayRentCost = -250;
+                break;
+            case 4:
+            case 5:
+                GameMgr.In.dayRentCost = -500;
+                break;
+            default:
+                if (week > 5)
+                {
+                    GameMgr.In.dayRentCost = -1000;
+                }
+                break;
+        }
+        if (week >= 2)
+        {
+            var money = GameMgr.In.credit + GameMgr.In.dayRentCost;
+            if (money <= 0)
+            {
+                GameMgr.In.isBankrupt = true;
+            }
+            else
+            {
+                GameMgr.In.credit += GameMgr.In.dayRentCost;
+                GameMgr.In.lastDayCredit = GameMgr.In.credit;
+                GameMgr.In.lastDayFame = GameMgr.In.fame;
+                GameMgr.In.lastDayTend = GameMgr.In.tendency;
+            }
+
+            goldText.text = money.ToString();
+        }
+        
+        /*
         if (GameMgr.In.day == Day.금)
         {
             GameMgr.In.dayRentCost = -100;
             var money = GameMgr.In.credit + GameMgr.In.dayRentCost;
             if (money <= 0)
             {
-                isBankrupt = true;
+                GameMgr.In.isBankrupt = true;
                 goldText.text = GameMgr.In.credit.ToString();
             }
             else
@@ -881,6 +950,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         {
             GameMgr.In.dayRentCost = 0;
         }
+        */
         creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost
                          + GameMgr.In.dayShopBuyCost + GameMgr.In.dayChipUseCost;
@@ -986,6 +1056,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void EndNormalOrderRoutine()
     {
+        Debug.Log("End Daily Order");
         EndText();
         isNormalOrdering = false;
 
@@ -1001,13 +1072,15 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             creditDodge.onClick.RemoveAllListeners();
             creditDodge.onClick.AddListener(() =>
             {
-                if (isBankrupt)
+                if (GameMgr.In.isBankrupt)
                 {
                     Bankrupt();
+                    dailyRoutineEndFlag = true;
                 }
                 else
                 {
                     StartCoroutine(FadeToNextDay());
+                    dailyRoutineEndFlag = true;
                 }
             });
             pc.onClick.RemoveAllListeners();
@@ -1030,13 +1103,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         bankruptDodge.onClick.RemoveAllListeners();
         bankruptDodge.onClick.AddListener(() =>
         {
-            GameMgr.In.credit = GameMgr.In.lastWeekCredit;
-            GameMgr.In.fame = GameMgr.In.lastWeekFame;
-            GameMgr.In.tendency = GameMgr.In.lastWeekTend;
+            GameMgr.In.credit = GameMgr.In.lastDayCredit;
+            GameMgr.In.fame = GameMgr.In.lastDayFame;
+            GameMgr.In.tendency = GameMgr.In.lastDayTend;
             GameMgr.In.ResetDayData();
-            GameMgr.In.day -= 4;
             bankruptPanel.SetActive(false);
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+            StartCoroutine(CommonTool.In.AsyncChangeScene("GameScene"));
         });
         FameUIFill();
         TendUIMove();
@@ -1625,7 +1697,13 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         GameMgr.In.orderedBluePrintKeyList.Clear();
 
+
+        dailyRoutineEndFlag = false;
         onEndRoutine.Invoke();
+        while (!dailyRoutineEndFlag)
+        {
+            yield return null;
+        }
     }
 
     public IEnumerator StartShopInAnim()
