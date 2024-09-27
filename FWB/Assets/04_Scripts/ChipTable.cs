@@ -18,6 +18,7 @@ public class ChipTable : ScriptableObject
         public string howToGet;
         public int price;
         public bool createEnable = false;
+        public int chipState = 0;
         public Sprite chipSprite;
         public List<ChipAbility> abilityList = new List<ChipAbility>();
     }

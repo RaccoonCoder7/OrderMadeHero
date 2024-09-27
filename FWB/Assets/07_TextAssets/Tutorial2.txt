@@ -1,16 +1,24 @@
 !image_샤일로홍조 !next
-… 크흠, 내가 너무 시간을 끌었군.
+…크흠, 내가 너무 시간을 끌었군.
 !image_샤일로 !next
 거기, 밑을 한번 봐라.
 !speaker_PC나비 !next
 안녕! 주인님!
-나는 메테오 시티의 최신 AI!
 !next
-New Artificialized
-Verbal Interface—
-줄여서, NAVI라고 불러 줘!
+내 이름은 New Artificialized Verbal Interface. 줄여서 NAVI라고 불러 줘!
 !speaker_샤일로 !next
-그건 선물이다. 여기 일하던 놈이 두고 간 건데,
-내가 대충 손봐 뒀으니 꽤 쓸 만할 거야.
+그건 선물이다. 원래는 구닥다리 모델이었는데, 내가 대충 손봐 뒀으니 꽤 쓸 만할 거다.
+!speaker_PC나비 !next
+아저씨, 구닥다리라니!
+!speaker_샤일로 !next
+그럼 구닥다리를 구닥다리라고 하지, 뭐라고 하냐?
+!speaker_PC나비 !next
+이 잘 빠진 몸이 어딜 봐서 구닥다리야?
+!speaker_샤일로 !next
+시끄러, 인마. 그것도 내가 수리한 거잖아.
+!speaker_PC나비 !next
+흥…….
+!speaker_샤일로 !next
+됐고, 할 얘기는 얼추 다 한 것 같으니 난 이만 빠져 주겠다.
 !next
-그럼, 고생하라고.
+그럼, 잘 해보라고.

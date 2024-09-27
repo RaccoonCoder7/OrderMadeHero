@@ -1,13 +1,9 @@
 !speaker_PC나비 !next
 자, 오늘도 가게를 열심히…….
 !next
-응? 뭐야? CCTV가 왜 저래?
+응? 뭐야? CCTV가 왜 저래? 아무것도 안 보이네, 고장났나?
 !next 
-아무것도 안 보이잖아.
-고장난 건가?
-!next 
-잠깐 기다려 봐, 내가 직접
-나가 볼게.
+잠깐 기다려 봐, 나비가 직접 나가 볼게.
 !sound_doorbell !speaker_나비 !image_나비 !wait_100 !next
 으악!
 !image_당황한나비 !speaker_full_?? !next

@@ -22,8 +22,11 @@ public class OrderTable : ScriptableObject
         public List<RequiredAbility> requiredAbilityList = new List<RequiredAbility>();
         public Condition condition = Condition.상태없음;
         public Gimmick gimmick = Gimmick.None;
-        public string orderCondition;
+        public Camp camp = Camp.None;
+        public StringBool orderConditionDictionary = new StringBool();
         public bool orderEnable = true;
+        [HideInInspector]
+        public List<string> addedRequestKeyList = new List<string>();
     }
 
     [System.Serializable]
@@ -71,6 +74,15 @@ public class OrderTable : ScriptableObject
         LowestAttack,
         HighestAttack,
         PreviousOrder,
+        SatisfyOneRequest,
+    }
+
+    [System.Serializable]
+    public enum Camp
+    {
+        None,
+        Hero,
+        Villain
     }
 
 
@@ -195,6 +207,7 @@ public class OrderTable : ScriptableObject
                             if (orderableRequestList.Count >= 2) continue;
                         }
                         keyDic[keys[i]] = request.name;
+                        newOrder.addedRequestKeyList.Add(request.requestKey);
 
                         foreach (var ability in request.requiredAbilityList)
                         {
@@ -229,7 +242,7 @@ public class OrderTable : ScriptableObject
         return newOrder;
     }
 
-    public bool IsConditionMatched(int frameCnt, Dictionary<ChipObj, int> chipObjDic, Dictionary<Ability, int> abilityDic, Condition condition)
+    public bool IsConditionMatched(int frameCnt, int totalSizeOfChips, Dictionary<Ability, int> abilityDic, Condition condition)
     {
         if (condition == Condition.상태없음 || condition == Condition.허술한)
         {
@@ -239,11 +252,9 @@ public class OrderTable : ScriptableObject
         switch (condition)
         {
             case Condition.완벽한:
-                int totalSize1 = GetTotalSizeOfChips(chipObjDic);
-                return totalSize1 == frameCnt;
+                return totalSizeOfChips == frameCnt;
             case Condition.적당한:
-                int totalSize2 = GetTotalSizeOfChips(chipObjDic);
-                return totalSize2 >= frameCnt / 2;
+                return totalSizeOfChips >= frameCnt / 2;
             case Condition.조악한:
                 var durability = abilityDic.FirstOrDefault(x => x.Key.abilityKey.Equals("a_durability"));
                 // TODO: 청사진 필수 내구도를 제외하는 로직 추가
@@ -252,7 +263,7 @@ public class OrderTable : ScriptableObject
         return false;
     }
 
-    public bool IsGimmickMatched(List<PuzzleFrame> puzzleFrameList)
+    public bool IsGimmickMatched(List<PuzzleFrame> puzzleFrameList, Dictionary<Ability, int> currentAbilityInPuzzleDic)
     {
         var order = GameMgr.In.currentOrder;
         var key = GameMgr.In.currentBluePrint.bluePrintKey;
@@ -303,19 +314,62 @@ public class OrderTable : ScriptableObject
             case Gimmick.PreviousOrder:
                 Debug.Log("바로 전 사람의 주문과 같은가?: " + history[history.Count - 1] == key);
                 return history[history.Count - 1] == key;
+            case Gimmick.SatisfyOneRequest:
+                for (int i = 0; i < GameMgr.In.currentOrder.addedRequestKeyList.Count; i++)
+                {
+                    List<RequiredAbility> requiredAbilityList = new List<RequiredAbility>();
+                    var removeTargetRequestKey = GameMgr.In.currentOrder.addedRequestKeyList[i];
+                    var removeTargetRequest = GameMgr.In.GetRequest(removeTargetRequestKey);
+
+                    foreach (var ability in GameMgr.In.currentOrder.requiredAbilityList)
+                    {
+                        int abilityCount = ability.count;
+                        var matchedAbility = removeTargetRequest.requiredAbilityList.Find(x => x.abilityKey.Equals(ability.abilityKey));
+                        if (matchedAbility != null)
+                        {
+                            abilityCount -= matchedAbility.count;
+                        }
+
+                        if (abilityCount > 0)
+                        {
+                            var requiredAbility = new RequiredAbility();
+                            requiredAbility.abilityKey = ability.abilityKey;
+                            requiredAbility.count = abilityCount;
+                            requiredAbilityList.Add(requiredAbility);
+                            Debug.Log("요구: " + ability.abilityKey + "=>" + abilityCount);
+                        }
+                    }
+
+                    bool isSatisfied = IsRequestSatisfied(requiredAbilityList, currentAbilityInPuzzleDic);
+                    Debug.Log((i + 1) + "번째 조건을 만족하는가?: " + isSatisfied);
+                    if (isSatisfied)
+                    {
+                        return true;
+                    }
+                }
+                return false;
         }
         return false;
     }
 
-    public int GetTotalSizeOfChips(Dictionary<ChipObj, int> chipObjDic)
+    private bool IsRequestSatisfied(List<RequiredAbility> requiredAbilityList, Dictionary<Ability, int> currentAbilityInPuzzleDic)
     {
-        int totalSize = 0;
-        foreach (var pair in chipObjDic)
+        foreach (var requiredAbility in requiredAbilityList)
         {
-            totalSize += pair.Key.GetChipSize() * pair.Value;
-        }
+            var targetAbility = currentAbilityInPuzzleDic.FirstOrDefault(x => x.Key.abilityKey.Equals(requiredAbility.abilityKey));
+            if (targetAbility.Equals(default(KeyValuePair<Ability, int>)))
+            {
+                Debug.Log("능력치 요구조건 불충족");
+                return false;
+            }
 
-        return totalSize;
+            if (targetAbility.Value < requiredAbility.count)
+            {
+                Debug.Log("능력치 요구조건 불충족");
+                return false;
+            }
+        }
+        return true;
     }
 
     private int GetAbilityCount(List<PuzzleFrame> puzzleFrameList, string abilityKey)

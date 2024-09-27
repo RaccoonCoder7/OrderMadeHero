@@ -9,15 +9,7 @@ public class EventFlowDay7 : EventFlow
 {
     public override void StartFlow()
     {
-        if (DataSaveLoad.dataSave.isLoaded == true)
-        {
-            StartCoroutine(mgr.StartNormalRoutine(GameMgr.In.dayCustomerCnt, mgr.EndNormalOrderRoutine));
-            DataSaveLoad.dataSave.isLoaded = false;
-        }
-        else
-        {
-            mgr.StartText("Day7_1", EndDay7_1Routine, EndDay7_1Routine);
-        }
+        mgr.StartText("Day7_1", EndDay7_1Routine, EndDay7_1Routine);
     }
 
     private void EndDay7_1Routine()
@@ -72,6 +64,27 @@ public class EventFlowDay7 : EventFlow
         mgr.mainChatPanel.SetActive(false);
         mgr.pcChatPanel.SetActive(false);
         mgr.isEventFlowing = false;
+
+        foreach (var order in GameMgr.In.orderTable.orderList)
+        {
+            if (order.orderConditionDictionary.ContainsKey("Day8"))
+            {
+                order.orderConditionDictionary["Day8"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
+            }
+        }
+
+        foreach (var request in GameMgr.In.requestTable.requestList)
+        {
+            if (request.orderCondition.Equals("Day8"))
+            {
+                request.orderEnable = true;
+            }
+        }
+
         StartCoroutine(QuitGame());
     }
 

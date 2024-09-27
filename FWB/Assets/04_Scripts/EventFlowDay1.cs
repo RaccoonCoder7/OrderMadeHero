@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,15 +8,19 @@ using UnityEngine.UI;
 /// </summary>
 public class EventFlowDay1 : EventFlow
 {
+    private Coroutine naviBlinkRoutine;
+    private Coroutine blueprintButtonBlinkRoutine;
+
     public override void StartFlow()
     {
+        GameMgr.In.isEventOn = 1;
         mgr.StartText("Tutorial", EndTutorialRoutine, SkipTutorialRoutine);
     }
 
     private void EndTutorialRoutine()
     {
         mgr.EndText(false);
-        CommonTool.In.cancelText.color = new Color(30f/255f, 30f/255f, 30f/255f, 1);
+        CommonTool.In.cancelText.color = new Color(30f / 255f, 30f / 255f, 30f / 255f, 1);
 
         mgr.yes.onClick.RemoveAllListeners();
         mgr.yes.onClick.AddListener(() =>
@@ -59,8 +65,8 @@ public class EventFlowDay1 : EventFlow
     private void EndTutorial3Routine()
     {
         mgr.EndText(false);
-        mgr.yesText.text = "Yes";
-        mgr.noText.text = "No";
+        mgr.yesText.text = "네";
+        mgr.noText.text = "아니오";
         mgr.yes.interactable = true;
         mgr.no.interactable = false;
         mgr.ActiveYesNoButton(true);
@@ -72,6 +78,7 @@ public class EventFlowDay1 : EventFlow
             mgr.ActiveYesNoButton(false);
             mgr.popupPanel.SetActive(true);
             mgr.RefreshPopupPanel();
+            SetWeaponDatasVisibility(false);
             var pos = mgr.popupChatPanelRect.anchoredPosition;
             pos.x = 150;
             mgr.popupChatPanelRect.anchoredPosition = pos;
@@ -101,6 +108,7 @@ public class EventFlowDay1 : EventFlow
         mgr.EndText();
         mgr.popupChatPanel.SetActive(false);
         CommonTool.In.SetFocus(new Vector2(285, 620), new Vector2(60, 60));
+        blueprintButtonBlinkRoutine = StartCoroutine(BlinkBlueprintButton());
         mgr.bluePrintSlotList[0].button.onClick.AddListener(OnClickBlueprintSlot);
     }
 
@@ -108,6 +116,9 @@ public class EventFlowDay1 : EventFlow
     {
         CommonTool.In.SetFocusOff();
         mgr.StartText("Tutorial5_1", EndTutorial5_1Routine, EndTutorial5_1Routine);
+        StopCoroutine(blueprintButtonBlinkRoutine);
+        SetWeaponDatasVisibility(true);
+        mgr.bluePrintSlotList[0].image.color = Color.white;
         mgr.bluePrintSlotList[0].button.onClick.RemoveListener(OnClickBlueprintSlot);
     }
 
@@ -122,7 +133,10 @@ public class EventFlowDay1 : EventFlow
     private void OnClickWeaponCreate()
     {
         CommonTool.In.SetFocusOff();
-        CommonTool.In.cancelBtn.interactable = false;
+        var confirmBtnPos = CommonTool.In.confirmBtn.transform.position;
+        CommonTool.In.confirmBtn.transform.position = confirmBtnPos - new Vector3(13, 0, 0);
+        CommonTool.In.cancelBtn.image.enabled = false;
+        CommonTool.In.cancelText.enabled = false;
         CommonTool.In.confirmBtn.onClick.AddListener(OnClickConfirm);
         mgr.weaponCreate.onClick.RemoveListener(OnClickWeaponCreate);
     }
@@ -130,7 +144,10 @@ public class EventFlowDay1 : EventFlow
     private void OnClickConfirm()
     {
         mgr.StartText("Tutorial5_2", EndTutorial5_2Routine, EndTutorial5_2Routine);
-        CommonTool.In.cancelBtn.interactable = true;
+        var confirmBtnPos = CommonTool.In.confirmBtn.transform.position;
+        CommonTool.In.confirmBtn.transform.position = confirmBtnPos + new Vector3(13, 0, 0);
+        CommonTool.In.cancelBtn.image.enabled = true;
+        CommonTool.In.cancelText.enabled = true;
     }
 
     private void EndTutorial5_2Routine()
@@ -144,6 +161,7 @@ public class EventFlowDay1 : EventFlow
     private void OnMakingDone(int result)
     {
         GameMgr.In.dayCustomerCnt = 1;
+        StartCoroutine(ShowEmoji());
         mgr.StartText("Tutorial6", EndTutorial6Routine, SkipTutorial6Routine);
         mgr.puzzleMgr.OnMakingDone -= OnMakingDone;
     }
@@ -155,7 +173,7 @@ public class EventFlowDay1 : EventFlow
         mgr.mainChatPanel.SetActive(false);
         mgr.alertPanel.SetActive(true);
         mgr.alertDodge.onClick.RemoveAllListeners();
-        
+
         foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
         {
             foreach (var bp in category.bluePrintList)
@@ -164,6 +182,18 @@ public class EventFlowDay1 : EventFlow
                 bool enable = bp.howToGet.Equals("튜토리얼");
                 bp.orderEnable = enable;
                 bp.createEnable = enable;
+            }
+        }
+
+        foreach (var order in GameMgr.In.orderTable.orderList)
+        {
+            if (order.orderConditionDictionary.ContainsKey("튜토리얼"))
+            {
+                order.orderConditionDictionary["튜토리얼"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
             }
         }
 
@@ -186,15 +216,30 @@ public class EventFlowDay1 : EventFlow
     private void EndTutorial7Routine()
     {
         mgr.EndText();
+
+        naviBlinkRoutine = StartCoroutine(mgr.BlinkNavi());
+        mgr.StartText("Tutorial8", EndTutorial8Routine, EndTutorial8Routine);
+    }
+
+    private void SkipTutorial7Routine()
+    {
+        mgr.imageList.Find(x => x.key.Equals("샤일로")).imageObj.SetActive(false);
+        mgr.mainChatPanel.SetActive(false);
+        EndTutorial7Routine();
+    }
+
+    private void EndTutorial8Routine()
+    {
+        mgr.EndText();
         mgr.prevChatTarget = GameSceneMgr.ChatTarget.None;
         mgr.pcChatPanel.SetActive(false);
         CommonTool.In.SetFocusOff();
 
-        var coroutine = StartCoroutine(mgr.BlinkNavi());
+        mgr.pc.image.raycastTarget = true;
         mgr.pc.onClick.RemoveAllListeners();
         mgr.pc.onClick.AddListener(() =>
         {
-            StopCoroutine(coroutine);
+            StopCoroutine(naviBlinkRoutine);
             mgr.deskNavi.SetActive(true);
             mgr.RefreshCreditPanel();
             CommonTool.In.cancelText.color = Color.white;
@@ -205,13 +250,32 @@ public class EventFlowDay1 : EventFlow
                 EndFlow();
             });
             mgr.pc.onClick.RemoveAllListeners();
+            mgr.pc.image.raycastTarget = false;
         });
     }
 
-    private void SkipTutorial7Routine()
+    private void SetWeaponDatasVisibility(bool isShow)
     {
-        mgr.imageList.Find(x => x.key.Equals("샤일로")).imageObj.SetActive(false);
-        mgr.mainChatPanel.SetActive(false);
-        EndTutorial7Routine();
+        mgr.weaponDatasBlock.SetActive(isShow);
+    }
+
+    private IEnumerator BlinkBlueprintButton()
+    {
+        var targetImg = mgr.bluePrintSlotList[0].image;
+        bool isOn = false;
+        while (true)
+        {
+            targetImg.color = isOn ? Color.black : Color.white;
+            isOn = !isOn;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private IEnumerator ShowEmoji()
+    {
+        SoundManager.PlayOneShot("success");
+        mgr.emoji.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        mgr.emoji.gameObject.SetActive(false);
     }
 }

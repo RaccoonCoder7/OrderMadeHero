@@ -47,9 +47,10 @@ MonoBehaviour:
   day: 1
   week: 1
   credit: 0
-  daySpendCredit: 0
+  dayShopBuyCost: 0
+  dayChipUseCost: 0
   dayBonusRevenue: 0
-  dayRentCost: -100
+  dayRentCost: 0
   dayRevenue: 0
   dayCustomerCnt: 0
   dayFame: 0
@@ -60,6 +61,15 @@ MonoBehaviour:
   maxFame: 1000
   minTend: -1000
   maxTend: 1000
+  lastDayCredit: 0
+  lastDayFame: 0
+  lastDayTend: 0
+  isEventOn: 0
+  isBankrupt: 0
+  endDay: 28
+  continuousSuccessCnt: 1
+  continuousPerfectCnt: 1
+  feverModeProbability: 0
   weaponDataTable: {fileID: 11400000, guid: 5e69e9e400c87c44f948125ac3ad41c1, type: 2}
   orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
   chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
@@ -75,9 +85,11 @@ MonoBehaviour:
     puzzleCsv: {fileID: 0}
     orderEnable: 0
     createEnable: 0
+    weaponState: 0
     blueprintSprite: {fileID: 0}
     icon: {fileID: 0}
     requiredChipAbilityList: []
+    enableChipKeyList: []
   currentOrder:
     orderKey: 
     ta: {fileID: 0}
@@ -85,6 +97,10 @@ MonoBehaviour:
     requiredAbilityList: []
     condition: 0
     gimmick: 0
-    orderCondition: 
+    camp: 0
+    orderConditionDictionary:
+      m_keys: []
+      m_values: 
     orderEnable: 1
+    addedRequestKeyList: []
   orderedBluePrintKeyList: []

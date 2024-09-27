@@ -7,14 +7,13 @@ public class EventFlowDay4 : EventFlow
 {
     public override void StartFlow()
     {
-        if (DataSaveLoad.dataSave.isLoaded == true)
+        if (GameMgr.In.isEventOn == 1)
         {
-            StartCoroutine(mgr.StartNormalRoutine(GameMgr.In.dayCustomerCnt, mgr.EndNormalOrderRoutine));
-            DataSaveLoad.dataSave.isLoaded = false;
+            mgr.StartText("Day4_1", EndDay4_1Routine, EndDay4_1Routine);
         }
         else
         {
-            mgr.StartText("Day4_1", EndDay4_1Routine, EndDay4_1Routine);
+            StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         }
     }
 
@@ -23,6 +22,7 @@ public class EventFlowDay4 : EventFlow
         mgr.EndText();
         mgr.mainChatPanel.SetActive(false);
         mgr.pcChatPanel.SetActive(false);
+        GameMgr.In.isEventOn = 0;
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
     }
 }

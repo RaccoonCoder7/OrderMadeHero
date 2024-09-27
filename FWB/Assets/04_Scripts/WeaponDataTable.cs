@@ -9,7 +9,7 @@ using static ChipTable;
 public class WeaponDataTable : ScriptableObject
 {
     public List<BluePrintCategory> bluePrintCategoryList = new List<BluePrintCategory>();
-
+    
     [System.Serializable]
     public class BluePrintCategory
     {
@@ -32,8 +32,10 @@ public class WeaponDataTable : ScriptableObject
         public TextAsset puzzleCsv;
         public bool orderEnable = false;
         public bool createEnable = false;
+        public int weaponState = 0;
         public Sprite blueprintSprite;
         public Sprite icon;
         public List<ChipAbility> requiredChipAbilityList = new List<ChipAbility>();
+        public List<string> enableChipKeyList = new List<string>();
     }
 }

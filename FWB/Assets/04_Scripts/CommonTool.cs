@@ -6,6 +6,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static PuzzleMgr;
+using static WeaponDataTable;
 
 /// <summary>
 /// 앱 전반적으로 흔히 사용 될만한 기능을 모아둔 공용 툴
@@ -44,26 +46,30 @@ public class CommonTool : SingletonMono<CommonTool>
         [HideInInspector]
         public List<string> lines = new List<string>();
     }
-    
+
 
     void Awake()
     {
         base.Awake();
         canvas = GetComponent<Canvas>();
-        
+
         alertPanel.SetActive(false);
         confirmPanel.SetActive(false);
         alertDodgeBtn.onClick.AddListener(() => alertPanel.SetActive(false));
 
         foreach (var script in scriptList)
         {
-            string fileName = script.key + ".txt";
-            var path = Path.Combine(Application.persistentDataPath, script.key + ".txt");
-            if (!File.Exists(path))
-            {
-                File.WriteAllText(path, script.ta.text);
-            }
-            script.lines = File.ReadAllText(path).Split('\n').ToList();
+            // Save text to local and use local file
+            // string fileName = script.key + ".txt";
+            // var path = Path.Combine(Application.persistentDataPath, script.key + ".txt");
+            // if (!File.Exists(path))
+            // {
+            //     File.WriteAllText(path, script.ta.text);
+            // }
+            // script.lines = File.ReadAllText(path).Split('\n').ToList();
+
+            // Use TextAsset
+            script.lines = script.ta.text.Split('\n').ToList();
         }
     }
 
@@ -128,7 +134,7 @@ public class CommonTool : SingletonMono<CommonTool>
     /// <summary>
     /// 화면에 포커스를 줌
     /// </summary>
-    public void SetFocus(Vector2 pos, Vector2 size)
+    public void SetFocus(Vector2 pos, Vector2 size, params RectTransform[] excludeRects)
     {
         focusPanel.SetActive(true);
 
@@ -147,6 +153,38 @@ public class CommonTool : SingletonMono<CommonTool>
         focusMaskRectTr_Right.sizeDelta = new Vector2(1920 - (pos.x + size.x), 1080);
         focusMaskRectTr_Top.sizeDelta = new Vector2(1920, 1080 - (pos.y + size.y));
         focusMaskRectTr_Bottom.sizeDelta = new Vector2(1920, pos.y);
+
+        if (excludeRects != null)
+        {
+            foreach (var excludeRect in excludeRects)
+            {
+                if (excludeRect != null)
+                {
+                    ExcludeRect(excludeRect);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Exclude
+    /// </summary>
+    /// 
+
+    private void ExcludeRect(RectTransform excludeRect)
+    {
+        Vector3[] corners = new Vector3[4];
+        excludeRect.GetWorldCorners(corners);
+
+        Vector2 excludeLeftBottomLocal;
+        Vector2 excludeRightTopLocal;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(focusMaskRectTr, corners[0], null, out excludeLeftBottomLocal);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(focusMaskRectTr, corners[2], null, out excludeRightTopLocal);
+
+        focusMaskRectTr_Left.sizeDelta = new Vector2(Mathf.Min(focusMaskRectTr_Left.sizeDelta.x, excludeLeftBottomLocal.x), 1080);
+        focusMaskRectTr_Right.sizeDelta = new Vector2(Mathf.Min(focusMaskRectTr_Right.sizeDelta.x, 1920 - excludeRightTopLocal.x), 1080);
+        focusMaskRectTr_Top.sizeDelta = new Vector2(1920, Mathf.Min(focusMaskRectTr_Top.sizeDelta.y, 1080 - excludeRightTopLocal.y));
+        focusMaskRectTr_Bottom.sizeDelta = new Vector2(1920, Mathf.Min(focusMaskRectTr_Bottom.sizeDelta.y, excludeLeftBottomLocal.y));
     }
 
     /// <summary>
@@ -196,6 +234,46 @@ public class CommonTool : SingletonMono<CommonTool>
         }
 
         asyncLoad.allowSceneActivation = true;
+        SoundManager.BGMPlayer(sceneName);
     }
 
+    public Puzzle GetPuzzle(BluePrint bp = null)
+    {
+        Puzzle puzzle = new Puzzle();
+        if (bp == null)
+        {
+            bp = GameMgr.In.currentBluePrint;
+        }
+        var lines = bp.puzzleCsv.text.Split('\n');
+        var lineList = new List<string>();
+        foreach (var line in lines)
+        {
+            var trimLine = line.Trim();
+            if (!string.IsNullOrEmpty(trimLine))
+            {
+                lineList.Add(trimLine);
+            }
+        }
+        puzzle.y = lineList.Count;
+        puzzle.x = lineList[0].Split(',').Length;
+        puzzle.frameDataTable = new PuzzleFrameData[puzzle.y, puzzle.x];
+        for (int i = 0; i < lineList.Count; i++)
+        {
+            var elements = lineList[i].Split(',');
+            if (i == 0) puzzle.x = elements.Length;
+
+            for (int j = 0; j < elements.Length; j++)
+            {
+                int targetNum = 0;
+                if (!Int32.TryParse(elements[j], out targetNum))
+                {
+                    Debug.Log("퍼즐조각정보 로드 실패. puzzle" + GameMgr.In.currentBluePrint.puzzleCsv.text + ": " + i + ", " + j);
+                    return null;
+                }
+                puzzle.frameDataTable[i, j] = new PuzzleFrameData(targetNum, j, i);
+            }
+        }
+
+        return puzzle;
+    }
 }

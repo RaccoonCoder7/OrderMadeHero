@@ -25,3 +25,25 @@ MonoBehaviour:
     name: "\uAD00\uD1B5\uB825"
   - abilityKey: a_durability
     name: "\uB0B4\uAD6C\uB3C4"
+  - abilityKey: a_cool
+    name: "\uBA4B"
+  - abilityKey: a_accuracy
+    name: "\uBA85\uC911\uB960"
+  - abilityKey: a_spell
+    name: "\uB9C8\uB825"
+  - abilityKey: a_defense
+    name: "\uBC29\uC5B4\uB825"
+  - abilityKey: a_strength
+    name: "\uAC15\uB3C4"
+  - abilityKey: a_fire
+    name: "\uBD88"
+  - abilityKey: a_water
+    name: "\uBB3C"
+  - abilityKey: a_electricity
+    name: "\uC804\uAE30"
+  - abilityKey: a_bowstring
+    name: "\uD65C \uC2DC\uC704"
+  - abilityKey: a_poison
+    name: "\uB3C5"
+  - abilityKey: a_divine
+    name: "\uC2E0\uC131\uB825"

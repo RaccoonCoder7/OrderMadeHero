@@ -8,14 +8,13 @@ public class EventFlowDay3 : EventFlow
 {
     public override void StartFlow()
     {
-        if (DataSaveLoad.dataSave.isLoaded == true)
+        if (GameMgr.In.isEventOn == 1)
         {
-            StartCoroutine(mgr.StartNormalRoutine(GameMgr.In.dayCustomerCnt, mgr.EndNormalOrderRoutine));
-            DataSaveLoad.dataSave.isLoaded = false;
+            mgr.StartText("Day3_1", EndDay3_1Routine, EndDay3_1Routine);
         }
         else
         {
-            mgr.StartText("Day3_1", EndDay3_1Routine, EndDay3_1Routine);
+            StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         }
     }
 
@@ -110,9 +109,13 @@ public class EventFlowDay3 : EventFlow
 
         foreach (var order in GameMgr.In.orderTable.orderList)
         {
-            if (order.orderCondition.Equals("Day3"))
+            if (order.orderConditionDictionary.ContainsKey("Day3"))
             {
-                order.orderEnable = true;
+                order.orderConditionDictionary["Day3"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
             }
         }
 
@@ -124,6 +127,7 @@ public class EventFlowDay3 : EventFlow
             }
         }
 
+        GameMgr.In.isEventOn = 0;
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         mgr.shopDodge.onClick.RemoveListener(OnClickShopDodge);
     }

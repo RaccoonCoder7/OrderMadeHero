@@ -12,14 +12,13 @@ public class EventFlowDay5 : EventFlow
 
     public override void StartFlow()
     {
-        if (DataSaveLoad.dataSave.isLoaded == true)
+        if (GameMgr.In.isEventOn == 1)
         {
-            StartCoroutine(mgr.StartNormalRoutine(GameMgr.In.dayCustomerCnt, mgr.EndNormalOrderRoutine));
-            DataSaveLoad.dataSave.isLoaded = false;
+            mgr.StartText("Day5_1", EndDay5_1Routine, EndDay5_1Routine);
         }
         else
         {
-            mgr.StartText("Day5_1", EndDay5_1Routine, EndDay5_1Routine);
+            StartCoroutine(mgr.StartNormalRoutine(8, mgr.EndNormalOrderRoutine));
         }
     }
 
@@ -43,10 +42,10 @@ public class EventFlowDay5 : EventFlow
         var navi = mgr.imageList.Find(x => x.key.Equals("당황한나비")).imageObj;
         var a = GameObject.Find("movingImg");
         a.GetComponent<Image>().enabled = true;
-        
+
         navi.transform.DOLocalMoveX(100, 1).SetEase(Ease.OutCubic).OnComplete(() =>
         {
-                navi.SetActive(false);
+            navi.SetActive(false);
         });
         a.transform.DOLocalMoveX(0, 1).SetEase(Ease.OutCubic).OnComplete(() =>
         {
@@ -82,6 +81,18 @@ public class EventFlowDay5 : EventFlow
         mgr.EndText();
         mgr.StartText("Day5_5", EndDay5_5Routine);
         mgr.ObjectBlinker(mgr.tendency, 10, 2);
+
+        foreach (var order in GameMgr.In.orderTable.orderList)
+        {
+            if (order.orderConditionDictionary.ContainsKey("tendency"))
+            {
+                order.orderConditionDictionary["tendency"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
+            }
+        }
     }
 
     private void EndDay5_5Routine()
@@ -89,6 +100,7 @@ public class EventFlowDay5 : EventFlow
         mgr.EndText();
         mgr.mainChatPanel.SetActive(false);
         mgr.pcChatPanel.SetActive(false);
+        GameMgr.In.isEventOn = 0;
         StartCoroutine(mgr.StartNormalRoutine(8, mgr.EndNormalOrderRoutine));
     }
 }

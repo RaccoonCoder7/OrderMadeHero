@@ -29,6 +29,7 @@ public class ScrollText : MonoBehaviour
     private Vector2 endPosition;
     private Vector2 direction = Vector2.right;
     private Vector2 originPos;
+    private Vector2 originSize;
     private Coroutine routine;
 
     public enum Direction
@@ -54,17 +55,24 @@ public class ScrollText : MonoBehaviour
         if (originPos.Equals(Vector2.zero))
         {
             originPos = textRectTransform.anchoredPosition;
+            originSize = textRectTransform.sizeDelta;
         }
+    }
+
+    public void OnTextChanged()
+    {
+        Start();
 
         if (routine != null)
         {
             StopCoroutine(routine);
-            textRectTransform.anchoredPosition = originPos;
+            routine = null;
         }
 
         if (!IsTextOverflowed())
         {
             textRectTransform.anchoredPosition = originPos;
+            textRectTransform.sizeDelta = originSize;
             return;
         }
 

@@ -14,9 +14,10 @@ public class GameMgr : SingletonMono<GameMgr>
     public Day day = Day.월;
     public int week = 1;
     public int credit;
-    public int daySpendCredit;
+    public int dayShopBuyCost;
+    public int dayChipUseCost;
     public int dayBonusRevenue;
-    public int dayRentCost = -100;
+    public int dayRentCost = 0;
     public int dayRevenue;
     public int dayCustomerCnt;
     public int dayFame;
@@ -27,6 +28,15 @@ public class GameMgr : SingletonMono<GameMgr>
     public int maxFame = 1000;
     public int minTend = -1000;
     public int maxTend = 1000;
+    public int lastDayCredit = 0;
+    public int lastDayFame = 0;
+    public int lastDayTend = 0;
+    public int isEventOn = 0;
+    public bool isBankrupt = false;
+    public int endDay = 28;
+    public int continuousSuccessCnt = 1;
+    public int continuousPerfectCnt = 1;
+    public float feverModeProbability;
     public WeaponDataTable weaponDataTable;
     public OrderTable orderTable;
     public ChipTable chipTable;
@@ -61,7 +71,8 @@ public class GameMgr : SingletonMono<GameMgr>
     /// </summary>
     public void ResetDayData()
     {
-        daySpendCredit = 0;
+        dayShopBuyCost = 0;
+        dayChipUseCost = 0;
         dayBonusRevenue = 0;
         dayRevenue = 0;
         dayCustomerCnt = 0;
@@ -79,19 +90,12 @@ public class GameMgr : SingletonMono<GameMgr>
         {
             week++;
             day = (Day)1;
+            GameMgr.In.feverModeProbability = 0;
         }
-        
+
         fame = ClampValue(fame, maxFame, minFame);
         tendency = ClampValue(tendency, maxTend, minTend);
     }
-    
-    //private void IncreaseValue(ref int value, int increase, int max, int min = System.Int32.MinValue)
-    //{
-    //    if (value <= max && value >= min)
-    //    {
-    //        value += increase;
-    //    }
-    //}
 
     private int ClampValue(int value, int max, int min)
     {
@@ -178,12 +182,53 @@ public class GameMgr : SingletonMono<GameMgr>
     }
 
     /// <summary>
+    /// 키 값에 맞는 요청사항 정보를 반환
+    /// </summary>
+    public RequestDataTable.Request GetRequest(string requestKey)
+    {
+        return requestTable.requestList.Find(x => x.requestKey.Equals(requestKey));
+    }
+
+    /// <summary>
     /// 현재 주문/청사진 정보를 저장
     /// </summary>
     public void SaveOrderHistory()
     {
         if (currentBluePrint == null) return;
         orderedBluePrintKeyList.Add(currentBluePrint.bluePrintKey);
+    }
+
+    /// <summary>
+    /// 피버모드 발생 확률 조정
+    /// </summary>
+    /// <param name="score"></param>
+    public void AdjustFeverModeProbability(int score)
+    {
+        switch (score)
+        {
+            case 0:
+            case 1:
+                continuousSuccessCnt = 1;
+                continuousPerfectCnt = 1;
+                feverModeProbability /= 2;
+                break;
+            case 2:
+                feverModeProbability += continuousSuccessCnt * 2;
+                if (feverModeProbability > 100)
+                {
+                    feverModeProbability = 100;
+                }
+                continuousSuccessCnt++;
+                break;
+            case 3:
+                feverModeProbability += continuousPerfectCnt * 4;
+                if (feverModeProbability > 100)
+                {
+                    feverModeProbability = 100;
+                }
+                continuousPerfectCnt++;
+                break;
+        }
     }
 
     private void ResetDataTables()
@@ -195,18 +240,20 @@ public class GameMgr : SingletonMono<GameMgr>
                 bool enable = string.IsNullOrEmpty(bp.howToGet);
                 bp.orderEnable = enable;
                 bp.createEnable = enable;
+                bp.weaponState = 0;
             }
         }
 
         foreach (var order in orderTable.orderList)
         {
-            order.orderEnable = string.IsNullOrEmpty(order.orderCondition);
+            order.orderEnable = order.orderConditionDictionary.Count == 0;
         }
 
         foreach (var chip in chipTable.chipList)
         {
             bool enable = string.IsNullOrEmpty(chip.howToGet);
             chip.createEnable = enable;
+            chip.chipState = 0;
         }
 
         foreach (var request in requestTable.requestList)
