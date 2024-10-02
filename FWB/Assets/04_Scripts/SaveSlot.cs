@@ -37,7 +37,7 @@ public class SaveSlot : MonoBehaviour
             playerName.text = data.playerName;
             progress.text = "Week: " + data.weekData + "  " + "Day: " + data.dayData;
             saveDate.text = data.savedDate;
-            chapter.text = "CH.01";
+            chapter.text = "CH.0" + data.weekData;
         }
         else
         {

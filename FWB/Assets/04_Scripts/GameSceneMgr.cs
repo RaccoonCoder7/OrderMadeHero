@@ -69,6 +69,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject popUpDim;
     public GameObject saveOverPopup;
     public GameObject noDataPopup;
+    public GameObject noisePanel;
     public static bool isSavePopupActive = false;
     public Sprite selectedSaveSlot;
     public Sprite defaultSaveSlot;
@@ -1335,6 +1336,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         shop.onClick.AddListener(OnClickShop);
     }
 
+    public void SetNewsButtonListener()
+    {
+        news.onClick.AddListener(OnClickNews);
+    }
+
     private void OnClickShop()
     {
         if (isWaitingForText) return;
@@ -1375,6 +1381,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         OnClickShopBlueprintTab();
         StartCoroutine(StartShopInAnim());
         shop.onClick.RemoveListener(OnClickShop);
+    }
+
+    private void OnClickNews()
+    {
+        news.onClick.RemoveListener(OnClickNews);
     }
 
     private void SkipCurrLine()

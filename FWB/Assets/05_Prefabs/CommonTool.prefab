@@ -852,6 +852,24 @@ MonoBehaviour:
   - key: FeverMode_Tutorial
     ta: {fileID: 4900000, guid: 0def92b7d36b9ae498312a441b9ccc64, type: 3}
     lines: []
+  - key: Week1_1
+    ta: {fileID: 4900000, guid: 93f4dfd2043c4274abb05380dc708c68, type: 3}
+    lines: []
+  - key: Week1_2
+    ta: {fileID: 4900000, guid: 5fb84c5cbcda01e4693ccc8c6480582d, type: 3}
+    lines: []
+  - key: Week1_3
+    ta: {fileID: 4900000, guid: ac5a3055dfeb2c74e94a3fa5713eaf09, type: 3}
+    lines: []
+  - key: Week1_4
+    ta: {fileID: 4900000, guid: 2dbc06dca39de0e41b97bf6051ed24b9, type: 3}
+    lines: []
+  - key: Week1_5
+    ta: {fileID: 4900000, guid: d9a6ec598be9224478f050b46579826a, type: 3}
+    lines: []
+  - key: Week1_6
+    ta: {fileID: 4900000, guid: e0c8258593b43684da07ccac28eac104, type: 3}
+    lines: []
   - key: Dummy
     ta: {fileID: 4900000, guid: 76842090dce760a40bbb050d59301a1f, type: 3}
     lines: []
