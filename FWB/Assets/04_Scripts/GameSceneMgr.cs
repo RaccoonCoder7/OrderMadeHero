@@ -1433,7 +1433,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         orderState = OrderState.Finished;
     }
 
-    public void NextDay()
+    private void NextDay()
     {
         GameMgr.In.ResetDayData();
         GameMgr.In.SetNextDayData();
@@ -2211,33 +2211,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         {
             creditRevenueResult.text = "으음.. 더 노력해야겠는걸?";
         }
-    }
-
-    public IEnumerator StartBossRoutine(int puzzleCnt, Action onEndRoutine)
-    {
-        for (int i = 0; i < puzzleCnt; i++)
-        {
-            var order = GameMgr.In.GetRandomNewOrder(prevOrderKey);
-            prevOrderKey = order.orderKey;
-            GameMgr.In.currentOrder = order;
-
-            StartPuzzleProcess();
-            yield return new WaitUntil(() => orderState == OrderState.Finished);
-
-            TendUIMove();
-            FameUIFill();
-        }
-
-        foreach (var order in GameMgr.In.orderTable.orderList)
-        {
-            if (order.orderCondition.Equals("AfterOneOrder"))
-            {
-                order.orderEnable = false;
-            }
-        }
-
-        GameMgr.In.orderedBluePrintKeyList.Clear();
-        onEndRoutine.Invoke();
     }
 
 }
