@@ -843,6 +843,33 @@ MonoBehaviour:
   - key: Day7_4
     ta: {fileID: 4900000, guid: 3d681d065fc131943a8750f59f7aae35, type: 3}
     lines: []
+  - key: FeverMode_1
+    ta: {fileID: 4900000, guid: 4fa767872f087b343b2befc0664cfe80, type: 3}
+    lines: []
+  - key: FeverMode_1_End
+    ta: {fileID: 4900000, guid: 9941a1d525278a44cad3ca41ba96fca7, type: 3}
+    lines: []
+  - key: FeverMode_Tutorial
+    ta: {fileID: 4900000, guid: 0def92b7d36b9ae498312a441b9ccc64, type: 3}
+    lines: []
+  - key: Week1_1
+    ta: {fileID: 4900000, guid: 93f4dfd2043c4274abb05380dc708c68, type: 3}
+    lines: []
+  - key: Week1_2
+    ta: {fileID: 4900000, guid: 5fb84c5cbcda01e4693ccc8c6480582d, type: 3}
+    lines: []
+  - key: Week1_3
+    ta: {fileID: 4900000, guid: ac5a3055dfeb2c74e94a3fa5713eaf09, type: 3}
+    lines: []
+  - key: Week1_4
+    ta: {fileID: 4900000, guid: 2dbc06dca39de0e41b97bf6051ed24b9, type: 3}
+    lines: []
+  - key: Week1_5
+    ta: {fileID: 4900000, guid: d9a6ec598be9224478f050b46579826a, type: 3}
+    lines: []
+  - key: Week1_6
+    ta: {fileID: 4900000, guid: e0c8258593b43684da07ccac28eac104, type: 3}
+    lines: []
   - key: Dummy
     ta: {fileID: 4900000, guid: 76842090dce760a40bbb050d59301a1f, type: 3}
     lines: []
@@ -971,6 +998,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1a8c469297793994aaca92839c2b50ad, type: 3}
   - {fileID: 8300000, guid: b90ec6568edfc194caa73eb60246f2d5, type: 3}
   - {fileID: 8300000, guid: 7702bd192da26bc429d7d8356a9df241, type: 3}
+  - {fileID: 8300000, guid: 9a7865b6b68af5a4c95bef15190eb977, type: 3}
+  - {fileID: 8300000, guid: 7421e7731ecc0914680af5edc2966b9b, type: 3}
+  - {fileID: 8300000, guid: dbda12aff72f2594f87c9f3e00307aa3, type: 3}
+  - {fileID: 8300000, guid: 34650ed4a2cbef5499122e1467b93696, type: 3}
+  effectAudioSource: {fileID: 0}
+  bgmAudioSource: {fileID: 0}
   masterVolumeBar: {fileID: 0}
   bgmVolumeBar: {fileID: 0}
   effectVolumeBar: {fileID: 0}

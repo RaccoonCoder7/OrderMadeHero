@@ -24,6 +24,35 @@ public class Test : MonoBehaviour
     public SpriteAnimation sa;
 
 
+    /// <summary>
+    /// 씬에 있는 모든 버튼의 Navigation을 비활성화
+    /// </summary>
+    [ContextMenu("DisableNavigationOfButtons")]
+    public void DisableNavigationOfButtons()
+    {
+        var buttons = Resources.FindObjectsOfTypeAll<Button>();
+        foreach (var btn in buttons)
+        {
+            var nav = btn.navigation;
+            nav.mode = Navigation.Mode.None;
+            btn.navigation = nav;
+        }
+    }
+
+    /// <summary>
+    /// orderCondition 딕셔너리화
+    /// </summary>
+    [ContextMenu("MoveOrderConditionDatas")]
+    public void MoveOrderConditionDatas()
+    {
+        foreach (var order in orderTable.orderList)
+        {
+            // if (!string.IsNullOrEmpty(order.orderCondition))
+            // {
+            //     order.orderConditionDictionary.Add(order.orderCondition, false);
+            // }
+        }
+    }
 
     /// <summary>
     /// 히어로/빌런 주문 설정
@@ -31,12 +60,12 @@ public class Test : MonoBehaviour
     [ContextMenu("SetHeroVillainOrders")]
     public void SetHeroVillainOrders()
     {
-        foreach(var order in orderTable.orderList)
+        foreach (var order in orderTable.orderList)
         {
             if (order.camp == OrderTable.Camp.Hero || order.camp == OrderTable.Camp.Villain)
             {
                 order.orderEnable = false;
-                order.orderCondition = "tendency";
+                // order.orderCondition = "tendency";
             }
         }
     }

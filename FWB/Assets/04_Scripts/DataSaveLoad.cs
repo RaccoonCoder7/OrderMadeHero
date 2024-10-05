@@ -19,10 +19,13 @@ public class PlayerData
     public int playerDayShopBuyCost;
     public int playerDayChipUseCost;
     public int customerCnt;
+    public int playerLastDayCredit;
+    public int playerLastDayTend;
+    public int playerLastDayFame;
     public string savedDate;
     public int isEventOngoing = 0;
     public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, 
-        int dayShopBuy, int dayChipUse, int cusCnt, int dayEvent, string date)
+        int dayShopBuy, int dayChipUse, int cusCnt, int lastCredit, int lastTend, int lastFame, int dayEvent, string date)
     {
         playerName = name;
         playerCredit = credit;
@@ -35,6 +38,9 @@ public class PlayerData
         playerDayShopBuyCost = dayShopBuy;
         playerDayChipUseCost = dayChipUse;
         customerCnt = cusCnt;
+        playerLastDayCredit = lastCredit;
+        playerLastDayTend = lastTend;
+        playerLastDayFame = lastFame;
         isEventOngoing = dayEvent;
         savedDate = date;
     }
@@ -189,11 +195,11 @@ public class DataSaveLoad : MonoBehaviour
         switch (currentState)
         {
             case SlotState.First:
-                return isRightDirection ? SlotState.Second : SlotState.Third;
+                return isRightDirection ? SlotState.Third : SlotState.Second;
             case SlotState.Second:
-                return isRightDirection ? SlotState.Third : SlotState.First;
+                return isRightDirection ? SlotState.First : SlotState.Third;
             case SlotState.Third:
-                return isRightDirection ? SlotState.First : SlotState.Second;
+                return isRightDirection ? SlotState.Second : SlotState.First;
             default:
                 throw new InvalidOperationException("invalid state");
         }
@@ -272,6 +278,9 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.dayShopBuyCost,
             GameMgr.In.dayChipUseCost,
             GameMgr.In.dayCustomerCnt,
+            GameMgr.In.lastDayCredit,
+            GameMgr.In.lastDayTend,
+            GameMgr.In.lastDayFame,
             GameMgr.In.isEventOn,
             DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
@@ -334,6 +343,9 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.dayShopBuyCost = data.playerDayShopBuyCost;
             GameMgr.In.dayChipUseCost = data.playerDayChipUseCost;
             GameMgr.In.dayCustomerCnt = data.customerCnt;
+            GameMgr.In.lastDayCredit = data.playerLastDayCredit;
+            GameMgr.In.lastDayTend = data.playerLastDayTend;
+            GameMgr.In.lastDayFame = data.playerLastDayFame;
             GameMgr.In.isEventOn = data.isEventOngoing;
             
             StartCoroutine(CommonTool.In.AsyncChangeScene("GameScene"));

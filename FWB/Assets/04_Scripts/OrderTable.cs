@@ -23,7 +23,7 @@ public class OrderTable : ScriptableObject
         public Condition condition = Condition.상태없음;
         public Gimmick gimmick = Gimmick.None;
         public Camp camp = Camp.None;
-        public string orderCondition;
+        public StringBool orderConditionDictionary = new StringBool();
         public bool orderEnable = true;
         [HideInInspector]
         public List<string> addedRequestKeyList = new List<string>();

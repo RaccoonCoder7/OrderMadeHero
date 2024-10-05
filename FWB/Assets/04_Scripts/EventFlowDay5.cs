@@ -84,9 +84,13 @@ public class EventFlowDay5 : EventFlow
 
         foreach (var order in GameMgr.In.orderTable.orderList)
         {
-            if (order.orderCondition.Equals("tendency"))
+            if (order.orderConditionDictionary.ContainsKey("tendency"))
             {
-                order.orderEnable = true;
+                order.orderConditionDictionary["tendency"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
             }
         }
     }

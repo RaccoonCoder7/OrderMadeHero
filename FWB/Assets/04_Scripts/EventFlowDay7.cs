@@ -67,9 +67,13 @@ public class EventFlowDay7 : EventFlow
 
         foreach (var order in GameMgr.In.orderTable.orderList)
         {
-            if (order.orderCondition.Equals("Day8"))
+            if (order.orderConditionDictionary.ContainsKey("Day8"))
             {
-                order.orderEnable = true;
+                order.orderConditionDictionary["Day8"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
             }
         }
 

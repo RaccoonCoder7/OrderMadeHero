@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -160,6 +161,7 @@ public class EventFlowDay1 : EventFlow
     private void OnMakingDone(int result)
     {
         GameMgr.In.dayCustomerCnt = 1;
+        StartCoroutine(ShowEmoji());
         mgr.StartText("Tutorial6", EndTutorial6Routine, SkipTutorial6Routine);
         mgr.puzzleMgr.OnMakingDone -= OnMakingDone;
     }
@@ -185,9 +187,13 @@ public class EventFlowDay1 : EventFlow
 
         foreach (var order in GameMgr.In.orderTable.orderList)
         {
-            if (order.orderCondition.Equals("튜토리얼"))
+            if (order.orderConditionDictionary.ContainsKey("튜토리얼"))
             {
-                order.orderEnable = true;
+                order.orderConditionDictionary["튜토리얼"] = true;
+                if (!order.orderConditionDictionary.ContainsValue(false))
+                {
+                    order.orderEnable = true;
+                }
             }
         }
 
@@ -263,5 +269,13 @@ public class EventFlowDay1 : EventFlow
             isOn = !isOn;
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    private IEnumerator ShowEmoji()
+    {
+        SoundManager.PlayOneShot("success");
+        mgr.emoji.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        mgr.emoji.gameObject.SetActive(false);
     }
 }
