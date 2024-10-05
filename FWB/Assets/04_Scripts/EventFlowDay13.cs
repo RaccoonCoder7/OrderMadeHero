@@ -31,7 +31,7 @@ public class EventFlowDay13 : EventFlow
 
     private void DetermineHeroStatus()
     {
-        isHero = gameMgr.tendency >= 0;
+        isHero = GameMgr.In.tendency >= 0;
     }
 
     public override void StartFlow()
