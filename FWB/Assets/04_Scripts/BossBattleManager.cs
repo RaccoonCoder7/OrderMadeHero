@@ -65,6 +65,7 @@ public class BossBattleManager : MonoBehaviour
         {
             StartCoroutine(StartBossBattle());
             Debug.Log("BossBattle Start");
+            
         }
     }
 

@@ -1433,7 +1433,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         orderState = OrderState.Finished;
     }
 
-    private void NextDay()
+    public void NextDay()
     {
         GameMgr.In.ResetDayData();
         GameMgr.In.SetNextDayData();
