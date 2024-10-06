@@ -1554,6 +1554,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     }
                     // 테스트코드
 
+                    // TODO: 단체손님 텍스트 수정 후 여기를 수정
                     StartText("FeverMode_1", EndFeverModeStartChat, EndFeverModeStartChat);
 
                     while (!isFeverModeConfirmed)
@@ -1572,6 +1573,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     }
 
                     bool end = false;
+                    // TODO: 단체손님 텍스트 수정 후 여기를 수정
                     StartText("FeverMode_1_End", () =>
                     {
                         imageList.Find(x => x.key.Equals("단체손님")).imageObj.SetActive(false);
