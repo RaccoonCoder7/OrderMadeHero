@@ -218,7 +218,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private string saveSlot;
     private bool isSaving;
     private Texture2D currentScreen;
-    private GameObject lastSelectedSlot = null; 
+    private GameObject lastSelectedSlot = null;
     private Image lastSelectedSlotImage = null;
     public bool gameoverTest = false;
     private bool dailyRoutineEndFlag = false;
@@ -306,7 +306,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         foreach (var btn in saveLoadButtons)
         {
-            btn.onClick.AddListener(() => {OnClickSlot(btn);});
+            btn.onClick.AddListener(() => { OnClickSlot(btn); });
         }
 
         foreach (var btn in popupYes)
@@ -345,38 +345,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 else
                 {
-                    var val = UnityEngine.Random.Range(0, 100);
-                    // 테스트코드. 부등호 방향 바꿔야 함
-                    if (val < GameMgr.In.feverModeProbability)
-                    {
-                        yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                    }
-                    else
-                    {
-                        // 테스트코드. 제거해야 함.
-                        puzzleMgr.makingDone.gameObject.SetActive(true);
-                        renom.SetActive(true);
-                        gold.SetActive(true);
-                        foreach (var chip in GameMgr.In.chipTable.chipList)
-                        {
-                            chip.createEnable = true;
-                        }
-                        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
-                        {
-                            foreach (var bp in bpc.bluePrintList)
-                            {
-                                bp.createEnable = true;
-                            }
-                        }
-
-                        // TODO: 피버모드 시작 연출 + Yes / No 선택 가능하도록 수정
-                        GameMgr.In.feverModeProbability /= 10;
-                        gamePanel.SetActive(true);
-                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
-                        goldText.text = GameMgr.In.credit.ToString();
-                        FameUIFill();
-                        // TODO: 피버모드 종료 연출
-                    }
+                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
                 }
 
                 if (isEventFlowing)
@@ -384,10 +353,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     yield return null;
                 }
 
-                if (i < 7)
-                {
-                    NextDay();
-                }
+                NextDay();
             }
         }
         else
@@ -428,7 +394,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         {
                             if (GameMgr.In.isBankrupt)
                             {
-                                Bankrupt(); 
+                                Bankrupt();
                             }
                             else
                             {
@@ -505,7 +471,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             {
                 yield return StartCoroutine(StartEventFlow(targetEvent));
             }
-            else if(!GameMgr.In.isBankrupt)
+            else if (!GameMgr.In.isBankrupt)
             {
                 Debug.Log("Start Order");
                 yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
@@ -928,7 +894,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
             goldText.text = money.ToString();
         }
-        
+
         /*
         if (GameMgr.In.day == Day.금)
         {
