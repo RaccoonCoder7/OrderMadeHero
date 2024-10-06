@@ -994,6 +994,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         {
             int tempNum = i;
             var category = categoryList[tempNum];
+            if (category.categoryKey.Equals("t_special"))
+            {
+                continue;
+            }
             var weaponCategorySlot = Instantiate(uiSlotPrefab, weaponCategoryParentTr);
             weaponCategorySlot.key = category.categoryKey;
             weaponCategorySlot.spriteChange.onSprite = category.onSprite;
