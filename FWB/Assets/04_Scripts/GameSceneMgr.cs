@@ -356,12 +356,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
                 }
 
-                if (isEventFlowing)
+                while (isEventFlowing)
                 {
                     yield return null;
                 }
-
-                NextDay();
+                yield return StartCoroutine(NextDay());
             }
         }
         else
@@ -476,7 +475,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
             var weeklyTargetEvent = eventFlowList.Find(x => x.eventKey.Equals(weeklyEventKey));
             isEventFlowing = true;
-            
+
             if (weeklyTargetEvent != null && GameMgr.In.week > 1)
             {
                 yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
@@ -495,13 +494,13 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 Debug.Log("Start Loaded Order");
                 yield return StartCoroutine(StartNormalRoutine(GameMgr.In.dayCustomerCnt, EndNormalOrderRoutine));
             }
-            if (isEventFlowing)
+            while (isEventFlowing)
             {
                 yield return null;
             }
             if (i < GameMgr.In.endDay && GameMgr.In.isBankrupt == false)
             {
-                NextDay();
+                yield return StartCoroutine(NextDay());
             }
         }
     }
@@ -1436,7 +1435,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         orderState = OrderState.Finished;
     }
 
-    private void NextDay()
+    private IEnumerator NextDay()
     {
         GameMgr.In.ResetDayData();
         GameMgr.In.SetNextDayData();
@@ -1446,7 +1445,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         prevChatTarget = ChatTarget.None;
         SoundManager.PlayOneShot("bird");
         creditDodge.onClick.RemoveAllListeners();
-        StartCoroutine(FadeInOutDateMessage());
+        yield return StartCoroutine(FadeInOutDateMessage());
     }
 
     private List<string> SetOrderTextList(List<string> list)
@@ -1516,7 +1515,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             dateMessage.color = new UnityEngine.Color(1, 1, 1, fadeValue);
             yield return new WaitForSeconds(actualSpeed);
         }
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.5f);
         while (fadeValue > 0)
         {
             fadeValue -= actualSpeed;
@@ -1714,7 +1713,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         GameMgr.In.orderedBluePrintKeyList.Clear();
 
-
         dailyRoutineEndFlag = false;
         onEndRoutine.Invoke();
         while (!dailyRoutineEndFlag)
@@ -1825,7 +1823,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                 {
                                     newsChatPanelImg.sprite = newsLeftBox;
                                 }
-                                else if(newsChatName.text == "래트")
+                                else if (newsChatName.text == "래트")
                                 {
                                     newsChatPanelImg.sprite = newsRightBox;
                                 }
@@ -1971,7 +1969,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         pc.gameObject.SetActive(false);
                         chatTargetText = newsChatText;
                         break;
-                        
+
                 }
                 prevChatTarget = chatTarget;
             }
