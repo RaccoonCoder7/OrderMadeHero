@@ -339,7 +339,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         // TODO: day limit 추가
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
-        if (startDay != 1 && !GameMgr.In.isBankrupt && !gameoverTest)
+        if (!gameoverTest)
         {
             GameMgr.In.isEventOn = 1;
             for (int i = startDay; i <= GameMgr.In.endDay; i++)
