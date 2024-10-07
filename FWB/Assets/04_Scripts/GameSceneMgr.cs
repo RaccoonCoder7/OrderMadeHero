@@ -55,6 +55,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Button alertDodge;
     public Button creditDodge;
     public Button bankruptDodge;
+    public Button gotoMain;
     public Button history;
     public Button historyDodge;
     public Text chatName;
@@ -69,7 +70,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject popUpDim;
     public GameObject saveOverPopup;
     public GameObject noDataPopup;
-    public GameObject noisePanel;
+    public GameObject newsPanel;
     public static bool isSavePopupActive = false;
     public Sprite selectedSaveSlot;
     public Sprite defaultSaveSlot;
@@ -116,6 +117,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Text popupChatText;
     public Text fullChatName;
     public Text fullChatText;
+    public GameObject newsChatPanel;
+    public Text newsChatName;
+    public Text newsChatText;
+    public Sprite newsLeftBox;
+    public Sprite newsRightBox;
+    public bool inNews = false;
     public Text yesText;
     public Text noText;
     public Text eventBtntext1;
@@ -234,7 +241,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         Main,
         Mascot,
         Popup,
-        Full
+        Full,
+        News
     }
 
     public enum OrderState
@@ -361,7 +369,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
             {
                 OnBasicUI(startDay);
-                GameMgr.In.isEventOn = 1;
                 StartCoroutine(TestDoNormalJob(startDay));
             }
             else if (GameMgr.In.isBankrupt)
@@ -465,22 +472,33 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
         {
             string eventKey = "day" + i;
+            string weeklyEventKey = "week" + (GameMgr.In.week - 1);
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+            var weeklyTargetEvent = eventFlowList.Find(x => x.eventKey.Equals(weeklyEventKey));
             isEventFlowing = true;
+            
+            if (weeklyTargetEvent != null && GameMgr.In.week > 1)
+            {
+                yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
+            }
             if (targetEvent != null && GameMgr.In.week == 1)
             {
                 yield return StartCoroutine(StartEventFlow(targetEvent));
             }
-            else if (!GameMgr.In.isBankrupt)
+            if (!GameMgr.In.isBankrupt && !DataSaveLoad.dataSave.isLoaded)
             {
                 Debug.Log("Start Order");
                 yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+            }
+            else if (DataSaveLoad.dataSave.isLoaded)
+            {
+                Debug.Log("Start Loaded Order");
+                yield return StartCoroutine(StartNormalRoutine(GameMgr.In.dayCustomerCnt, EndNormalOrderRoutine));
             }
             if (isEventFlowing)
             {
                 yield return null;
             }
-
             if (i < GameMgr.In.endDay && GameMgr.In.isBankrupt == false)
             {
                 NextDay();
@@ -1036,6 +1054,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         pc.onClick.RemoveAllListeners();
         pc.onClick.AddListener(() =>
         {
+            DataSaveLoad.dataSave.isLoaded = false;
             StopCoroutine(coroutine);
             deskNavi.SetActive(true);
             RefreshCreditPanel();
@@ -1046,7 +1065,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 if (GameMgr.In.isBankrupt)
                 {
                     Bankrupt();
-                    dailyRoutineEndFlag = true;
+                    dailyRoutineEndFlag = false;
                 }
                 else
                 {
@@ -1059,7 +1078,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             UpdateDayEndMessage();
             FameUIFill();
             TendUIMove();
-            if ((int)GameMgr.In.day <= 7)
+            if ((int)GameMgr.In.day <= 7 && !GameMgr.In.isBankrupt)
             {
                 GameMgr.In.isEventOn = 1;
             }
@@ -1071,7 +1090,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         creditPanel.SetActive(false);
         isEventFlowing = false;
         bankruptPanel.SetActive(true);
-        bankruptDodge.onClick.RemoveAllListeners();
         bankruptDodge.onClick.AddListener(() =>
         {
             GameMgr.In.credit = GameMgr.In.lastDayCredit;
@@ -1080,6 +1098,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.ResetDayData();
             bankruptPanel.SetActive(false);
             StartCoroutine(CommonTool.In.AsyncChangeScene("GameScene"));
+        });
+        gotoMain.onClick.AddListener(() =>
+        {
+            bankruptPanel.SetActive(false);
+            StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
         });
         FameUIFill();
         TendUIMove();
@@ -1355,7 +1378,17 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     private void OnClickNews()
     {
-        news.onClick.RemoveListener(OnClickNews);
+        StartCoroutine(OpenNewsAnim());
+        //news.onClick.RemoveListener(OnClickNews);
+    }
+
+    private IEnumerator OpenNewsAnim()
+    {
+        CommonTool.In.fadeImage.gameObject.SetActive(true);
+        CommonTool.In.fadeImage.color = new UnityEngine.Color(0, 0, 0, 1);
+        StartCoroutine(CommonTool.In.FadeIn());
+        newsPanel.SetActive(true);
+        yield break;
     }
 
     private void SkipCurrLine()
@@ -1494,6 +1527,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public IEnumerator StartNormalRoutine(int customerCnt, Action onEndRoutine)
     {
+        GameMgr.In.isEventOn = 0;
         GameMgr.In.dayCustomerCnt = customerCnt;
         for (int i = 0; i < customerCnt; i++)
         {
@@ -1779,6 +1813,24 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                 fullChatName.text = splittedCom[2];
                                 chatTarget = ChatTarget.Full;
                             }
+                            else if (speaker.Trim().Equals("news"))
+                            {
+                                var newsChatPanelImg = newsChatPanel.GetComponent<Image>();
+                                if (!newsChatPanel.activeSelf)
+                                {
+                                    newsChatPanel.SetActive(true);
+                                }
+                                newsChatName.text = splittedCom[2];
+                                if (newsChatName.text == "호크")
+                                {
+                                    newsChatPanelImg.sprite = newsLeftBox;
+                                }
+                                else if(newsChatName.text == "래트")
+                                {
+                                    newsChatPanelImg.sprite = newsRightBox;
+                                }
+                                chatTarget = ChatTarget.News;
+                            }
                         }
                         else if (speaker.Equals(CommonTool.In.pcMascotName))
                         {
@@ -1895,6 +1947,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         deskTr.gameObject.SetActive(true);
                         pc.gameObject.SetActive(true);
                         chatTargetText = popupChatText;
+                        if (inNews)
+                        {
+                            deskTr.gameObject.SetActive(false);
+                            pc.gameObject.SetActive(false);
+                        }
                         break;
                     case ChatTarget.Full:
                         mainChatPanel.SetActive(false);
@@ -1905,6 +1962,16 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         pc.gameObject.SetActive(false);
                         chatTargetText = fullChatText;
                         break;
+                    case ChatTarget.News:
+                        mainChatPanel.SetActive(false);
+                        pcChatPanel.SetActive(false);
+                        popupChatPanel.SetActive(false);
+                        fullPanel.SetActive(false);
+                        deskTr.gameObject.SetActive(false);
+                        pc.gameObject.SetActive(false);
+                        chatTargetText = newsChatText;
+                        break;
+                        
                 }
                 prevChatTarget = chatTarget;
             }

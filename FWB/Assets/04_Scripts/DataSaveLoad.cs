@@ -93,8 +93,6 @@ public class DataSaveLoad : MonoBehaviour
     
     public static DataSaveLoad dataSave { get; private set; }
 
-    private DataSaveLoad() {}
-
     private void Awake()
     {
         if (dataSave == null)
@@ -110,8 +108,6 @@ public class DataSaveLoad : MonoBehaviour
 
     private void Start()
     {
-        toLeft.onClick.AddListener(ClickToLeft);
-        toRight.onClick.AddListener(ClickToRight);
         state = SlotState.First;
         folderPath = Application.persistentDataPath + "/saves";
     }
@@ -195,11 +191,11 @@ public class DataSaveLoad : MonoBehaviour
         switch (currentState)
         {
             case SlotState.First:
-                return isRightDirection ? SlotState.Third : SlotState.Second;
+                return isRightDirection ? SlotState.Second : SlotState.Third;
             case SlotState.Second:
-                return isRightDirection ? SlotState.First : SlotState.Third;
+                return isRightDirection ? SlotState.Third : SlotState.First;
             case SlotState.Third:
-                return isRightDirection ? SlotState.Second : SlotState.First;
+                return isRightDirection ? SlotState.First : SlotState.Second;
             default:
                 throw new InvalidOperationException("invalid state");
         }
@@ -214,6 +210,8 @@ public class DataSaveLoad : MonoBehaviour
 
     public void AssignSceneObjects(GameObject s1, GameObject s2, GameObject s3, Button left, Button right, Camera mCam)
     {
+        toLeft.onClick.RemoveListener(ClickToLeft);
+        toRight.onClick.RemoveListener(ClickToRight);
         slots1 = s1;
         slots2 = s2;
         slots3 = s3;

@@ -1,18 +1,18 @@
-!speaker_PC나비 !next
+!speaker_popup_나비 !next
 그 뜨거운 불 속에 들어가서 사람을 구할 생각을 하다니 정말 대단해. 그렇지 않아?
-!speaker_호크 !next
+!speaker_news_호크 !next
 정말, 진정한 히어로의 귀감이 아닐 수가 없군요.
-!speaker_래트 !next
+!speaker_news_래트 !next
 호크 씨, 화재는 왜 발생했는지 아십니까?
-!speaker_호크 !next
+!speaker_news_호크 !next
 아직 진상을 파악하고 있습니다.
-!speaker_래트 !next
+!speaker_news_래트 !next
 역시 새 아니랄까 봐 밤 소식에는 좀 늦군요.
-!speaker_호크 !next
+!speaker_news_호크 !next
 방송 중에는 의미 없는 말을 삼가시길 바랍니다. 래트 씨.
-!speaker_래트 !next
+!speaker_news_래트 !next
 노력해 보지요. 여하간에, 그 화재가 발생하기 직전 인근 도로에서 한 히어로와 빌런의 추격전이 벌어졌다고 합니다.
-!speaker_호크 !next
+!speaker_news_호크 !next
 계속 말씀하시죠.
-!speaker_래트 !next
+!speaker_news_래트 !next
 CCTV를 확인한 결과, 빌런을 쫓았던 히어로는 불을 쓰는 신인 히어로였던 걸로 확인되었습니다.
