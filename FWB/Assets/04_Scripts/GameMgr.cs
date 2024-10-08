@@ -247,6 +247,13 @@ public class GameMgr : SingletonMono<GameMgr>
         foreach (var order in orderTable.orderList)
         {
             order.orderEnable = order.orderConditionDictionary.Count == 0;
+
+            StringBool newDic = new StringBool();
+            foreach (var oc in order.orderConditionDictionary)
+            {
+                newDic.Add(oc.Key, false);
+            }
+            order.orderConditionDictionary = newDic;
         }
 
         foreach (var chip in chipTable.chipList)
