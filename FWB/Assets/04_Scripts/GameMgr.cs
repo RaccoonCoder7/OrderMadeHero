@@ -32,6 +32,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int lastDayFame = 0;
     public int lastDayTend = 0;
     public int isEventOn = 0;
+    public int newsProgress = 0;
     public bool isBankrupt = false;
     public int endDay = 28;
     public int continuousSuccessCnt = 1;

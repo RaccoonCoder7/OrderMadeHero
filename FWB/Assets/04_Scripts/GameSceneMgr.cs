@@ -42,7 +42,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Button skip;
     public Button shop;
     public Button index;
-    public Button news;
+    public Button characterDict;
     public Button weaponLeft;
     public Button weaponRight;
     public Button weaponCreate;
@@ -58,6 +58,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Button gotoMain;
     public Button history;
     public Button historyDodge;
+    public Button dictionaryDodge;
     public Text chatName;
     public GameObject mainChatPanel;
     public GameObject pcChatPanel;
@@ -71,6 +72,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject saveOverPopup;
     public GameObject noDataPopup;
     public GameObject newsPanel;
+    public GameObject dictionaryPanel;
+    public List<Button> newsHintButtons;
     public static bool isSavePopupActive = false;
     public Sprite selectedSaveSlot;
     public Sprite defaultSaveSlot;
@@ -311,6 +314,13 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         shopPageDown.onClick.AddListener(OnClickShopPageDown);
         history.onClick.AddListener(OnClickHistory);
         historyDodge.onClick.AddListener(OnClickHistory);
+        characterDict.onClick.AddListener(OnClickCharacterDictionary);
+        dictionaryDodge.onClick.AddListener(OnClickCharacterDictionary);
+
+        foreach (var btn in newsHintButtons)
+        {
+            btn.onClick.AddListener(() => { OnClickHint(btn); });
+        }
 
         foreach (var btn in saveLoadButtons)
         {
@@ -470,13 +480,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         Debug.Log("Start Event Sequence");
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
         {
-            string eventKey = "day" + i;
-            string weeklyEventKey = "week" + (GameMgr.In.week - 1);
+            int week = GameMgr.In.week - 1;
+            string eventKey = "day" + (i + (week * 7));
+            string weeklyEventKey = "week" + week;
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
             var weeklyTargetEvent = eventFlowList.Find(x => x.eventKey.Equals(weeklyEventKey));
             isEventFlowing = true;
 
-            if (weeklyTargetEvent != null && GameMgr.In.week > 1)
+            if ((int)GameMgr.In.day == 1 && weeklyTargetEvent != null && GameMgr.In.week > 1)
             {
                 yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
             }
@@ -484,15 +495,18 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             {
                 yield return StartCoroutine(StartEventFlow(targetEvent));
             }
-            if (!GameMgr.In.isBankrupt && !DataSaveLoad.dataSave.isLoaded)
+            else
             {
-                Debug.Log("Start Order");
-                yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-            }
-            else if (DataSaveLoad.dataSave.isLoaded)
-            {
-                Debug.Log("Start Loaded Order");
-                yield return StartCoroutine(StartNormalRoutine(GameMgr.In.dayCustomerCnt, EndNormalOrderRoutine));
+                if (!GameMgr.In.isBankrupt && !DataSaveLoad.dataSave.isLoaded)
+                {
+                    Debug.Log("Start Order");
+                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                }
+                else if (DataSaveLoad.dataSave.isLoaded)
+                {
+                    Debug.Log("Start Loaded Order");
+                    yield return StartCoroutine(StartNormalRoutine(GameMgr.In.dayCustomerCnt, EndNormalOrderRoutine));
+                }
             }
             while (isEventFlowing)
             {
@@ -503,6 +517,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 yield return StartCoroutine(NextDay());
             }
         }
+    }
+
+    private void OnClickCharacterDictionary()
+    {
+        dictionaryPanel.SetActive(!dictionaryPanel.activeSelf);
     }
 
     public void GetChipset(int a)
@@ -650,6 +669,19 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     //    StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
     //}
 
+    public void OnClickHint(Button btn)
+    {
+        StartCoroutine(HintBtnAnim(btn));
+    }
+
+    private IEnumerator HintBtnAnim(Button btn)
+    {
+        var anim = btn.GetComponent<Animator>();
+        anim.SetBool("isClicked", true);
+        yield return new WaitForSeconds(1.0f);
+        anim.SetBool("isClicked", false);
+    }
+    
     public void OnClickSlot(Button btn)
     {
         if (lastSelectedSlotImage != null)
@@ -1328,11 +1360,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         shop.onClick.AddListener(OnClickShop);
     }
 
-    public void SetNewsButtonListener()
-    {
-        news.onClick.AddListener(OnClickNews);
-    }
-
     private void OnClickShop()
     {
         if (isWaitingForText) return;
@@ -1373,21 +1400,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         OnClickShopBlueprintTab();
         StartCoroutine(StartShopInAnim());
         shop.onClick.RemoveListener(OnClickShop);
-    }
-
-    private void OnClickNews()
-    {
-        StartCoroutine(OpenNewsAnim());
-        //news.onClick.RemoveListener(OnClickNews);
-    }
-
-    private IEnumerator OpenNewsAnim()
-    {
-        CommonTool.In.fadeImage.gameObject.SetActive(true);
-        CommonTool.In.fadeImage.color = new UnityEngine.Color(0, 0, 0, 1);
-        StartCoroutine(CommonTool.In.FadeIn());
-        newsPanel.SetActive(true);
-        yield break;
     }
 
     private void SkipCurrLine()

@@ -24,8 +24,9 @@ public class PlayerData
     public int playerLastDayFame;
     public string savedDate;
     public int isEventOngoing = 0;
+    public int newsDone = 0;
     public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, 
-        int dayShopBuy, int dayChipUse, int cusCnt, int lastCredit, int lastTend, int lastFame, int dayEvent, string date)
+        int dayShopBuy, int dayChipUse, int cusCnt, int lastCredit, int lastTend, int lastFame, int dayEvent, int newsCount, string date)
     {
         playerName = name;
         playerCredit = credit;
@@ -42,6 +43,7 @@ public class PlayerData
         playerLastDayTend = lastTend;
         playerLastDayFame = lastFame;
         isEventOngoing = dayEvent;
+        newsDone = newsCount;
         savedDate = date;
     }
 }
@@ -280,6 +282,7 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.lastDayTend,
             GameMgr.In.lastDayFame,
             GameMgr.In.isEventOn,
+            GameMgr.In.newsProgress,
             DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
         string json = JsonUtility.ToJson(data);
@@ -344,6 +347,7 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.lastDayCredit = data.playerLastDayCredit;
             GameMgr.In.lastDayTend = data.playerLastDayTend;
             GameMgr.In.lastDayFame = data.playerLastDayFame;
+            GameMgr.In.newsProgress = data.newsDone;
             GameMgr.In.isEventOn = data.isEventOngoing;
             
             StartCoroutine(CommonTool.In.AsyncChangeScene("GameScene"));

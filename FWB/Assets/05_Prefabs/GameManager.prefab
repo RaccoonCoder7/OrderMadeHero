@@ -64,7 +64,7 @@ MonoBehaviour:
   lastDayCredit: 0
   lastDayFame: 0
   lastDayTend: 0
-  isEventOn: 0
+  isEventOn: 1
   isBankrupt: 0
   endDay: 28
   continuousSuccessCnt: 1
