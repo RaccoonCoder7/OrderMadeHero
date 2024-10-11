@@ -315,7 +315,7 @@ MonoBehaviour:
       howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
       buyPrice: 0
       sellPrice: 0
-      puzzleCsv: {fileID: 4900000, guid: 4b1d989e34d9d044d94d7f8179e2e9ed, type: 3}
+      puzzleCsv: {fileID: 4900000, guid: cc0feac361aed844fa99c8be9f930c53, type: 3}
       orderEnable: 0
       createEnable: 0
       weaponState: 0
@@ -326,4 +326,84 @@ MonoBehaviour:
         count: 1
       - abilityKey: a_weight
         count: -1
+      enableChipKeyList: []
+    - bluePrintKey: b_ScissorsOfSalvation
+      name: "\uAD6C\uC6D0\uC758 \uAC00\uC704"
+      comment: "\uADF8 \uC5B4\uB5A4 \uAC83\uC774\uB77C\uB3C4 \uC790\uB97C \uC218
+        \uC788\uB294 \uC758\uB8CC\uC6A9 \uAC00\uC704. \uC124\uC0AC \uADF8\uAC83\uC774
+        \uAC10\uC815\uAC19\uC740 \uBB34\uD615\uCCB4\uC77C\uC9C0\uB77C\uB3C4."
+      howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 7c8073f2850f54849a82b105cb30d780, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      weaponState: 0
+      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList:
+      - abilityKey: 
+        count: 0
+      - abilityKey: 
+        count: 0
+      - abilityKey: 
+        count: 0
+      enableChipKeyList: []
+    - bluePrintKey: b_ModifiedMegaphone
+      name: "\uAC1C\uC870\uB41C \uBA54\uAC00\uD3F0"
+      comment: "\uBC84\uB2C8\uC758 \uD2B9\uC81C \uBA54\uAC00\uD3F0"
+      howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 2fcec84ff97cfcb4790f08dc5f96cd64, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      weaponState: 0
+      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList: []
+      enableChipKeyList: []
+    - bluePrintKey: b_PuppetsScythe
+      name: "\uD37C\uD3AB\uC758 \uB0AB"
+      comment: d
+      howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: e01c6c8c9af98d0408b062c5e9348e42, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      weaponState: 0
+      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList: []
+      enableChipKeyList: []
+    - bluePrintKey: b_ BunnysSpecialNourishingTonic
+      name: "\uBC84\uB2C8 \uD2B9\uC81C \uC790\uC591\uAC15\uC7A5\uC81C"
+      comment: "\uBC84\uB2C8\uC758 \uD798\uACFC \uC18D\uB3C4\uB97C \uC62C\uB824\uC8FC\uB294
+        \uBC84\uB2C8 \uD2B9\uC81C \uC790\uC591\uAC15\uC7A5\uC81C"
+      howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: b38569fa9b25cc140862b76379bbbcc9, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      weaponState: 0
+      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList: []
+      enableChipKeyList: []
+    - bluePrintKey: b_ BlackEtherGrenade
+      name: "\uAC80\uC740 \uC5D0\uD14C\uB974 \uC218\uB958\uD0C4"
+      comment: "\uB358\uC9C4 \uACF3\uC5D0 \uB048\uC801\uD55C \uAC80\uC740 \uCD09\uC218\uAC00
+        \uC18C\uD658\uC774 \uB418 \uC9C0\uB098\uAC00\uB294 \uBC1C\uC744 \uBD99\uC7A1\uB294\uB2E4"
+      howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
+      buyPrice: 0
+      sellPrice: 0
+      puzzleCsv: {fileID: 4900000, guid: 4b1d989e34d9d044d94d7f8179e2e9ed, type: 3}
+      orderEnable: 0
+      createEnable: 0
+      weaponState: 0
+      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
+      requiredChipAbilityList: []
       enableChipKeyList: []

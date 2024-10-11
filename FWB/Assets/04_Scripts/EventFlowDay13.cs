@@ -7,7 +7,9 @@ using UnityEngine;
 public class EventFlowDay13 : EventFlow
 {
     private BossBattleManager battleManager;
+    private string startDialogueKey;
     private string nextDialogueKey;
+    private string finalDialogueKey;
     private bool isHero;
 
     public override void StartFlow()
@@ -15,10 +17,12 @@ public class EventFlowDay13 : EventFlow
         InitializeComponents();
         RegisterEvents();
         DetermineHeroStatus();
-        string dialogueKey = isHero ? "Day13_1" : "Day13_2";
+        startDialogueKey = isHero ? "Day13_1" : "Day13_2";
         nextDialogueKey = isHero ? "Day13_3" : "Day13_4";
-        mgr.StartText(dialogueKey, EndDay13_1Routine, EndDay13_1Routine);
+        finalDialogueKey = isHero ? "Day13_5" : "Day13_6";
+        mgr.StartText(startDialogueKey, EndDay13_1Routine, EndDay13_1Routine);
     }
+
 
     private void InitializeComponents()
     {
@@ -38,8 +42,30 @@ public class EventFlowDay13 : EventFlow
         isHero = GameMgr.In.tendency >= 0;
     }
 
-
     private void EndDay13_1Routine()
+    {
+        mgr.EndText(false);
+        mgr.eventBtntext1.text = "가야지.";
+        mgr.eventBtntext2.text = "반드시 가야지!";
+
+        mgr.eventBtn1.onClick.RemoveAllListeners();
+        mgr.eventBtn1.onClick.AddListener(() =>
+        {
+            mgr.ActiveEventButton(false);
+            mgr.StartText(nextDialogueKey, EndDay13_2Routine, EndDay13_2Routine);
+        });
+
+        mgr.eventBtn2.onClick.RemoveAllListeners();
+        mgr.eventBtn2.onClick.AddListener(() =>
+        {
+            mgr.ActiveEventButton(false);
+            mgr.StartText(nextDialogueKey, EndDay13_2Routine, EndDay13_2Routine);
+        });
+
+        mgr.ActiveEventButton(true);
+    }
+
+    private void EndDay13_2Routine()
     {
         mgr.EndText();
         mgr.mainChatPanel.SetActive(false);
@@ -52,16 +78,17 @@ public class EventFlowDay13 : EventFlow
         StartCoroutine(mgr.StartBossRoutine(5, mgr.EndNormalOrderRoutine));
     }
 
+    //End Text 
     private void HandleBossBattleEnded(bool success)
     {
         if (success)
         {
             battleManager.lastWeekStatus = false;
-            mgr.StartText(nextDialogueKey, EndDay13_2Routine, EndDay13_2Routine);
+            mgr.StartText(finalDialogueKey, EndDay13_3Routine, EndDay13_3Routine);
         }
     }
 
-    private void EndDay13_2Routine()
+    private void EndDay13_3Routine()
     {
         mgr.EndText();
         mgr.mainChatPanel.SetActive(false);

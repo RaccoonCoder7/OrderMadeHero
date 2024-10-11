@@ -56,6 +56,7 @@ public class BossBattleManager : MonoBehaviour
     public delegate void BossBattleResult(bool success);
     public event BossBattleResult OnBossBattleEnded;
 
+
     private void Start()
     {
         Initialize();
@@ -219,12 +220,12 @@ public class BossBattleManager : MonoBehaviour
 
             ApplyBossGimmick();
             yield return ShowGimmickDialogue();
-
-            currentPuzzleIndex++;
         }
 
         EndBossBattle(true);
     }
+
+
 
 
     private void StartNewBossBattlePuzzle()
@@ -285,7 +286,7 @@ public class BossBattleManager : MonoBehaviour
             }
         }
     }
-
+    
     private IEnumerator ShowGimmickDialogue()
     {
         if (isHero)
@@ -333,7 +334,9 @@ public class BossBattleManager : MonoBehaviour
             }
         }
         isPuzzleCompleted = true;
+        currentPuzzleIndex++;
     }
+
 
     private void UpdateCharacterPopup(bool reset = false)
     {
@@ -373,54 +376,50 @@ public class BossBattleManager : MonoBehaviour
 
         if (success)
         {
-            teamDialogue.text = "보스 처치 성공";
-            CommonTool.In.OpenAlertPanel("보스 처치 성공! 보상: 우호 성향치 200, 명성치 200, 크레딧 1만");
-            gameMgr.fame += 200;
-            gameMgr.credit += 10000;
-            if (isHero)
-            {
-                gameMgr.tendency += 200;
-            }
-            else
-            {
-                gameMgr.tendency -= 200;
-            }
+            CommonTool.In.OpenAlertPanel("보스 처치 성공!");
             gameCanvas.gameObject.SetActive(false);
-            OnBossBattleEnded?.Invoke(success);
         }
         else
         {
-            teamDialogue.text = "보스 처치 실패...";
             CommonTool.In.OpenAlertPanel("보스 처치 실패... 보스전을 다시 시작합니다.");
-            StartCoroutine(StartBossBattle());
         }
-        clearPuzzleButton.onClick.RemoveAllListeners();
-        failPuzzleButton.onClick.RemoveAllListeners();
 
         ResetGameState();
-        ResetScreen();
-        OnBossBattleEnded?.Invoke(success);
-    }
 
-    private void ResetGameState()
-    {
-        maxTime = 60f;
-        timer = maxTime;
-        failureCount = 0;
-        succeedPuzzleCnt = 0;
-        currentPuzzleIndex = 0;
-        isPuzzleCompleted = false;
-        RestoreOriginalChipColors();
-        UpdateGage();
-        UpdateCharacterPopup(true);
-
-        puzzleMgr.OnMakingDone -= OnBossBattleMakingDone;
         clearPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.RemoveAllListeners();
 
         clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
+
+        if (!success)
+        {
+            StartCoroutine(StartBossBattle());
+        }
+
+        OnBossBattleEnded?.Invoke(success);
     }
+
+
+    private void ResetGameState()
+    {
+        isGamePlaying = false;
+        timer = maxTime;
+        failureCount = 0;
+        succeedPuzzleCnt = 0;
+        currentPuzzleIndex = -1;
+        isPuzzleCompleted = false;
+
+        RestoreOriginalChipColors();
+        UpdateGage();
+        UpdateCharacterPopup(true);
+
+        clearPuzzleButton.onClick.RemoveAllListeners();
+        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
+        failPuzzleButton.onClick.RemoveAllListeners();
+        failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
+    }
+
 
     private void UpdateTimer()
     {
