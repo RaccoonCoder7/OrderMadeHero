@@ -2836,6 +2836,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommonTool
       objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327245, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327250, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: m_Camera
       value: 

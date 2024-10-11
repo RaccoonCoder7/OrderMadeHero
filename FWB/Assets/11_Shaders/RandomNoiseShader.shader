@@ -2,7 +2,7 @@ Shader "Custom/RandomNoiseShader"
 {
      Properties
     {
-        _Transparency ("Transparency", Range(0,1)) = 0.5
+        _Transparency ("Transparency", Range(0,1)) = 0.2
         _UseRandomColor ("Use Random Color", Float) = 0.0
         _Color ("Base Color", Color) = (1, 1, 1, 1)
         _CustomTime ("Custom Time", Float) = 0.0

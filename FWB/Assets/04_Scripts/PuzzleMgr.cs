@@ -414,7 +414,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     }
                     prevMousePos = Input.mousePosition;
 
-                    // VisualChipLocation(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                    VisualChipLocation(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
                 }
             }
 
@@ -449,6 +449,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
                 if (pressedChipIndexList.Contains(pressedChipIndex) && currentSelectedChip != null)
                 {
+                    foreach (var pfd in previewTargetPfd)
+                    {
+                        pfd.previewTypeNum = 0;
+                    }
+                    RefreshPuzzleBackgroundImages();
+
                     var angle = dragImgRectTr.localEulerAngles;
                     if (currentSelectedChip != null)
                     {
@@ -523,6 +529,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                             pos.x += dragImgRectTr.rect.width * (chipInstance.rowNum * 1f / chipInstance.colNum);
                                         }
                                         chipInstance.rectTr.localPosition = pos;
+                                        chipInstance.rectTr.parent = puzzleChipParent;
 
                                         if (!isFromPuzzle)
                                         {
@@ -547,11 +554,27 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                                     if (fr.pfd.chipList.Count == 0)
                                                     {
                                                         fr.pfd.chipType = 0;
+                                                        if (fr.pfd.patternNum != 0)
+                                                        {
+                                                            fr.SetBackgroundImage(frameBackgroundOffTexture);
+                                                        }
                                                     }
                                                 }
                                             }
                                             DestroyImmediate(currentSelectedChip.gameObject);
                                         }
+
+                                        foreach (var fr in puzzleFrameList)
+                                        {
+                                            if (fr.pfd.chipList.Contains(chipInstance))
+                                            {
+                                                if (fr.pfd.patternNum != 0)
+                                                {
+                                                    fr.SetBackgroundImage(frameBackgroundOnTexture);
+                                                }
+                                            }
+                                        }
+
                                         success = true;
                                     }
                                 }
@@ -850,7 +873,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             chip.transform.parent.gameObject.SetActive(isActive);
         }
     }
-
 
     public void OnEndDrag(PointerEventData eventData)
     {

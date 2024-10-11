@@ -57,7 +57,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _CustomTime: 14.900021
+    - _CustomTime: 0.6
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -72,7 +72,7 @@ Material:
     - _SpecularHighlights: 1
     - _Speed: 0.01
     - _SrcBlend: 1
-    - _Transparency: 0.412
+    - _Transparency: 0.2
     - _UVSec: 0
     - _UseRandomColor: 1
     - _ZWrite: 1

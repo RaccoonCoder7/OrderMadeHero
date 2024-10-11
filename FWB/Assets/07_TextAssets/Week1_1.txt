@@ -1,8 +1,8 @@
-!speaker_호크 !next
+!speaker_news_호크 !next
 여러분 안녕하십니까, 메테오 시티의 소식을 알려드리는 MBS 아침 뉴스의 해리슨 호크입니다.
-!speaker_래트 !next
+!speaker_news_래트 !next
 빈센트 래트입니다.
-!speaker_호크 !next
+!speaker_news_호크 !image_뉴스패널 !next
 지난밤, 오후 11시경 도심 북쪽 상업 지구에서 커다란 화재가 발생했습니다.
 !next
 이 화재로 빌딩 한 채와 인근 시장의 절반가량이 전소했지만, 다행히 인명 피해는 없는 것으로 알려졌습니다.

@@ -21,6 +21,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource effectAudioSource;
     public AudioSource bgmAudioSource;
     private float masterVolume = 1f;
+    private bool sceneLoaded = false;
     
     [Header("UI Elements")]
     [SerializeField] private Scrollbar masterVolumeBar;
@@ -65,6 +66,10 @@ public class SoundManager : MonoBehaviour
                     effectAudioSource = effectObject.AddComponent<AudioSource>();
                 }
             }
+            else if(SceneManager.GetActiveScene().name == "StartScene")
+            {
+                Debug.Log("No Effect in StartScene");
+            }
             else
             {
                 Debug.LogWarning("Effect GameObject not found");
@@ -95,15 +100,37 @@ public class SoundManager : MonoBehaviour
                     if (effectAudioSource == null)
                     {
                         effectAudioSource = effectObject.AddComponent<AudioSource>();
+                        yield return StartCoroutine(WaitForSceneChange());
                     }
+                }
+                else if (SceneManager.GetActiveScene().name == "StartScene" || SceneManager.GetActiveScene().name == "IntroScene")
+                {
+                    yield return StartCoroutine(WaitForSceneChange());
                 }
                 else
                 {
                     Debug.LogWarning("Effect GameObject not found");
                 }
             }
+            else
+            {
+                yield return StartCoroutine(WaitForSceneChange());
+            }
             yield return null;
         }
+    }
+    
+    private IEnumerator WaitForSceneChange()
+    {
+        sceneLoaded = false;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        yield return new WaitUntil(() => sceneLoaded);
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        sceneLoaded = true;
     }
 
     public static void InitializeVolumeBars()

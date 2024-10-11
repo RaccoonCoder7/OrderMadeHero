@@ -32,6 +32,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int lastDayFame = 0;
     public int lastDayTend = 0;
     public int isEventOn = 0;
+    public int newsProgress = 0;
     public bool isBankrupt = false;
     public int endDay = 28;
     public int continuousSuccessCnt = 1;
@@ -248,6 +249,13 @@ public class GameMgr : SingletonMono<GameMgr>
         foreach (var order in orderTable.orderList)
         {
             order.orderEnable = order.orderConditionDictionary.Count == 0;
+
+            StringBool newDic = new StringBool();
+            foreach (var oc in order.orderConditionDictionary)
+            {
+                newDic.Add(oc.Key, false);
+            }
+            order.orderConditionDictionary = newDic;
         }
 
         foreach (var chip in chipTable.chipList)

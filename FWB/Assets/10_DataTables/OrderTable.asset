@@ -523,7 +523,7 @@ MonoBehaviour:
       m_keys:
       - "\uD29C\uD1A0\uB9AC\uC5BC"
       m_values: 00
-    orderEnable: 1
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_40
     ta: {fileID: 4900000, guid: b96cb35cc5c41dc4facd02e6d618e167, type: 3}
@@ -549,7 +549,7 @@ MonoBehaviour:
       m_keys:
       - day3
       m_values: 00
-    orderEnable: 1
+    orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_42
     ta: {fileID: 4900000, guid: 1569eddf352cabc469eca985976128eb, type: 3}

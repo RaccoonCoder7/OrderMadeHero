@@ -24,8 +24,9 @@ public class PlayerData
     public int playerLastDayFame;
     public string savedDate;
     public int isEventOngoing = 0;
+    public int newsDone = 0;
     public PlayerData(string name, int credit, int week, GameMgr.Day day, int tend, int fame, int dayFame, int dayTend, 
-        int dayShopBuy, int dayChipUse, int cusCnt, int lastCredit, int lastTend, int lastFame, int dayEvent, string date)
+        int dayShopBuy, int dayChipUse, int cusCnt, int lastCredit, int lastTend, int lastFame, int dayEvent, int newsCount, string date)
     {
         playerName = name;
         playerCredit = credit;
@@ -42,6 +43,7 @@ public class PlayerData
         playerLastDayTend = lastTend;
         playerLastDayFame = lastFame;
         isEventOngoing = dayEvent;
+        newsDone = newsCount;
         savedDate = date;
     }
 }
@@ -93,8 +95,6 @@ public class DataSaveLoad : MonoBehaviour
     
     public static DataSaveLoad dataSave { get; private set; }
 
-    private DataSaveLoad() {}
-
     private void Awake()
     {
         if (dataSave == null)
@@ -110,8 +110,6 @@ public class DataSaveLoad : MonoBehaviour
 
     private void Start()
     {
-        toLeft.onClick.AddListener(ClickToLeft);
-        toRight.onClick.AddListener(ClickToRight);
         state = SlotState.First;
         folderPath = Application.persistentDataPath + "/saves";
     }
@@ -195,11 +193,11 @@ public class DataSaveLoad : MonoBehaviour
         switch (currentState)
         {
             case SlotState.First:
-                return isRightDirection ? SlotState.Third : SlotState.Second;
+                return isRightDirection ? SlotState.Second : SlotState.Third;
             case SlotState.Second:
-                return isRightDirection ? SlotState.First : SlotState.Third;
+                return isRightDirection ? SlotState.Third : SlotState.First;
             case SlotState.Third:
-                return isRightDirection ? SlotState.Second : SlotState.First;
+                return isRightDirection ? SlotState.First : SlotState.Second;
             default:
                 throw new InvalidOperationException("invalid state");
         }
@@ -214,6 +212,8 @@ public class DataSaveLoad : MonoBehaviour
 
     public void AssignSceneObjects(GameObject s1, GameObject s2, GameObject s3, Button left, Button right, Camera mCam)
     {
+        toLeft.onClick.RemoveListener(ClickToLeft);
+        toRight.onClick.RemoveListener(ClickToRight);
         slots1 = s1;
         slots2 = s2;
         slots3 = s3;
@@ -282,6 +282,7 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.lastDayTend,
             GameMgr.In.lastDayFame,
             GameMgr.In.isEventOn,
+            GameMgr.In.newsProgress,
             DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
         string json = JsonUtility.ToJson(data);
@@ -346,6 +347,7 @@ public class DataSaveLoad : MonoBehaviour
             GameMgr.In.lastDayCredit = data.playerLastDayCredit;
             GameMgr.In.lastDayTend = data.playerLastDayTend;
             GameMgr.In.lastDayFame = data.playerLastDayFame;
+            GameMgr.In.newsProgress = data.newsDone;
             GameMgr.In.isEventOn = data.isEventOngoing;
             
             StartCoroutine(CommonTool.In.AsyncChangeScene("GameScene"));
