@@ -37522,7 +37522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: tendency
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: dayRentCost
@@ -47849,7 +47849,7 @@ MonoBehaviour:
   dialogueBoxHiddenX: -1350
   dialogueBoxVisibleX: -590
   maxTime: 60
-  maxPuzzleCnt: 5
+  maxPuzzleCnt: 3
   lastWeekStatus: 0
 --- !u!4 &1390976120
 Transform:

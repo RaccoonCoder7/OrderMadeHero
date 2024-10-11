@@ -35,7 +35,7 @@ public class BossBattleManager : MonoBehaviour
 
     [Header("Game Setting")]
     public float maxTime = 60f;
-    public int maxPuzzleCnt = 5;
+    public int maxPuzzleCnt;
 
     private bool isPuzzleCompleted;
     private bool isGamePlaying;
@@ -225,9 +225,6 @@ public class BossBattleManager : MonoBehaviour
         EndBossBattle(true);
     }
 
-
-
-
     private void StartNewBossBattlePuzzle()
     {
         var blueprint = GetRandomBlueprint();
@@ -262,7 +259,7 @@ public class BossBattleManager : MonoBehaviour
                 Debug.Log("Hero: Puppet Gimmick - Hide Chipset Info");
                 HideChipsetInfo();
             }
-            else if (currentPuzzleIndex == 3)
+            else if (currentPuzzleIndex == 2)
             {
                 Debug.Log("Hero: Puppet Gimmick - Invert Screen");
                 InvertScreen();
@@ -277,7 +274,7 @@ public class BossBattleManager : MonoBehaviour
                 timer = maxTime;
                 UpdateGage();
             }
-            else if (currentPuzzleIndex == 3)
+            else if (currentPuzzleIndex == 2)
             {
                 Debug.Log("Villain: Bunny Gimmick - Reduce Time to 30s");
                 maxTime = 30f;
@@ -295,7 +292,7 @@ public class BossBattleManager : MonoBehaviour
             {
                 yield return ShowDialogue("버니: 이런 시야가 가려진다!");
             }
-            else if (currentPuzzleIndex == 3)
+            else if (currentPuzzleIndex == 2)
             {
                 yield return ShowDialogue("버니: 위아래가 뒤집혀진다 조심해!");
             }
@@ -306,7 +303,7 @@ public class BossBattleManager : MonoBehaviour
             {
                 yield return ShowDialogue("퍼펫: 제작 시간을 감소시켰군요..");
             }
-            else if (currentPuzzleIndex == 3)
+            else if (currentPuzzleIndex == 2)
             {
                 yield return ShowDialogue("퍼펫: 또 다시 시간을 감소시킨다라..");
             }
@@ -407,7 +404,7 @@ public class BossBattleManager : MonoBehaviour
         timer = maxTime;
         failureCount = 0;
         succeedPuzzleCnt = 0;
-        currentPuzzleIndex = -1;
+        currentPuzzleIndex = 0;
         isPuzzleCompleted = false;
 
         RestoreOriginalChipColors();
