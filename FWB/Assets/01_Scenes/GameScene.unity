@@ -22898,7 +22898,6 @@ MonoBehaviour:
   shopUISlotList: []
   puzzleMgr: {fileID: 0}
   isOnConversation: 0
-  gameoverTest: 1
 --- !u!4 &723337248
 Transform:
   m_ObjectHideFlags: 0
@@ -23798,7 +23797,7 @@ MonoBehaviour:
   galleryDodge: {fileID: 229842784}
   galleryImages:
   - {fileID: 21300000, guid: 4c085470b27e61f47b484f40f8d79bce, type: 3}
-  - {fileID: 21300000, guid: 88d592eb2a551b84ebb051e17c32efb8, type: 3}
+  - {fileID: 21300000, guid: 4cd0da7d01327914e81a04af19f4193f, type: 3}
   pictureSelectObjects:
   - {fileID: 1499971916}
   - {fileID: 2122838805}
@@ -36421,11 +36420,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: day
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: week
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: isEventOn
@@ -36437,7 +36436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: newsProgress
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503964, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: m_Name

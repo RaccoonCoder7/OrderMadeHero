@@ -230,7 +230,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private Texture2D currentScreen;
     private GameObject lastSelectedSlot = null;
     private Image lastSelectedSlotImage = null;
-    public bool gameoverTest = false;
     private bool dailyRoutineEndFlag = false;
 
     [DllImport("user32.dll")]
@@ -302,7 +301,9 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         weaponRight.onClick.AddListener(OnClickWeaponRight);
         weaponCreate.onClick.AddListener(OnClickWeaponCreate);
         save.onClick.AddListener(OnClickSave);
+        dataSave.onClick.RemoveAllListeners();
         dataSave.onClick.AddListener(OnClickDataSave);
+        load.onClick.RemoveAllListeners();
         load.onClick.AddListener(OnClickDataLoad);
         returnBtn.onClick.AddListener(OnClickReturn);
         //gotoMain.onClick.AddListener(OnClickGoToMain);
@@ -319,21 +320,25 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         foreach (var btn in newsHintButtons)
         {
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() => { OnClickHint(btn); });
         }
 
         foreach (var btn in saveLoadButtons)
         {
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() => { OnClickSlot(btn); });
         }
 
         foreach (var btn in popupYes)
         {
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(OnClickPopupYes);
         }
 
         foreach (var btn in popupNo)
         {
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(OnClickPopupNo);
         }
 
@@ -349,38 +354,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         // TODO: day limit 추가
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
-        if (!gameoverTest)
+        if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
         {
-            GameMgr.In.isEventOn = 1;
-            for (int i = startDay; i <= GameMgr.In.endDay; i++)
-            {
-                string eventKey = "day" + i;
-                var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
-                isEventFlowing = true;
-                if (targetEvent)
-                {
-                    yield return StartCoroutine(StartEventFlow(targetEvent));
-                }
-                else
-                {
-                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                }
-
-                while (isEventFlowing)
-                {
-                    yield return null;
-                }
-                yield return StartCoroutine(NextDay());
-            }
+            OnBasicUI(startDay);
+            StartCoroutine(TestDoNormalJob(startDay));
         }
         else
         {
-            if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
-            {
-                OnBasicUI(startDay);
-                StartCoroutine(TestDoNormalJob(startDay));
-            }
-            else if (GameMgr.In.isBankrupt)
+            if (GameMgr.In.isBankrupt)
             {
                 OnBasicUI((int)GameMgr.In.day);
                 Debug.Log("Bankrupt refresh");

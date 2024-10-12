@@ -116,7 +116,7 @@ public class DataSaveLoad : MonoBehaviour
 
     private void Update()
     {
-        if (GameSceneMgr.isSavePopupActive)
+        if (GameSceneMgr.isSavePopupActive || StartSceneMgr.isSavePopupActive)
         {
             SetActiveSlot();
         }
