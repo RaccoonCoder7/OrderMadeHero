@@ -47,3 +47,7 @@ MonoBehaviour:
     name: "\uB3C5"
   - abilityKey: a_divine
     name: "\uC2E0\uC131\uB825"
+  - abilityKey: a_sound
+    name: "\uC18C\uB9AC"
+  - abilityKey: a_brave
+    name: "\uC6A9\uAE30"

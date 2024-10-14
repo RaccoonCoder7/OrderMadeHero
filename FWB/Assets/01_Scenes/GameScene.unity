@@ -47810,6 +47810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1390976120}
   - component: {fileID: 1390976119}
+  - component: {fileID: 1390976121}
   m_Layer: 0
   m_Name: BossModeSampleScene
   m_TagString: Untagged
@@ -47831,17 +47832,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puzzleMgr: {fileID: 995046950}
   gameMgr: {fileID: 1462683954}
+  bossSkillMgr: {fileID: 1390976121}
   gageRectTr: {fileID: 340375172}
   gage: {fileID: 340375172}
   teamDialogue: {fileID: 771523210}
   allyImage: {fileID: 860667806}
   clearPuzzleButton: {fileID: 1016987924}
   failPuzzleButton: {fileID: 2100758158}
-  screenShakeTarget: {fileID: 1776181467}
   dialogueBox: {fileID: 550692655}
-  screenTarget: {fileID: 1776181468}
-  chipsetPanel: {fileID: 1523729210}
   gameCanvas: {fileID: 995046953}
+  screenShakeTarget: {fileID: 1776181467}
+  chipsetPanel: {fileID: 1523729210}
+  screenTarget: {fileID: 1776181468}
   puppetSprite: {fileID: 21300000, guid: 163347883e93e364cb8b70860c96086f, type: 3}
   bunnyNormalSprite: {fileID: 21300000, guid: c48d9a93b9aa91e499ca0b4b6061bf40, type: 3}
   bunnyCrackedSprite: {fileID: 21300000, guid: 6f4b2429dc351df4d9f0e58c45d9fceb, type: 3}
@@ -47850,6 +47852,7 @@ MonoBehaviour:
   dialogueBoxVisibleX: -590
   maxTime: 60
   maxPuzzleCnt: 3
+  timer: 0
   lastWeekStatus: 0
 --- !u!4 &1390976120
 Transform:
@@ -47865,6 +47868,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1390976121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390976118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c5d2b8a122f88448cda9692b97b9c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleManager: {fileID: 1390976119}
 --- !u!1 &1394440614
 GameObject:
   m_ObjectHideFlags: 0

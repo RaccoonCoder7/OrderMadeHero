@@ -595,7 +595,14 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void StartPuzzle()
     {
-        chipSize = 64;
+        if (BossBattleManager.Instance.lastWeekStatus == true)
+        {
+            chipSize = 48;
+        }
+        else
+        {
+            chipSize = 64;
+        }
         creditText.text = GameMgr.In.credit.ToString();
         SetOrderDatas();
         SetBluePrintDatas();
@@ -1129,6 +1136,15 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void InstantiateFrames(PuzzleFrameData[,] frameDataTable)
     {
+        if (BossBattleManager.Instance.lastWeekStatus == true)
+        {
+            puzzleGrid.cellSize = new Vector2(48, 48);
+        }
+        else
+        {
+            puzzleGrid.cellSize = new Vector2(64, 64);
+        }
+
         foreach (var frameData in frameDataTable)
         {
             var frame = Instantiate(puzzleFrame, puzzleGrid.transform);

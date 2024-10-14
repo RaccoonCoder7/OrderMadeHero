@@ -329,9 +329,9 @@ MonoBehaviour:
       enableChipKeyList: []
     - bluePrintKey: b_Scissors
       name: "\uAD6C\uC6D0\uC758 \uAC00\uC704"
-      comment: "\uC804\uC7A5\uC5D0\uC11C \uAE43\uBC1C\uC744 \uBB34\uAE30\uB85C \uC4F0\uB294
-        \uC0AC\uB78C\uC774 \uC788\uC73C\uBA74 \uB2F9\uC7A5 \uB3C4\uB9DD\uAC00\uC57C
-        \uD55C\uB2E4\uB294 \uB73B\uC774\uB2E4."
+      comment: "\uADF8 \uC5B4\uB5A4 \uAC83\uC774\uB77C\uB3C4 \uC790\uB97C \uC218
+        \uC788\uB294 \uC758\uB8CC\uC6A9 \uAC00\uC704. \uC124\uC0AC \uADF8\uAC83\uC774
+        \uAC10\uC815\uAC19\uC740 \uBB34\uD615\uCCB4\uC77C\uC9C0\uB77C\uB3C4."
       howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
       buyPrice: 0
       sellPrice: 0
@@ -342,16 +342,16 @@ MonoBehaviour:
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
-      - abilityKey: a_speed
+      - abilityKey: a_attack
         count: 1
-      - abilityKey: a_weight
-        count: -1
+      - abilityKey: a_acuity
+        count: 1
+      - abilityKey: a_spell
+        count: 2
       enableChipKeyList: []
     - bluePrintKey: b_MegaPhone
       name: "\uAC1C\uC870\uB41C \uBA54\uAC00\uD3F0"
-      comment: "\uC804\uC7A5\uC5D0\uC11C \uAE43\uBC1C\uC744 \uBB34\uAE30\uB85C \uC4F0\uB294
-        \uC0AC\uB78C\uC774 \uC788\uC73C\uBA74 \uB2F9\uC7A5 \uB3C4\uB9DD\uAC00\uC57C
-        \uD55C\uB2E4\uB294 \uB73B\uC774\uB2E4."
+      comment: "\uBC84\uB2C8\uC758 \uD2B9\uC81C \uBA54\uAC00\uD3F0"
       howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
       buyPrice: 0
       sellPrice: 0
@@ -362,16 +362,14 @@ MonoBehaviour:
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
-      - abilityKey: a_speed
-        count: 1
-      - abilityKey: a_weight
-        count: -1
+      - abilityKey: a_sound
+        count: 2
+      - abilityKey: a_durability
+        count: 4
       enableChipKeyList: []
     - bluePrintKey: b_Sickle
       name: "\uD37C\uD3AB\uC758 \uB0AB"
-      comment: "\uC804\uC7A5\uC5D0\uC11C \uAE43\uBC1C\uC744 \uBB34\uAE30\uB85C \uC4F0\uB294
-        \uC0AC\uB78C\uC774 \uC788\uC73C\uBA74 \uB2F9\uC7A5 \uB3C4\uB9DD\uAC00\uC57C
-        \uD55C\uB2E4\uB294 \uB73B\uC774\uB2E4."
+      comment: "\uD37C\uD3AB\uC758 \uD0A4\uB9CC\uD07C \uCEE4\uB2E4\uB780 \uB0AB"
       howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
       buyPrice: 0
       sellPrice: 0
@@ -382,16 +380,13 @@ MonoBehaviour:
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
-      - abilityKey: a_speed
-        count: 1
-      - abilityKey: a_weight
-        count: -1
+      - abilityKey: a_acuity
+        count: 6
       enableChipKeyList: []
-    - bluePrintKey: b_Nutrienttonic
-      name: "\uBC84\uB2C8 \uD2B9\uC81C \uC790\uC591\uAC15\uC7A5\uC81C"
-      comment: "\uC804\uC7A5\uC5D0\uC11C \uAE43\uBC1C\uC744 \uBB34\uAE30\uB85C \uC4F0\uB294
-        \uC0AC\uB78C\uC774 \uC788\uC73C\uBA74 \uB2F9\uC7A5 \uB3C4\uB9DD\uAC00\uC57C
-        \uD55C\uB2E4\uB294 \uB73B\uC774\uB2E4."
+    - bluePrintKey: b_OnceShield
+      name: "\uC77C\uD68C\uC6A9 \uBC29\uC5B4\uAD6C"
+      comment: "\uC21C\uAC04\uC801\uC778 \uCDA9\uACA9\uC744 \uD761\uC218\uD55C \uB4A4
+        \uC0AC\uB77C\uC9C0\uB294 \uBC29\uC5B4\uAD6C"
       howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
       buyPrice: 0
       sellPrice: 0
@@ -402,16 +397,15 @@ MonoBehaviour:
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
-      - abilityKey: a_speed
-        count: 1
-      - abilityKey: a_weight
-        count: -1
+      - abilityKey: a_brave
+        count: 2
+      - abilityKey: a_strength
+        count: 2
       enableChipKeyList: []
-    - bluePrintKey: b_BlakGenerade
-      name: "\uAC80\uC740 \uC5D0\uD14C\uB974 \uC218\uB958\uD0C4"
-      comment: "\uC804\uC7A5\uC5D0\uC11C \uAE43\uBC1C\uC744 \uBB34\uAE30\uB85C \uC4F0\uB294
-        \uC0AC\uB78C\uC774 \uC788\uC73C\uBA74 \uB2F9\uC7A5 \uB3C4\uB9DD\uAC00\uC57C
-        \uD55C\uB2E4\uB294 \uB73B\uC774\uB2E4."
+    - bluePrintKey: b_Blakthing
+      name: "\uC554\uD751 \uBB3C\uC9C8"
+      comment: "\uB358\uC9C4 \uACF3\uC5D0 \uB048\uC801\uD55C \uAC80\uC740 \uCD09\uC218\uAC00
+        \uC18C\uD658\uC774 \uB418 \uC9C0\uB098\uAC00\uB294 \uBC1C\uC744 \uBD99\uC7A1\uB294\uB2E4"
       howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
       buyPrice: 0
       sellPrice: 0
@@ -423,9 +417,7 @@ MonoBehaviour:
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_speed
-        count: 1
-      - abilityKey: a_weight
-        count: -1
+        count: -2
       enableChipKeyList: []
   - categoryKey: t_spear
     name: "\uCC3D\uB958"
