@@ -45,6 +45,7 @@ public class EventFlowWeek2 : EventFlow
         mgr.renom.SetActive(true);
         mgr.tendency.SetActive(true);
         mgr.inNews = false;
+        mgr.historyText.text = string.Empty;
         GameMgr.In.newsProgress = 2;
         StartCoroutine(CommonTool.In.FadeOut());
         mgr.newsPanel.SetActive(false);
