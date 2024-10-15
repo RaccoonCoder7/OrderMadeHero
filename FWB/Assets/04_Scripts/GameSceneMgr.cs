@@ -357,7 +357,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
         {
             OnBasicUI(startDay);
-            StartCoroutine(TestDoNormalJob(startDay));
+            StartCoroutine(StartEventSequence(startDay));
         }
         else
         {
@@ -367,7 +367,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 Debug.Log("Bankrupt refresh");
                 GameMgr.In.isBankrupt = false;
                 isEventFlowing = false;
-                StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                StartCoroutine(StartEventSequence((int)GameMgr.In.day));
             }
             else
             {
@@ -396,7 +396,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             else
                             {
                                 StartCoroutine(FadeToNextDay());
-                                StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                                StartCoroutine(StartEventSequence((int)GameMgr.In.day));
                             }
                         });
                         pc.onClick.RemoveAllListeners();
@@ -408,7 +408,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 else
                 {
-                    StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                    StartCoroutine(StartEventSequence((int)GameMgr.In.day));
                 }
             }
         }
@@ -456,7 +456,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
     }
 
-    private IEnumerator TestDoNormalJob(int eventStartDay)
+    private IEnumerator StartEventSequence(int eventStartDay)
     {
         Debug.Log("Start Event Sequence");
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
