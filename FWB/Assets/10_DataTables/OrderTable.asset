@@ -980,6 +980,25 @@ MonoBehaviour:
       m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
+  feverModeOrderList:
+  - orderKey: FeverModeOrder_0
+    ta: {fileID: 4900000, guid: af28a574c275c8a47a6cc358033aaf70, type: 3}
+    orderEnable: 1
+  - orderKey: FeverModeOrder_1
+    ta: {fileID: 4900000, guid: 352948ef79192c544b0fd575e0951622, type: 3}
+    orderEnable: 1
+  - orderKey: FeverModeOrder_2
+    ta: {fileID: 4900000, guid: 7fa92ebbd683df94a99bd3e586311c60, type: 3}
+    orderEnable: 1
+  - orderKey: FeverModeOrder_3
+    ta: {fileID: 4900000, guid: 3946eb978afe4664da6563692f5823d9, type: 3}
+    orderEnable: 1
+  - orderKey: FeverModeOrder_4
+    ta: {fileID: 4900000, guid: 3718bd7705848a748acb9fccf95c9fa5, type: 3}
+    orderEnable: 1
+  - orderKey: FeverModeOrder_5
+    ta: {fileID: 4900000, guid: 96bd886f137d0aa49871a594b68b7ea1, type: 3}
+    orderEnable: 1
   mappingTextList:
   - mappingKey: "\uCCAD\uC0AC\uC9C4"
     mappingType: 0

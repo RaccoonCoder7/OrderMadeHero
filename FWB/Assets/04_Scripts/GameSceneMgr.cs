@@ -199,8 +199,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private bool isFeverModeConfirmed;
     public bool autoTextSkip { get; set; }
     private List<string> lines = new List<string>();
+    private List<string> orderTextList = new List<string>();
+    private List<string> rejectTextList = new List<string>();
+    private List<string> successTextList = new List<string>();
+    private List<string> bigSuccessTextList = new List<string>();
+    private List<string> failTextList = new List<string>();
     private int lineCnt = 0;
     private string prevOrderKey = "";
+    private string prevfevermodeOrderKey = "";
     private int normalOrderLineIndex = 0;
     private int normalOrderPrevLineIndex = 0;
     private int currentSelectedWeaponIndex = -1;
@@ -662,7 +668,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         yield return new WaitForSeconds(1.0f);
         anim.SetBool("isClicked", false);
     }
-    
+
     public void OnClickSlot(Button btn)
     {
         if (lastSelectedSlotImage != null)
@@ -1455,6 +1461,20 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         return list;
     }
 
+    private void SetEveryOrderTextList(bool hasBigSuccess = false)
+    {
+        normalOrderLineIndex = 0;
+        normalOrderPrevLineIndex = 0;
+        orderTextList = SetOrderTextList(orderTextList);
+        rejectTextList = SetOrderTextList(rejectTextList);
+        successTextList = SetOrderTextList(successTextList);
+        failTextList = SetOrderTextList(failTextList);
+        if (hasBigSuccess)
+        {
+            bigSuccessTextList = SetOrderTextList(bigSuccessTextList);
+        }
+    }
+
     private void OnClickIndex()
     {
         RefreshWeaponButtons();
@@ -1523,13 +1543,17 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         GameMgr.In.dayCustomerCnt = customerCnt;
         for (int i = 0; i < customerCnt; i++)
         {
+            orderTextList.Clear();
+            rejectTextList.Clear();
+            successTextList.Clear();
+            failTextList.Clear();
             isFeverMode = false;
             if (GameMgr.In.week > 1)
             {
                 var val = UnityEngine.Random.Range(0, 100);
                 if (val <= GameMgr.In.feverModeProbability)
                 {
-                    // 테스트코드. 제거해야 함.
+                    // TODO: 테스트코드. 제거해야 함.
                     puzzleMgr.makingDone.gameObject.SetActive(true);
                     renom.SetActive(true);
                     gold.SetActive(true);
@@ -1546,68 +1570,80 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     }
                     // 테스트코드
 
-                    // TODO: 단체손님 텍스트 수정 후 여기를 수정
-                    StartText("FeverMode_1", EndFeverModeStartChat, EndFeverModeStartChat);
+                    GameMgr.In.feverModeProbability /= 10;
+                    var feverOrder = GameMgr.In.GetRandomNewFeverModeOrder(prevfevermodeOrderKey);
+                    prevfevermodeOrderKey = feverOrder.orderKey;
+                    lines = feverOrder.ta.text.Split('\n').ToList();
 
-                    while (!isFeverModeConfirmed)
+                    SetEveryOrderTextList(true);
+                    StartNormalOrderText();
+
+                    while (orderState == OrderState.Ordering)
                     {
                         yield return null;
                     }
-                    isFeverModeConfirmed = false;
 
-                    GameMgr.In.feverModeProbability /= 10;
-                    if (isFeverMode)
+                    lineCnt = -1;
+                    bool end = false;
+                    this.onEndText = () =>
                     {
-                        gamePanel.SetActive(true);
-                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
-                        goldText.text = GameMgr.In.credit.ToString();
-                        FameUIFill();
+                        EndText();
+                        mainChatPanel.SetActive(false);
+                        chatTarget = ChatTarget.None;
+                        end = true;
+                        imageList.Find(x => x.key.Equals("단체손님")).imageObj.SetActive(false);
+                    };
+                    switch (orderState)
+                    {
+                        case OrderState.Accepted:
+                            gamePanel.SetActive(true);
+                            yield return StartCoroutine(puzzleMgr.StartFeverMode());
+                            goldText.text = GameMgr.In.credit.ToString();
+                            FameUIFill();
+
+                            if (puzzleMgr.succeedPuzzleCnt >= 7)
+                            {
+                                lines = bigSuccessTextList;
+                            }
+                            else if (puzzleMgr.succeedPuzzleCnt >= 3)
+                            {
+                                lines = successTextList;
+                            }
+                            else
+                            {
+                                lines = failTextList;
+                            }
+                            break;
+                        case OrderState.Rejected:
+                            lines = rejectTextList;
+                            break;
+                        default:
+                            Debug.Log("Exception");
+                            yield break;
                     }
 
-                    bool end = false;
-                    // TODO: 단체손님 텍스트 수정 후 여기를 수정
-                    StartText("FeverMode_1_End", () =>
-                    {
-                        imageList.Find(x => x.key.Equals("단체손님")).imageObj.SetActive(false);
-                        mainChatPanel.SetActive(false);
-                        end = true;
-                        EndText();
-                    });
+                    isOnConversation = true;
+                    textFlowCoroutine = StartCoroutine(StartTextFlow());
+                    StartNextLine();
+
                     while (!end)
                     {
                         yield return null;
                     }
 
+                    orderState = OrderState.None;
+
                     continue;
                 }
             }
-
             MobSpriteRandomChange();
-            var orderTextList = new List<string>();
-            var rejectTextList = new List<string>();
-            var successTextList = new List<string>();
-            var failTextList = new List<string>();
 
             var order = GameMgr.In.GetRandomNewOrder(prevOrderKey);
             prevOrderKey = order.orderKey;
             lines = order.ta.text.Split('\n').ToList();
 
-            normalOrderLineIndex = 0;
-            normalOrderPrevLineIndex = 0;
-            orderTextList = SetOrderTextList(orderTextList);
-            rejectTextList = SetOrderTextList(rejectTextList);
-            successTextList = SetOrderTextList(successTextList);
-            failTextList = SetOrderTextList(failTextList);
-
-            lineCnt = -1;
-            lines = orderTextList;
-            isOnConversation = true;
-            isNormalOrdering = true;
-            orderState = OrderState.Ordering;
-            this.onEndText = EndOrderText;
-            prevChatTarget = ChatTarget.None;
-            textFlowCoroutine = StartCoroutine(StartTextFlow());
-            StartNextLine();
+            SetEveryOrderTextList();
+            StartNormalOrderText();
 
             while (orderState == OrderState.Ordering)
             {
@@ -2118,6 +2154,19 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             emojiRoutine = null;
         }
         emoji.gameObject.SetActive(false);
+    }
+
+    private void StartNormalOrderText()
+    {
+        lineCnt = -1;
+        lines = orderTextList;
+        isOnConversation = true;
+        isNormalOrdering = true;
+        orderState = OrderState.Ordering;
+        this.onEndText = EndOrderText;
+        prevChatTarget = ChatTarget.None;
+        textFlowCoroutine = StartCoroutine(StartTextFlow());
+        StartNextLine();
     }
 
     private IEnumerator StartEventFlow(EventFlow targetEvent)

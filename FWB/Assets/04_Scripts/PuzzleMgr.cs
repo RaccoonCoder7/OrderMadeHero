@@ -84,6 +84,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public float maxPosX;
     public float maxTime;
     public int maxPuzzleCnt;
+    public int succeedPuzzleCnt;
     public GameObject gageParentObj;
     public GameObject particleParentObj;
     public GameObject normalParticleParentObj;
@@ -97,7 +98,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Image gageImage;
     private bool isPuzzleCompleted;
     private bool isGamePlaying;
-    private int succeedPuzzleCnt;
     private int feverModeFame;
     private int feverModeRevenue;
     private Coroutine resultParticleRoutine;
@@ -1493,50 +1493,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         }
 
-        for (int i = puzzleChipParent.childCount - 1; 0 <= i; i--)
-        {
-            DestroyImmediate(puzzleChipParent.GetChild(i).gameObject);
-        }
-
-        selectedChipName.text = string.Empty;
-        selectedChipPrice.text = string.Empty;
-        selectedChipDesc.text = string.Empty;
-        foreach (var chip in chipList)
-        {
-            chip.parentImage.sprite = chipBackgroundOffSprite;
-        }
-
-        foreach (var obj in puzzleFrameList)
-        {
-            Destroy(obj.gameObject);
-        }
-        puzzleFrameList.Clear();
-
-        currentChipInPuzzleDic.Clear();
-        currentAbilityInPuzzleDic.Clear();
-        chipObjDic.Clear();
-        currentTagCnt = 0;
-        filterAbilityKeyList.Clear();
-        foreach (var filter in abilityFilterList)
-        {
-            filter.image.sprite = filter.offSprite;
-            filter.isOn = false;
-        }
-        foreach (var tag in abilityTagList)
-        {
-            tag.abilityKey = string.Empty;
-            tag.image.sprite = tag.offSprite;
-            tag.textForTag.text = string.Empty;
-            tag.button.interactable = false;
-            tag.button.onClick.RemoveAllListeners();
-        }
-        if (!isAscending)
-        {
-            OnClickSortTarget();
-        }
-
-        currentAbilityText.text = string.Empty;
-        usedChipText.text = string.Empty;
+        ClearPuzzle();
 
         int chipPrice = 0;
         foreach (var chip in currentChipInPuzzleDic)
@@ -1675,6 +1632,54 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             OnMakingDone.Invoke(score);
             OnMakingDone = null;
         }
+    }
+
+    private void ClearPuzzle()
+    {
+        for (int i = puzzleChipParent.childCount - 1; 0 <= i; i--)
+        {
+            DestroyImmediate(puzzleChipParent.GetChild(i).gameObject);
+        }
+
+        selectedChipName.text = string.Empty;
+        selectedChipPrice.text = string.Empty;
+        selectedChipDesc.text = string.Empty;
+        foreach (var chip in chipList)
+        {
+            chip.parentImage.sprite = chipBackgroundOffSprite;
+        }
+
+        foreach (var obj in puzzleFrameList)
+        {
+            Destroy(obj.gameObject);
+        }
+        puzzleFrameList.Clear();
+
+        currentChipInPuzzleDic.Clear();
+        currentAbilityInPuzzleDic.Clear();
+        chipObjDic.Clear();
+        currentTagCnt = 0;
+        filterAbilityKeyList.Clear();
+        foreach (var filter in abilityFilterList)
+        {
+            filter.image.sprite = filter.offSprite;
+            filter.isOn = false;
+        }
+        foreach (var tag in abilityTagList)
+        {
+            tag.abilityKey = string.Empty;
+            tag.image.sprite = tag.offSprite;
+            tag.textForTag.text = string.Empty;
+            tag.button.interactable = false;
+            tag.button.onClick.RemoveAllListeners();
+        }
+        if (!isAscending)
+        {
+            OnClickSortTarget();
+        }
+
+        currentAbilityText.text = string.Empty;
+        usedChipText.text = string.Empty;
     }
 
     private bool IsWeaponRequiredAbilitySatisfied()
@@ -1838,7 +1843,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         GameMgr.In.credit += (int)credit;
         GameMgr.In.dayRevenue += feverModeRevenue;
 
-        succeedPuzzleCnt = 0;
+        ClearPuzzle();
+
         gameObject.SetActive(false);
     }
 
@@ -1887,6 +1893,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public IEnumerator StartFeverMode()
     {
+        succeedPuzzleCnt = 0;
         isFeverMode = true;
         isTutorial = false;
         isGamePlaying = true;
