@@ -2164,6 +2164,21 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         isNormalOrdering = true;
         orderState = OrderState.Ordering;
         this.onEndText = EndOrderText;
+        if (!isFeverModeTutorialDone)
+        {
+            this.onEndText += () =>
+            {
+                StartText("FeverMode_Tutorial", () =>
+                {
+                    mainChatPanel.SetActive(true);
+                    pcChatPanel.SetActive(false);
+                    chatTarget = ChatTarget.Main;
+                    EndText();
+                });
+                isFeverModeTutorialDone = true;
+            };
+        }
+
         prevChatTarget = ChatTarget.None;
         textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
