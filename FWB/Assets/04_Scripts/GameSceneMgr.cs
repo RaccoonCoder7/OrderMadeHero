@@ -1576,7 +1576,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     lines = feverOrder.ta.text.Split('\n').ToList();
 
                     SetEveryOrderTextList(true);
-                    StartNormalOrderText();
+                    StartNormalOrderText(true);
 
                     while (orderState == OrderState.Ordering)
                     {
@@ -2156,7 +2156,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         emoji.gameObject.SetActive(false);
     }
 
-    private void StartNormalOrderText()
+    private void StartNormalOrderText(bool feverMode = false)
     {
         lineCnt = -1;
         lines = orderTextList;
@@ -2164,19 +2164,22 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         isNormalOrdering = true;
         orderState = OrderState.Ordering;
         this.onEndText = EndOrderText;
-        if (!isFeverModeTutorialDone)
+        if (feverMode)
         {
-            this.onEndText += () =>
+            if (!isFeverModeTutorialDone)
             {
-                StartText("FeverMode_Tutorial", () =>
+                this.onEndText += () =>
                 {
-                    mainChatPanel.SetActive(true);
-                    pcChatPanel.SetActive(false);
-                    chatTarget = ChatTarget.Main;
-                    EndText();
-                });
-                isFeverModeTutorialDone = true;
-            };
+                    StartText("FeverMode_Tutorial", () =>
+                    {
+                        mainChatPanel.SetActive(true);
+                        pcChatPanel.SetActive(false);
+                        chatTarget = ChatTarget.Main;
+                        EndText();
+                    });
+                    isFeverModeTutorialDone = true;
+                };
+            }
         }
 
         prevChatTarget = ChatTarget.None;

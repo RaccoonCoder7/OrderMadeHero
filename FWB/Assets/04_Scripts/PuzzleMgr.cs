@@ -1544,15 +1544,19 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     sellPrice1 = (int)(sellPrice1 * 0.4f);
                 }
                 sellPrice1 += chipPrice;
-                if (!isTutorial && !isFeverMode)
+                if (!isTutorial)
                 {
-                    bonus = GetBonusCredit(sellPrice1);
-                    credit += sellPrice1 + bonus;
+                    if (!isFeverMode)
+                    {
+                        bonus = GetBonusCredit(sellPrice1);
+                        credit += sellPrice1 + bonus;
+                    }
+                    else
+                    {
+                        credit += sellPrice1;
+                    }
                 }
-                else
-                {
-                    credit += sellPrice1;
-                }
+
                 revenue += sellPrice1;
                 if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
                 {
