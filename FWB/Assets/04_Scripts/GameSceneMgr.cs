@@ -287,11 +287,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             OnClickChatBox();
         }
     }
-
+    
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;
-
+        
         blueprintImgRectTr = blueprintImg.GetComponent<RectTransform>();
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
         shopBlueprintTabImg = (Image)shopBlueprintTab.targetGraphic;
@@ -474,7 +474,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             var weeklyTargetEvent = eventFlowList.Find(x => x.eventKey.Equals(weeklyEventKey));
             isEventFlowing = true;
 
-            if ((int)GameMgr.In.day == 1 && weeklyTargetEvent != null && GameMgr.In.week > 1)
+            if ((int)GameMgr.In.day == 1 && weeklyTargetEvent != null && GameMgr.In.week > 1 && GameMgr.In.newsProgress != GameMgr.In.week-1)
             {
                 yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
             }
