@@ -954,6 +954,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.dayRentCost = 0;
         }
         */
+        GameMgr.In.credit += GameMgr.In.dayRentCost;
+        goldText.text = GameMgr.In.credit.ToString();
         creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost
                          + GameMgr.In.dayShopBuyCost + GameMgr.In.dayChipUseCost;

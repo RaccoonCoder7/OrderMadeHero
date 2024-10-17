@@ -1493,13 +1493,15 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         }
 
-        ClearPuzzle();
-
         int chipPrice = 0;
         foreach (var chip in currentChipInPuzzleDic)
         {
+            Debug.Log(chip.Key.chipKey);
             chipPrice += chip.Key.price;
         }
+        Debug.Log(chipPrice);
+
+        ClearPuzzle();
 
         int fame = 0;
         int tendency = 0;
@@ -1543,13 +1545,14 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     sellPrice1 = (int)(sellPrice1 * 0.4f);
                 }
-                sellPrice1 += chipPrice;
+
                 if (!isTutorial)
                 {
                     if (!isFeverMode)
                     {
                         bonus = GetBonusCredit(sellPrice1);
-                        credit += sellPrice1 + bonus;
+                        sellPrice1 += bonus;
+                        credit += sellPrice1;
                     }
                     else
                     {
@@ -1557,7 +1560,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     }
                 }
 
-                revenue += sellPrice1;
+                revenue += sellPrice1 + chipPrice;
                 if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
                 {
                     tendency += 10;
@@ -1576,7 +1579,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     sellPrice2 = (int)(sellPrice2 * 0.4f) + 50;
                 }
-                sellPrice2 += chipPrice;
+
                 if (!isFeverMode)
                 {
                     bonus = GetBonusCredit(sellPrice2, 0.1f);
@@ -1586,7 +1589,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     mgr2.goldText.text = GameMgr.In.credit.ToString();
                 }
-                revenue += sellPrice2;
+                revenue += sellPrice2 + chipPrice;
                 if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
                 {
                     tendency += 25;
@@ -1607,18 +1610,20 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         else
         {
-            GameMgr.In.fame += fame;
-            GameMgr.In.dayFame += fame;
-            GameMgr.In.tendency += tendency;
-            GameMgr.In.dayTendency += tendency;
-            GameMgr.In.credit += credit;
-            GameMgr.In.dayChipUseCost -= chipPrice;
-            GameMgr.In.dayRevenue = revenue;
-            GameMgr.In.dayBonusRevenue = bonus;
-
-            mgr2.FameUIFill();
-            mgr2.TendUIMove();
-            mgr2.goldText.text = GameMgr.In.credit.ToString();
+            if (!isTutorial)
+            {
+                GameMgr.In.fame += fame;
+                GameMgr.In.dayFame += fame;
+                GameMgr.In.tendency += tendency;
+                GameMgr.In.dayTendency += tendency;
+                GameMgr.In.credit += credit;
+                GameMgr.In.dayRevenue = revenue;
+                GameMgr.In.dayChipUseCost -= chipPrice;
+                GameMgr.In.dayBonusRevenue = bonus;
+                mgr2.FameUIFill();
+                mgr2.TendUIMove();
+                mgr2.goldText.text = GameMgr.In.credit.ToString();
+            }
         }
 
         if (GameMgr.In.week > 1)
