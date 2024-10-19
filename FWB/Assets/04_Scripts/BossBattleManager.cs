@@ -11,15 +11,16 @@ public class BossBattleManager : MonoBehaviour
     public PuzzleMgr puzzleMgr;
     public GameMgr gameMgr;
     public BossSkillManager bossSkillMgr;
+    public BossDialogueManager bossDialogueMgr;
 
     [Header("UI")]
     public RectTransform gageRectTr;
     public RectTransform gage;
     public Text teamDialogue;
-    public Image allyImage;
     public Button clearPuzzleButton;
     public Button failPuzzleButton;
     public RectTransform dialogueBox;
+    public Image dialogueBoxImage;
     public Canvas gameCanvas;
     public GameObject screenShakeTarget;
     public Transform chipsetPanel;
@@ -28,7 +29,9 @@ public class BossBattleManager : MonoBehaviour
     private List<Color> originalRawChipColors;
 
     [Header("Sprites")]
-    public Sprite puppetSprite;
+    public Sprite puppetNormalSprite;
+    public Sprite puppetCrackedSprite;
+    public Sprite puppetBrokenSprite;
     public Sprite bunnyNormalSprite;
     public Sprite bunnyCrackedSprite;
     public Sprite bunnyBrokenSprite;
@@ -42,7 +45,7 @@ public class BossBattleManager : MonoBehaviour
     public int maxPuzzleCnt;
 
     private bool isPuzzleCompleted;
-    private bool isGamePlaying;
+    public bool isGamePlaying;
     private int succeedPuzzleCnt;
     private int failureCount;
     public float timer;
@@ -54,6 +57,7 @@ public class BossBattleManager : MonoBehaviour
     public bool lastWeekStatus = false;
     private bool isBossBattleActive = false;
     private bool isGameCanvasActive;
+    private int bossIndex;
 
     public delegate void BossBattleResult(bool success);
     public event BossBattleResult OnBossBattleEnded;
@@ -123,7 +127,7 @@ public class BossBattleManager : MonoBehaviour
         SaveOriginalChipColors();
 
         clearPuzzleButton.onClick.RemoveAllListeners();
-        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
+        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
 
         failPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
@@ -137,20 +141,19 @@ public class BossBattleManager : MonoBehaviour
         dialogueBox.gameObject.SetActive(isActive);
     }
 
-    //영웅/악당에 따라 이미지 바뀌는 거 필요
     private void DetermineBossAndAlly()
     {
-        Debug.Log(gameMgr.tendency);
         if (gameMgr.tendency >= 0)
         {
             isHero = true;
-            allyImage.sprite = bunnyNormalSprite;
+            dialogueBoxImage.sprite = bunnyNormalSprite;
         }
         else
         {
             isHero = false;
-            allyImage.sprite = puppetSprite;
+            dialogueBoxImage.sprite = puppetNormalSprite;
         }
+        bossIndex = isHero ? 1 : 2;
     }
 
     private IEnumerator StartBossBattle()
@@ -164,21 +167,17 @@ public class BossBattleManager : MonoBehaviour
 
         puzzleMgr.OnMakingDone += OnBossBattleMakingDone;
 
-        yield return ShowDialogue("보스 전투 시작!");
+        yield return bossDialogueMgr.ShowDialogue("chapter1",bossIndex,0,"start");
 
         while (currentPuzzleIndex < maxPuzzleCnt)
         {
             isPuzzleCompleted = false;
             yield return new WaitUntil(() => isPuzzleCompleted);
-
-            ApplyBossGimmick();
-            yield return ShowGimmickDialogue();
         }
 
         EndBossBattle(true);
     }
 
-    //챕터에 따라 보스 기믹 설정 필요
     private void ApplyBossGimmick()
     {
         if (isHero)
@@ -206,79 +205,75 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-    //시작 전 대사 기믹 - dialogue
-    private IEnumerator ShowGimmickDialogue()
-    {
-        if (isHero)
-        {
-            if (currentPuzzleIndex == 1)
-            {
-                yield return ShowDialogue("버니: 이런 시야가 가려진다!");
-            }
-            else if (currentPuzzleIndex == 2)
-            {
-                yield return ShowDialogue("버니: 위아래가 뒤집혀진다 조심해!");
-            }
-        }
-        else
-        {
-            if (currentPuzzleIndex == 1)
-            {
-                yield return ShowDialogue("퍼펫: 제작 시간을 감소시켰군요..");
-            }
-            else if (currentPuzzleIndex == 2)
-            {
-                yield return ShowDialogue("퍼펫: 또 다시 시간을 감소시킨다라..");
-            }
-        }
-    }
-
-    //결과에 따른 대사 기믹 - dialogue
     private void OnBossBattleMakingDone(int result)
     {
         if (!isGamePlaying) return;
+        string resultKey = result == 2 ? "success" : "fail";
 
-        if (result == 3)
+        StartCoroutine(HandleDialogueAndContinue(bossIndex, resultKey, result));
+    }
+
+    private IEnumerator HandleDialogueAndContinue(int bossIndex, string resultKey, int result)
+    {
+        yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, currentPuzzleIndex + 1, resultKey);
+
+        if (result == 2)
         {
             succeedPuzzleCnt++;
             ScreenShake();
-            StartCoroutine(ShowDialogue(isHero ? "버니: 공격 꽤나 효과적이야!" : "퍼펫: 이 무기는 효과적이군요.."));
         }
         else
         {
             failureCount++;
             UpdateCharacterPopup();
-            StartCoroutine(ShowDialogue(isHero ? "버니: 이런...효과가 없어.. 다시 제대로 만들어줘!!" : "퍼펫: 이런 쓰잘데기 없는 걸...!! 정신차리시지요.."));
             if (failureCount >= 3)
             {
                 EndBossBattle(false);
+                yield break;
             }
         }
+
         isPuzzleCompleted = true;
         currentPuzzleIndex++;
+
+        ApplyBossGimmick();
+
+        if (currentPuzzleIndex < maxPuzzleCnt)
+        {
+            yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, currentPuzzleIndex+1, "start");
+        }
     }
 
     //캐릭터 이미지 분류 필요
     private void UpdateCharacterPopup(bool reset = false)
     {
         if (!isHero) return;
-        if (reset)
+        if (!isHero)
         {
-            allyImage.sprite = bunnyNormalSprite;
+            switch (failureCount)
+            {
+                case 1:
+                    dialogueBoxImage.sprite = puppetCrackedSprite;
+                    break;
+                case 2:
+                    dialogueBoxImage.sprite = puppetBrokenSprite;
+                    break;
+            }
         }
         else
         {
             switch (failureCount)
             {
                 case 1:
-                    allyImage.sprite = bunnyCrackedSprite;
+                    dialogueBoxImage.sprite = bunnyCrackedSprite;
                     break;
                 case 2:
-                    allyImage.sprite = bunnyBrokenSprite;
+                    dialogueBoxImage.sprite = bunnyBrokenSprite;
                     break;
             }
         }
     }
+
     private void ProcessPuzzleResult(int result)
     {
         if (!isGamePlaying) return;
@@ -304,7 +299,7 @@ public class BossBattleManager : MonoBehaviour
         clearPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.RemoveAllListeners();
 
-        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
+        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
 
         if (!success)
@@ -329,7 +324,7 @@ public class BossBattleManager : MonoBehaviour
         UpdateCharacterPopup(true);
 
         clearPuzzleButton.onClick.RemoveAllListeners();
-        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
+        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
         failPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
     }
@@ -356,19 +351,7 @@ public class BossBattleManager : MonoBehaviour
         gageRectTr.anchoredPosition = new Vector2(initialGagePos.x - (initialGageWidth - gageWidth) / 2, initialGagePos.y);
     }
 
-    private IEnumerator ShowDialogue(string message)
-    {
-        isGamePlaying = false;
-        ToggleCanvasInteractable(false);
-        teamDialogue.text = message;
-        ShowDialogueBox();
-        yield return new WaitForSeconds(3f);
-        HideDialogueBox();
-        ToggleCanvasInteractable(true);
-        isGamePlaying = true;
-    }
-
-    private void ToggleCanvasInteractable(bool isInteractable)
+    public void ToggleCanvasInteractable(bool isInteractable)
     {
         foreach (var button in gameCanvas.GetComponentsInChildren<Button>())
         {
@@ -376,12 +359,12 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-    private void ShowDialogueBox()
+    public void ShowDialogueBox()
     {
         dialogueBox.DOLocalMoveX(dialogueBoxVisibleX, 1f).SetEase(Ease.OutQuad);
     }
 
-    private void HideDialogueBox()
+    public void HideDialogueBox()
     {
         dialogueBox.DOLocalMoveX(dialogueBoxHiddenX, 1f).SetEase(Ease.InQuad);
     }

@@ -348,7 +348,8 @@ MonoBehaviour:
         count: 1
       - abilityKey: a_spell
         count: 2
-      enableChipKeyList: []
+      enableChipKeyList:
+      - c_jewelofsalvation
     - bluePrintKey: b_MegaPhone
       name: "\uAC1C\uC870\uB41C \uBA54\uAC00\uD3F0"
       comment: "\uBC84\uB2C8\uC758 \uD2B9\uC81C \uBA54\uAC00\uD3F0"
@@ -366,7 +367,8 @@ MonoBehaviour:
         count: 2
       - abilityKey: a_durability
         count: 4
-      enableChipKeyList: []
+      enableChipKeyList:
+      - c_acousticstone
     - bluePrintKey: b_Sickle
       name: "\uD37C\uD3AB\uC758 \uB0AB"
       comment: "\uD37C\uD3AB\uC758 \uD0A4\uB9CC\uD07C \uCEE4\uB2E4\uB780 \uB0AB"
@@ -401,7 +403,8 @@ MonoBehaviour:
         count: 2
       - abilityKey: a_strength
         count: 2
-      enableChipKeyList: []
+      enableChipKeyList:
+      - a_brave
     - bluePrintKey: b_Blakthing
       name: "\uC554\uD751 \uBB3C\uC9C8"
       comment: "\uB358\uC9C4 \uACF3\uC5D0 \uB048\uC801\uD55C \uAC80\uC740 \uCD09\uC218\uAC00
@@ -418,7 +421,8 @@ MonoBehaviour:
       requiredChipAbilityList:
       - abilityKey: a_sticky
         count: 2
-      enableChipKeyList: []
+      enableChipKeyList:
+      - c_sticky
   - categoryKey: t_spear
     name: "\uCC3D\uB958"
     onSprite: {fileID: 21300000, guid: 7ec9ae169bb62674487503e83524207c, type: 3}
