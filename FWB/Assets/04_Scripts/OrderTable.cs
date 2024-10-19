@@ -11,6 +11,7 @@ using static WeaponDataTable;
 public class OrderTable : ScriptableObject
 {
     public List<Order> orderList = new List<Order>();
+    public List<FeverModeOrder> feverModeOrderList = new List<FeverModeOrder>();
     public List<MappingText> mappingTextList = new List<MappingText>();
 
     [System.Serializable]
@@ -27,6 +28,14 @@ public class OrderTable : ScriptableObject
         public bool orderEnable = true;
         [HideInInspector]
         public List<string> addedRequestKeyList = new List<string>();
+    }
+
+    [System.Serializable]
+    public class FeverModeOrder
+    {
+        public string orderKey;
+        public TextAsset ta;
+        public bool orderEnable = true;
     }
 
     [System.Serializable]

@@ -4,7 +4,7 @@
 사실 새로 생긴 데라 아까는 조금 긴가민가했거든요.
 !next
 여기요, 크레딧은 이 정도면 되겠죠?
-!credit_50
+!credit_100
 !speaker_PC나비 !next
 고마워, 손님!
 !speaker_손님 !next

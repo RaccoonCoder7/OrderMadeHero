@@ -84,6 +84,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public float maxPosX;
     public float maxTime;
     public int maxPuzzleCnt;
+    public int succeedPuzzleCnt;
     public GameObject gageParentObj;
     public GameObject particleParentObj;
     public GameObject normalParticleParentObj;
@@ -97,7 +98,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Image gageImage;
     private bool isPuzzleCompleted;
     private bool isGamePlaying;
-    private int succeedPuzzleCnt;
     private int feverModeFame;
     private int feverModeRevenue;
     private Coroutine resultParticleRoutine;
@@ -1509,6 +1509,158 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         }
 
+        int chipPrice = 0;
+        foreach (var chip in currentChipInPuzzleDic)
+        {
+            Debug.Log(chip.Key.chipKey);
+            chipPrice += chip.Key.price;
+        }
+        Debug.Log(chipPrice);
+
+        ClearPuzzle();
+
+        int fame = 0;
+        int tendency = 0;
+        int credit = 0;
+        int revenue = 0;
+        int bonus = 0;
+        switch (score)
+        {
+            case 0:
+                fame -= 25;
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    tendency -= 25;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    tendency += 25;
+                }
+                credit -= chipPrice;
+
+                mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                break;
+            case 1:
+                fame -= 10;
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    tendency -= 10;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    tendency += 10;
+                }
+                revenue += chipPrice;
+
+                mgr2.orderState = GameSceneMgr.OrderState.Failed;
+                break;
+            case 2:
+                fame += 10;
+                int sellPrice1 = GameMgr.In.currentBluePrint.sellPrice;
+                if (isFeverMode)
+                {
+                    sellPrice1 = (int)(sellPrice1 * 0.4f);
+                }
+
+                if (!isTutorial)
+                {
+                    if (!isFeverMode)
+                    {
+                        bonus = GetBonusCredit(sellPrice1);
+                        sellPrice1 += bonus;
+                        credit += sellPrice1;
+                    }
+                    else
+                    {
+                        credit += sellPrice1;
+                    }
+                }
+
+                revenue += sellPrice1 + chipPrice;
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    tendency += 10;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    tendency -= 10;
+                }
+
+                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                break;
+            case 3:
+                fame += 25;
+                int sellPrice2 = GameMgr.In.currentBluePrint.sellPrice;
+                if (isFeverMode)
+                {
+                    sellPrice2 = (int)(sellPrice2 * 0.4f) + 50;
+                }
+
+                if (!isFeverMode)
+                {
+                    bonus = GetBonusCredit(sellPrice2, 0.1f);
+                    credit += sellPrice2 + bonus;
+                }
+                if (!isFeverMode)
+                {
+                    mgr2.goldText.text = GameMgr.In.credit.ToString();
+                }
+                revenue += sellPrice2 + chipPrice;
+                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
+                {
+                    tendency += 25;
+                }
+                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
+                {
+                    tendency -= 25;
+                }
+
+                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
+                break;
+        }
+
+        if (isFeverMode)
+        {
+            feverModeFame = fame;
+            feverModeRevenue = revenue;
+        }
+        else
+        {
+            if (!isTutorial)
+            {
+                GameMgr.In.fame += fame;
+                GameMgr.In.dayFame += fame;
+                GameMgr.In.tendency += tendency;
+                GameMgr.In.dayTendency += tendency;
+                GameMgr.In.credit += credit;
+                GameMgr.In.dayRevenue = revenue;
+                GameMgr.In.dayChipUseCost -= chipPrice;
+                GameMgr.In.dayBonusRevenue = bonus;
+                mgr2.FameUIFill();
+                mgr2.TendUIMove();
+                mgr2.goldText.text = GameMgr.In.credit.ToString();
+            }
+        }
+
+        if (GameMgr.In.week > 1)
+        {
+            GameMgr.In.AdjustFeverModeProbability(score);
+        }
+
+        if (isTutorial)
+        {
+            isTutorial = false;
+        }
+
+        if (OnMakingDone != null)
+        {
+            OnMakingDone.Invoke(score);
+            OnMakingDone = null;
+        }
+    }
+
+    private void ClearPuzzle()
+    {
         for (int i = puzzleChipParent.childCount - 1; 0 <= i; i--)
         {
             DestroyImmediate(puzzleChipParent.GetChild(i).gameObject);
@@ -1553,144 +1705,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         currentAbilityText.text = string.Empty;
         usedChipText.text = string.Empty;
-
-        int chipPrice = 0;
-        foreach (var chip in currentChipInPuzzleDic)
-        {
-            chipPrice += chip.Key.price;
-        }
-
-        int fame = 0;
-        int tendency = 0;
-        int credit = 0;
-        int revenue = 0;
-        int bonus = 0;
-        switch (score)
-        {
-            case 0:
-                fame -= 25;
-                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
-                {
-                    tendency -= 25;
-                }
-                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
-                {
-                    tendency += 25;
-                }
-                credit -= chipPrice;
-
-                mgr2.orderState = GameSceneMgr.OrderState.Failed;
-                break;
-            case 1:
-                fame -= 10;
-                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
-                {
-                    tendency -= 10;
-                }
-                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
-                {
-                    tendency += 10;
-                }
-                revenue += chipPrice;
-
-                mgr2.orderState = GameSceneMgr.OrderState.Failed;
-                break;
-            case 2:
-                fame += 10;
-                int sellPrice1 = GameMgr.In.currentBluePrint.sellPrice;
-                if (isFeverMode)
-                {
-                    sellPrice1 = (int)(sellPrice1 * 0.4f);
-                }
-                sellPrice1 += chipPrice;
-                if (!isTutorial && !isFeverMode)
-                {
-                    bonus = GetBonusCredit(sellPrice1);
-                    credit += sellPrice1 + bonus;
-                }
-                else
-                {
-                    credit += sellPrice1;
-                }
-                revenue += sellPrice1;
-                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
-                {
-                    tendency += 10;
-                }
-                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
-                {
-                    tendency -= 10;
-                }
-
-                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
-                break;
-            case 3:
-                fame += 25;
-                int sellPrice2 = GameMgr.In.currentBluePrint.sellPrice;
-                if (isFeverMode)
-                {
-                    sellPrice2 = (int)(sellPrice2 * 0.4f) + 50;
-                }
-                sellPrice2 += chipPrice;
-                if (!isFeverMode)
-                {
-                    bonus = GetBonusCredit(sellPrice2, 0.1f);
-                    credit += sellPrice2 + bonus;
-                }
-                if (!isFeverMode)
-                {
-                    mgr2.goldText.text = GameMgr.In.credit.ToString();
-                }
-                revenue += sellPrice2;
-                if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
-                {
-                    tendency += 25;
-                }
-                else if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Villain)
-                {
-                    tendency -= 25;
-                }
-
-                mgr2.orderState = GameSceneMgr.OrderState.Succeed;
-                break;
-        }
-
-        if (isFeverMode)
-        {
-            feverModeFame = fame;
-            feverModeRevenue = revenue;
-        }
-        else
-        {
-            GameMgr.In.fame += fame;
-            GameMgr.In.dayFame += fame;
-            GameMgr.In.tendency += tendency;
-            GameMgr.In.dayTendency += tendency;
-            GameMgr.In.credit += credit;
-            GameMgr.In.dayChipUseCost -= chipPrice;
-            GameMgr.In.dayRevenue = revenue;
-            GameMgr.In.dayBonusRevenue = bonus;
-
-            mgr2.FameUIFill();
-            mgr2.TendUIMove();
-            mgr2.goldText.text = GameMgr.In.credit.ToString();
-        }
-
-        if (GameMgr.In.week > 1)
-        {
-            GameMgr.In.AdjustFeverModeProbability(score);
-        }
-
-        if (isTutorial)
-        {
-            isTutorial = false;
-        }
-
-        if (OnMakingDone != null)
-        {
-            OnMakingDone.Invoke(score);
-            OnMakingDone = null;
-        }
     }
 
     private bool IsWeaponRequiredAbilitySatisfied()
@@ -1854,7 +1868,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         GameMgr.In.credit += (int)credit;
         GameMgr.In.dayRevenue += feverModeRevenue;
 
-        succeedPuzzleCnt = 0;
+        ClearPuzzle();
+
         gameObject.SetActive(false);
     }
 
@@ -1903,6 +1918,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public IEnumerator StartFeverMode()
     {
+        succeedPuzzleCnt = 0;
         isFeverMode = true;
         isTutorial = false;
         isGamePlaying = true;

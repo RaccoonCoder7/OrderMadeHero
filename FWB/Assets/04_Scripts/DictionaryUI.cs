@@ -36,7 +36,8 @@ public class DictionaryUI : MonoBehaviour
     private enum WeekState
     {
         Week1,
-        Week2
+        Week2,
+        Week3
     }
     
     /*
@@ -72,6 +73,9 @@ public class DictionaryUI : MonoBehaviour
             case 1:
                 weekState = WeekState.Week2;
                 break;
+            case 2:
+                weekState = WeekState.Week3;
+                break;
         }
 
         switch (weekState)
@@ -81,6 +85,10 @@ public class DictionaryUI : MonoBehaviour
                 panelImg2.sprite = profileSprites[0];
                 break;
             case WeekState.Week2:
+                panelImg1.sprite = profileSprites[1];
+                panelImg2.sprite = profileSprites[2];
+                break;
+            case WeekState.Week3:
                 panelImg1.sprite = profileSprites[1];
                 panelImg2.sprite = profileSprites[2];
                 break;
@@ -138,6 +146,11 @@ public class DictionaryUI : MonoBehaviour
                 files1[1].GetComponent<Image>().sprite = fileDisabledImg;
                 files1[2].GetComponent<Image>().sprite = fileDisabledImg;
                 break;
+            case WeekState.Week3:
+                files1[0].GetComponent<Image>().sprite = fileEnabledImg;
+                files1[1].GetComponent<Image>().sprite = fileEnabledImg;
+                files1[2].GetComponent<Image>().sprite = fileDisabledImg;
+                break;
         }
         files1[3].GetComponent<Image>().sprite = fileEnabledImg;
     }
@@ -167,6 +180,11 @@ public class DictionaryUI : MonoBehaviour
             case WeekState.Week2:
                 files2[0].GetComponent<Image>().sprite = fileEnabledImg;
                 files2[1].GetComponent<Image>().sprite = fileDisabledImg;
+                files2[2].GetComponent<Image>().sprite = fileDisabledImg;
+                break;
+            case WeekState.Week3:
+                files2[0].GetComponent<Image>().sprite = fileEnabledImg;
+                files2[1].GetComponent<Image>().sprite = fileEnabledImg;
                 files2[2].GetComponent<Image>().sprite = fileDisabledImg;
                 break;
         }
@@ -200,6 +218,35 @@ public class DictionaryUI : MonoBehaviour
                     pic1.onClick.AddListener(() => { characterNum = 1; OnClickOpenGallery(); });
                 }
                 break;
+            case WeekState.Week3:
+                if (btn.gameObject.name == "File1")
+                {
+                    ClueGalOff();
+                    clue.gameObject.SetActive(true);
+                    clueName.text = "버니 파일01";
+                    clue.text = clues[0];
+                }
+                else if (btn.gameObject.name == "File2")
+                {
+                    ClueGalOff();
+                    clue.gameObject.SetActive(true);
+                    clueName.text = "버니 파일02";
+                    clue.text = clues[1];
+                }
+                else if (btn.gameObject.name == "File4")
+                {
+                    ClueGalOff();
+                    foreach (var obj in pictureSelectObjects)
+                    {
+                        obj.SetActive(true);
+                    }
+                    clueName.text = "버니 갤러리";
+                    pictureSelectObjects[0].GetComponent<Text>().text = "바니 사진1";
+                    Button pic1 = pictureSelectObjects[0].GetComponent<Button>();
+                    pic1.onClick.RemoveAllListeners();
+                    pic1.onClick.AddListener(() => { characterNum = 1; OnClickOpenGallery(); });
+                }
+                break;
         }
     }
 
@@ -214,7 +261,36 @@ public class DictionaryUI : MonoBehaviour
                      ClueGalOff();
                      clue.gameObject.SetActive(true);
                      clueName.text = "퍼펫 파일01";
-                    clue.text = clues[1];
+                    clue.text = clues[2];
+                }
+                else if (btn.gameObject.name == "File4")
+                {
+                    ClueGalOff();
+                    foreach (var obj in pictureSelectObjects)
+                    {
+                        obj.SetActive(true);
+                    }
+                    clueName.text = "퍼펫 갤러리";
+                    pictureSelectObjects[0].GetComponent<Text>().text = "퍼펫 사진1";
+                    Button pic1 = pictureSelectObjects[0].GetComponent<Button>();
+                    pic1.onClick.RemoveAllListeners();
+                    pic1.onClick.AddListener(() => { characterNum = 2; OnClickOpenGallery(); });
+                }
+                break;
+            case WeekState.Week3:
+                if (btn.gameObject.name == "File1")
+                {
+                    ClueGalOff();
+                    clue.gameObject.SetActive(true);
+                    clueName.text = "퍼펫 파일01";
+                    clue.text = clues[2];
+                }
+                else if (btn.gameObject.name == "File2")
+                {
+                    ClueGalOff();
+                    clue.gameObject.SetActive(true);
+                    clueName.text = "퍼펫 파일02";
+                    clue.text = clues[3];
                 }
                 else if (btn.gameObject.name == "File4")
                 {

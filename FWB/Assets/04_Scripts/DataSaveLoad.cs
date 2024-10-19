@@ -116,7 +116,7 @@ public class DataSaveLoad : MonoBehaviour
 
     private void Update()
     {
-        if (GameSceneMgr.isSavePopupActive)
+        if (GameSceneMgr.isSavePopupActive || StartSceneMgr.isSavePopupActive)
         {
             SetActiveSlot();
         }
@@ -212,8 +212,6 @@ public class DataSaveLoad : MonoBehaviour
 
     public void AssignSceneObjects(GameObject s1, GameObject s2, GameObject s3, Button left, Button right, Camera mCam)
     {
-        toLeft.onClick.RemoveListener(ClickToLeft);
-        toRight.onClick.RemoveListener(ClickToRight);
         slots1 = s1;
         slots2 = s2;
         slots3 = s3;
@@ -223,6 +221,8 @@ public class DataSaveLoad : MonoBehaviour
 
         mainCam = mCam;
 
+        toLeft.onClick.RemoveListener(ClickToLeft);
+        toRight.onClick.RemoveListener(ClickToRight);
         toLeft.onClick.AddListener(ClickToLeft);
         toRight.onClick.AddListener(ClickToRight);
     }

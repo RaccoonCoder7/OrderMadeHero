@@ -199,8 +199,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private bool isFeverModeConfirmed;
     public bool autoTextSkip { get; set; }
     private List<string> lines = new List<string>();
+    private List<string> orderTextList = new List<string>();
+    private List<string> rejectTextList = new List<string>();
+    private List<string> successTextList = new List<string>();
+    private List<string> bigSuccessTextList = new List<string>();
+    private List<string> failTextList = new List<string>();
     private int lineCnt = 0;
     private string prevOrderKey = "";
+    private string prevfevermodeOrderKey = "";
     private int normalOrderLineIndex = 0;
     private int normalOrderPrevLineIndex = 0;
     private int currentSelectedWeaponIndex = -1;
@@ -230,7 +236,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private Texture2D currentScreen;
     private GameObject lastSelectedSlot = null;
     private Image lastSelectedSlotImage = null;
-    public bool gameoverTest = false;
     private bool dailyRoutineEndFlag = false;
 
     [DllImport("user32.dll")]
@@ -282,11 +287,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             OnClickChatBox();
         }
     }
-
+    
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;
-
+        
         blueprintImgRectTr = blueprintImg.GetComponent<RectTransform>();
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
         shopBlueprintTabImg = (Image)shopBlueprintTab.targetGraphic;
@@ -302,7 +307,9 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         weaponRight.onClick.AddListener(OnClickWeaponRight);
         weaponCreate.onClick.AddListener(OnClickWeaponCreate);
         save.onClick.AddListener(OnClickSave);
+        dataSave.onClick.RemoveAllListeners();
         dataSave.onClick.AddListener(OnClickDataSave);
+        load.onClick.RemoveAllListeners();
         load.onClick.AddListener(OnClickDataLoad);
         returnBtn.onClick.AddListener(OnClickReturn);
         //gotoMain.onClick.AddListener(OnClickGoToMain);
@@ -319,21 +326,25 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         foreach (var btn in newsHintButtons)
         {
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() => { OnClickHint(btn); });
         }
 
         foreach (var btn in saveLoadButtons)
         {
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() => { OnClickSlot(btn); });
         }
 
         foreach (var btn in popupYes)
         {
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(OnClickPopupYes);
         }
 
         foreach (var btn in popupNo)
         {
+            btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(OnClickPopupNo);
         }
 
@@ -349,44 +360,20 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         // TODO: day limit 추가
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
-        if (!gameoverTest)
+        if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
         {
-            GameMgr.In.isEventOn = 1;
-            for (int i = startDay; i <= GameMgr.In.endDay; i++)
-            {
-                string eventKey = "day" + i;
-                var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
-                isEventFlowing = true;
-                if (targetEvent)
-                {
-                    yield return StartCoroutine(StartEventFlow(targetEvent));
-                }
-                else
-                {
-                    yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
-                }
-
-                while (isEventFlowing)
-                {
-                    yield return null;
-                }
-                yield return StartCoroutine(NextDay());
-            }
+            OnBasicUI(startDay);
+            StartCoroutine(StartEventSequence(startDay));
         }
         else
         {
-            if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
-            {
-                OnBasicUI(startDay);
-                StartCoroutine(TestDoNormalJob(startDay));
-            }
-            else if (GameMgr.In.isBankrupt)
+            if (GameMgr.In.isBankrupt)
             {
                 OnBasicUI((int)GameMgr.In.day);
                 Debug.Log("Bankrupt refresh");
                 GameMgr.In.isBankrupt = false;
                 isEventFlowing = false;
-                StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                StartCoroutine(StartEventSequence((int)GameMgr.In.day));
             }
             else
             {
@@ -415,7 +402,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             else
                             {
                                 StartCoroutine(FadeToNextDay());
-                                StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                                StartCoroutine(StartEventSequence((int)GameMgr.In.day));
                             }
                         });
                         pc.onClick.RemoveAllListeners();
@@ -427,7 +414,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 else
                 {
-                    StartCoroutine(TestDoNormalJob((int)GameMgr.In.day));
+                    StartCoroutine(StartEventSequence((int)GameMgr.In.day));
                 }
             }
         }
@@ -475,7 +462,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
     }
 
-    private IEnumerator TestDoNormalJob(int eventStartDay)
+    private IEnumerator StartEventSequence(int eventStartDay)
     {
         Debug.Log("Start Event Sequence");
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
@@ -487,7 +474,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             var weeklyTargetEvent = eventFlowList.Find(x => x.eventKey.Equals(weeklyEventKey));
             isEventFlowing = true;
 
-            if ((int)GameMgr.In.day == 1 && weeklyTargetEvent != null && GameMgr.In.week > 1)
+            if ((int)GameMgr.In.day == 1 && weeklyTargetEvent != null && GameMgr.In.week > 1 && GameMgr.In.newsProgress != GameMgr.In.week-1)
             {
                 yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
             }
@@ -967,6 +954,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.dayRentCost = 0;
         }
         */
+        GameMgr.In.credit += GameMgr.In.dayRentCost;
+        goldText.text = GameMgr.In.credit.ToString();
         creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost
                          + GameMgr.In.dayShopBuyCost + GameMgr.In.dayChipUseCost;
@@ -1474,6 +1463,20 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         return list;
     }
 
+    private void SetEveryOrderTextList(bool hasBigSuccess = false)
+    {
+        normalOrderLineIndex = 0;
+        normalOrderPrevLineIndex = 0;
+        orderTextList = SetOrderTextList(orderTextList);
+        rejectTextList = SetOrderTextList(rejectTextList);
+        successTextList = SetOrderTextList(successTextList);
+        failTextList = SetOrderTextList(failTextList);
+        if (hasBigSuccess)
+        {
+            bigSuccessTextList = SetOrderTextList(bigSuccessTextList);
+        }
+    }
+
     private void OnClickIndex()
     {
         RefreshWeaponButtons();
@@ -1542,13 +1545,17 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         GameMgr.In.dayCustomerCnt = customerCnt;
         for (int i = 0; i < customerCnt; i++)
         {
+            orderTextList.Clear();
+            rejectTextList.Clear();
+            successTextList.Clear();
+            failTextList.Clear();
             isFeverMode = false;
             if (GameMgr.In.week > 1)
             {
                 var val = UnityEngine.Random.Range(0, 100);
                 if (val <= GameMgr.In.feverModeProbability)
                 {
-                    // 테스트코드. 제거해야 함.
+                    // TODO: 테스트코드. 제거해야 함.
                     puzzleMgr.makingDone.gameObject.SetActive(true);
                     renom.SetActive(true);
                     gold.SetActive(true);
@@ -1565,68 +1572,80 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     }
                     // 테스트코드
 
-                    // TODO: 단체손님 텍스트 수정 후 여기를 수정
-                    StartText("FeverMode_1", EndFeverModeStartChat, EndFeverModeStartChat);
+                    GameMgr.In.feverModeProbability /= 10;
+                    var feverOrder = GameMgr.In.GetRandomNewFeverModeOrder(prevfevermodeOrderKey);
+                    prevfevermodeOrderKey = feverOrder.orderKey;
+                    lines = feverOrder.ta.text.Split('\n').ToList();
 
-                    while (!isFeverModeConfirmed)
+                    SetEveryOrderTextList(true);
+                    StartNormalOrderText(true);
+
+                    while (orderState == OrderState.Ordering)
                     {
                         yield return null;
                     }
-                    isFeverModeConfirmed = false;
 
-                    GameMgr.In.feverModeProbability /= 10;
-                    if (isFeverMode)
+                    lineCnt = -1;
+                    bool end = false;
+                    this.onEndText = () =>
                     {
-                        gamePanel.SetActive(true);
-                        yield return StartCoroutine(puzzleMgr.StartFeverMode());
-                        goldText.text = GameMgr.In.credit.ToString();
-                        FameUIFill();
+                        EndText();
+                        mainChatPanel.SetActive(false);
+                        chatTarget = ChatTarget.None;
+                        end = true;
+                        imageList.Find(x => x.key.Equals("단체손님")).imageObj.SetActive(false);
+                    };
+                    switch (orderState)
+                    {
+                        case OrderState.Accepted:
+                            gamePanel.SetActive(true);
+                            yield return StartCoroutine(puzzleMgr.StartFeverMode());
+                            goldText.text = GameMgr.In.credit.ToString();
+                            FameUIFill();
+
+                            if (puzzleMgr.succeedPuzzleCnt >= 7)
+                            {
+                                lines = bigSuccessTextList;
+                            }
+                            else if (puzzleMgr.succeedPuzzleCnt >= 3)
+                            {
+                                lines = successTextList;
+                            }
+                            else
+                            {
+                                lines = failTextList;
+                            }
+                            break;
+                        case OrderState.Rejected:
+                            lines = rejectTextList;
+                            break;
+                        default:
+                            Debug.Log("Exception");
+                            yield break;
                     }
 
-                    bool end = false;
-                    // TODO: 단체손님 텍스트 수정 후 여기를 수정
-                    StartText("FeverMode_1_End", () =>
-                    {
-                        imageList.Find(x => x.key.Equals("단체손님")).imageObj.SetActive(false);
-                        mainChatPanel.SetActive(false);
-                        end = true;
-                        EndText();
-                    });
+                    isOnConversation = true;
+                    textFlowCoroutine = StartCoroutine(StartTextFlow());
+                    StartNextLine();
+
                     while (!end)
                     {
                         yield return null;
                     }
 
+                    orderState = OrderState.None;
+
                     continue;
                 }
             }
-
             MobSpriteRandomChange();
-            var orderTextList = new List<string>();
-            var rejectTextList = new List<string>();
-            var successTextList = new List<string>();
-            var failTextList = new List<string>();
 
             var order = GameMgr.In.GetRandomNewOrder(prevOrderKey);
             prevOrderKey = order.orderKey;
             lines = order.ta.text.Split('\n').ToList();
 
-            normalOrderLineIndex = 0;
-            normalOrderPrevLineIndex = 0;
-            orderTextList = SetOrderTextList(orderTextList);
-            rejectTextList = SetOrderTextList(rejectTextList);
-            successTextList = SetOrderTextList(successTextList);
-            failTextList = SetOrderTextList(failTextList);
-
-            lineCnt = -1;
-            lines = orderTextList;
-            isOnConversation = true;
-            isNormalOrdering = true;
-            orderState = OrderState.Ordering;
-            this.onEndText = EndOrderText;
-            prevChatTarget = ChatTarget.None;
-            textFlowCoroutine = StartCoroutine(StartTextFlow());
-            StartNextLine();
+            SetEveryOrderTextList();
+            StartNormalOrderText();
 
             while (orderState == OrderState.Ordering)
             {
@@ -1860,7 +1879,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             }
                             chatName.text = speaker;
                         }
-                        historyText.text += "\n<color=\"red\">" + speaker + "</color>\n";
+                        if (inNews)
+                        {
+                            historyText.text += "\n<color=\"red\">" + newsChatName.text + "</color>\n";
+                        }
+                        else
+                        {
+                            historyText.text += "\n<color=\"red\">" + speaker + "</color>\n";
+                        }
                     }
                     else if (com.StartsWith("!sound"))
                     {
@@ -2130,6 +2156,37 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             emojiRoutine = null;
         }
         emoji.gameObject.SetActive(false);
+    }
+
+    private void StartNormalOrderText(bool feverMode = false)
+    {
+        lineCnt = -1;
+        lines = orderTextList;
+        isOnConversation = true;
+        isNormalOrdering = true;
+        orderState = OrderState.Ordering;
+        this.onEndText = EndOrderText;
+        if (feverMode)
+        {
+            if (!isFeverModeTutorialDone)
+            {
+                this.onEndText += () =>
+                {
+                    StartText("FeverMode_Tutorial", () =>
+                    {
+                        mainChatPanel.SetActive(true);
+                        pcChatPanel.SetActive(false);
+                        chatTarget = ChatTarget.Main;
+                        EndText();
+                    });
+                    isFeverModeTutorialDone = true;
+                };
+            }
+        }
+
+        prevChatTarget = ChatTarget.None;
+        textFlowCoroutine = StartCoroutine(StartTextFlow());
+        StartNextLine();
     }
 
     private IEnumerator StartEventFlow(EventFlow targetEvent)

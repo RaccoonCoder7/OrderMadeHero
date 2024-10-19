@@ -37,7 +37,7 @@ public class EventFlowWeek1 : EventFlow
         hint.onClick.AddListener(OnClickHintBtn);
     }
 
-    private void EndNews1Flow()
+    private void EndNewsFlow()
     {
         mgr.EndText();
         mgr.day.SetActive(true);
@@ -45,6 +45,7 @@ public class EventFlowWeek1 : EventFlow
         mgr.renom.SetActive(true);
         mgr.tendency.SetActive(true);
         mgr.inNews = false;
+        mgr.historyText.text = string.Empty;
         GameMgr.In.newsProgress = 1;
         StartCoroutine(CommonTool.In.FadeOut());
         mgr.newsPanel.SetActive(false);
@@ -81,7 +82,7 @@ public class EventFlowWeek1 : EventFlow
                 mgr.newsHintButtons[1].GetComponentInChildren<Text>().text = "인기 히어로 버니 브레이브…'끈적한 게 싫어'";
                 break;
             case 4:
-                mgr.StartText("Week1_6", EndNews1Flow, EndNews1Flow);
+                mgr.StartText("Week1_6", EndNewsFlow, EndNewsFlow);
                 break;
         }
         progress++;

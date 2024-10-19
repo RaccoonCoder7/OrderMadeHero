@@ -1,2 +1,0 @@
-!sound_doorbell !wait_100 !speaker_단체손님 !image_단체손님 !next
-피버모드?

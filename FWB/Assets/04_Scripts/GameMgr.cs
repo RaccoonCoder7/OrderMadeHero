@@ -167,6 +167,14 @@ public class GameMgr : SingletonMono<GameMgr>
         return orderTable.GetNewOrder(orderableOrderList[index]);
     }
 
+    public FeverModeOrder GetRandomNewFeverModeOrder(string exceptionKey)
+    {
+        var orderableOrderList = orderTable.feverModeOrderList.FindAll(x =>
+            x.orderEnable && !x.orderKey.Equals(exceptionKey)).ToList();
+        var index = UnityEngine.Random.Range(0, orderableOrderList.Count);
+        return orderableOrderList[index];
+    }
+
     /// <summary>
     /// 키 값에 맞는 칩 정보를 반환
     /// </summary>
