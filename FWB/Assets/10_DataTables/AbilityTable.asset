@@ -51,3 +51,5 @@ MonoBehaviour:
     name: "\uC18C\uB9AC"
   - abilityKey: a_brave
     name: "\uC6A9\uAE30"
+  - abilityKey: a_sticky
+    name: "\uB048\uC801\uC784"

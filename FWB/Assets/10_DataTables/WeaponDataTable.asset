@@ -416,8 +416,8 @@ MonoBehaviour:
       blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
-      - abilityKey: a_speed
-        count: -2
+      - abilityKey: a_sticky
+        count: 2
       enableChipKeyList: []
   - categoryKey: t_spear
     name: "\uCC3D\uB958"
