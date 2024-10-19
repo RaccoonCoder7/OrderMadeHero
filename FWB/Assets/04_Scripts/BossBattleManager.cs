@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class BossBattleManager : MonoBehaviour
 {
@@ -10,8 +11,10 @@ public class BossBattleManager : MonoBehaviour
     [Header("Managers")]
     public PuzzleMgr puzzleMgr;
     public GameMgr gameMgr;
+    public GameSceneMgr gameSceneMgr;
     public BossSkillManager bossSkillMgr;
     public BossDialogueManager bossDialogueMgr;
+    public BossWeaponSetting bossWeaponSettings;
 
     [Header("UI")]
     public RectTransform gageRectTr;
@@ -27,6 +30,7 @@ public class BossBattleManager : MonoBehaviour
     public Transform screenTarget;
     private List<Color> originalChipColors;
     private List<Color> originalRawChipColors;
+    public Image HideInfoForBoss;
 
     [Header("Sprites")]
     public Sprite puppetNormalSprite;
@@ -53,12 +57,13 @@ public class BossBattleManager : MonoBehaviour
     private bool isHero;
     private float initialGageWidth;
     private Vector2 initialGagePos;
+    private string currentBossKey;
 
     public bool lastWeekStatus = false;
     private bool isBossBattleActive = false;
     private bool isGameCanvasActive;
     private int bossIndex;
-
+    private string bossname;
     public delegate void BossBattleResult(bool success);
     public event BossBattleResult OnBossBattleEnded;
 
@@ -94,12 +99,14 @@ public class BossBattleManager : MonoBehaviour
             {
                 StartCoroutine(StartBossBattle());
                 isBossBattleActive = true;
+                HideInfoForBoss.enabled = true;
             }
             else
             {
                 StopAllCoroutines();
                 ResetGameState();
                 isBossBattleActive = false;
+                HideInfoForBoss.enabled = false;
             }
         }
 
@@ -147,11 +154,13 @@ public class BossBattleManager : MonoBehaviour
         {
             isHero = true;
             dialogueBoxImage.sprite = bunnyNormalSprite;
+            bossname = "bunny";
         }
         else
         {
             isHero = false;
             dialogueBoxImage.sprite = puppetNormalSprite;
+            bossname = "puppet";
         }
         bossIndex = isHero ? 1 : 2;
     }
@@ -160,6 +169,7 @@ public class BossBattleManager : MonoBehaviour
     {
         ResetGameState();
         DetermineBossAndAlly();
+        WeaponSetting(bossname, 0);
 
         puzzleMgr.isFeverMode = false;
         puzzleMgr.isTutorial = false;
@@ -177,6 +187,27 @@ public class BossBattleManager : MonoBehaviour
 
         EndBossBattle(true);
     }
+
+    private void WeaponSetting(string bossKey, int weaponIdx)
+    {
+        var bossWeapon = bossWeaponSettings.bossWeapons.Find(b => b.bossKey == bossKey);
+        if (bossWeapon != null)
+        {
+            if (weaponIdx >= 0 && weaponIdx < bossWeapon.weaponKeys.Count)
+            {
+                string weaponKey = bossWeapon.weaponKeys[weaponIdx];
+                //게임 씬 매니저. 보스 웨폰 세팅 봐야함
+                //gameSceneMgr.SetBossWeapon(weaponKey);
+                Debug.Log("Key Setting: " + bossKey + ", " + weaponIdx + " with key: " + weaponKey);
+            }
+            else
+            {
+                Debug.LogError("Invalid weaponIndex: " + weaponIdx + " for bossKey: " + bossKey);
+            }
+        }
+    }
+
+
 
     private void ApplyBossGimmick()
     {
@@ -235,7 +266,7 @@ public class BossBattleManager : MonoBehaviour
 
         isPuzzleCompleted = true;
         currentPuzzleIndex++;
-
+        WeaponSetting(bossname, currentPuzzleIndex);
         ApplyBossGimmick();
 
         if (currentPuzzleIndex < maxPuzzleCnt)
@@ -247,32 +278,52 @@ public class BossBattleManager : MonoBehaviour
     //캐릭터 이미지 분류 필요
     private void UpdateCharacterPopup(bool reset = false)
     {
-        if (!isHero) return;
-        if (!isHero)
+        if (isHero)
         {
-            switch (failureCount)
+            if (reset)
             {
-                case 1:
-                    dialogueBoxImage.sprite = puppetCrackedSprite;
-                    break;
-                case 2:
-                    dialogueBoxImage.sprite = puppetBrokenSprite;
-                    break;
+                dialogueBoxImage.sprite = bunnyNormalSprite;
+            }
+            else
+            {
+                switch (failureCount)
+                {
+                    case 1:
+                        dialogueBoxImage.sprite = bunnyCrackedSprite;
+                        break;
+                    case 2:
+                        dialogueBoxImage.sprite = bunnyBrokenSprite;
+                        break;
+                    default:
+                        dialogueBoxImage.sprite = bunnyNormalSprite;
+                        break;
+                }
             }
         }
-        else
+        else 
         {
-            switch (failureCount)
+            if (reset)
             {
-                case 1:
-                    dialogueBoxImage.sprite = bunnyCrackedSprite;
-                    break;
-                case 2:
-                    dialogueBoxImage.sprite = bunnyBrokenSprite;
-                    break;
+                dialogueBoxImage.sprite = puppetNormalSprite; 
+            }
+            else
+            {
+                switch (failureCount)
+                {
+                    case 1:
+                        dialogueBoxImage.sprite = puppetCrackedSprite; 
+                        break;
+                    case 2:
+                        dialogueBoxImage.sprite = puppetBrokenSprite; 
+                        break;
+                    default:
+                        dialogueBoxImage.sprite = puppetNormalSprite; 
+                        break;
+                }
             }
         }
     }
+
 
     private void ProcessPuzzleResult(int result)
     {

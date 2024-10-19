@@ -2287,4 +2287,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         GameMgr.In.orderedBluePrintKeyList.Clear();
         onEndRoutine.Invoke();
     }
+
+    public void SetBossWeapon(string key)
+    {
+        var weapon = GameMgr.In.GetWeapon("t_special", key);
+        RefreshWeaponData(weapon);
+    }
 }
