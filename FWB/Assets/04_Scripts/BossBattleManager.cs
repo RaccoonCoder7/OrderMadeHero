@@ -82,6 +82,7 @@ public class BossBattleManager : MonoBehaviour
     private void Start()
     {
         Initialize();
+        HideInfoForBoss.enabled = false;
         isGameCanvasActive = gameCanvas.enabled;
         SetUIActive(lastWeekStatus);
         if (lastWeekStatus && isGameCanvasActive)
