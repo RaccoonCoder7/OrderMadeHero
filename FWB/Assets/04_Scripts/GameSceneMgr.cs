@@ -2129,6 +2129,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         weaponCategory.text = GameMgr.In.GetWeaponCategory(currentSelectedWeaponCategoryKey).name;
         howToGet.text = weapon.howToGet;
 
+        blueprintImgChanger.changeImage = !BossBattleManager.Instance.lastWeekStatus;
         blueprintImgChanger.SetBlueprintImage(weapon);
 
         string result = string.Empty;

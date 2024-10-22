@@ -9,12 +9,17 @@ public class BlueprintImgChanger : MonoBehaviour, IPointerEnterHandler, IPointer
     public Image bluePrintImg;
     public List<Image> backgroundImageList = new List<Image>();
     public List<Sprite> spriteList = new List<Sprite>();
+    public bool changeImage = true;
 
     private bool[] puzzleFlag = new bool[54];
 
-
     public void SetBlueprintImage(WeaponDataTable.BluePrint weapon)
     {
+        if (!changeImage)
+        {
+            return;
+        }
+
         var puzzle = CommonTool.In.GetPuzzle(weapon);
         int i = 0;
         foreach (var frameData in puzzle.frameDataTable)
@@ -26,6 +31,11 @@ public class BlueprintImgChanger : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!changeImage)
+        {
+            return;
+        }
+
         bluePrintImg.gameObject.SetActive(false);
         for (int i = 0; i < backgroundImageList.Count; i++)
         {
@@ -36,6 +46,11 @@ public class BlueprintImgChanger : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!changeImage)
+        {
+            return;
+        }
+
         bluePrintImg.gameObject.SetActive(true);
         for (int i = 0; i < backgroundImageList.Count; i++)
         {
