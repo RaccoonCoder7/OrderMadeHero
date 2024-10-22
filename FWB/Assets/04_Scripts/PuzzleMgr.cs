@@ -326,13 +326,27 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 selectedChipDesc.text = currentSelectedChipData.desc;
 
                                 dragImg.texture = currentSelectedChip.image.texture;
-                                if (currentSelectedChip.originRow.Length == currentSelectedChip.rowNum)
+                                if (currentSelectedChip.originRow.Length != currentSelectedChip.originRowNum)
                                 {
-                                    dragImgRectTr.sizeDelta = new Vector2(currentSelectedChip.rowNum, currentSelectedChip.colNum) * chipSize;
+                                    if (currentSelectedChip.rowNum == currentSelectedChip.originRowNum)
+                                    {
+                                        dragImgRectTr.sizeDelta = new Vector2(currentSelectedChip.rowNum, currentSelectedChip.colNum) * chipSize;
+                                    }
+                                    else
+                                    {
+                                        dragImgRectTr.sizeDelta = new Vector2(currentSelectedChip.colNum, currentSelectedChip.rowNum) * chipSize;
+                                    }
                                 }
                                 else
                                 {
-                                    dragImgRectTr.sizeDelta = new Vector2(currentSelectedChip.colNum, currentSelectedChip.rowNum) * chipSize;
+                                    if (currentSelectedChip.originRow.Length == currentSelectedChip.rowNum)
+                                    {
+                                        dragImgRectTr.sizeDelta = new Vector2(currentSelectedChip.rowNum, currentSelectedChip.colNum) * chipSize;
+                                    }
+                                    else
+                                    {
+                                        dragImgRectTr.sizeDelta = new Vector2(currentSelectedChip.colNum, currentSelectedChip.rowNum) * chipSize;
+                                    }
                                 }
 
                                 chipOffset = Vector3.zero;
@@ -500,13 +514,27 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                         }
 
                                         chipInstance.transform.parent = frame.transform;
-                                        if (chipInstance.originRow.Length == currentSelectedChip.rowNum)
+                                        if (chipInstance.originRow.Length != chipInstance.originRowNum)
                                         {
-                                            chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
+                                            if (chipInstance.rowNum == chipInstance.originRowNum)
+                                            {
+                                                chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
+                                            }
+                                            else
+                                            {
+                                                chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.colNum, chipInstance.rowNum) * chipSize;
+                                            }
                                         }
                                         else
                                         {
-                                            chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.colNum, chipInstance.rowNum) * chipSize;
+                                            if (chipInstance.originRow.Length == chipInstance.rowNum)
+                                            {
+                                                chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.rowNum, chipInstance.colNum) * chipSize;
+                                            }
+                                            else
+                                            {
+                                                chipInstance.rectTr.sizeDelta = new Vector2(chipInstance.colNum, chipInstance.rowNum) * chipSize;
+                                            }
                                         }
                                         chipInstance.rectTr.anchoredPosition = Vector3.zero;
 
