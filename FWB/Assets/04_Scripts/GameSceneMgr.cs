@@ -12,9 +12,7 @@ using System.Drawing;
 using static SpriteChange;
 using DG.Tweening;
 using static WeaponDataTable;
-using static GameMgr;
 using System.IO;
-using UnityEditorInternal;
 using Debug = UnityEngine.Debug;
 
 /// <summary>
