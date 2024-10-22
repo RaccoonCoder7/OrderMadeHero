@@ -847,8 +847,13 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         historyPanel.SetActive(!historyPanel.activeSelf);
     }
 
-    public void ActiveYesNoButton(bool isActive)
+    public void ActiveYesNoButton(bool isActive, string leftBtnText = "접수", string rightBtnText = "거절")
     {
+        if (isActive)
+        {
+            yesText.text = leftBtnText;
+            noText.text = rightBtnText;
+        }
         yes.gameObject.SetActive(isActive);
         no.gameObject.SetActive(isActive);
     }

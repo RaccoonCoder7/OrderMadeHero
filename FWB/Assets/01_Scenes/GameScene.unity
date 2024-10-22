@@ -1611,100 +1611,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.size
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[38].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: 93f4dfd2043c4274abb05380dc708c68, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[39].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: 5fb84c5cbcda01e4693ccc8c6480582d, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[40].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: ac5a3055dfeb2c74e94a3fa5713eaf09, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[41].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: 2dbc06dca39de0e41b97bf6051ed24b9, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[42].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: d9a6ec598be9224478f050b46579826a, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[43].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: e0c8258593b43684da07ccac28eac104, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[44].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: ba47c5ae3bc0c524ab5b309fe348311b, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[45].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: b778b3072691ed147841849db65a636a, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[46].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: f4ba38d57a4f4bc448f16d4ba90eebb1, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[47].ta
-      value: 
-      objectReference: {fileID: 4900000, guid: 36f784846c96ef64fa0181ec98b15bc7, type: 3}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[48].ta
       value: 
-      objectReference: {fileID: 4900000, guid: d83a9deb9edec9d4597f9745eda36dc9, type: 3}
+      objectReference: {fileID: 4900000, guid: 8d8f513767885a644956c3cee7a2ca33, type: 3}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[49].ta
       value: 
       objectReference: {fileID: 4900000, guid: 8d8f513767885a644956c3cee7a2ca33, type: 3}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[38].key
-      value: Week1_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[39].key
-      value: Week1_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[40].key
-      value: Week1_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[41].key
-      value: Week1_4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[42].key
-      value: Week1_5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[43].key
-      value: Week1_6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[44].key
-      value: Day13_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[45].key
-      value: Day13_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[46].key
-      value: Day13_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
-      propertyPath: scriptList.Array.data[47].key
-      value: Day13_4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[48].key
-      value: Day13_5
+      value: Day13_6
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[49].key
@@ -25411,7 +25327,6 @@ MonoBehaviour:
   shopUISlotList: []
   puzzleMgr: {fileID: 0}
   isOnConversation: 0
-  gameoverTest: 0
 --- !u!4 &723337248
 Transform:
   m_ObjectHideFlags: 0
@@ -35743,6 +35658,7 @@ MonoBehaviour:
   maxPosX: 0
   maxTime: 60
   maxPuzzleCnt: 25
+  succeedPuzzleCnt: 0
   gageParentObj: {fileID: 447081170}
   particleParentObj: {fileID: 201024346}
   normalParticleParentObj: {fileID: 107561362}
@@ -53165,7 +53081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1433270977
 RectTransform:
   m_ObjectHideFlags: 0

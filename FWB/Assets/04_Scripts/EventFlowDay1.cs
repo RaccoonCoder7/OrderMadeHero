@@ -36,7 +36,7 @@ public class EventFlowDay1 : EventFlow
             mgr.StartText("Tutorial2", EndTutorial2Routine, EndTutorial2Routine);
         });
 
-        mgr.ActiveYesNoButton(true);
+        mgr.ActiveYesNoButton(true, "좋아요", "괜찮아요");
     }
 
     private void SkipTutorialRoutine()
@@ -65,11 +65,9 @@ public class EventFlowDay1 : EventFlow
     private void EndTutorial3Routine()
     {
         mgr.EndText(false);
-        mgr.yesText.text = "네";
-        mgr.noText.text = "아니오";
         mgr.yes.interactable = true;
         mgr.no.interactable = false;
-        mgr.ActiveYesNoButton(true);
+        mgr.ActiveYesNoButton(true, "네", "아니오");
         CommonTool.In.SetFocus(new Vector2(1325, 555), new Vector2(155, 70));
 
         mgr.yes.onClick.AddListener(() =>
