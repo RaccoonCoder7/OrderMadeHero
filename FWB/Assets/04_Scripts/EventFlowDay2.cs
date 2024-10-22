@@ -36,7 +36,7 @@ public class EventFlowDay2 : EventFlow
             mgr.StartText("Day2_3", EndDay2_3Routine, SkipDay2_4Routine);
         });
         
-        mgr.ActiveYesNoButton(true);
+        mgr.ActiveYesNoButton(true, "네", "아니오");
     }
 
     private void SkipDay2_1Routine()
