@@ -467,26 +467,30 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         Debug.Log("Start Event Sequence");
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
         {
+            bool isMonday = (int)GameMgr.In.day == 1 && GameMgr.In.week >= 2;
             int week = GameMgr.In.week - 1;
             string eventKey = "day" + (i + (week * 7));
             string weeklyEventKey = "week" + week;
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
             var weeklyTargetEvent = eventFlowList.Find(x => x.eventKey.Equals(weeklyEventKey));
             isEventFlowing = true;
-
-            if ((int)GameMgr.In.day == 1 && weeklyTargetEvent != null && GameMgr.In.week > 1 && GameMgr.In.newsProgress != GameMgr.In.week-1)
+            if ((isMonday && weeklyTargetEvent !=null) || targetEvent != null)
             {
-                yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
-            }
-            if (targetEvent != null && GameMgr.In.week == 1)
-            {
-                yield return StartCoroutine(StartEventFlow(targetEvent));
+                    if (isMonday && weeklyTargetEvent != null &&
+                        GameMgr.In.newsProgress != GameMgr.In.week - 1)
+                    {
+                        yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
+                    }
+                    if (targetEvent != null && GameMgr.In.week == 1)
+                    {
+                        yield return StartCoroutine(StartEventFlow(targetEvent));
+                    }
             }
             else
             {
                 if (!GameMgr.In.isBankrupt && !DataSaveLoad.dataSave.isLoaded)
                 {
-                    Debug.Log("Start Order");
+                    Debug.Log("Start Normal Order");
                     yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
                 }
                 else if (DataSaveLoad.dataSave.isLoaded)
@@ -501,6 +505,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
             if (i < GameMgr.In.endDay && GameMgr.In.isBankrupt == false)
             {
+                Debug.Log("Next Day");
                 yield return StartCoroutine(NextDay());
             }
         }
@@ -966,7 +971,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.dayRentCost = 0;
         }
         */
-        GameMgr.In.credit += GameMgr.In.dayRentCost;
+        //GameMgr.In.credit += GameMgr.In.dayRentCost;
         goldText.text = GameMgr.In.credit.ToString();
         creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
         var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost

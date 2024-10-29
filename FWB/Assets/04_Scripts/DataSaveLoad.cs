@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [Serializable]
@@ -49,11 +50,18 @@ public class PlayerData
 }
 
 [Serializable]
+public class StringBoolEntry
+{
+    public string key;
+    public bool value;
+}
+
+[Serializable]
 public class UnlockedWeaponInfo 
 {
-    
     public List<BluePrintState> bluePrintStatesList = new List<BluePrintState>();
     public List<ChipState> chipStatesList = new List<ChipState>();
+    public List<OrderState> orderStatesList = new List<OrderState>();
 
     [Serializable]
     public class BluePrintState
@@ -70,6 +78,34 @@ public class UnlockedWeaponInfo
         public bool createEnable;
         public int bpChipState;
     }
+    [Serializable]
+    public class OrderState 
+    {
+        public string orderKey;
+        public bool orderEnable;
+        public List<StringBoolEntry> orderConditionList;
+        
+        [NonSerialized]
+        public StringBool orderConditionDictionary;
+        
+        public void OnBeforeSerialize()
+        {
+            orderConditionList = new List<StringBoolEntry>();
+            foreach (var kvp in orderConditionDictionary)
+            {
+                orderConditionList.Add(new StringBoolEntry() { key = kvp.Key, value = kvp.Value });
+            }
+        }
+        
+        public void OnAfterDeserialize()
+        {
+            orderConditionDictionary = new StringBool();
+            foreach (var entry in orderConditionList)
+            {
+                orderConditionDictionary.Add(entry.key, entry.value);
+            }
+        }
+    }
 }
 
 public class DataSaveLoad : MonoBehaviour
@@ -83,6 +119,7 @@ public class DataSaveLoad : MonoBehaviour
 
     public WeaponDataTable weaponDataTable;
     public ChipTable chipTable;
+    public OrderTable orderTable;
     
     private enum SlotState
     {
@@ -142,6 +179,19 @@ public class DataSaveLoad : MonoBehaviour
                 result.chipStatesList.Add(new UnlockedWeaponInfo.ChipState() { chipKey = chip.chipKey, createEnable = chip.createEnable, bpChipState = chip.chipState} );
             }
         }
+
+        foreach (var order in orderTable.orderList)
+        {
+                var orderState = new UnlockedWeaponInfo.OrderState()
+                {
+                    orderKey = order.orderKey,
+                    orderEnable = order.orderEnable,
+                    orderConditionDictionary = order.orderConditionDictionary
+                };
+            
+                orderState.OnBeforeSerialize();
+                result.orderStatesList.Add(orderState);
+        }
         return result;
     }
     
@@ -173,6 +223,20 @@ public class DataSaveLoad : MonoBehaviour
                     chip.createEnable = chipState.createEnable;
                     chip.chipState = chipState.bpChipState;
                     break;
+                }
+            }
+        }
+
+        foreach (var orderState in info.orderStatesList)
+        {
+            orderState.OnAfterDeserialize();
+            
+            foreach (var order in orderTable.orderList)
+            {
+                if (order.orderKey == orderState.orderKey)
+                {
+                    order.orderEnable = orderState.orderEnable;
+                    order.orderConditionDictionary = orderState.orderConditionDictionary;
                 }
             }
         }
@@ -295,6 +359,11 @@ public class DataSaveLoad : MonoBehaviour
         File.WriteAllText(filePath, newJson);
         
         UnlockedWeaponInfo unlockedWeaponInfo = GenerateUnlockedWeaponInfo();
+        foreach (var orderState in unlockedWeaponInfo.orderStatesList)
+        {
+            orderState.OnBeforeSerialize();
+        }
+
 
         string unlockedWeaponInfoJson = JsonUtility.ToJson(unlockedWeaponInfo);
         bytes = System.Text.Encoding.UTF8.GetBytes(unlockedWeaponInfoJson);
@@ -319,7 +388,11 @@ public class DataSaveLoad : MonoBehaviour
             byte[] bytes = Convert.FromBase64String(json);
             string newJson = System.Text.Encoding.UTF8.GetString(bytes);
             UnlockedWeaponInfo unlockedWeaponInfo = JsonUtility.FromJson<UnlockedWeaponInfo>(newJson);
-    
+            foreach (var orderState in unlockedWeaponInfo.orderStatesList)
+            {
+                orderState.OnAfterDeserialize();
+            }
+            
             ApplyUnlockedWeaponInfo(unlockedWeaponInfo);
         }
         else

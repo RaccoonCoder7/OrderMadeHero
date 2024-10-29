@@ -50,6 +50,7 @@ public class EventFlowWeek1 : EventFlow
         StartCoroutine(CommonTool.In.FadeOut());
         mgr.newsPanel.SetActive(false);
         StartCoroutine(CommonTool.In.FadeIn());
+        Debug.Log("Start News Order");
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         foreach (var btn in mgr.newsHintButtons)
         {
