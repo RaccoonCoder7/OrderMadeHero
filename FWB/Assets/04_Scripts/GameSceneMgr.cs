@@ -235,6 +235,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private GameObject lastSelectedSlot = null;
     private Image lastSelectedSlotImage = null;
     private bool dailyRoutineEndFlag = false;
+    private bool isPcChatOn = false;
+    private bool isPopupChatOn = false;
 
     [DllImport("user32.dll")]
     public static extern bool SetCursorPos(int X, int Y);
@@ -638,13 +640,20 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void OnClickSave()
     {
+        isPcChatOn = pcChatPanel.activeSelf;
+        isPopupChatOn = popupChatPanel.activeSelf;
         currentScreen = DataSaveLoad.dataSave.MakeScreenShot();
+        historyPanel.SetActive(false);
+        popupChatPanel.SetActive(false);
+        pcChatPanel.SetActive(false);
         saveLoadPanel.SetActive(true);
         isSavePopupActive = true;
     }
 
     public void OnClickReturn()
     {
+        popupChatPanel.SetActive(isPopupChatOn);
+        pcChatPanel.SetActive(isPcChatOn);
         saveLoadPanel.SetActive(false);
         isSavePopupActive = false;
     }

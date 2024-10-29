@@ -960,7 +960,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 866234902}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1600,7 +1600,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3087253590565496315, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 451
+      value: 451.00003
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327245, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: m_Name
@@ -18238,7 +18238,7 @@ RectTransform:
   - {fileID: 1181528314}
   - {fileID: 2139140506}
   m_Father: {fileID: 866234902}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -25117,7 +25117,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 1
+  startDay: 3
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -30861,9 +30861,9 @@ RectTransform:
   - {fileID: 400665427}
   - {fileID: 1883815015}
   - {fileID: 964848864}
+  - {fileID: 25670175}
   - {fileID: 550003936}
   - {fileID: 1208555345}
-  - {fileID: 25670175}
   - {fileID: 936954893}
   - {fileID: 185903420}
   m_Father: {fileID: 1500408543}
@@ -39847,11 +39847,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: day
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: week
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: tendency
@@ -39863,7 +39863,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: newsProgress
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503964, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: m_Name
@@ -44263,7 +44263,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 866234902}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
