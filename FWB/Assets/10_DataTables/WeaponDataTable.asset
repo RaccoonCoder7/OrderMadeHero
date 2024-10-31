@@ -433,7 +433,7 @@ MonoBehaviour:
       comment: "\uC55E\uB0A0\uC774 \uCC3D\uCC3D\uD558\uB2E4"
       howToGet: "\uD29C\uD1A0\uB9AC\uC5BC"
       buyPrice: 0
-      sellPrice: 0
+      sellPrice: 200
       puzzleCsv: {fileID: 4900000, guid: 06279f92d6c8981418ca5987b2970a6a, type: 3}
       orderEnable: 0
       createEnable: 0
@@ -449,8 +449,8 @@ MonoBehaviour:
       comment: "\uBE60\uB974\uAC8C \uB0A0\uC544\uAC00\uB294 \uAC83\uC744 \uC911\uC810\uC73C\uB85C
         \uD55C \uD22C\uCC99\uC6A9 \uCC3D"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      buyPrice: 0
-      sellPrice: 0
+      buyPrice: 400
+      sellPrice: 500
       puzzleCsv: {fileID: 4900000, guid: ef86d132399ebe54b84f65558facbb01, type: 3}
       orderEnable: 0
       createEnable: 0
@@ -465,8 +465,8 @@ MonoBehaviour:
       name: "\uC2A4\uD53C\uC5B4"
       comment: "\uCE7C\uB0A0\uC744 \uB367\uB300 \uC548\uC815\uC131\uC744 \uB192\uC600\uB2E4"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      buyPrice: 0
-      sellPrice: 0
+      buyPrice: 400
+      sellPrice: 500
       puzzleCsv: {fileID: 4900000, guid: 793211dd6cbdb7744a2ae35a6f366eb1, type: 3}
       orderEnable: 0
       createEnable: 0
@@ -483,8 +483,8 @@ MonoBehaviour:
       name: "\uD2B8\uB77C\uC774\uB358\uD2B8"
       comment: "\uBC14\uB2E4\uC758 \uC2E0\uC774 \uC0AC\uC6A9\uD55C\uB2E4\uACE0 \uD558\uB358\uB370"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      buyPrice: 0
-      sellPrice: 0
+      buyPrice: 1000
+      sellPrice: 1000
       puzzleCsv: {fileID: 4900000, guid: fe3b03a8a61df144f982d6c3055eb3a9, type: 3}
       orderEnable: 0
       createEnable: 0
@@ -501,8 +501,8 @@ MonoBehaviour:
       name: "\uC5B8\uC6D4\uB3C4"
       comment: "\uBCA0\uB294\uAC83\uC5D0 \uD2B9\uD654 \uB41C \uBB34\uAE30"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      buyPrice: 0
-      sellPrice: 0
+      buyPrice: 2000
+      sellPrice: 2000
       puzzleCsv: {fileID: 4900000, guid: 7728a1a434fed1a408c9c75f72010d85, type: 3}
       orderEnable: 0
       createEnable: 0
@@ -520,8 +520,8 @@ MonoBehaviour:
       comment: "\uBC29\uC5B4\uC640 \uACF5\uACA9\uC744 \uB3D9\uC2DC\uC5D0 \uD560 \uC218
         \uC788\uB294 \uAC70\uB300\uD55C \uCC3D"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      buyPrice: 0
-      sellPrice: 0
+      buyPrice: 2000
+      sellPrice: 2000
       puzzleCsv: {fileID: 4900000, guid: 69911173bb4dbf849a1e97c256aac5c6, type: 3}
       orderEnable: 0
       createEnable: 0
@@ -539,8 +539,8 @@ MonoBehaviour:
       comment: "\uB9D0 \uC704\uC5D0\uC11C\uB3C4 \uC2E0\uC18D\uD558\uAC8C \uC4F8 \uC218
         \uC788\uAC8C \uACBD\uB7C9\uD654\uD588\uB2E4"
       howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
-      buyPrice: 0
-      sellPrice: 0
+      buyPrice: 2000
+      sellPrice: 2000
       puzzleCsv: {fileID: 4900000, guid: dfd1b6ee136602c42af5c6f394c5d9c5, type: 3}
       orderEnable: 0
       createEnable: 0
