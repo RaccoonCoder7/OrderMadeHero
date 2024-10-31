@@ -79,6 +79,15 @@ public class GameMgr : SingletonMono<GameMgr>
         dayCustomerCnt = 0;
         dayFame = 0;
         dayTendency = 0;
+
+        foreach (var o in GameMgr.In.orderTable.orderList)
+        {
+            if (o.orderConditionDictionary.ContainsKey("AfterOneOrder"))
+            {
+                o.orderConditionDictionary["AfterOneOrder"] = false;
+                o.orderEnable = false;
+            }
+        }
     }
 
     /// <summary>
