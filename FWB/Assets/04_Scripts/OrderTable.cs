@@ -80,7 +80,7 @@ public class OrderTable : ScriptableObject
         NotSoldToday,
         SoldToday,
         MostSoldToday,
-        LowestAttack,
+        NotHeavy,
         HighestAttack,
         PreviousOrder,
         SatisfyOneRequest,
@@ -280,13 +280,13 @@ public class OrderTable : ScriptableObject
         switch (order.gimmick)
         {
             case Gimmick.None:
-                Debug.Log("기믹이 없음");
+                // Debug.Log("기믹이 없음");
                 return true;
             case Gimmick.NotSoldToday:
-                Debug.Log("오늘 안팔렸나?: " + string.IsNullOrEmpty(history.Find(x => x.Equals(key))));
+                // Debug.Log("오늘 안팔렸나?: " + string.IsNullOrEmpty(history.Find(x => x.Equals(key))));
                 return string.IsNullOrEmpty(history.Find(x => x.Equals(key)));
             case Gimmick.SoldToday:
-                Debug.Log("오늘 팔렸나?: " + !string.IsNullOrEmpty(history.Find(x => x.Equals(key))));
+                // Debug.Log("오늘 팔렸나?: " + !string.IsNullOrEmpty(history.Find(x => x.Equals(key))));
                 return !string.IsNullOrEmpty(history.Find(x => x.Equals(key)));
             case Gimmick.MostSoldToday:
                 // var most = history.GroupBy(x => x).OrderByDescending(grp => grp.Count());
@@ -294,11 +294,11 @@ public class OrderTable : ScriptableObject
                 var maxCount = dict.Max(x => x.Count());
                 var mostList = dict.Where(x => x.Count() == maxCount).Select(x => x.Key);
                 bool result = mostList.Contains(key);
-                Debug.Log("오늘 젤 많이 팔렸나?: " + result);
+                // Debug.Log("오늘 젤 많이 팔렸나?: " + result);
                 return result;
-            case Gimmick.LowestAttack:
-                Debug.Log("공격력 1 이하인가?: " + (GetAbilityCount(puzzleFrameList, "a_attack") <= 1));
-                return GetAbilityCount(puzzleFrameList, "a_attack") <= 1;
+            case Gimmick.NotHeavy:
+                // Debug.Log("무게가 2 이하인가?: " + (GetAbilityCount(puzzleFrameList, "a_weight") <= 2));
+                return GetAbilityCount(puzzleFrameList, "a_weight") <= 2;
             case Gimmick.HighestAttack:
                 int maxAttack = 0;
                 List<string> bluePrintKeyList = new List<string>();
@@ -318,10 +318,10 @@ public class OrderTable : ScriptableObject
                         bluePrintKeyList.Add(bp.bluePrintKey);
                     }
                 }
-                Debug.Log("가진 청사진 중 가장 강한가?: " + bluePrintKeyList.Contains(key));
+                // Debug.Log("가진 청사진 중 가장 강한가?: " + bluePrintKeyList.Contains(key));
                 return bluePrintKeyList.Contains(key);
             case Gimmick.PreviousOrder:
-                Debug.Log("바로 전 사람의 주문과 같은가?: " + history[history.Count - 1] == key);
+                // Debug.Log("바로 전 사람의 주문과 같은가?: " + history[history.Count - 1] == key);
                 return history[history.Count - 1] == key;
             case Gimmick.SatisfyOneRequest:
                 for (int i = 0; i < GameMgr.In.currentOrder.addedRequestKeyList.Count; i++)
@@ -345,12 +345,12 @@ public class OrderTable : ScriptableObject
                             requiredAbility.abilityKey = ability.abilityKey;
                             requiredAbility.count = abilityCount;
                             requiredAbilityList.Add(requiredAbility);
-                            Debug.Log("요구: " + ability.abilityKey + "=>" + abilityCount);
+                            // Debug.Log("요구: " + ability.abilityKey + "=>" + abilityCount);
                         }
                     }
 
                     bool isSatisfied = IsRequestSatisfied(requiredAbilityList, currentAbilityInPuzzleDic);
-                    Debug.Log((i + 1) + "번째 조건을 만족하는가?: " + isSatisfied);
+                    // Debug.Log((i + 1) + "번째 조건을 만족하는가?: " + isSatisfied);
                     if (isSatisfied)
                     {
                         return true;
