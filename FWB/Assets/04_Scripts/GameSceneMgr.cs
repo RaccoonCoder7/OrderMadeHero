@@ -30,6 +30,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Button ok;
     public Button yes;
     public Button no;
+    public Button what;
     public Button eventBtn1;
     public Button eventBtn2;
     public Button returnBtn;
@@ -200,7 +201,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private List<string> orderTextList = new List<string>();
     private List<string> rejectTextList = new List<string>();
     private List<string> successTextList = new List<string>();
-    private List<string> bigSuccessTextList = new List<string>();
+    private List<string> additionalTextList = new List<string>();
     private List<string> failTextList = new List<string>();
     private int lineCnt = 0;
     private string prevOrderKey = "";
@@ -1433,6 +1434,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         yes.onClick.AddListener(() =>
         {
             ActiveYesNoButton(false);
+            what.gameObject.SetActive(false);
             orderState = OrderState.Accepted;
         });
 
@@ -1440,10 +1442,23 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         no.onClick.AddListener(() =>
         {
             ActiveYesNoButton(false);
+            what.gameObject.SetActive(false);
             orderState = OrderState.Rejected;
         });
 
+        what.onClick.RemoveAllListeners();
+        what.onClick.AddListener(() =>
+        {
+            what.gameObject.SetActive(false);
+            lineCnt = -1;
+            lines = additionalTextList;
+            this.onEndText = null;
+            textFlowCoroutine = StartCoroutine(StartTextFlow());
+            StartNextLine();
+        });
+
         ActiveYesNoButton(true);
+        what.gameObject.SetActive(true);
     }
 
     private void EndOrder()
@@ -1480,7 +1495,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         return list;
     }
 
-    private void SetEveryOrderTextList(bool hasBigSuccess = false)
+    private void SetEveryOrderTextList()
     {
         normalOrderLineIndex = 0;
         normalOrderPrevLineIndex = 0;
@@ -1488,10 +1503,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         rejectTextList = SetOrderTextList(rejectTextList);
         successTextList = SetOrderTextList(successTextList);
         failTextList = SetOrderTextList(failTextList);
-        if (hasBigSuccess)
-        {
-            bigSuccessTextList = SetOrderTextList(bigSuccessTextList);
-        }
+        additionalTextList = SetOrderTextList(additionalTextList);
     }
 
     private void OnClickIndex()
@@ -1594,7 +1606,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     prevfevermodeOrderKey = feverOrder.orderKey;
                     lines = feverOrder.ta.text.Split('\n').ToList();
 
-                    SetEveryOrderTextList(true);
+                    SetEveryOrderTextList();
                     StartNormalOrderText(true);
 
                     while (orderState == OrderState.Ordering)
@@ -1622,7 +1634,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
                             if (puzzleMgr.succeedPuzzleCnt >= 7)
                             {
-                                lines = bigSuccessTextList;
+                                lines = additionalTextList;
                             }
                             else if (puzzleMgr.succeedPuzzleCnt >= 3)
                             {
