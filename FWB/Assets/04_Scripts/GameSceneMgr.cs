@@ -1015,7 +1015,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public void RefreshWeaponCategoryButtons()
     {
         var categoryList = GameMgr.In.weaponDataTable.bluePrintCategoryList;
-        int j = 0;
+
         for (int i = 0; i < categoryList.Count; i++)
         {
             int tempNum = i;
@@ -1243,6 +1243,19 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                 {
                                     var bp = GameMgr.In.GetWeapon(bluePrintList[tempNum].bluePrintKey);
                                     bp.createEnable = true;
+
+                                    foreach (var order in GameMgr.In.orderTable.orderList)
+                                    {
+                                        if (order.orderConditionDictionary.ContainsKey(bp.bluePrintKey))
+                                        {
+                                            order.orderConditionDictionary[bp.bluePrintKey] = true;
+                                            if (!order.orderConditionDictionary.ContainsValue(false))
+                                            {
+                                                order.orderEnable = true;
+                                            }
+                                        }
+                                    }
+
                                     GameMgr.In.credit -= item.price;
                                     GameMgr.In.dayShopBuyCost -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
@@ -1331,6 +1344,27 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                 {
                                     var chip = GameMgr.In.GetChip(chipList[tempNum].chipKey);
                                     chip.createEnable = true;
+
+                                    foreach (var order in GameMgr.In.orderTable.orderList)
+                                    {
+                                        if (order.orderConditionDictionary.ContainsKey(chip.chipKey))
+                                        {
+                                            order.orderConditionDictionary[chip.chipKey] = true;
+                                            if (!order.orderConditionDictionary.ContainsValue(false))
+                                            {
+                                                order.orderEnable = true;
+                                            }
+                                        }
+                                    }
+
+                                    foreach (var request in GameMgr.In.requestTable.requestList)
+                                    {
+                                        if (request.orderCondition.Equals(chip.chipKey))
+                                        {
+                                            request.orderEnable = true;
+                                        }
+                                    }
+
                                     GameMgr.In.credit -= item.price;
                                     GameMgr.In.dayShopBuyCost -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
@@ -1445,6 +1479,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         no.onClick.RemoveAllListeners();
         no.onClick.AddListener(() =>
         {
+            EndText();
             ActiveYesNoButton(false);
             what.gameObject.SetActive(false);
             orderState = OrderState.Rejected;
@@ -1465,10 +1500,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         if (showWhat)
         {
             what.gameObject.SetActive(true);
-        }
-        else
-        {
-            showWhat = true;
         }
     }
 
@@ -2204,11 +2235,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         lines = orderTextList;
         isOnConversation = true;
         isNormalOrdering = true;
-        showWhat = false;
+        showWhat = true;
         orderState = OrderState.Ordering;
         this.onEndText = EndOrderText;
         if (feverMode)
         {
+            showWhat = false;
             if (!isFeverModeTutorialDone)
             {
                 this.onEndText += () =>

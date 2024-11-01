@@ -282,7 +282,7 @@ MonoBehaviour:
     camp: 0
     orderConditionDictionary:
       m_keys:
-      - Day3
+      - b_katana
       m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
@@ -403,7 +403,7 @@ MonoBehaviour:
     camp: 0
     orderConditionDictionary:
       m_keys:
-      - Day8
+      - c_cool
       m_values: 00
     orderEnable: 0
     addedRequestKeyList: []
@@ -547,7 +547,7 @@ MonoBehaviour:
     camp: 0
     orderConditionDictionary:
       m_keys:
-      - day3
+      - b_bayonet
       m_values: 00
     orderEnable: 0
     addedRequestKeyList: []

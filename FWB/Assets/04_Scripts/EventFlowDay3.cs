@@ -96,37 +96,6 @@ public class EventFlowDay3 : EventFlow
 
     private void OnClickShopDodge()
     {
-        foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
-        {
-            foreach (var bp in category.bluePrintList)
-            {
-                if (bp.howToGet.Equals("상점구매") && bp.buyPrice <= 5000)
-                {
-                    bp.orderEnable = true;
-                }
-            }
-        }
-
-        foreach (var order in GameMgr.In.orderTable.orderList)
-        {
-            if (order.orderConditionDictionary.ContainsKey("Day3"))
-            {
-                order.orderConditionDictionary["Day3"] = true;
-                if (!order.orderConditionDictionary.ContainsValue(false))
-                {
-                    order.orderEnable = true;
-                }
-            }
-        }
-
-        foreach (var request in GameMgr.In.requestTable.requestList)
-        {
-            if (request.orderCondition.Equals("Day3"))
-            {
-                request.orderEnable = true;
-            }
-        }
-
         GameMgr.In.isEventOn = 0;
         StartCoroutine(mgr.StartNormalRoutine(6, mgr.EndNormalOrderRoutine));
         mgr.shopDodge.onClick.RemoveListener(OnClickShopDodge);
