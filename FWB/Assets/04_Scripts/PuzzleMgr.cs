@@ -1664,9 +1664,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 GameMgr.In.tendency += tendency;
                 GameMgr.In.dayTendency += tendency;
                 GameMgr.In.credit += credit;
-                GameMgr.In.dayRevenue = revenue;
+                GameMgr.In.dayRevenue += revenue;
                 GameMgr.In.dayChipUseCost -= chipPrice;
-                GameMgr.In.dayBonusRevenue = bonus;
+                GameMgr.In.dayBonusRevenue += bonus;
                 mgr2.FameUIFill();
                 mgr2.TendUIMove();
                 mgr2.goldText.text = GameMgr.In.credit.ToString();
