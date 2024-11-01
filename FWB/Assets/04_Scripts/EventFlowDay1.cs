@@ -153,6 +153,7 @@ public class EventFlowDay1 : EventFlow
         mgr.EndText();
         CommonTool.In.SetFocusOff();
         mgr.popupChatPanel.SetActive(false);
+        mgr.puzzleMgr.makingDone.gameObject.SetActive(false);
         mgr.puzzleMgr.OnMakingDone += OnMakingDone;
     }
 

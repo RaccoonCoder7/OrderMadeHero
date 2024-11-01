@@ -232,6 +232,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private int previousMobAvatarIndex = 0;
     private string saveSlot;
     private bool isSaving;
+    private bool showWhat = true;
     private Texture2D currentScreen;
     private GameObject lastSelectedSlot = null;
     private Image lastSelectedSlotImage = null;
@@ -272,7 +273,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         Chipset
     }
 
-
     private void FixedUpdate()
     {
         if (visible)
@@ -288,11 +288,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             OnClickChatBox();
         }
     }
-    
+
     private IEnumerator Start()
     {
         CommonTool.In.canvas.worldCamera = Camera.main;
-        
+
         blueprintImgRectTr = blueprintImg.GetComponent<RectTransform>();
         puzzleMgr = gamePanel.GetComponent<PuzzleMgr>();
         shopBlueprintTabImg = (Image)shopBlueprintTab.targetGraphic;
@@ -475,7 +475,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
             var weeklyTargetEvent = eventFlowList.Find(x => x.eventKey.Equals(weeklyEventKey));
             isEventFlowing = true;
-            if ((isMonday && weeklyTargetEvent !=null) || targetEvent != null)
+            if ((isMonday && weeklyTargetEvent != null) || targetEvent != null)
             {
                     if (isMonday && weeklyTargetEvent != null &&
                         GameMgr.In.newsProgress != GameMgr.In.week - 1)
@@ -623,8 +623,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         mobAvatarList[randomIndex].SetActive(true);
 
         previousMobAvatarIndex = randomIndex;
-
     }
+
     public void SetIndexBlueprintImgAspect(Sprite targetSprite)
     {
         var xMax = 450f;
@@ -975,8 +975,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         //GameMgr.In.credit += GameMgr.In.dayRentCost;
         goldText.text = GameMgr.In.credit.ToString();
         creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
-        var totalRevenue = GameMgr.In.dayRevenue + GameMgr.In.dayBonusRevenue + GameMgr.In.dayRentCost
-                         + GameMgr.In.dayShopBuyCost + GameMgr.In.dayChipUseCost;
+        var totalRevenue =
+            GameMgr.In.dayRevenue
+            + GameMgr.In.dayBonusRevenue
+            + GameMgr.In.dayRentCost
+            + GameMgr.In.dayShopBuyCost
+            + GameMgr.In.dayChipUseCost;
         creditTotalRevenue.text = totalRevenue + " 크레딧";
         creditCustomerCnt.text = GameMgr.In.dayCustomerCnt.ToString();
         if (renom.activeInHierarchy)
@@ -1458,7 +1462,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         });
 
         ActiveYesNoButton(true);
-        what.gameObject.SetActive(true);
+        if (showWhat)
+        {
+            what.gameObject.SetActive(true);
+        }
+        else
+        {
+            showWhat = true;
+        }
     }
 
     private void EndOrder()
@@ -1584,21 +1595,21 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 var val = UnityEngine.Random.Range(0, 100);
                 if (val <= GameMgr.In.feverModeProbability)
                 {
-                    // TODO: 테스트코드. 제거해야 함.
-                    puzzleMgr.makingDone.gameObject.SetActive(true);
-                    renom.SetActive(true);
-                    gold.SetActive(true);
-                    foreach (var chip in GameMgr.In.chipTable.chipList)
-                    {
-                        chip.createEnable = true;
-                    }
-                    foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
-                    {
-                        foreach (var bp in bpc.bluePrintList)
-                        {
-                            bp.createEnable = true;
-                        }
-                    }
+                    // 테스트코드
+                    // puzzleMgr.makingDone.gameObject.SetActive(true);
+                    // renom.SetActive(true);
+                    // gold.SetActive(true);
+                    // foreach (var chip in GameMgr.In.chipTable.chipList)
+                    // {
+                    //     chip.createEnable = true;
+                    // }
+                    // foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                    // {
+                    //     foreach (var bp in bpc.bluePrintList)
+                    //     {
+                    //         bp.createEnable = true;
+                    //     }
+                    // }
                     // 테스트코드
 
                     GameMgr.In.feverModeProbability /= 10;
@@ -2036,7 +2047,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         pc.gameObject.SetActive(false);
                         chatTargetText = newsChatText;
                         break;
-
                 }
                 prevChatTarget = chatTarget;
             }
@@ -2194,6 +2204,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         lines = orderTextList;
         isOnConversation = true;
         isNormalOrdering = true;
+        showWhat = false;
         orderState = OrderState.Ordering;
         this.onEndText = EndOrderText;
         if (feverMode)
@@ -2348,6 +2359,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             creditRevenueResult.text = "으음.. 더 노력해야겠는걸?";
         }
     }
+
     public IEnumerator StartBossRoutine(int puzzleCnt, Action onEndRoutine)
     {
         for (int i = 0; i < puzzleCnt; i++)

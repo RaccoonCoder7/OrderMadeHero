@@ -26,6 +26,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public Text currentAbilityText;
     public Text requiredAbilityText;
     public Text usedChipText;
+    public Text needCredit;
     public Text selectedChipName;
     public Text selectedChipPrice;
     public Text selectedChipDesc;
@@ -485,7 +486,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
                             foreach (var result in results)
                             {
-                                if (result.gameObject.name.Contains("ChipPanel"))
+                                if (result.gameObject.name.Contains("ChipPanelRange"))
                                 {
                                     isChipPanel = true;
                                     break;
@@ -944,7 +945,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
                 foreach (var result in results)
                 {
-                    if (result.gameObject.name.Contains("ChipPanel"))
+                    if (result.gameObject.name.Contains("ChipPanelRange"))
                     {
                         isChipPanel = true;
                         break;
@@ -1461,9 +1462,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         StringBuilder usedChipSB = new StringBuilder();
 
         currentAbilityInPuzzleDic.Clear();
+        int price = 0;
         foreach (var chip in currentChipInPuzzleDic.Keys)
         {
             usedChipSB.Append(chip.chipName).Append(" 칩셋 ").Append(currentChipInPuzzleDic[chip]).Append("개\n");
+
+            price += chip.price;
 
             foreach (var ability in chip.abilityList)
             {
@@ -1478,6 +1482,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 }
             }
         }
+        needCredit.text = price.ToString();
 
         foreach (var ability in currentAbilityInPuzzleDic.Keys)
         {
@@ -1540,10 +1545,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         int chipPrice = 0;
         foreach (var chip in currentChipInPuzzleDic)
         {
-            Debug.Log(chip.Key.chipKey);
             chipPrice += chip.Key.price;
         }
-        Debug.Log(chipPrice);
 
         ClearPuzzle();
 
@@ -1697,6 +1700,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         selectedChipName.text = string.Empty;
         selectedChipPrice.text = string.Empty;
         selectedChipDesc.text = string.Empty;
+        needCredit.text = "0";
         foreach (var chip in chipList)
         {
             chip.parentImage.sprite = chipBackgroundOffSprite;
@@ -1887,6 +1891,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         particleParentObj.SetActive(false);
         gageParentObj.SetActive(false);
         filterAndSortParent.SetActive(true);
+        dragImg.gameObject.SetActive(false);
         // CommonTool.In.OpenAlertPanel("완성한 퍼즐 갯수: " + succeedPuzzleCnt);
 
         float credit = feverModeRevenue;
