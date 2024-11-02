@@ -6470,6 +6470,7 @@ MonoBehaviour:
   mainCam: {fileID: 1554640783}
   weaponDataTable: {fileID: 11400000, guid: 5e69e9e400c87c44f948125ac3ad41c1, type: 2}
   chipTable: {fileID: 11400000, guid: 6ab0ea724d108494794e56cd05aacaee, type: 2}
+  orderTable: {fileID: 11400000, guid: 6a41913dd7af095428a579b3b405fcfa, type: 2}
 --- !u!1 &704058838318675505
 GameObject:
   m_ObjectHideFlags: 0

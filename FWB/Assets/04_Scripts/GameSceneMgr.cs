@@ -482,6 +482,19 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     {
                         yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
                     }
+                    else if(isMonday && weeklyTargetEvent != null && GameMgr.In.newsProgress == GameMgr.In.week - 1)
+                    {
+                        if (!GameMgr.In.isBankrupt && !DataSaveLoad.dataSave.isLoaded)
+                        {
+                            Debug.Log("Start Normal Order");
+                            yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                        }
+                        else if (DataSaveLoad.dataSave.isLoaded)
+                        {
+                            Debug.Log("Start Loaded Order");
+                            yield return StartCoroutine(StartNormalRoutine(GameMgr.In.dayCustomerCnt, EndNormalOrderRoutine));
+                        }
+                    }
                     if (targetEvent != null && GameMgr.In.week == 1)
                     {
                         yield return StartCoroutine(StartEventFlow(targetEvent));
@@ -931,23 +944,20 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 break;
         }
-        if (week >= 2)
+        var money = GameMgr.In.credit + GameMgr.In.dayRentCost;
+        if (money <= 0 && GameMgr.In.week >=2)
         {
-            var money = GameMgr.In.credit + GameMgr.In.dayRentCost;
-            if (money <= 0)
-            {
-                GameMgr.In.isBankrupt = true;
-            }
-            else
-            {
-                GameMgr.In.credit += GameMgr.In.dayRentCost;
-                GameMgr.In.lastDayCredit = GameMgr.In.credit;
-                GameMgr.In.lastDayFame = GameMgr.In.fame;
-                GameMgr.In.lastDayTend = GameMgr.In.tendency;
-            }
-
-            goldText.text = money.ToString();
+            GameMgr.In.isBankrupt = true;
         }
+        else
+        {
+            GameMgr.In.credit += GameMgr.In.dayRentCost;
+            GameMgr.In.lastDayCredit = GameMgr.In.credit;
+            GameMgr.In.lastDayFame = GameMgr.In.fame;
+            GameMgr.In.lastDayTend = GameMgr.In.tendency;
+        }
+
+        goldText.text = money.ToString();
 
         /*
         if (GameMgr.In.day == Day.금)
@@ -973,7 +983,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
         */
         //GameMgr.In.credit += GameMgr.In.dayRentCost;
-        goldText.text = GameMgr.In.credit.ToString();
+        //goldText.text = GameMgr.In.credit.ToString();
         creditRentCost.text = "임대료 " + GameMgr.In.dayRentCost;
         var totalRevenue =
             GameMgr.In.dayRevenue
