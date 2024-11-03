@@ -140,22 +140,26 @@ public class SoundManager : MonoBehaviour
 
         if (instance.masterVolumeBar != null)
         {
+            instance.masterVolumeBar.onValueChanged.RemoveAllListeners();
             instance.masterVolumeBar.onValueChanged.AddListener(SetMasterVolume);
             instance.masterVolumeBar.value = instance.masterVolume;
         }
 
         if (instance.bgmVolumeBar != null)
         {
+            instance.bgmVolumeBar.onValueChanged.RemoveAllListeners();
             instance.bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
             instance.bgmVolumeBar.value = instance.bgmAudioSource.volume;
         }
 
-        if (instance.effectVolumeBar != null)
+        if (instance.effectVolumeBar != null && instance.effectAudioSource != null)
         {
+            instance.effectVolumeBar.onValueChanged.RemoveAllListeners();
             instance.effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
             instance.effectVolumeBar.value = instance.effectAudioSource.volume;
         }
     }
+
 
     private void FindVolumeBars()
     {
