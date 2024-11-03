@@ -1406,6 +1406,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
         }
 
+        shopUISlotList.Sort((ShopUISlot a, ShopUISlot b) => { return b.price.CompareTo(a.price); });
+        foreach (var slot in shopUISlotList)
+        {
+            slot.transform.SetSiblingIndex(0);
+        }
+
         shopPageUp.interactable = currentShopPage > 0;
         shopPageDown.interactable = 10 * (currentShopPage + 1) < listCnt;
     }
@@ -1524,6 +1530,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     {
         GameMgr.In.ResetDayData();
         GameMgr.In.SetNextDayData();
+        string week = GameMgr.In.week.ToString();
+        weekText.text = week;
         string day = GameMgr.In.day.ToString();
         dateText.text = day;
         dateMessage.text = GameMgr.In.week + "주차\n" + day + "요일";
@@ -1920,7 +1928,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             }
                             else if (speaker.Trim().Equals("full"))
                             {
-                                fullChatName.text = splittedCom[2];
+                                fullChatName.text = speaker = splittedCom[2];
                                 chatTarget = ChatTarget.Full;
                             }
                             else if (speaker.Trim().Equals("news"))

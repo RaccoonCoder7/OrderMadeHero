@@ -82,6 +82,14 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
         StartNextLine();
         StartCoroutine(BlinkCoroutine());
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            OnClickChatBox();
+        }
+    }
     
     private IEnumerator BlinkCoroutine()
     {
