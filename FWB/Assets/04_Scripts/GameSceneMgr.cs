@@ -1961,6 +1961,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             if (speaker.Trim().Equals("popup"))
                             {
                                 chatTarget = ChatTarget.Popup;
+                                speaker = splittedCom[2];
                                 // TODO: speaker에 따라서 이미지 변경
                             }
                             else if (speaker.Trim().Equals("full"))
@@ -1991,6 +1992,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         {
                             deskNavi.SetActive(true);
                             chatTarget = ChatTarget.Mascot;
+                            speaker = CommonTool.In.mascotName;
                         }
                         else
                         {
