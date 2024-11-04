@@ -41,41 +41,9 @@ public class SoundManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
 
-            GameObject bgmObject = GameObject.Find("BGM");
-            if (bgmObject != null)
-            {
-                bgmAudioSource = bgmObject.GetComponent<AudioSource>();
-                if (bgmAudioSource == null)
-                {
-                    bgmAudioSource = bgmObject.AddComponent<AudioSource>();
-                }
-                bgmAudioSource.loop = true;
-            }
-            else
-            {
-                Debug.LogError("BGM GameObject not found.");
-                return;
-            }
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
-            GameObject effectObject = GameObject.Find("GameSceneMgr");
-            if (effectObject != null)
-            {
-                effectAudioSource = effectObject.GetComponent<AudioSource>();
-                if (effectAudioSource == null)
-                {
-                    effectAudioSource = effectObject.AddComponent<AudioSource>();
-                }
-            }
-            else if(SceneManager.GetActiveScene().name == "StartScene")
-            {
-                Debug.Log("No Effect in StartScene");
-            }
-            else
-            {
-                Debug.LogWarning("Effect GameObject not found");
-            }
-
-            StartCoroutine(FindEffectSource());
+            AssignAudioSources();
 
             FindVolumeBars();
             LoadVolumeSettings();
@@ -87,36 +55,35 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private IEnumerator FindEffectSource()
+    private void AssignAudioSources()
     {
-        while (true)
+        GameObject bgmObject = GameObject.Find("BGM");
+        if (bgmObject != null)
         {
+            bgmAudioSource = bgmObject.GetComponent<AudioSource>();
+            if (bgmAudioSource == null)
+            {
+                bgmAudioSource = bgmObject.AddComponent<AudioSource>();
+            }
+            bgmAudioSource.loop = true;
+        }
+        else
+        {
+            Debug.LogError("BGM GameObject not found.");
+        }
+
+        GameObject effectObject = GameObject.Find("GameSceneMgr") ?? GameObject.Find("Effect");
+        if (effectObject != null)
+        {
+            effectAudioSource = effectObject.GetComponent<AudioSource>();
             if (effectAudioSource == null)
             {
-                GameObject effectObject = GameObject.Find("GameSceneMgr");
-                if (effectObject != null)
-                {
-                    effectAudioSource = effectObject.GetComponent<AudioSource>();
-                    if (effectAudioSource == null)
-                    {
-                        effectAudioSource = effectObject.AddComponent<AudioSource>();
-                        yield return StartCoroutine(WaitForSceneChange());
-                    }
-                }
-                else if (SceneManager.GetActiveScene().name == "StartScene" || SceneManager.GetActiveScene().name == "IntroScene")
-                {
-                    yield return StartCoroutine(WaitForSceneChange());
-                }
-                else
-                {
-                    Debug.LogWarning("Effect GameObject not found");
-                }
+                effectAudioSource = effectObject.AddComponent<AudioSource>();
             }
-            else
-            {
-                yield return StartCoroutine(WaitForSceneChange());
-            }
-            yield return null;
+        }
+        else
+        {
+            Debug.LogWarning("Effect GameObject not found.");
         }
     }
     
@@ -127,10 +94,10 @@ public class SoundManager : MonoBehaviour
         yield return new WaitUntil(() => sceneLoaded);
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        sceneLoaded = true;
+        AssignAudioSources();
     }
 
     public static void InitializeVolumeBars()
@@ -151,13 +118,13 @@ public class SoundManager : MonoBehaviour
             instance.bgmVolumeBar.onValueChanged.RemoveAllListeners();
             instance.bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
         }
-
         if (instance.effectVolumeBar != null && instance.effectAudioSource != null)
         {
             instance.effectVolumeBar.value = instance.volumeLevels[SoundType.Effect];
             instance.effectVolumeBar.onValueChanged.RemoveAllListeners();
             instance.effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
         }
+
     }
 
     private void FindVolumeBars()
