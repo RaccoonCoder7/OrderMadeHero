@@ -625,11 +625,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     gamePanel.SetActive(false);
                 }
             };
-<<<<<<< Updated upstream
-            var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
-            GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
-            puzzleMgr.StartPuzzle();
-=======
 
             if (!BossBattleManager.Instance.lastWeekStatus)
             {
@@ -645,7 +640,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 puzzleMgr.StartPuzzle();
 
             }
->>>>>>> Stashed changes
         });
     }
 
