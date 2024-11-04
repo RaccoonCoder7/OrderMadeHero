@@ -212,7 +212,7 @@ public class DictionaryUI : MonoBehaviour
                         obj.SetActive(true);
                     }
                     clueName.text = "버니 갤러리";
-                    pictureSelectObjects[0].GetComponent<Text>().text = "바니 사진1";
+                    pictureSelectObjects[0].GetComponent<Text>().text = "버니 사진1";
                     Button pic1 = pictureSelectObjects[0].GetComponent<Button>();
                     pic1.onClick.RemoveAllListeners();
                     pic1.onClick.AddListener(() => { characterNum = 1; OnClickOpenGallery(); });
@@ -241,7 +241,7 @@ public class DictionaryUI : MonoBehaviour
                         obj.SetActive(true);
                     }
                     clueName.text = "버니 갤러리";
-                    pictureSelectObjects[0].GetComponent<Text>().text = "바니 사진1";
+                    pictureSelectObjects[0].GetComponent<Text>().text = "버니 사진1";
                     Button pic1 = pictureSelectObjects[0].GetComponent<Button>();
                     pic1.onClick.RemoveAllListeners();
                     pic1.onClick.AddListener(() => { characterNum = 1; OnClickOpenGallery(); });
