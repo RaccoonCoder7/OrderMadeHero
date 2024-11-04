@@ -140,26 +140,25 @@ public class SoundManager : MonoBehaviour
 
         if (instance.masterVolumeBar != null)
         {
+            instance.masterVolumeBar.value = instance.masterVolume;
             instance.masterVolumeBar.onValueChanged.RemoveAllListeners();
             instance.masterVolumeBar.onValueChanged.AddListener(SetMasterVolume);
-            instance.masterVolumeBar.value = instance.masterVolume;
         }
 
         if (instance.bgmVolumeBar != null)
         {
+            instance.bgmVolumeBar.value = instance.volumeLevels[SoundType.Bgm];
             instance.bgmVolumeBar.onValueChanged.RemoveAllListeners();
             instance.bgmVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Bgm, value));
-            instance.bgmVolumeBar.value = instance.bgmAudioSource.volume;
         }
 
         if (instance.effectVolumeBar != null && instance.effectAudioSource != null)
         {
+            instance.effectVolumeBar.value = instance.volumeLevels[SoundType.Effect];
             instance.effectVolumeBar.onValueChanged.RemoveAllListeners();
             instance.effectVolumeBar.onValueChanged.AddListener((value) => SetVolume(SoundType.Effect, value));
-            instance.effectVolumeBar.value = instance.effectAudioSource.volume;
         }
     }
-
 
     private void FindVolumeBars()
     {
@@ -172,6 +171,7 @@ public class SoundManager : MonoBehaviour
     {
         instance.masterVolume = Mathf.Clamp01(volume);
         UpdateVolumes();
+        SaveVolumeSettings();
     }
 
     public static void SetVolume(SoundType sound, float volume)
@@ -185,6 +185,8 @@ public class SoundManager : MonoBehaviour
             instance.effectAudioSource.volume = volume;
 
         UpdateVolumes();
+
+        SaveVolumeSettings();
     }
 
 
@@ -222,19 +224,27 @@ public class SoundManager : MonoBehaviour
 
     public static void LoadVolumeSettings()
     {
-        if (PlayerPrefs.HasKey("MasterVolume"))
+        instance.masterVolume = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
+        instance.volumeLevels[SoundType.Bgm] = PlayerPrefs.GetFloat("BgmVolume", 0.2f);
+        instance.volumeLevels[SoundType.Effect] = PlayerPrefs.GetFloat("EffectVolume", 1.0f);
+        if (instance.masterVolumeBar != null)
         {
-            instance.masterVolume = PlayerPrefs.GetFloat("MasterVolume");
+            instance.masterVolumeBar.value = instance.masterVolume;
         }
-        if (PlayerPrefs.HasKey("BgmVolume"))
+
+        if (instance.bgmVolumeBar != null)
         {
-            instance.volumeLevels[SoundType.Bgm] = PlayerPrefs.GetFloat("BgmVolume");
+            instance.bgmVolumeBar.value = instance.volumeLevels[SoundType.Bgm];
+            instance.bgmAudioSource.volume = instance.volumeLevels[SoundType.Bgm] * instance.masterVolume;
         }
-        if (PlayerPrefs.HasKey("EffectVolume"))
+
+        if (instance.effectVolumeBar != null && instance.effectAudioSource != null)
         {
-            instance.volumeLevels[SoundType.Effect] = PlayerPrefs.GetFloat("EffectVolume");
+            instance.effectVolumeBar.value = instance.volumeLevels[SoundType.Effect];
+            instance.effectAudioSource.volume = instance.volumeLevels[SoundType.Effect] * instance.masterVolume;
         }
     }
+
 
     public static void PlayOneShot(string audioName)
     {
