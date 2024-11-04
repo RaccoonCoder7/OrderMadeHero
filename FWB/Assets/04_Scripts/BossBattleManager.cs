@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System;
 using System.Linq;
-
+//보스전
 public class BossBattleManager : MonoBehaviour
 {
     public static BossBattleManager instance;
@@ -168,7 +168,7 @@ public class BossBattleManager : MonoBehaviour
 
         SetTableDatasForBossMode(bossname);
     }
-
+    
     private IEnumerator StartBossBattle()
     {
         ResetGameState();
