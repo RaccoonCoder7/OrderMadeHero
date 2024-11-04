@@ -363,10 +363,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
         if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
         {
+            int day = 1;
             if (startDay > 1)
             {
                 int week = 1 + (startDay / 7);
-                int day = startDay % 7;
+                day = startDay % 7;
                 if (day == 0)
                 {
                     day = 7;
@@ -374,9 +375,23 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 GameMgr.In.week = week;
                 GameMgr.In.day = (GameMgr.Day) day;
+
+                // 테스트용 코드
+                GameMgr.In.credit = 100000;
+                foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                {
+                    foreach (var bp in category.bluePrintList)
+                    {
+                        if (bp.orderEnable && bp.createEnable) continue;
+                        bool enable = bp.howToGet.Equals("튜토리얼");
+                        bp.orderEnable = enable;
+                        bp.createEnable = enable;
+                    }
+                }
+                // 테스트용 코드
             }
-            OnBasicUI(startDay);
-            StartCoroutine(StartEventSequence(startDay));
+            OnBasicUI(day);
+            StartCoroutine(StartEventSequence(day));
         }
         else
         {
@@ -507,7 +522,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             yield return StartCoroutine(StartNormalRoutine(GameMgr.In.dayCustomerCnt, EndNormalOrderRoutine));
                         }
                     }
-                    if (targetEvent != null && GameMgr.In.week == 1)
+                    if (targetEvent != null)
                     {
                         yield return StartCoroutine(StartEventFlow(targetEvent));
                     }
