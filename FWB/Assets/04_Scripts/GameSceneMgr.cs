@@ -622,9 +622,19 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             {
                 gamePanel.SetActive(false);
             };
-            var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
-            GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
-            puzzleMgr.StartPuzzle();
+
+            if (!BossBattleManager.Instance.lastWeekStatus)
+            {
+                var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
+                GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
+                puzzleMgr.StartPuzzle();
+            }
+            else
+            {
+                // TODO:
+                // 2. 제작하기 버튼 누르면 청사진 제작 화면으로 넘어가기
+                // BossBattleManager.instance.bossWeaponSettings();
+            }
         });
     }
 
