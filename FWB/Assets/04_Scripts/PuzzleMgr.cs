@@ -1377,7 +1377,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         for (int i = 2; i < 6; i++)
         {
-            chipArrForFeverMode[i] = null;
+            if (chipArrForFeverMode[i] != null)
+            {
+                chipArrForFeverMode[i].transform.parent.gameObject.SetActive(false);
+                chipArrForFeverMode[i] = null;
+            }
         }
 
         var tableChipList = GameMgr.In.chipTable.chipList;
@@ -1697,6 +1701,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             DestroyImmediate(puzzleChipParent.GetChild(i).gameObject);
         }
 
+        pressedChipIndex = -1;
+        currentSelectedChip = null;
+        currentSelectedChipData = null;
+        prevMousePos = Vector3.zero;
+
         selectedChipName.text = string.Empty;
         selectedChipPrice.text = string.Empty;
         selectedChipDesc.text = string.Empty;
@@ -1761,6 +1770,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private bool IsOrderRequirementSatisfied()
     {
+        if (isFeverMode) return true;
+
         // check blueprint
         if (GameMgr.In.currentOrder.requiredBlueprintKeyList.Count > 0)
         {
@@ -1892,7 +1903,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         gageParentObj.SetActive(false);
         filterAndSortParent.SetActive(true);
         dragImg.gameObject.SetActive(false);
-        // CommonTool.In.OpenAlertPanel("완성한 퍼즐 갯수: " + succeedPuzzleCnt);
 
         float credit = feverModeRevenue;
         float fame = feverModeFame;

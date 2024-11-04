@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
-using System.Linq;
 
 public class BossBattleManager : MonoBehaviour
 {
@@ -85,6 +84,7 @@ public class BossBattleManager : MonoBehaviour
         Initialize();
         HideInfoForBoss.enabled = false;
         isGameCanvasActive = gameCanvas.enabled;
+        // SetUIActive(lastWeekStatus);
         if (lastWeekStatus && isGameCanvasActive)
         {
             StartCoroutine(StartBossBattle());
@@ -164,8 +164,6 @@ public class BossBattleManager : MonoBehaviour
             bossname = "puppet";
         }
         bossIndex = isHero ? 1 : 2;
-
-        SetTableDatasForBossMode(bossname);
     }
 
     private IEnumerator StartBossBattle()
@@ -184,7 +182,6 @@ public class BossBattleManager : MonoBehaviour
 
         while (currentPuzzleIndex < maxPuzzleCnt)
         {
-
             isPuzzleCompleted = false;
             yield return new WaitUntil(() => isPuzzleCompleted);
         }
@@ -192,8 +189,6 @@ public class BossBattleManager : MonoBehaviour
         EndBossBattle(true);
     }
 
-
-    //set boss weapon
     private void WeaponSetting(string bossKey, int weaponIdx)
     {
         var bossWeapon = bossWeaponSettings.bossWeapons.Find(b => b.bossKey == bossKey);
@@ -202,12 +197,9 @@ public class BossBattleManager : MonoBehaviour
             if (weaponIdx >= 0 && weaponIdx < bossWeapon.weaponKeys.Count)
             {
                 string weaponKey = bossWeapon.weaponKeys[weaponIdx];
-                GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon("t_special", weaponKey);
-
-                gameSceneMgr.SetBossWeapon(weaponKey);
-
+                //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                //gameSceneMgr.SetBossWeapon(weaponKey);
                 Debug.Log("Key Setting: " + bossKey + ", " + weaponIdx + " with key: " + weaponKey);
-                Debug.Log("Current Blueprint set to: " + GameMgr.In.currentBluePrint.name);
             }
             else
             {
@@ -216,33 +208,7 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-    // º¸½ºº° ¹«±â ºí·çÇÁ¸°Æ® ¼³Á¤
-    private void SetTableDatasForBossMode(string bossname)
-    {
-        // ¸ðµç ºí·çÇÁ¸°Æ®¸¦ ºñÈ°¼ºÈ­
-        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
-        {
-            foreach (var bp in bpc.bluePrintList)
-            {
-                bp.createEnable = false;
-            }
-        }
 
-        // ¼±ÅÃµÈ º¸½º¿¡ µû¶ó Æ¯Á¤ ºí·çÇÁ¸°Æ®¸¸ È°¼ºÈ­
-        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
-        {
-            if (bpc.categoryKey.Equals("t_special"))
-            {
-                foreach (var bp in bpc.bluePrintList)
-                {
-                    if (bossWeaponSettings.bossWeapons.Any(bw => bw.bossKey == bossname && bw.weaponKeys.Contains(bp.bluePrintKey)))
-                    {
-                        bp.createEnable = true;
-                    }
-                }
-            }
-        }
-    }
 
     private void ApplyBossGimmick()
     {
@@ -281,6 +247,8 @@ public class BossBattleManager : MonoBehaviour
 
     private IEnumerator HandleDialogueAndContinue(int bossIndex, string resultKey, int result)
     {
+        yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, currentPuzzleIndex + 1, resultKey);
+
         if (result == 2)
         {
             succeedPuzzleCnt++;
@@ -296,7 +264,6 @@ public class BossBattleManager : MonoBehaviour
                 yield break;
             }
         }
-        yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, currentPuzzleIndex + 1, resultKey);
 
         isPuzzleCompleted = true;
         currentPuzzleIndex++;
@@ -309,7 +276,7 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-    //Ä³¸¯ÅÍ ÀÌ¹ÌÁö ºÐ·ù ÇÊ¿ä
+    //Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ð·ï¿½ ï¿½Ê¿ï¿½
     private void UpdateCharacterPopup(bool reset = false)
     {
         if (isHero)
@@ -371,12 +338,12 @@ public class BossBattleManager : MonoBehaviour
 
         if (success)
         {
-            CommonTool.In.OpenAlertPanel("º¸½º Ã³Ä¡ ¼º°ø!");
+            CommonTool.In.OpenAlertPanel("ï¿½ï¿½ï¿½ï¿½ Ã³Ä¡ ï¿½ï¿½ï¿½ï¿½!");
             gameCanvas.gameObject.SetActive(false);
         }
         else
         {
-            CommonTool.In.OpenAlertPanel("º¸½º Ã³Ä¡ ½ÇÆÐ... º¸½ºÀüÀ» ´Ù½Ã ½ÃÀÛÇÕ´Ï´Ù.");
+            CommonTool.In.OpenAlertPanel("ï¿½ï¿½ï¿½ï¿½ Ã³Ä¡ ï¿½ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         }
 
         ResetGameState();
