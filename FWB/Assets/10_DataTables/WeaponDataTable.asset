@@ -319,7 +319,7 @@ MonoBehaviour:
       orderEnable: 0
       createEnable: 0
       weaponState: 0
-      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 617a3dbba7c06b5459d722b96161eda0, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_speed
@@ -339,7 +339,7 @@ MonoBehaviour:
       orderEnable: 0
       createEnable: 0
       weaponState: 0
-      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 482c13bd537d10043b3c46ea5f281b98, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_attack
@@ -360,7 +360,7 @@ MonoBehaviour:
       orderEnable: 0
       createEnable: 0
       weaponState: 0
-      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 789ffc62e02c77740810002f682768b5, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_sound
@@ -379,7 +379,7 @@ MonoBehaviour:
       orderEnable: 0
       createEnable: 0
       weaponState: 0
-      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: d54b642a951c9884caa1c5643075d42a, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_acuity
@@ -396,7 +396,7 @@ MonoBehaviour:
       orderEnable: 0
       createEnable: 0
       weaponState: 0
-      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 21e97d22ec469b94c9afb346e6992846, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_brave
@@ -416,7 +416,7 @@ MonoBehaviour:
       orderEnable: 0
       createEnable: 0
       weaponState: 0
-      blueprintSprite: {fileID: 21300000, guid: 22a1b6ce28815294280ed6ed23b5ecac, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 14f3c1fb8b8f7b048b669cb3f258ab6d, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_sticky
