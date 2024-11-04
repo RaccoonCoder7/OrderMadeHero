@@ -75,7 +75,17 @@ public class EventFlowDay13 : EventFlow
         }
         battleManager.lastWeekStatus = true;
 
+<<<<<<< Updated upstream
         StartCoroutine(mgr.StartBossRoutine(5, mgr.EndNormalOrderRoutine));
+=======
+        battleManager.HideInfoForBoss.enabled = true;
+        battleManager.lastWeekStatus = true;
+        battleManager.DetermineBossAndAlly();
+        battleManager.SetBossBattleData();
+        mgr.popupPanel.SetActive(true);
+        battleManager.SetUIActive(true);
+
+>>>>>>> Stashed changes
     }
 
     //End Text 

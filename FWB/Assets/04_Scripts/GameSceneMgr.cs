@@ -620,11 +620,32 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             gamePanel.SetActive(true);
             puzzleMgr.OnMakingDone += (result) =>
             {
-                gamePanel.SetActive(false);
+                if(!BossBattleManager.Instance.lastWeekStatus)
+                {
+                    gamePanel.SetActive(false);
+                }
             };
+<<<<<<< Updated upstream
             var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
             GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
             puzzleMgr.StartPuzzle();
+=======
+
+            if (!BossBattleManager.Instance.lastWeekStatus)
+            {
+                var key = bluePrintSlotList[currentSelectedWeaponIndex].key;
+                GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon(currentSelectedWeaponCategoryKey, key);
+                puzzleMgr.StartPuzzle();
+            }
+            else
+            {
+                Debug.Log(GameMgr.In.currentBluePrint);
+                StartCoroutine(BossBattleManager.instance.StartBossBattle());
+                BossBattleManager.instance.UpdateTimer();
+                puzzleMgr.StartPuzzle();
+
+            }
+>>>>>>> Stashed changes
         });
     }
 
