@@ -84,7 +84,7 @@ public class BossBattleManager : MonoBehaviour
         Initialize();
         HideInfoForBoss.enabled = false;
         isGameCanvasActive = gameCanvas.enabled;
-        SetUIActive(lastWeekStatus);
+        // SetUIActive(lastWeekStatus);
         if (lastWeekStatus && isGameCanvasActive)
         {
             StartCoroutine(StartBossBattle());
@@ -197,7 +197,7 @@ public class BossBattleManager : MonoBehaviour
             if (weaponIdx >= 0 && weaponIdx < bossWeapon.weaponKeys.Count)
             {
                 string weaponKey = bossWeapon.weaponKeys[weaponIdx];
-                //°ÔÀÓ ¾À ¸Å´ÏÀú. º¸½º ¿þÆù ¼¼ÆÃ ºÁ¾ßÇÔ
+                //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 //gameSceneMgr.SetBossWeapon(weaponKey);
                 Debug.Log("Key Setting: " + bossKey + ", " + weaponIdx + " with key: " + weaponKey);
             }
@@ -276,7 +276,7 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-    //Ä³¸¯ÅÍ ÀÌ¹ÌÁö ºÐ·ù ÇÊ¿ä
+    //Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ð·ï¿½ ï¿½Ê¿ï¿½
     private void UpdateCharacterPopup(bool reset = false)
     {
         if (isHero)
@@ -338,12 +338,12 @@ public class BossBattleManager : MonoBehaviour
 
         if (success)
         {
-            CommonTool.In.OpenAlertPanel("º¸½º Ã³Ä¡ ¼º°ø!");
+            CommonTool.In.OpenAlertPanel("ï¿½ï¿½ï¿½ï¿½ Ã³Ä¡ ï¿½ï¿½ï¿½ï¿½!");
             gameCanvas.gameObject.SetActive(false);
         }
         else
         {
-            CommonTool.In.OpenAlertPanel("º¸½º Ã³Ä¡ ½ÇÆÐ... º¸½ºÀüÀ» ´Ù½Ã ½ÃÀÛÇÕ´Ï´Ù.");
+            CommonTool.In.OpenAlertPanel("ï¿½ï¿½ï¿½ï¿½ Ã³Ä¡ ï¿½ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         }
 
         ResetGameState();
