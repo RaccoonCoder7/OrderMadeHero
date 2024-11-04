@@ -697,7 +697,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void OnClickHint(Button btn)
     {
-        StartCoroutine(HintBtnAnim(btn));
+        //StartCoroutine(HintBtnAnim(btn));
     }
 
     private IEnumerator HintBtnAnim(Button btn)
