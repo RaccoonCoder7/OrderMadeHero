@@ -365,12 +365,12 @@ public class BossBattleManager : MonoBehaviour
 
         if (success)
         {
-            CommonTool.In.OpenAlertPanel("���� óġ ����!");
+            CommonTool.In.OpenAlertPanel("보스전 성공!");
             gameCanvas.gameObject.SetActive(false);
         }
         else
         {
-            CommonTool.In.OpenAlertPanel("���� óġ ����... �������� �ٽ� �����մϴ�.");
+            CommonTool.In.OpenAlertPanel("보스전 실패...");
         }
 
         ResetGameState();
