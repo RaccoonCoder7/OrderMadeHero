@@ -1,4 +1,4 @@
-!speaker_PC나비 !focus_490_990_290_75 !next
+!speaker_PC나비 !image_no !focus_490_990_290_75 !next
 저게 바로 주인님의 성향치야!
 주인님이 쉽게 이해할 수 있게
 막대 형태로 표시를 해 뒀어.
