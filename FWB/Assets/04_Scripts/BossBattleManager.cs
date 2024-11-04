@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using System.Linq;
 
 public class BossBattleManager : MonoBehaviour
 {
@@ -164,6 +165,8 @@ public class BossBattleManager : MonoBehaviour
             bossname = "puppet";
         }
         bossIndex = isHero ? 1 : 2;
+
+        SetTableDatasForBossMode(bossname);
     }
 
     private IEnumerator StartBossBattle()
@@ -197,9 +200,11 @@ public class BossBattleManager : MonoBehaviour
             if (weaponIdx >= 0 && weaponIdx < bossWeapon.weaponKeys.Count)
             {
                 string weaponKey = bossWeapon.weaponKeys[weaponIdx];
-                //���� �� �Ŵ���. ���� ���� ���� ������
-                //gameSceneMgr.SetBossWeapon(weaponKey);
+                GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon("t_special", weaponKey);
+
+                gameSceneMgr.SetBossWeapon(weaponKey);
                 Debug.Log("Key Setting: " + bossKey + ", " + weaponIdx + " with key: " + weaponKey);
+                Debug.Log("Current Blueprint set to: " + GameMgr.In.currentBluePrint.name);
             }
             else
             {
@@ -208,7 +213,30 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
+    private void SetTableDatasForBossMode(string bossname)
+    {
+        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+        {
+            foreach (var bp in bpc.bluePrintList)
+            {
+                bp.createEnable = false;
+            }
+        }
 
+        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+        {
+            if (bpc.categoryKey.Equals("t_special"))
+            {
+                foreach (var bp in bpc.bluePrintList)
+                {
+                    if (bossWeaponSettings.bossWeapons.Any(bw => bw.bossKey == bossname && bw.weaponKeys.Contains(bp.bluePrintKey)))
+                    {
+                        bp.createEnable = true;
+                    }
+                }
+            }
+        }
+    }
 
     private void ApplyBossGimmick()
     {
@@ -247,7 +275,6 @@ public class BossBattleManager : MonoBehaviour
 
     private IEnumerator HandleDialogueAndContinue(int bossIndex, string resultKey, int result)
     {
-        yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, currentPuzzleIndex + 1, resultKey);
 
         if (result == 2)
         {
@@ -264,6 +291,7 @@ public class BossBattleManager : MonoBehaviour
                 yield break;
             }
         }
+        yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, currentPuzzleIndex + 1, resultKey);
 
         isPuzzleCompleted = true;
         currentPuzzleIndex++;
@@ -276,7 +304,6 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-    //ĳ���� �̹��� �з� �ʿ�
     private void UpdateCharacterPopup(bool reset = false)
     {
         if (isHero)
