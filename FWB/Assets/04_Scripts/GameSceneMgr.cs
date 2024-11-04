@@ -2452,6 +2452,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public void SetBossWeapon(string key)
     {
         var weapon = GameMgr.In.GetWeapon("t_special", key);
+        if (weapon == null)
+        {
+            Debug.LogError("Weapon with key " + key + " not found!");
+            return;
+        }
         RefreshWeaponData(weapon);
+        GameMgr.In.currentBluePrint = weapon;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using System.Linq;
 
 public class BossBattleManager : MonoBehaviour
 {
@@ -84,7 +85,6 @@ public class BossBattleManager : MonoBehaviour
         Initialize();
         HideInfoForBoss.enabled = false;
         isGameCanvasActive = gameCanvas.enabled;
-        SetUIActive(lastWeekStatus);
         if (lastWeekStatus && isGameCanvasActive)
         {
             StartCoroutine(StartBossBattle());
@@ -164,6 +164,8 @@ public class BossBattleManager : MonoBehaviour
             bossname = "puppet";
         }
         bossIndex = isHero ? 1 : 2;
+
+        SetTableDatasForBossMode(bossname);
     }
 
     private IEnumerator StartBossBattle()
@@ -182,6 +184,7 @@ public class BossBattleManager : MonoBehaviour
 
         while (currentPuzzleIndex < maxPuzzleCnt)
         {
+
             isPuzzleCompleted = false;
             yield return new WaitUntil(() => isPuzzleCompleted);
         }
@@ -189,6 +192,8 @@ public class BossBattleManager : MonoBehaviour
         EndBossBattle(true);
     }
 
+
+    //set boss weapon
     private void WeaponSetting(string bossKey, int weaponIdx)
     {
         var bossWeapon = bossWeaponSettings.bossWeapons.Find(b => b.bossKey == bossKey);
@@ -197,9 +202,12 @@ public class BossBattleManager : MonoBehaviour
             if (weaponIdx >= 0 && weaponIdx < bossWeapon.weaponKeys.Count)
             {
                 string weaponKey = bossWeapon.weaponKeys[weaponIdx];
-                //게임 씬 매니저. 보스 웨폰 세팅 봐야함
-                //gameSceneMgr.SetBossWeapon(weaponKey);
+                GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon("t_special", weaponKey);
+
+                gameSceneMgr.SetBossWeapon(weaponKey);
+
                 Debug.Log("Key Setting: " + bossKey + ", " + weaponIdx + " with key: " + weaponKey);
+                Debug.Log("Current Blueprint set to: " + GameMgr.In.currentBluePrint.name);
             }
             else
             {
@@ -208,7 +216,33 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
+    // 보스별 무기 블루프린트 설정
+    private void SetTableDatasForBossMode(string bossname)
+    {
+        // 모든 블루프린트를 비활성화
+        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+        {
+            foreach (var bp in bpc.bluePrintList)
+            {
+                bp.createEnable = false;
+            }
+        }
 
+        // 선택된 보스에 따라 특정 블루프린트만 활성화
+        foreach (var bpc in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+        {
+            if (bpc.categoryKey.Equals("t_special"))
+            {
+                foreach (var bp in bpc.bluePrintList)
+                {
+                    if (bossWeaponSettings.bossWeapons.Any(bw => bw.bossKey == bossname && bw.weaponKeys.Contains(bp.bluePrintKey)))
+                    {
+                        bp.createEnable = true;
+                    }
+                }
+            }
+        }
+    }
 
     private void ApplyBossGimmick()
     {
@@ -247,8 +281,6 @@ public class BossBattleManager : MonoBehaviour
 
     private IEnumerator HandleDialogueAndContinue(int bossIndex, string resultKey, int result)
     {
-        yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, currentPuzzleIndex + 1, resultKey);
-
         if (result == 2)
         {
             succeedPuzzleCnt++;
@@ -264,6 +296,7 @@ public class BossBattleManager : MonoBehaviour
                 yield break;
             }
         }
+        yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, currentPuzzleIndex + 1, resultKey);
 
         isPuzzleCompleted = true;
         currentPuzzleIndex++;
