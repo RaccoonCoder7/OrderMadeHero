@@ -99,7 +99,6 @@ public class GameMgr : SingletonMono<GameMgr>
         if ((int)day > System.Enum.GetValues(typeof(Day)).Length)
         {
             week++;
-            if (week > 4) week = 1;
             day = (Day)1;
             GameMgr.In.feverModeProbability = 0;
         }

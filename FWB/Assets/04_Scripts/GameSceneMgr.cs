@@ -363,6 +363,18 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
         if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
         {
+            if (startDay > 1)
+            {
+                int week = 1 + (startDay / 7);
+                int day = startDay % 7;
+                if (day == 0)
+                {
+                    day = 7;
+                    week--;
+                }
+                GameMgr.In.week = week;
+                GameMgr.In.day = (GameMgr.Day) day;
+            }
             OnBasicUI(startDay);
             StartCoroutine(StartEventSequence(startDay));
         }
@@ -1531,7 +1543,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         GameMgr.In.ResetDayData();
         GameMgr.In.SetNextDayData();
         string week = GameMgr.In.week.ToString();
-        weekText.text = week;
+        weekText.text = week + "주차";
         string day = GameMgr.In.day.ToString();
         dateText.text = day;
         dateMessage.text = GameMgr.In.week + "주차\n" + day + "요일";
