@@ -64,7 +64,7 @@ public class EventFlowDay3 : EventFlow
         mgr.popupChatPanel.SetActive(false);
         mgr.chatTarget = GameSceneMgr.ChatTarget.None;
 
-        mgr.shopUISlotList[0].button.onClick.AddListener(OnClickChipSet);
+        mgr.shopUISlotList.Find(x => x.transform.GetSiblingIndex() == 0).button.onClick.AddListener(OnClickChipSet);
         mgr.shopPopupUI.no.interactable = false;
         mgr.shopPopupUI.yes.onClick.AddListener(OnClickPopupYes);
     }

@@ -390,8 +390,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 // 테스트용 코드
             }
-            OnBasicUI(day);
-            StartCoroutine(StartEventSequence(day));
+            OnBasicUI(startDay);
+            StartCoroutine(StartEventSequence(startDay));
         }
         else
         {
@@ -405,7 +405,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 shop.onClick.RemoveAllListeners();
                 shop.onClick.AddListener(OnClickShop);
                 shopDodge.onClick.AddListener(OnClickShopDodge);
-                StartCoroutine(StartEventSequence((int)GameMgr.In.day));
+                StartCoroutine(StartEventSequence(startDay));
             }
             else
             {
@@ -446,7 +446,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             else
                             {
                                 StartCoroutine(FadeToNextDay());
-                                StartCoroutine(StartEventSequence((int)GameMgr.In.day));
+                                StartCoroutine(StartEventSequence(startDay));
                             }
                         });
                         pc.onClick.RemoveAllListeners();
@@ -458,7 +458,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 else
                 {
-                    StartCoroutine(StartEventSequence((int)GameMgr.In.day));
+                    StartCoroutine(StartEventSequence(startDay));
                 }
             }
         }
@@ -511,8 +511,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         Debug.Log("Start Event Sequence");
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
         {
-            int week = GameMgr.In.week - 1;
-            string eventKey = "day" + (i + (week * 7));
+            string eventKey = "day" + i;
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
             isEventFlowing = true;
             if (targetEvent != null)
@@ -2363,7 +2362,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         creditPanel.SetActive(false);
         yield return StartCoroutine(CommonTool.In.FadeOut());
         yield return StartCoroutine(CommonTool.In.FadeIn());
-        if (GameMgr.In.week > 1)
+        if (GameMgr.In.week > 1 || GameMgr.In.day == GameMgr.Day.일)
         {
             if (GameMgr.In.tendency < 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Hero)
             {
