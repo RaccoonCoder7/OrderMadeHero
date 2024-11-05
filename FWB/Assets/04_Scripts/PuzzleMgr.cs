@@ -2023,9 +2023,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             if (currentPercent > 0.5f)
             {
-                if (gageImage.color != Color.green)
+                if (!greenParticleParentObj.activeSelf)
                 {
-                    gageImage.color = Color.green;
                     greenParticleParentObj.SetActive(true);
                     yellowParticleParentObj.SetActive(false);
                     redParticleParentObj.SetActive(false);
@@ -2033,9 +2032,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             else if (currentPercent < 0.15f)
             {
-                if (gageImage.color != Color.red)
+                if (!redParticleParentObj.activeSelf)
                 {
-                    gageImage.color = Color.red;
                     greenParticleParentObj.SetActive(false);
                     yellowParticleParentObj.SetActive(false);
                     redParticleParentObj.SetActive(true);
@@ -2043,9 +2041,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             else
             {
-                if (gageImage.color != Color.yellow)
+                if (!yellowParticleParentObj.activeSelf)
                 {
-                    gageImage.color = Color.yellow;
                     greenParticleParentObj.SetActive(false);
                     yellowParticleParentObj.SetActive(true);
                     redParticleParentObj.SetActive(false);

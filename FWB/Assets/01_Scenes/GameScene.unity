@@ -11669,7 +11669,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1100, y: 50}
+  m_SizeDelta: {x: 1088, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &340375173
 MonoBehaviour:
@@ -11684,14 +11684,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 089fb5ecbcd54244e9e0bd96b967fd71, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15704,7 +15704,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -22}
-  m_SizeDelta: {x: 1110, y: 60}
+  m_SizeDelta: {x: 1107, y: 63}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &447081172
 MonoBehaviour:
@@ -15719,14 +15719,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.5019608, b: 0.8000001, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: dee622778befab941864b687d3e5d516, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16780,7 +16780,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1100, y: 50}
+  m_SizeDelta: {x: 1088, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &469202246
 MonoBehaviour:
@@ -26133,7 +26133,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 1
+  startDay: 9
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
