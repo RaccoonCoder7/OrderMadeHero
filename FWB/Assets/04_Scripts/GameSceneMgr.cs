@@ -1234,6 +1234,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
             listCnt = bluePrintList.Count;
 
+            bluePrintList.Sort((BluePrint a, BluePrint b) => { return a.buyPrice.CompareTo(b.buyPrice); });
+
             for (int i = startIndex; i < startIndex + 10; i++)
             {
                 if (i < listCnt)
@@ -1337,6 +1339,9 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             {
                 listCnt = chipList.Count;
             }
+
+            chipList.Sort((ChipTable.Chip a, ChipTable.Chip b) => { return a.price.CompareTo(b.price); });
+
             for (int i = startIndex; i < startIndex + 10; i++)
             {
                 if (i < listCnt)
@@ -1439,12 +1444,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
                 Instantiate(shopUiSlotNoItemPrefab, shopItemParentTr);
             }
-        }
-
-        shopUISlotList.Sort((ShopUISlot a, ShopUISlot b) => { return b.price.CompareTo(a.price); });
-        foreach (var slot in shopUISlotList)
-        {
-            slot.transform.SetSiblingIndex(0);
         }
 
         shopPageUp.interactable = currentShopPage > 0;
