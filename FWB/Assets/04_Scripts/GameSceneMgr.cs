@@ -360,6 +360,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
+        if (DataSaveLoad.dataSave.isLoaded)
+        {
+            startDay = (GameMgr.In.week - 1) * 7 + (int)GameMgr.In.day;
+        }
+
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
         if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
         {
