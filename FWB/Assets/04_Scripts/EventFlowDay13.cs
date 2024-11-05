@@ -73,18 +73,15 @@ public class EventFlowDay13 : EventFlow
         {
             image.imageObj.SetActive(false);
         }
+        battleManager.lastWeekStatus = true;
 
-        // TODO:
-        // 1. 무기선택화면 띄우기
-        // - mgr.popupPanel.SetActive(true);
-        // - 무기데이터 바꿔주기 <<
+        battleManager.HideInfoForBoss.enabled = true;
+        battleManager.lastWeekStatus = true;
+        battleManager.DetermineBossAndAlly();
+        battleManager.SetBossBattleData();
+        mgr.popupPanel.SetActive(true);
+        battleManager.SetUIActive(true);
 
-        // TODO:
-        // 3. 보스배틀에 필요한 데이터들 지정해주기
-        // ex) 게이지, chipSize, 등등
-
-        // battleManager.lastWeekStatus = true;
-        // StartCoroutine(mgr.StartBossRoutine(5, mgr.EndNormalOrderRoutine));
     }
 
     //End Text 

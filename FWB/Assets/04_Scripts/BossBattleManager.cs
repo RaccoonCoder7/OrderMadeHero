@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System;
 using System.Linq;
+using System.Reflection;
 //보스전
 public class BossBattleManager : MonoBehaviour
 {
@@ -52,7 +53,7 @@ public class BossBattleManager : MonoBehaviour
     private bool isPuzzleCompleted;
     public bool isGamePlaying;
     private int succeedPuzzleCnt;
-    private int failureCount;
+    private int failureCount = 0;
     public float timer;
     private int currentPuzzleIndex;
     private bool isHero;
@@ -61,13 +62,12 @@ public class BossBattleManager : MonoBehaviour
     private string currentBossKey;
 
     public bool lastWeekStatus = false;
-    private bool isBossBattleActive = false;
     private bool isGameCanvasActive;
-    private int bossIndex;
+    public int bossIndex;
     private string bossname;
     public delegate void BossBattleResult(bool success);
     public event BossBattleResult OnBossBattleEnded;
-
+    public string weaponKey;
     public static BossBattleManager Instance
     {
         get
@@ -79,54 +79,24 @@ public class BossBattleManager : MonoBehaviour
             return instance;
         }
     }
-
+    private string resultKey;
     private void Start()
     {
         Initialize();
         HideInfoForBoss.enabled = false;
         isGameCanvasActive = gameCanvas.enabled;
-        // SetUIActive(lastWeekStatus);
-        if (lastWeekStatus && isGameCanvasActive)
-        {
-            StartCoroutine(StartBossBattle());
-        }
     }
 
     private void Update()
     {
-        if (lastWeekStatus && !isBossBattleActive)
+        if (lastWeekStatus)
         {
-            SetUIActive(lastWeekStatus);
-            if (lastWeekStatus && isGameCanvasActive)
-            {
-                StartCoroutine(StartBossBattle());
-                isBossBattleActive = true;
-                HideInfoForBoss.enabled = true;
-            }
-            else
-            {
-                StopAllCoroutines();
-                ResetGameState();
-                isBossBattleActive = false;
-                HideInfoForBoss.enabled = false;
-            }
+
+            //StopAllCoroutines();
+            //ResetGameState();
+            //isBossBattleActive = false;
         }
 
-        if (gameCanvas.enabled != isGameCanvasActive)
-        {
-            isGameCanvasActive = gameCanvas.enabled;
-            if (isGameCanvasActive && lastWeekStatus)
-            {
-                SetUIActive(true);
-                StartCoroutine(StartBossBattle());
-                isBossBattleActive = true;
-            }
-        }
-
-        if (isGamePlaying && isGameCanvasActive && lastWeekStatus)
-        {
-            UpdateTimer();
-        }
     }
 
     private void Initialize()
@@ -136,13 +106,13 @@ public class BossBattleManager : MonoBehaviour
         SaveOriginalChipColors();
 
         clearPuzzleButton.onClick.RemoveAllListeners();
-        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
+        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
 
         failPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
     }
 
-    private void SetUIActive(bool isActive)
+    public void SetUIActive(bool isActive)
     {
         gage.gameObject.SetActive(isActive);
         clearPuzzleButton.gameObject.SetActive(isActive);
@@ -150,7 +120,7 @@ public class BossBattleManager : MonoBehaviour
         dialogueBox.gameObject.SetActive(isActive);
     }
 
-    private void DetermineBossAndAlly()
+    public void DetermineBossAndAlly()
     {
         if (gameMgr.tendency >= 0)
         {
@@ -169,10 +139,9 @@ public class BossBattleManager : MonoBehaviour
         SetTableDatasForBossMode(bossname);
     }
     
-    private IEnumerator StartBossBattle()
+    public void SetBossBattleData()
     {
         ResetGameState();
-        DetermineBossAndAlly();
         WeaponSetting(bossname, 0);
 
         puzzleMgr.isFeverMode = false;
@@ -180,16 +149,26 @@ public class BossBattleManager : MonoBehaviour
         isGamePlaying = true;
 
         puzzleMgr.OnMakingDone += OnBossBattleMakingDone;
+    }
 
-        yield return bossDialogueMgr.ShowDialogue("chapter1",bossIndex,0,"start");
+    public IEnumerator StartBossBattle()
+    {
+        yield return bossDialogueMgr.ShowDialogue("chapter1", bossIndex, 0, "start");
 
         while (currentPuzzleIndex < maxPuzzleCnt)
         {
-            isPuzzleCompleted = false;
-            yield return new WaitUntil(() => isPuzzleCompleted);
-        }
+            puzzleMgr.OnMakingDone += OnBossBattleMakingDone;
 
-        EndBossBattle(true);
+            isPuzzleCompleted = false;
+            while (!isPuzzleCompleted)
+            {
+                if (!isGamePlaying)
+                {
+                    yield break;
+                }
+                yield return null;
+            }
+        }
     }
 
     private void WeaponSetting(string bossKey, int weaponIdx)
@@ -199,8 +178,7 @@ public class BossBattleManager : MonoBehaviour
         {
             if (weaponIdx >= 0 && weaponIdx < bossWeapon.weaponKeys.Count)
             {
-                string weaponKey = bossWeapon.weaponKeys[weaponIdx];
-                GameMgr.In.currentBluePrint = GameMgr.In.GetWeapon("t_special", weaponKey);
+                weaponKey = bossWeapon.weaponKeys[weaponIdx];
 
                 gameSceneMgr.SetBossWeapon(weaponKey);
                 Debug.Log("Key Setting: " + bossKey + ", " + weaponIdx + " with key: " + weaponKey);
@@ -268,23 +246,39 @@ public class BossBattleManager : MonoBehaviour
     private void OnBossBattleMakingDone(int result)
     {
         if (!isGamePlaying) return;
-        string resultKey = result == 2 ? "success" : "fail";
+        isPuzzleCompleted = true;
 
+        switch (result)
+        {
+            case 1:
+                resultKey = "fail";
+                failureCount += 2;
+                break;
+            case 2:
+                resultKey = "success";
+                succeedPuzzleCnt++;
+                failureCount += 1;
+                break;
+            case 3:
+                resultKey = "greatSuccess";
+                succeedPuzzleCnt++;
+                break;
+            default:
+                resultKey = "fail";
+                failureCount += 2;
+                break;
+        }
+        UpdateCharacterPopup();
         StartCoroutine(HandleDialogueAndContinue(bossIndex, resultKey, result));
     }
-
     private IEnumerator HandleDialogueAndContinue(int bossIndex, string resultKey, int result)
     {
-
-        if (result == 2)
+        if (result == 2 || result == 3)
         {
-            succeedPuzzleCnt++;
             ScreenShake();
         }
         else
         {
-            failureCount++;
-            UpdateCharacterPopup();
             if (failureCount >= 3)
             {
                 EndBossBattle(false);
@@ -296,6 +290,9 @@ public class BossBattleManager : MonoBehaviour
         isPuzzleCompleted = true;
         currentPuzzleIndex++;
         WeaponSetting(bossname, currentPuzzleIndex);
+        gameSceneMgr.gamePanel.SetActive(false);
+        gameSceneMgr.popupPanel.SetActive(true);
+
         ApplyBossGimmick();
 
         if (currentPuzzleIndex < maxPuzzleCnt)
@@ -316,14 +313,14 @@ public class BossBattleManager : MonoBehaviour
             {
                 switch (failureCount)
                 {
+                    case 0:
+                        dialogueBoxImage.sprite = bunnyNormalSprite;
+                        break;
                     case 1:
                         dialogueBoxImage.sprite = bunnyCrackedSprite;
                         break;
-                    case 2:
-                        dialogueBoxImage.sprite = bunnyBrokenSprite;
-                        break;
                     default:
-                        dialogueBoxImage.sprite = bunnyNormalSprite;
+                        dialogueBoxImage.sprite = bunnyBrokenSprite;
                         break;
                 }
             }
@@ -338,20 +335,19 @@ public class BossBattleManager : MonoBehaviour
             {
                 switch (failureCount)
                 {
+                    case 0:
+                        dialogueBoxImage.sprite = puppetNormalSprite; 
+                        break;
                     case 1:
                         dialogueBoxImage.sprite = puppetCrackedSprite; 
                         break;
-                    case 2:
-                        dialogueBoxImage.sprite = puppetBrokenSprite; 
-                        break;
                     default:
-                        dialogueBoxImage.sprite = puppetNormalSprite; 
+                        dialogueBoxImage.sprite = puppetBrokenSprite; 
                         break;
                 }
             }
         }
     }
-
 
     private void ProcessPuzzleResult(int result)
     {
@@ -378,7 +374,7 @@ public class BossBattleManager : MonoBehaviour
         clearPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.RemoveAllListeners();
 
-        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
+        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
 
         if (!success)
@@ -403,13 +399,13 @@ public class BossBattleManager : MonoBehaviour
         UpdateCharacterPopup(true);
 
         clearPuzzleButton.onClick.RemoveAllListeners();
-        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
+        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
         failPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(1));
     }
 
 
-    private void UpdateTimer()
+    public void UpdateTimer()
     {
         if (!isGameCanvasActive && !lastWeekStatus) return;
 

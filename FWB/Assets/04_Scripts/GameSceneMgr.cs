@@ -148,6 +148,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Text popupOrderText;
     public Text comment;
     public Text essentialCondition;
+    public Text specialGimmick;
     public Text weaponCategory;
     public Text howToGet;
     public Text historyText;
@@ -228,7 +229,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private List<GameObject> activatedObjList = new List<GameObject>();
     private RectTransform blueprintImgRectTr;
     private SpriteChange indexSC;
-    private TendencyChangeMgr tendencyChangeMgr;
     private int previousMobAvatarIndex = 0;
     private string saveSlot;
     private bool isSaving;
@@ -300,7 +300,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         CommonTool.In.shopFollowUI = shopFollowUI;
         alertPanelImg = alertPanel.GetComponentInChildren<Image>();
         indexSC = index.GetComponent<SpriteChange>();
-        tendencyChangeMgr = GetComponent<TendencyChangeMgr>();
 
         DataSaveLoad.dataSave.AssignSceneObjects(slots1, slots2, slots3, toLeft, toRight, mainCam);
 
@@ -402,27 +401,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 Debug.Log("Bankrupt refresh");
                 GameMgr.In.isBankrupt = false;
                 isEventFlowing = false;
-                shopControlBlockingPanel.SetActive(false);
-                shop.onClick.RemoveAllListeners();
-                shop.onClick.AddListener(OnClickShop);
-                shopDodge.onClick.AddListener(OnClickShopDodge);
                 StartCoroutine(StartEventSequence((int)GameMgr.In.day));
             }
             else
             {
                 OnBasicUI((int)GameMgr.In.day);
-                if ((int)GameMgr.In.day > 3)
-                {
-                    shopControlBlockingPanel.SetActive(false);
-                    shop.onClick.AddListener(OnClickShop);
-                    shopDodge.onClick.AddListener(OnClickShopDodge);
-                }
-                else if((int)GameMgr.In.day == 3 && GameMgr.In.isEventOn == 0)
-                {
-                    shopControlBlockingPanel.SetActive(false);
-                    shop.onClick.AddListener(OnClickShop);
-                    shopDodge.onClick.AddListener(OnClickShopDodge);
-                }
 
                 if (GameMgr.In.dayCustomerCnt <= 0 && GameMgr.In.isEventOn == 0)
                 {
@@ -512,13 +495,37 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         Debug.Log("Start Event Sequence");
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
         {
+            bool isMonday = (int)GameMgr.In.day == 1 && GameMgr.In.week >= 2;
             int week = GameMgr.In.week - 1;
             string eventKey = "day" + (i + (week * 7));
+            string weeklyEventKey = "week" + week;
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
+            var weeklyTargetEvent = eventFlowList.Find(x => x.eventKey.Equals(weeklyEventKey));
             isEventFlowing = true;
-            if (targetEvent != null)
+            if ((isMonday && weeklyTargetEvent != null) || targetEvent != null)
             {
-                yield return StartCoroutine(StartEventFlow(targetEvent));
+                    if (isMonday && weeklyTargetEvent != null &&
+                        GameMgr.In.newsProgress != GameMgr.In.week - 1)
+                    {
+                        yield return StartCoroutine(StartEventFlow(weeklyTargetEvent));
+                    }
+                    else if(isMonday && weeklyTargetEvent != null && GameMgr.In.newsProgress == GameMgr.In.week - 1)
+                    {
+                        if (!GameMgr.In.isBankrupt && !DataSaveLoad.dataSave.isLoaded)
+                        {
+                            Debug.Log("Start Normal Order");
+                            yield return StartCoroutine(StartNormalRoutine(5, EndNormalOrderRoutine));
+                        }
+                        else if (DataSaveLoad.dataSave.isLoaded)
+                        {
+                            Debug.Log("Start Loaded Order");
+                            yield return StartCoroutine(StartNormalRoutine(GameMgr.In.dayCustomerCnt, EndNormalOrderRoutine));
+                        }
+                    }
+                    if (targetEvent != null)
+                    {
+                        yield return StartCoroutine(StartEventFlow(targetEvent));
+                    }
             }
             else
             {
@@ -613,7 +620,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             gamePanel.SetActive(true);
             puzzleMgr.OnMakingDone += (result) =>
             {
-                gamePanel.SetActive(false);
+                if(!BossBattleManager.Instance.lastWeekStatus)
+                {
+                    gamePanel.SetActive(false);
+                }
             };
 
             if (!BossBattleManager.Instance.lastWeekStatus)
@@ -624,9 +634,11 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
             else
             {
-                // TODO:
-                // 2. 제작하기 버튼 누르면 청사진 제작 화면으로 넘어가기
-                // BossBattleManager.instance.bossWeaponSettings();
+                Debug.Log(GameMgr.In.currentBluePrint);
+                StartCoroutine(BossBattleManager.instance.StartBossBattle());
+                BossBattleManager.instance.UpdateTimer();
+                puzzleMgr.StartPuzzle();
+
             }
         });
     }
@@ -714,7 +726,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void OnClickHint(Button btn)
     {
-        //StartCoroutine(HintBtnAnim(btn));
+        StartCoroutine(HintBtnAnim(btn));
     }
 
     private IEnumerator HintBtnAnim(Button btn)
@@ -1874,6 +1886,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public IEnumerator StartShopInAnim()
     {
         StartCoroutine(shopSpriteAnim.StartAnim());
+
         while (shopSpriteAnim.textureIndex < (shopSpriteAnim.textureList.Count / 3))
         {
             yield return null;
@@ -1953,7 +1966,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             if (speaker.Trim().Equals("popup"))
                             {
                                 chatTarget = ChatTarget.Popup;
-                                speaker = splittedCom[2];
                                 // TODO: speaker에 따라서 이미지 변경
                             }
                             else if (speaker.Trim().Equals("full"))
@@ -1984,7 +1996,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         {
                             deskNavi.SetActive(true);
                             chatTarget = ChatTarget.Mascot;
-                            speaker = CommonTool.In.mascotName;
                         }
                         else
                         {
@@ -2362,19 +2373,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         creditPanel.SetActive(false);
         yield return StartCoroutine(CommonTool.In.FadeOut());
         yield return StartCoroutine(CommonTool.In.FadeIn());
-        if (GameMgr.In.week > 1)
-        {
-            if (GameMgr.In.tendency < 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Hero)
-            {
-                StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(false));
-                GameMgr.In.tendencyType = GameMgr.TendencyType.Villain;
-            }
-            else if (GameMgr.In.tendency >= 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Villain)
-            {
-                StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(true));
-                GameMgr.In.tendencyType = GameMgr.TendencyType.Hero;
-            }
-        }
         isEventFlowing = false;
     }
 
