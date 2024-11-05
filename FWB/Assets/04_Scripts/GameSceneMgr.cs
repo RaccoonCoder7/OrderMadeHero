@@ -401,11 +401,27 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 Debug.Log("Bankrupt refresh");
                 GameMgr.In.isBankrupt = false;
                 isEventFlowing = false;
+                shopControlBlockingPanel.SetActive(false);
+                shop.onClick.RemoveAllListeners();
+                shop.onClick.AddListener(OnClickShop);
+                shopDodge.onClick.AddListener(OnClickShopDodge);
                 StartCoroutine(StartEventSequence((int)GameMgr.In.day));
             }
             else
             {
                 OnBasicUI((int)GameMgr.In.day);
+                if ((int)GameMgr.In.day > 3)
+                {
+                    shopControlBlockingPanel.SetActive(false);
+                    shop.onClick.AddListener(OnClickShop);
+                    shopDodge.onClick.AddListener(OnClickShopDodge);
+                }
+                else if((int)GameMgr.In.day == 3 && GameMgr.In.isEventOn == 0)
+                {
+                    shopControlBlockingPanel.SetActive(false);
+                    shop.onClick.AddListener(OnClickShop);
+                    shopDodge.onClick.AddListener(OnClickShopDodge);
+                }
 
                 if (GameMgr.In.dayCustomerCnt <= 0 && GameMgr.In.isEventOn == 0)
                 {
@@ -1857,7 +1873,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public IEnumerator StartShopInAnim()
     {
         StartCoroutine(shopSpriteAnim.StartAnim());
-
         while (shopSpriteAnim.textureIndex < (shopSpriteAnim.textureList.Count / 3))
         {
             yield return null;
