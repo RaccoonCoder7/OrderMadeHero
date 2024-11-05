@@ -52181,6 +52181,8 @@ MonoBehaviour:
   chipsetPanel: {fileID: 1523729210}
   screenTarget: {fileID: 1776181468}
   HideInfoForBoss: {fileID: 1934831119}
+  LeftButton: {fileID: 0}
+  RightButton: {fileID: 0}
   puppetNormalSprite: {fileID: 21300000, guid: 12f4bbb87266b95469894db5a3124c33, type: 3}
   puppetCrackedSprite: {fileID: 21300000, guid: fd0dd178cb022904387175e936130cd2, type: 3}
   puppetBrokenSprite: {fileID: 21300000, guid: b80e03e6bf9d76c48bd7eab3d6ed1c9f, type: 3}
@@ -52830,7 +52832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.043137256, g: 0.9529412, b: 0.9529412, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -63363,7 +63365,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 1070, y: -540}
-  m_SizeDelta: {x: 851, y: 293}
+  m_SizeDelta: {x: 794, y: 260}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1704322167
 MonoBehaviour:
@@ -83332,7 +83334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchorMin.x
@@ -83340,15 +83342,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -83380,11 +83382,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7711154668933875400, guid: 9cec80754fc5e1841a69da58a38e159f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
