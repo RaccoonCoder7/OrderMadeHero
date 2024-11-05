@@ -1,0 +1,94 @@
+!next !sound_doorbell !wait_100 !speaker_PC나비
+아침부터 이게 무슨 소리야! CCTV! CCTV!
+!next
+헉, 누가 싸우고 있잖아?
+!next !image_히어로B !speaker_히어로B
+젠장, 몸을 좀 피해야겠어.
+!next !speaker_나비 !speaker_PC나비
+어, 어서오세요…?
+!next !image_히어로B !speaker_히어로B
+뭐야, AI? 여긴 무기상인가?
+!next
+잘 됐군, 어이! 최대한 잘 드는 걸로…….
+!next
+잠깐만.
+!next
+너, 그놈 맞지? 빌런들한테 무기를 대준다고 소문이 자자한 그 무기상!
+!next
+잘 만났다. 너 같은 놈들 때문에 내 동료들이 지금도 죽어 가고 있다고!
+!next
+이 쓰레기 같은 자식, 내가 널 여기서—
+!next !image_퍼펫 !speaker_퍼펫
+그건 안 될 일입니다.
+!next !image_히어로B !speaker_히어로B
+퍼, 퍼펫, 컥, 커헉.
+!next !speaker_나비 !speaker_PC나비
+히, 히이익!
+!next !image_퍼펫 !speaker_퍼펫
+분노에 눈이 돌아가 뒤도 돌아보지 않고 검을 겨누다니, 한심하기 짝이 없군요.
+!next !speaker_나비 !speaker_PC나비
+무, 무슨 일이야, 대체?
+!next !image_퍼펫 !speaker_퍼펫
+제 사명을 이룰 시간이 되었습니다.
+!next !speaker_나비 !speaker_PC나비
+…싸움이 벌어지고 있구나.
+!next !image_퍼펫 !speaker_퍼펫
+그렇습니다. 당신을 지키고 싶지만, 그것보다 큰 사명이 있기에 그럴 수는 없습니다.
+!next
+그러니, 몸을 피하시지요. 당신을 잃는 것은 제게 작지 않은 손실입니다.
+!next !speaker_나비 !image_나비
+도, 도망? 그러다가 방금처럼 이상한 놈이랑 마주치면?
+!next !image_퍼펫 !speaker_퍼펫
+그것을 이겨내는 것은 당신의 몫입니다.
+!next !speaker_나비 !image_나비
+결국 안 구해 줄 거라는 말 아니야?
+!next !image_퍼펫 !speaker_퍼펫
+부정하지 않겠습니다.
+!next !speaker_나비 !image_나비
+윽.
+!next
+…나비한테 좋은 생각이 났어.
+!next
+이렇게 된 거, 어차피 위험하다면 조금이라도 안전한 곳으로 가야겠지.
+!next
+퍼펫, 네 부하들도 무기를 쓰지?
+!next !image_퍼펫 !speaker_퍼펫
+그렇습니다만.
+!next !speaker_나비 !image_나비
+그럼, 나랑 주인님이 그쪽을 지원해 줄게. 아예 전장으로 가는 거야.
+!next !image_퍼펫 !speaker_퍼펫
+호오. 어떻게 말입니까?
+!next !speaker_나비 !image_나비
+내가 이럴 때를 대비해서 미리 업그레이드를 해 뒀지.
+!next
+바로 New Equipment Crafting of Outdoor. 줄여서, NECO!
+!next
+이 휴대용 제작기만 있으면 주인님도 바깥에서 장비를 제작할 수 있다구.
+!next !image_퍼펫 !speaker_퍼펫
+AI 주제에 제법 쓸모 있는 방법을 떠올렸군요.
+!next !speaker_나비 !image_나비
+헷, 나비도 나름 최신식이라구.
+!next
+아무튼, 나비랑 주인님이 직접 싸울 건 아니고, 장비 지원만 해 줄 거야. 히어로나 빌런은 엄청 강해서 장비가 쉽게 망가진다며?
+!next
+그럴 때마다 주인님이 장비를 바로바로 교체해 주면 전투에 많이 도움이 되지 않을까?
+!next
+그리고, 우리 같은 무기상이 있으면 처음 보는 공격에도 쉽게 대처할 수도 있을 거고 말이야. 우리 주인님 손, 꽤 빠르다고?
+!next !image_퍼펫 !speaker_퍼펫
+썩 괜찮은 생각이군요. 전투에 직접 무기상을 투입한다라.
+!next !speaker_나비 !image_나비
+그럼 승낙한 거다? 가자, 주인님!
+!next !image_퍼펫 !speaker_퍼펫
+…당신은 아직 준비가 되지 않은 것 같군요.
+!next !image_퍼펫 !speaker_퍼펫
+당신은 눈동자에 감정이 솔직하게 나타납니다.
+!next !image_퍼펫 !speaker_퍼펫
+슬픔, 걱정, 두려움, 그리고…….
+!next !image_퍼펫 !speaker_퍼펫
+욕망. 
+!next !image_퍼펫 !speaker_퍼펫
+그 욕망이 삶을 향한 욕망인지, 다른 무언가를 향한 욕망인지는 모르겠지만, 지금은 망설일 때가 아닌 것 같군요.
+!next !speaker_나비 !image_나비
+주, 주인님! 지금 시간 없어!
+!next
+어떻게 할래?

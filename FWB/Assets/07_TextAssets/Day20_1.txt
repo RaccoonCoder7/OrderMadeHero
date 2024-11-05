@@ -1,0 +1,54 @@
+!next !sound_doorbell !wait_100 !speaker_PC나비
+으, 시스템도 안 켰는데 누가 자꾸 문을 두드리는 거야.
+!next !speaker_나비 !image_나비
+주인님, 나비가 나가 볼게.
+!next
+이상한 빌런만 아니었으면—
+!next !image_버니 !speaker_버니
+크윽…….
+!next !speaker_나비 !image_나비
+버, 버니? 괘, 괜찮아?
+!next !image_버니 !speaker_버니
+자, 잠깐만 실례하겠습니다.
+!next !speaker_나비 !image_나비
+무슨 일이야. 완전 만신창이가 됐잖아!
+!next !image_버니 !speaker_버니
+퍼펫입니다. 녀석이 본격적으로 저를 공격하기 시작했어요.
+!next !speaker_나비 !image_나비
+그, 그렇구나. 그럼 숨어 있어!
+!next !image_버니 !speaker_버니
+아뇨, 가야 합니다. 저를 쫓는다는데 동료들을 두고 숨을 순 없죠. 지금은 잠깐 들른 겁니다.
+!next !speaker_나비 !image_나비
+그 몸으로 어딜 가려고?
+!next !image_버니 !speaker_버니
+괜찮습니다. 이 정도는 가벼운 부상이에요. 저는 걱정 마시고 사장님과 나비 씨는 얼른 대피하세요. 저희가 모든 시민을 지켜가며 싸울 정도로 여유로운 상황은 아니거든요.
+!next !speaker_나비 !image_나비
+우, 우리도 도울게!
+!next !image_버니 !speaker_버니
+네? 안 됩니다! 히어로가 시민을 위험에 빠뜨리게 할 수는 없어요! 그리고 무기상이랑 비전투용 AI가 어떻게 싸운다는 말입니까?
+!next !speaker_나비 !image_나비
+싸우지는 않을 거야.
+!next !image_버니 !speaker_버니
+네? 그럼 어떻게…….
+!next !speaker_나비 !image_나비
+후후, 이때를 대비해서 미리 업그레이드를 해뒀지.
+!next
+바로 New Equipment Crafting of Outdoor. 줄여서, NECO!
+!next
+이 휴대용 제작기만 있으면 주인님도 바깥에서 장비를 제작할 수 있다구!
+!next !image_버니 !speaker_버니
+아, 아니, 아무리 그래도 안 됩니다!
+!next !speaker_나비 !image_나비
+너무 걱정하지 마. 나비랑 주인님은 멀리서 장비 지원만 해 줄 테니까. 히어로나 빌런은 엄청 강해서 장비가 쉽게 망가진다며? 그럴 때마다 주인님이 장비를 바로바로 교체해 주면 전투에 많이 도움이 되지 않을까?
+!next !image_버니 !speaker_버니
+네, 그렇긴 하지만…….
+!next !speaker_나비 !image_나비
+그리고, 우리 같은 무기상이 있으면 처음 보는 공격에도 쉽게 대처할 수도 있을 거고 말이야. 우리 주인님 손, 꽤 빠르다고?
+!next !image_버니 !speaker_버니
+확실히, 그렇겠군요. 전투에 무기상을 투입하는 건 생각지도 못한 방법인데…….
+!next !speaker_나비 !image_나비
+그럼 승낙한 거다? 가자, 주인님!
+!next !image_버니 !speaker_버니
+자, 잠깐만요! 사장님! 사장님께서 아직 허락하지 않으셨잖아요!
+!next !speaker_나비 !image_나비
+주인님, 갈 거지?

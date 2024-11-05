@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EventFlowWeek1 : EventFlow
+public class EventFlowDay8 : EventFlow
 {
     private int progress = 0;
     public override void StartFlow()
@@ -32,9 +32,9 @@ public class EventFlowWeek1 : EventFlow
             num -= 3;
         }
         var hint = mgr.newsHintButtons[num];
-        hint.onClick.RemoveListener(OnClickHintBtn);
+        hint.onClick.RemoveAllListeners();
         hint.gameObject.SetActive(true);
-        hint.onClick.AddListener(OnClickHintBtn);
+        hint.onClick.AddListener(() => { OnClickHintBtn(hint); });
     }
 
     private void EndNewsFlow()
@@ -58,35 +58,53 @@ public class EventFlowWeek1 : EventFlow
         }
     }
     
-    private void OnClickHintBtn()
+    private void OnClickHintBtn(Button hintBtn)
     {
         switch (progress)
         {
             case 0:
-                mgr.StartText("Week1_2", NewsHintProg, NewsHintProg);
+                StartCoroutine(HintBtnAnim(hintBtn));
+                hintBtn.onClick.RemoveAllListeners();
+                mgr.StartText("Day8_2", NewsHintProg, NewsHintProg);
                 mgr.newsHintButtons[1].GetComponentInChildren<Text>().text = "화재 사건의 피의자…죄인인가, 영웅인가?";
                 break;
             case 1:
-                mgr.StartText("Week1_3", NewsHintProg, NewsHintProg);
+                StartCoroutine(HintBtnAnim(hintBtn));
+                hintBtn.onClick.RemoveAllListeners();
+                mgr.StartText("Day8_3", NewsHintProg, NewsHintProg);
                 mgr.newsHintButtons[2].GetComponentInChildren<Text>().text = "빌딩 하나와 맞바꾼 '10만 크레딧'";
                 break;
             case 2:
+                StartCoroutine(HintBtnAnim(hintBtn));
+                hintBtn.onClick.RemoveAllListeners();
                 foreach (var btn in mgr.newsHintButtons)
                 {
                     btn.gameObject.SetActive(false);
                 }
-                mgr.StartText("Week1_4", NewsHintProg, NewsHintProg);
+                mgr.StartText("Day8_4", NewsHintProg, NewsHintProg);
                 mgr.newsHintButtons[0].GetComponentInChildren<Text>().text = "마피아의 습격…'단단한 장비' 구비는 필수";
                 break;
             case 3:
-                mgr.StartText("Week1_5", NewsHintProg, NewsHintProg);
+                StartCoroutine(HintBtnAnim(hintBtn));
+                hintBtn.onClick.RemoveAllListeners();
+                mgr.StartText("Day8_5", NewsHintProg, NewsHintProg);
                 mgr.newsHintButtons[1].GetComponentInChildren<Text>().text = "인기 히어로 버니 브레이브…'끈적한 게 싫어'";
                 break;
             case 4:
-                mgr.StartText("Week1_6", EndNewsFlow, EndNewsFlow);
+                StartCoroutine(HintBtnAnim(hintBtn));
+                hintBtn.onClick.RemoveAllListeners();
+                mgr.StartText("Day8_6", EndNewsFlow, EndNewsFlow);
                 break;
         }
         progress++;
+    }
+    
+    private IEnumerator HintBtnAnim(Button hintBtn)
+    {
+        var anim = hintBtn.GetComponent<Animator>();
+        anim.SetBool("isClicked", true);
+        yield return new WaitForSeconds(1.0f);
+        anim.SetBool("isClicked", false);
     }
     
     private IEnumerator DelayFlow()
@@ -94,7 +112,7 @@ public class EventFlowWeek1 : EventFlow
         mgr.inNews = true;
         mgr.newsPanel.SetActive(true);
         yield return new WaitForSeconds(1.5f);
-        mgr.StartText("Week1_1", NewsHintProg, NewsHintProg);
+        mgr.StartText("Day8_1", NewsHintProg, NewsHintProg);
         mgr.newsHintButtons[0].GetComponentInChildren<Text>().text = "야밤의 빌딩 전소…사상자 단 '0'명";
     }
 }

@@ -388,8 +388,9 @@ MonoBehaviour:
     camp: 1
     orderConditionDictionary:
       m_keys:
+      - AfterOneOrder
       - tendency
-      m_values: 00
+      m_values: 0000
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_30
@@ -664,8 +665,9 @@ MonoBehaviour:
     camp: 2
     orderConditionDictionary:
       m_keys:
+      - AfterOneOrder
       - tendency
-      m_values: 00
+      m_values: 0000
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_51
@@ -677,8 +679,9 @@ MonoBehaviour:
     camp: 2
     orderConditionDictionary:
       m_keys:
+      - AfterOneOrder
       - tendency
-      m_values: 00
+      m_values: 0000
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_52
