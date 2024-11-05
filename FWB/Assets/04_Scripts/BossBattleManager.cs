@@ -103,8 +103,8 @@ public class BossBattleManager : MonoBehaviour
         initialGagePos = gageRectTr.anchoredPosition;
         SaveOriginalChipColors();
 
-        LeftButton.gameObject.SetActive(false);
-        RightButton.gameObject.SetActive(false);
+        // LeftButton.gameObject.SetActive(false);
+        // RightButton.gameObject.SetActive(false);
 
         clearPuzzleButton.onClick.RemoveAllListeners();
         clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
