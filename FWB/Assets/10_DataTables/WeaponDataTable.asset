@@ -379,7 +379,7 @@ MonoBehaviour:
     - bluePrintKey: b_scimitar
       name: "\uC5B8\uC6D4\uB3C4"
       comment: "\uBCA0\uB294\uAC83\uC5D0 \uD2B9\uD654 \uB41C \uBB34\uAE30"
-      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      howToGet: "\uD68D\uB4DD\uBD88\uAC00"
       buyPrice: 2000
       sellPrice: 2000
       puzzleCsv: {fileID: 4900000, guid: 7728a1a434fed1a408c9c75f72010d85, type: 3}
@@ -398,7 +398,7 @@ MonoBehaviour:
       name: "\uB79C\uC2A4"
       comment: "\uBC29\uC5B4\uC640 \uACF5\uACA9\uC744 \uB3D9\uC2DC\uC5D0 \uD560 \uC218
         \uC788\uB294 \uAC70\uB300\uD55C \uCC3D"
-      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      howToGet: "\uD68D\uB4DD\uBD88\uAC00"
       buyPrice: 2000
       sellPrice: 2000
       puzzleCsv: {fileID: 4900000, guid: 69911173bb4dbf849a1e97c256aac5c6, type: 3}
@@ -417,7 +417,7 @@ MonoBehaviour:
       name: "\uB9C8\uC0C1 \uB79C\uC2A4"
       comment: "\uB9D0 \uC704\uC5D0\uC11C\uB3C4 \uC2E0\uC18D\uD558\uAC8C \uC4F8 \uC218
         \uC788\uAC8C \uACBD\uB7C9\uD654\uD588\uB2E4"
-      howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+      howToGet: "\uD68D\uB4DD\uBD88\uAC00"
       buyPrice: 2000
       sellPrice: 2000
       puzzleCsv: {fileID: 4900000, guid: dfd1b6ee136602c42af5c6f394c5d9c5, type: 3}

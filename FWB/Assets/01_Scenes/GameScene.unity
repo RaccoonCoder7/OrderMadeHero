@@ -26048,7 +26048,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 13
+  startDay: 1
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -37663,7 +37663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1016987923
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52181,6 +52181,8 @@ MonoBehaviour:
   chipsetPanel: {fileID: 1523729210}
   screenTarget: {fileID: 1776181468}
   HideInfoForBoss: {fileID: 1934831119}
+  LeftButton: {fileID: 0}
+  RightButton: {fileID: 0}
   puppetNormalSprite: {fileID: 21300000, guid: 12f4bbb87266b95469894db5a3124c33, type: 3}
   puppetCrackedSprite: {fileID: 21300000, guid: fd0dd178cb022904387175e936130cd2, type: 3}
   puppetBrokenSprite: {fileID: 21300000, guid: b80e03e6bf9d76c48bd7eab3d6ed1c9f, type: 3}
@@ -76465,7 +76467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2100758157
 RectTransform:
   m_ObjectHideFlags: 0
