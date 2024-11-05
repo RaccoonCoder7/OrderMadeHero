@@ -23,6 +23,7 @@ public class GameMgr : SingletonMono<GameMgr>
     public int dayFame;
     public int dayTendency;
     public int tendency;
+    public TendencyType tendencyType = TendencyType.Hero;
     public int fame;
     public int minFame = 0;
     public int maxFame = 1000;
@@ -58,6 +59,12 @@ public class GameMgr : SingletonMono<GameMgr>
         금 = 5,
         토 = 6,
         일 = 7
+    }
+
+    public enum TendencyType
+    {
+        Hero = 0,
+        Villain = 1,
     }
 
     protected override void OnApplicationQuit()

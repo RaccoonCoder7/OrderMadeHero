@@ -148,7 +148,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Text popupOrderText;
     public Text comment;
     public Text essentialCondition;
-    public Text specialGimmick;
     public Text weaponCategory;
     public Text howToGet;
     public Text historyText;
@@ -229,6 +228,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private List<GameObject> activatedObjList = new List<GameObject>();
     private RectTransform blueprintImgRectTr;
     private SpriteChange indexSC;
+    private TendencyChangeMgr tendencyChangeMgr;
     private int previousMobAvatarIndex = 0;
     private string saveSlot;
     private bool isSaving;
@@ -300,6 +300,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         CommonTool.In.shopFollowUI = shopFollowUI;
         alertPanelImg = alertPanel.GetComponentInChildren<Image>();
         indexSC = index.GetComponent<SpriteChange>();
+        tendencyChangeMgr = GetComponent<TendencyChangeMgr>();
 
         DataSaveLoad.dataSave.AssignSceneObjects(slots1, slots2, slots3, toLeft, toRight, mainCam);
 
@@ -2361,6 +2362,19 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         creditPanel.SetActive(false);
         yield return StartCoroutine(CommonTool.In.FadeOut());
         yield return StartCoroutine(CommonTool.In.FadeIn());
+        if (GameMgr.In.week > 1)
+        {
+            if (GameMgr.In.tendency < 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Hero)
+            {
+                StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(false));
+                GameMgr.In.tendencyType = GameMgr.TendencyType.Villain;
+            }
+            else if (GameMgr.In.tendency >= 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Villain)
+            {
+                StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(true));
+                GameMgr.In.tendencyType = GameMgr.TendencyType.Hero;
+            }
+        }
         isEventFlowing = false;
     }
 
