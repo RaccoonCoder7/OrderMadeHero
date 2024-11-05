@@ -360,7 +360,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
-        // TODO: day limit 추가
         //for test - 정발시 startday 기능 삭제할때 조건문도 삭제
         if (!DataSaveLoad.dataSave.isLoaded && !GameMgr.In.isBankrupt)
         {
@@ -2368,13 +2367,13 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         {
             if (GameMgr.In.tendency < 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Hero)
             {
-                StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(false));
                 GameMgr.In.tendencyType = GameMgr.TendencyType.Villain;
+                StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(false));
             }
             else if (GameMgr.In.tendency >= 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Villain)
             {
-                StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(true));
                 GameMgr.In.tendencyType = GameMgr.TendencyType.Hero;
+                StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(true));
             }
         }
         isEventFlowing = false;

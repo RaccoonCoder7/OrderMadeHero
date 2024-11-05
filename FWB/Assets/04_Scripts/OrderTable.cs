@@ -266,7 +266,7 @@ public class OrderTable : ScriptableObject
                 return totalSizeOfChips >= frameCnt / 2;
             case Condition.조악한:
                 var durability = abilityDic.FirstOrDefault(x => x.Key.abilityKey.Equals("a_durability"));
-                // TODO: 청사진 필수 내구도를 제외하는 로직 추가
+                // TODO: 청사진 필수 내구도를 제외하는 로직 추가 (할 필요 있는지?)
                 return durability.Key == null && durability.Value == 0;
         }
         return false;

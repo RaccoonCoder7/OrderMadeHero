@@ -14,7 +14,6 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
     public InputField inputField;
     public Button autoBtn;
     public Button skipBtn;
-    public Button settingBtn;
     public Button historyBtn;
     public Button historyDodgeBtn;
     public Transform paper;
@@ -47,7 +46,6 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
     private const string playerNameRule = "한글, 영어 / 공백포함 2자 이상 12자 이하로 설정 해주세요";
     private float duration = 0.5f;
 
-    public AudioSource bgmAudioSource;
     private bool isNameBeingValidated = false;
 
     public enum TextFlowType
@@ -69,7 +67,6 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
     {
         autoBtn.onClick.AddListener(OnClickAuto);
         skipBtn.onClick.AddListener(OnClickSkip);
-        settingBtn.onClick.AddListener(OnClickSetting);
         historyBtn.onClick.AddListener(OnClickHistory);
         historyDodgeBtn.onClick.AddListener(OnClickHistoryDodge);
         inputField.onEndEdit.AddListener(ValidateName);
@@ -351,11 +348,6 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
         isOnConversation = false;
         historyPanel.SetActive(false);
         StartCoroutine(onEndText);
-    }
-
-    private void OnClickSetting()
-    {
-        // TODO: 기능이 정의된 후 CommonTool에서 제어
     }
 
     private void OnClickHistory()
