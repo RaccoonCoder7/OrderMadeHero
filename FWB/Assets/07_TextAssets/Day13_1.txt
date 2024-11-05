@@ -1,0 +1,122 @@
+!speaker_PC나비 !next
+하암, 주인님, 오늘도 나왔네?
+!next
+설마 주말에도 일하려는 건 아니지?
+!next
+아무리 할 게 없어도 주말에까지 일하는 건 좀 그렇지 않아?
+!next
+아, 심심해서 뭐라도 하고 싶은데 할 게 없다고…….
+!next
+나비가 놀러 나가자고 할 땐 일해야 한다더니, 그러게 나비 말 좀 듣지 그랬어? 킥킥.
+!next
+어라, 밖에 누가 왔는데?
+!sound_doorbell !wait_100 !speaker_버니 !image_버니 !next
+여러분의 토끼 히어로, 버니브레이브가 왔습니다!
+!speaker_PC나비 !next
+안녕, 버니! 오늘은 컨디션이 좋아 보이네? 다친 곳도 없고.
+!speaker_버니 !next
+네, 오늘은 간만에 비번이거든요!
+!speaker_PC나비 !next
+어, 그 차림으로?
+!speaker_버니 !next
+비번이지만 순찰은 해야죠.
+!speaker_PC나비 !next
+그러면 비번이 아닌 거 아니야?
+!speaker_버니 !next
+에이, 현장 대기 안 하는 것만으로도 마음이 얼마나 편한데요. 그리고 이 옷 완전 편해서 괜찮습니다.
+!speaker_PC나비 !next
+그, 그렇구나. 히어로들은 참 대단하네.
+!speaker_버니 !next
+뭘요.
+!speaker_PC나비 !next
+근데, 쉬는 날도 이렇게 순찰을 돌면 버니한테는 휴식이라는 게 없어?
+!speaker_버니 !next
+이게 저한텐 쉬는 거라니까요?
+!speaker_PC나비 !next
+아니, 그런 말이 아니고, 뭐 예를 들어 독서를 즐긴다든가, 공연을 보러 간다든가.
+!speaker_버니 !next
+아, 그런 거.
+!next
+생각해 보겠습니다. 잠깐만요.
+!next
+으음…….
+!next
+으으음…….
+!next
+으으으으으으으음…….
+!next
+앗.
+!speaker_PC나비 !next
+생각났어?
+!speaker_버니 !next
+아뇨, 없습니다!
+!speaker_PC나비 !next
+켁.
+!speaker_버니 !next
+아무리 생각해봐도 없네요. 하하.
+!speaker_PC나비 !next
+그럼 그렇게 쉬지도 못하면 무슨 재미로 살아?
+!speaker_버니 !next
+모르겠어요. 몇 년 동안 이렇게 쭈욱 살았는데, 이게 당연한 거라고 생각했거든요.
+!speaker_PC나비 !next
+매일매일 잠도 없이 출동해서 빌런을 물리치고, 사람들을 지키고, 구출하고, 싸우고, 다치고, 또 싸우고, 비번일 땐 순찰을 돌고…….
+!next
+대체 왜 그렇게까지 하는 거야?
+!speaker_버니 !next
+음, 말하자면 간단합니다. 시민분들께서 저를 필요로 하니까요.
+!speaker_PC나비 !next
+그런 이유로…….
+!speaker_버니 !next
+장사꾼에게 돈이 가장 큰 이유이듯, 제게는 그게 가장 큰 이유인 겁니다. 제가 살아 있는 이유이자, 히어로로 활동하는 이유죠.
+!speaker_PC나비 !next
+하지만 네 일상이 망가지고 있잖아.
+!speaker_버니 !next
+대신 이 도시의 일상을 지킬 수 있잖아요? 그럼 오히려 영광이죠.
+!speaker_PC나비 !next
+그렇긴 한데…….
+!speaker_버니 !next
+걱정해주셔서 감사합니다. 하지만 저는 정말 괜찮아요.
+!speaker_버니 !next
+…뭐, 그래도 나중에 시간이 된다면 같이 어디 놀러나 갈까요?
+!speaker_PC나비 !next
+헉, 나비랑 주인님한테 데이트 신청한 거야?
+!speaker_버니 !next
+하하, 이게 그렇게 되나요?
+!speaker_PC나비 !next
+도시 최고 인기 스타랑 데이트? 이걸 어떻게 참아!
+!speaker_버니 !next
+최고까지는 아닌데…….
+!speaker_PC나비 !next
+주인님, 갈 거지? 가는 거다!
+!speaker_버니 !next
+나비 씨가 더 신나셨네요. 참 감정이 풍부하신 것 같아요.
+!speaker_PC나비 !next
+히히. 아무래도 그런 편이지.
+!speaker_버니 !next
+좋아요. 데이트. 나중에 꼭 해요.
+!speaker_PC나비 !next
+응, 좋아! 꼭이야!
+!speaker_버니 !next
+하하, 네. 그럼 오늘은 이만 돌아가 볼게요. 마저 순찰을 돌아야 하거든요.
+!speaker_PC나비 !next
+응, 조심히 돌아가. 오늘은 아무 일도 없는 것 같아서 다행이네. 완전 럭키버니잖아?
+!speaker_버니 !next
+아.
+!speaker_PC나비 !next
+왜 그래?
+!speaker_버니 !next
+아무 일도 없다는 말 하면 안 되는데…….
+!speaker_PC나비 !next
+으응?
+!speaker_버니 !next
+으윽, 역시. 출동 신호다. 저 가보겠습니다!
+!sound_doorbell !wait_100 !speaker_PC나비 !image_no !next
+뭐, 뭐야? 나비가 뭐 잘못했나?
+!next
+으으, 히어로들은 정말 모르겠어. 어떻게 저렇게 사는 거지?
+!next
+나비는 AI인데도 매일 일하는 건 정말 싫은데…….
+!next
+그리고, 주인님도 마찬가지야! 쉴 때는 좀 쉬라고! 일하지 말고!
+!next
+나가자, 얼른! 나가서 뭐든 해!
