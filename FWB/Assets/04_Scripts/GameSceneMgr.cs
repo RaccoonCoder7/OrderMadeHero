@@ -613,7 +613,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             gamePanel.SetActive(true);
             puzzleMgr.OnMakingDone += (result) =>
             {
-                gamePanel.SetActive(false);
+                if (!BossBattleManager.Instance.lastWeekStatus)
+                {
+                    gamePanel.SetActive(false);
+                }
             };
 
             if (!BossBattleManager.Instance.lastWeekStatus)
@@ -624,9 +627,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
             else
             {
-                // TODO:
-                // 2. 제작하기 버튼 누르면 청사진 제작 화면으로 넘어가기
-                // BossBattleManager.instance.bossWeaponSettings();
+                StartCoroutine(BossBattleManager.instance.StartBossBattle());
+                puzzleMgr.StartPuzzle();
             }
         });
     }
