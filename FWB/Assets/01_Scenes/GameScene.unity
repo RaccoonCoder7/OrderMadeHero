@@ -1627,7 +1627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.size
-      value: 54
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[48].ta
@@ -1656,7 +1656,27 @@ PrefabInstance:
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[54].ta
       value: 
-      objectReference: {fileID: 4900000, guid: bdf567f570390c747bc6cc4a196d52cc, type: 3}
+      objectReference: {fileID: 4900000, guid: ba47c5ae3bc0c524ab5b309fe348311b, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[55].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: b778b3072691ed147841849db65a636a, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[56].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: f4ba38d57a4f4bc448f16d4ba90eebb1, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[57].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: 36f784846c96ef64fa0181ec98b15bc7, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[58].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: d83a9deb9edec9d4597f9745eda36dc9, type: 3}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[59].ta
+      value: 
+      objectReference: {fileID: 4900000, guid: 8d8f513767885a644956c3cee7a2ca33, type: 3}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[36].key
       value: Day8_1
@@ -1707,7 +1727,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: scriptList.Array.data[54].key
-      value: Week2_6
+      value: Day20_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[55].key
+      value: Day20_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[56].key
+      value: Day20_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[57].key
+      value: Day20_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[58].key
+      value: Day20_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087253590899327247, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
+      propertyPath: scriptList.Array.data[59].key
+      value: Day20_6
       objectReference: {fileID: 0}
     - target: {fileID: 3087253590899327250, guid: 0457bd81fbba4c64c88995e3b53bc0c2, type: 3}
       propertyPath: m_Camera
@@ -25916,6 +25956,7 @@ GameObject:
   - component: {fileID: 723337257}
   - component: {fileID: 723337258}
   - component: {fileID: 723337260}
+  - component: {fileID: 723337261}
   m_Layer: 0
   m_Name: GameSceneMgr
   m_TagString: Untagged
@@ -26091,6 +26132,7 @@ MonoBehaviour:
   popupOrderText: {fileID: 342650867}
   comment: {fileID: 1825197520}
   essentialCondition: {fileID: 755125756}
+  specialGimmick: {fileID: 0}
   weaponCategory: {fileID: 1398643789}
   howToGet: {fileID: 1738069184}
   historyText: {fileID: 1756267666}
@@ -26133,7 +26175,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 9
+  startDay: 1
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -26457,6 +26499,20 @@ MonoBehaviour:
   - {fileID: 307831875}
   - {fileID: 1983345981}
   - {fileID: 378481495}
+--- !u!114 &723337261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723337246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de12e4d124480648b6b6270dc5b22bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventKey: day20
+  mgr: {fileID: 0}
 --- !u!1 &725651180
 GameObject:
   m_ObjectHideFlags: 0
@@ -52233,6 +52289,8 @@ MonoBehaviour:
   isGamePlaying: 0
   timer: 0
   lastWeekStatus: 0
+  bossIndex: 0
+  weaponKey: 
 --- !u!4 &1390976120
 Transform:
   m_ObjectHideFlags: 0
