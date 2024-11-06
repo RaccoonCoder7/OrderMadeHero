@@ -101,6 +101,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private bool isGamePlaying;
     private int feverModeFame;
     private int feverModeRevenue;
+    private int feverModeCredit;
     private Coroutine resultParticleRoutine;
     private List<WeaponDataTable.BluePrint> orderableBlueprintList = new List<WeaponDataTable.BluePrint>();
 
@@ -1636,18 +1637,22 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 if (isFeverMode)
                 {
                     sellPrice2 = (int)(sellPrice2 * 0.4f) + 50;
+                    bonus = 50;
                 }
 
                 if (!isFeverMode)
                 {
                     bonus = GetBonusCredit(sellPrice2, 0.1f);
                     credit += sellPrice2 + bonus;
-                }
-                if (!isFeverMode)
-                {
                     mgr2.goldText.text = GameMgr.In.credit.ToString();
                 }
+                else
+                {
+                    credit += sellPrice2;
+                }
+
                 revenue += sellPrice2 + chipPrice;
+
                 if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
                 {
                     tendency += 25;
@@ -1663,8 +1668,11 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         if (isFeverMode)
         {
-            feverModeFame = fame;
-            feverModeRevenue = revenue;
+            feverModeFame += fame;
+            feverModeRevenue += revenue;
+            feverModeCredit += credit;
+            GameMgr.In.dayChipUseCost -= chipPrice;
+            GameMgr.In.dayBonusRevenue += bonus;
         }
         else
         {
@@ -1911,12 +1919,14 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         filterAndSortParent.SetActive(true);
         dragImg.gameObject.SetActive(false);
 
-        float credit = feverModeRevenue;
-        float fame = feverModeFame;
-        GameMgr.In.fame += (int)fame;
-        GameMgr.In.dayFame += (int)fame;
-        GameMgr.In.credit += (int)credit;
+        GameMgr.In.fame += feverModeFame;
+        GameMgr.In.dayFame += feverModeFame;
+        GameMgr.In.credit += feverModeCredit;
         GameMgr.In.dayRevenue += feverModeRevenue;
+
+        feverModeFame = 0;
+        feverModeRevenue = 0;
+        feverModeCredit = 0;
 
         ClearPuzzle();
 
