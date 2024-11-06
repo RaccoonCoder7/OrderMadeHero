@@ -360,7 +360,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         yield return StartCoroutine(CommonTool.In.FadeIn());
 
-        if (DataSaveLoad.dataSave.isLoaded)
+        if (DataSaveLoad.dataSave.isLoaded || GameMgr.In.isBankrupt)
         {
             startDay = (GameMgr.In.week - 1) * 7 + (int)GameMgr.In.day;
         }
@@ -402,7 +402,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         {
             if (GameMgr.In.isBankrupt)
             {
-                OnBasicUI((int)GameMgr.In.day);
+                OnBasicUI(startDay);
                 Debug.Log("Bankrupt refresh");
                 GameMgr.In.isBankrupt = false;
                 isEventFlowing = false;
@@ -990,6 +990,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.lastDayCredit = GameMgr.In.credit;
             GameMgr.In.lastDayFame = GameMgr.In.fame;
             GameMgr.In.lastDayTend = GameMgr.In.tendency;
+            GameMgr.In.purchasedChips.Clear();
+            GameMgr.In.purchasedBps.Clear();
         }
 
         goldText.text = money.ToString();
@@ -1182,6 +1184,35 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             GameMgr.In.credit = GameMgr.In.lastDayCredit;
             GameMgr.In.fame = GameMgr.In.lastDayFame;
             GameMgr.In.tendency = GameMgr.In.lastDayTend;
+            foreach (var bp in GameMgr.In.purchasedBps)
+            {
+                bp.createEnable = false;
+                bp.orderEnable = false;
+                bp.weaponState = 0;
+                foreach (var order in GameMgr.In.orderTable.orderList)
+                {
+                    if (order.orderConditionDictionary.ContainsKey(bp.bluePrintKey))
+                    {
+                        order.orderConditionDictionary[bp.bluePrintKey] = false;
+                        order.orderEnable = true;
+                    }
+                }
+            }
+            foreach (var chip in GameMgr.In.purchasedChips)
+            {
+                chip.createEnable = false;
+                chip.chipState = 0;
+                foreach (var order in GameMgr.In.orderTable.orderList)
+                {
+                    if (order.orderConditionDictionary.ContainsKey(chip.chipKey))
+                    {
+                        order.orderConditionDictionary[chip.chipKey] = false;
+                        order.orderEnable = false;
+                    }
+                }
+            }
+            GameMgr.In.purchasedBps.Clear();
+            GameMgr.In.purchasedChips.Clear();
             GameMgr.In.ResetDayData();
             bankruptPanel.SetActive(false);
             StartCoroutine(CommonTool.In.AsyncChangeScene("GameScene"));
@@ -1290,6 +1321,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                 {
                                     var bp = GameMgr.In.GetWeapon(bluePrintList[tempNum].bluePrintKey);
                                     bp.createEnable = true;
+                                    GameMgr.In.purchasedBps.Add(bp);
 
                                     foreach (var order in GameMgr.In.orderTable.orderList)
                                     {
@@ -1394,6 +1426,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                 {
                                     var chip = GameMgr.In.GetChip(chipList[tempNum].chipKey);
                                     chip.createEnable = true;
+                                    GameMgr.In.purchasedChips.Add(chip);
 
                                     foreach (var order in GameMgr.In.orderTable.orderList)
                                     {

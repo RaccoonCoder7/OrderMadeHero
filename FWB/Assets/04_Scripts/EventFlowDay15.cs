@@ -55,6 +55,10 @@ public class EventFlowDay15 : EventFlow
         {
             btn.onClick.RemoveAllListeners();
         }
+        foreach (var btn in mgr.newsHintButtons)
+        {
+            btn.gameObject.SetActive(false);
+        }
     }
     
     private void OnClickHintBtn(Button hintBtn)

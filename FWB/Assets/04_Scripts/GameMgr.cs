@@ -49,6 +49,10 @@ public class GameMgr : SingletonMono<GameMgr>
     public Order currentOrder;
     [HideInInspector]
     public List<string> orderedBluePrintKeyList = new List<string>();
+    [HideInInspector]
+    public List<ChipTable.Chip> purchasedChips = new List<ChipTable.Chip>();
+    [HideInInspector] 
+    public List<WeaponDataTable.BluePrint> purchasedBps = new List<WeaponDataTable.BluePrint>();
 
     public enum Day
     {
