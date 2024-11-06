@@ -1973,6 +1973,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             StopCoroutine(resultParticleRoutine);
         }
+
+        dragImg.gameObject.SetActive(false);
+
         resultParticleRoutine = StartCoroutine(ReturnToNormalParticles());
     }
 

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TendencyChangeMgr : MonoBehaviour
 {
     public GameObject tendencyChangeBlind;
+    public Text popupNaviChatText;
     public List<Image> animateImageList = new List<Image>();
     public List<Image> fakeAnimateImageList = new List<Image>();
     public List<Image> changeImageList = new List<Image>();
@@ -87,6 +88,17 @@ public class TendencyChangeMgr : MonoBehaviour
             changeImageList[i].sprite = fakeChangeImageList[i].sprite;
             fakeChangeImageList[i].sprite = temp;
         }
+
+        Color color;
+        if (toHero)
+        {
+            ColorUtility.TryParseHtmlString("#00C0FFFF", out color);
+        }
+        else
+        {
+            ColorUtility.TryParseHtmlString("#FF4639FF", out color);
+        }
+        popupNaviChatText.color = color;
 
         tendencyChangeBlind.SetActive(false);
     }
