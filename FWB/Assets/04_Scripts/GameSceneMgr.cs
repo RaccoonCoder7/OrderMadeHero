@@ -1463,7 +1463,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     GameMgr.In.dayShopBuyCost -= item.price;
                                     goldText.text = GameMgr.In.credit.ToString();
                                     chipList[tempNum].chipState = 3;
-                                    puzzleMgr.creatableChipKeyList.Add(chip.chipKey);
                                     if (drMadChatRoutine != null)
                                     {
                                         StopCoroutine(drMadChatRoutine);

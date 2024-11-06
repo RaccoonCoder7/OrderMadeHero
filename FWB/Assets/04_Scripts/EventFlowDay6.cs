@@ -16,6 +16,7 @@ public class EventFlowDay6 : EventFlow
 
         var speedChip = GameMgr.In.chipTable.chipList.Find(x => x.howToGet.Equals("버니"));
         speedChip.createEnable = true;
+        speedChip.chipState = 3;
         
         mgr.mainChatPanel.SetActive(false);
         mgr.GetChipset(0);

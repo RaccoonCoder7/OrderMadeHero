@@ -56,8 +56,9 @@ public class EventFlowDay7 : EventFlow
     {
         mgr.EndText();
 
-        var speedChip = GameMgr.In.chipTable.chipList.Find(x => x.howToGet.Equals("퍼펫"));
-        speedChip.createEnable = true;
+        var penetrateChip = GameMgr.In.chipTable.chipList.Find(x => x.howToGet.Equals("퍼펫"));
+        penetrateChip.createEnable = true;
+        penetrateChip.chipState = 3;
 
         mgr.mainChatPanel.SetActive(false);
         mgr.GetChipset(1);

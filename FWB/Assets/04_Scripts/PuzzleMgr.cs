@@ -1347,9 +1347,18 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         requiredAbilityText.text = sb.ToString();
     }
 
+    private bool hasInit;
     private void SetChipDatas()
     {
-        if (creatableChipKeyList != null && creatableChipKeyList.Count > 0) return;
+        if (!hasInit)
+        {
+            foreach (var chip in chipList)
+            {
+                chip.SaveOriginRow();
+            }
+            SortChipList();
+            hasInit = true;
+        }
 
         var creatableChips = GameMgr.In.chipTable.chipList.FindAll(x => x.createEnable);
         creatableChipKeyList = new List<string>();
@@ -1359,10 +1368,8 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         foreach (var chip in chipList)
         {
-            chip.SaveOriginRow();
             chip.transform.parent.gameObject.SetActive(creatableChipKeyList.Contains(chip.chipKey));
         }
-        SortChipList();
     }
 
     private void SetFeverModeChipDatas()
