@@ -765,6 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exMenu: {fileID: 1309935934}
+  settingsButton: {fileID: 239130232}
 --- !u!1 &258830623
 GameObject:
   m_ObjectHideFlags: 0
@@ -1999,7 +2000,6 @@ MonoBehaviour:
   inputField: {fileID: 635955101}
   autoBtn: {fileID: 61864092}
   skipBtn: {fileID: 807885164}
-  settingBtn: {fileID: 239130232}
   historyBtn: {fileID: 392017914}
   historyDodgeBtn: {fileID: 1157778327}
   paper: {fileID: 1889056517}
@@ -2031,7 +2031,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8fe94946305b7984995667757fccc53f, type: 3}
   - {fileID: 21300000, guid: f13c319d9cdd23049a5350716120edf8, type: 3}
   - {fileID: 21300000, guid: 86fa5f74b267c8748aeeabc945c186b5, type: 3}
-  bgmAudioSource: {fileID: 0}
 --- !u!1 &754049656
 GameObject:
   m_ObjectHideFlags: 0

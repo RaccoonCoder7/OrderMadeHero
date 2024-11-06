@@ -4,8 +4,7 @@ using UnityEngine.UI;
 public class OpenSettings : MonoBehaviour
 {
     [SerializeField] private GameObject exMenu;
-
-    private Button settingsButton;
+    [SerializeField] private Button settingsButton;
 
     void Start()
     {
@@ -14,11 +13,13 @@ public class OpenSettings : MonoBehaviour
             exMenu = GameObject.Find("EX_Menu");
         }
 
-        settingsButton = GameObject.Find("SettingBtn")?.GetComponent<Button>();
-
         if (settingsButton != null)
         {
             settingsButton.onClick.AddListener(OpenSettingsMenu);
+        }
+        else
+        {
+            Debug.LogError("Settings button is null even after assigning manually");
         }
     }
 

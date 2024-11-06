@@ -49966,6 +49966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exMenu: {fileID: 1401330689}
+  settingsButton: {fileID: 1337264435}
 --- !u!1 &1339106609
 GameObject:
   m_ObjectHideFlags: 0
