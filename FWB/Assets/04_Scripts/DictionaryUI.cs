@@ -8,6 +8,8 @@ public class DictionaryUI : MonoBehaviour
 {
     public GameObject panel1;
     public GameObject panel2;
+    public GameObject panelBlind1;
+    public GameObject panelBlind2;
     public GameObject folder1;
     public GameObject folder2;
     public GameObject popupPanel;
@@ -115,6 +117,8 @@ public class DictionaryUI : MonoBehaviour
         
         folder1.SetActive(false);
         folder2.SetActive(false);
+        panelBlind1.SetActive(false);
+        panelBlind2.SetActive(false);
         popupPanel.SetActive(false);
         gallery.SetActive(false);
     }
@@ -122,7 +126,9 @@ public class DictionaryUI : MonoBehaviour
     private void OnClickPanel1()
     {
         folder1.SetActive(true);
-        panelImg1.sprite = profileSprites[0];
+        panelImg1.sprite = profileSprites[1];
+        panelBlind1.SetActive(true);
+        panelBlind2.SetActive(false);
         nameUI.text = "버니";
         characterNum = 1;
         
@@ -158,7 +164,9 @@ public class DictionaryUI : MonoBehaviour
     private void OnClickPanel2()
     {
         folder2.SetActive(true);
-        panelImg2.sprite = profileSprites[0];
+        panelImg2.sprite = profileSprites[2];
+        panelBlind2.SetActive(true);
+        panelBlind1.SetActive(false);
         nameUI.text = "퍼펫";
         characterNum = 2;
         
@@ -194,6 +202,7 @@ public class DictionaryUI : MonoBehaviour
     private void OnClickFile1(Button btn)
     {
         popupPanel.SetActive(true);
+        panelImg2.sprite = profileSprites[0];
         switch (weekState)
         { 
             case WeekState.Week2:
@@ -253,6 +262,7 @@ public class DictionaryUI : MonoBehaviour
     private void OnClickFile2(Button btn)
     {
         popupPanel.SetActive(true);
+        panelImg1.sprite = profileSprites[0];
         switch (weekState)
         {
             case WeekState.Week2:
@@ -363,6 +373,8 @@ public class DictionaryUI : MonoBehaviour
     private void OnClickPopupDodge()
     {
         popupPanel.SetActive(false);
+        panelImg1.sprite = profileSprites[1];
+        panelImg2.sprite = profileSprites[2];
     }
 
     private void OnClickGalleryDodge()
