@@ -1330,7 +1330,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         item.button.onClick.AddListener(() =>
                         {
                             shopPopupUI.itemName.text = item.contentName.text;
-                            shopPopupUI.no.onClick.AddListener(() => { shopPopupPanel.gameObject.SetActive(false); });
+                            shopPopupUI.no.onClick.AddListener(() =>
+                            {
+                                shopPopupUI.yes.onClick.RemoveAllListeners();
+                                shopPopupUI.no.onClick.RemoveAllListeners();
+                                shopPopupPanel.gameObject.SetActive(false);
+                            });
                             if (item.price <= GameMgr.In.credit)
                             {
                                 shopPopupUI.yes.interactable = true;
@@ -1365,6 +1370,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                                     shopPopupPanel.gameObject.SetActive(false);
                                     RefreshShopUI();
                                     shopPopupUI.yes.onClick.RemoveAllListeners();
+                                    shopPopupUI.no.onClick.RemoveAllListeners();
                                 });
                             }
                             else
