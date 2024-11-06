@@ -58,6 +58,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Button history;
     public Button historyDodge;
     public Button dictionaryDodge;
+    public Button deskPowerBtn;
     public Text chatName;
     public GameObject mainChatPanel;
     public GameObject pcChatPanel;
@@ -325,6 +326,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         historyDodge.onClick.AddListener(OnClickHistory);
         characterDict.onClick.AddListener(OnClickCharacterDictionary);
         dictionaryDodge.onClick.AddListener(OnClickCharacterDictionary);
+        deskPowerBtn.onClick.AddListener(OnClickDeskPowerBtn);
 
         foreach (var btn in newsHintButtons)
         {
@@ -906,6 +908,15 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     {
         StartCoroutine(scrollBar.DelayScroll());
         historyPanel.SetActive(!historyPanel.activeSelf);
+    }
+
+    public void OnClickDeskPowerBtn()
+    {
+        CommonTool.In.OpenConfirmPanel("시작 화면으로 돌아가시겠습니까?",
+        () =>
+        {
+            StartCoroutine(CommonTool.In.AsyncChangeScene("StartScene"));
+        });
     }
 
     public void ActiveYesNoButton(bool isActive, string leftBtnText = "접수", string rightBtnText = "거절")
