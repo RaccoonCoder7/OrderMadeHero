@@ -810,7 +810,7 @@ MonoBehaviour:
     requiredBlueprintKeyList: []
     requiredAbilityList: []
     condition: 0
-    gimmick: 3
+    gimmick: 0
     camp: 2
     orderConditionDictionary:
       m_keys:

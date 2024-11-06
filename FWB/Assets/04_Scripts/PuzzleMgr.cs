@@ -225,7 +225,9 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (currentSelectedChip != null)
         {
-            if (Input.GetKeyUp(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.R) && Time.time - lastRotationTime > rotationDebounceTime)
+            if ((Input.GetKeyUp(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.R))
+              && Time.time - lastRotationTime > rotationDebounceTime
+              && dragImg.gameObject.activeSelf)
             {
                 lastRotationTime = Time.time;
                 var angle = dragImgRectTr.localEulerAngles;
