@@ -296,8 +296,9 @@ MonoBehaviour:
     camp: 1
     orderConditionDictionary:
       m_keys:
+      - b_bayonet
       - tendency
-      m_values: 00
+      m_values: 0000
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_23
@@ -419,8 +420,9 @@ MonoBehaviour:
     camp: 1
     orderConditionDictionary:
       m_keys:
+      - c_cool
       - tendency
-      m_values: 00
+      m_values: 0000
     orderEnable: 0
     addedRequestKeyList: []
   - orderKey: NormalOrder_32

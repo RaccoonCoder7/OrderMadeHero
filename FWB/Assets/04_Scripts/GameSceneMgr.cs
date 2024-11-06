@@ -513,11 +513,17 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
     }
 
+    public bool doDaySkip;
     private IEnumerator StartEventSequence(int eventStartDay)
     {
         Debug.Log("Start Event Sequence");
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
         {
+            if (doDaySkip)
+            {
+                i++;
+                doDaySkip = false;
+            }
             string eventKey = "day" + i;
             var targetEvent = eventFlowList.Find(x => x.eventKey.Equals(eventKey));
             isEventFlowing = true;

@@ -22,6 +22,7 @@ public class EventFlowDay13 : EventFlow
     {
         mgr.EndText();
         mgr.pcChatPanel.SetActive(false);
+        mgr.doDaySkip = true;
         GameMgr.In.SetNextDayData();
 
         EndFlow();
