@@ -947,7 +947,11 @@ MonoBehaviour:
     addedRequestKeyList: []
   - orderKey: NormalOrder_72
     ta: {fileID: 4900000, guid: 6d65ee8f563265b43b9ecd23e9871a8e, type: 3}
-    requiredBlueprintKeyList: []
+    requiredBlueprintKeyList:
+    - b_ax
+    - b_ceremonialAx
+    - b_battleAx
+    - b_morningStar
     requiredAbilityList: []
     condition: 0
     gimmick: 0
