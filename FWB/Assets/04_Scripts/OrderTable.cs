@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static AbilityTable;
 using static WeaponDataTable;
+using System;
 
 /// <summary>
 /// 주문에 대한 정보를 저장하는 SO
@@ -56,6 +57,25 @@ public class OrderTable : ScriptableObject
             BluePrint,
             Request,
             Condition,
+            을,
+            이,
+            면,
+            로,
+        }
+    }
+
+    public class MatchingData
+    {
+        public string key;
+        public string value;
+        public bool isNoun;
+        public int index;
+        public int usedCnt;
+
+        public MatchingData(string key, string value)
+        {
+            this.key = key;
+            this.value = value;
         }
     }
 
@@ -139,7 +159,7 @@ public class OrderTable : ScriptableObject
         newOrder.gimmick = targetOrder.gimmick;
 
         // 기믹 파싱
-        var keyDic = new Dictionary<string, string>();
+        var matchingDataList = new List<MatchingData>();
         string text = string.Copy(targetOrder.ta.text);
         for (int i = 0; i < text.Length; i++)
         {
@@ -165,24 +185,24 @@ public class OrderTable : ScriptableObject
             }
 
             var key = text.Substring(i, tempIndex - i + 1);
-            if (!keyDic.ContainsKey(key))
+            var matchedData = matchingDataList.Find(x => x.key.Equals(key));
+            if (matchedData == null)
             {
-                keyDic.Add(key, string.Empty);
+                matchingDataList.Add(new MatchingData(key, string.Empty));
             }
             i = tempIndex;
         }
 
-        var keys = keyDic.Keys.ToList();
-        for (int i = 0; i < keys.Count; i++)
+        for (int i = 0; i < matchingDataList.Count; i++)
         {
-            var matchedData = mappingTextList.Find(x => keys[i].Contains(x.mappingKey));
-            if (matchedData == null)
+            var mappingData = mappingTextList.Find(x => matchingDataList[i].key.Contains(x.mappingKey));
+            if (mappingData == null)
             {
-                Debug.Log("매칭되는 데이터가 없음: " + keys[i]);
+                Debug.Log("매칭되는 데이터가 없음: " + matchingDataList[i].key);
                 return null;
             }
 
-            switch (matchedData.mappingType)
+            switch (mappingData.mappingType)
             {
                 case MappingText.MappingType.BluePrint:
                     var bluePrintList = new List<BluePrint>();
@@ -196,11 +216,17 @@ public class OrderTable : ScriptableObject
                     while (true)
                     {
                         var bluePrint = bluePrintList[UnityEngine.Random.Range(0, bluePrintList.Count)];
-                        if (keyDic.ContainsValue(bluePrint.name))
+                        int cnt = 0;
+                        var matchedData = matchingDataList.Find(x => x.value.Equals(bluePrint.name));
+                        if (matchedData != null)
                         {
-                            if (bluePrintList.Count >= 2) continue;
+                            cnt++;
+                            if (cnt > 100) break;
+                            continue;
                         }
-                        keyDic[keys[i]] = bluePrint.name;
+                        matchingDataList[i].value = bluePrint.name;
+                        matchingDataList[i].isNoun = true;
+                        matchingDataList[i].index = i;
                         newOrder.requiredBlueprintKeyList.Add(bluePrint.bluePrintKey);
                         break;
                     }
@@ -211,11 +237,15 @@ public class OrderTable : ScriptableObject
                     while (true)
                     {
                         var request = orderableRequestList[UnityEngine.Random.Range(0, orderableRequestList.Count)];
-                        if (keyDic.ContainsValue(request.name))
+                        var matchedData = matchingDataList.Find(x => x.value.Equals(request.name));
+                        int cnt = 0;
+                        if (matchedData != null)
                         {
-                            if (orderableRequestList.Count >= 2) continue;
+                            cnt++;
+                            if (cnt > 100) break;
+                            continue;
                         }
-                        keyDic[keys[i]] = request.name;
+                        matchingDataList[i].value = request.name;
                         newOrder.addedRequestKeyList.Add(request.requestKey);
 
                         foreach (var ability in request.requiredAbilityList)
@@ -239,13 +269,49 @@ public class OrderTable : ScriptableObject
                     var conditionNum = UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Condition)).Length);
                     var condition = (Condition)conditionNum;
                     newOrder.condition = condition;
-                    keyDic[keys[i]] = condition.ToString();
+                    matchingDataList[i].value = condition.ToString();
+                    break;
+                case MappingText.MappingType.이:
+                    if (i == 0)
+                    {
+                        matchingDataList[i].value = "이";
+                        break;
+                    }
+                    var blueprintName1 = GetMatchedBlueprintName(matchingDataList);
+                    matchingDataList[i].value = IsExistLastSyllable(blueprintName1) ? "이" : "가";
+                    break;
+                case MappingText.MappingType.을:
+                    if (i == 0)
+                    {
+                        matchingDataList[i].value = "을";
+                        break;
+                    }
+                    var blueprintName2 = GetMatchedBlueprintName(matchingDataList);
+                    matchingDataList[i].value = IsExistLastSyllable(blueprintName2) ? "을" : "를";
+                    break;
+                case MappingText.MappingType.면:
+                    if (i == 0)
+                    {
+                        matchingDataList[i].value = "이면";
+                        break;
+                    }
+                    var blueprintName3 = GetMatchedBlueprintName(matchingDataList);
+                    matchingDataList[i].value = IsExistLastSyllable(blueprintName3) ? "이면" : "면";
+                    break;
+                case MappingText.MappingType.로:
+                    if (i == 0)
+                    {
+                        matchingDataList[i].value = "으로";
+                        break;
+                    }
+                    var blueprintName4 = GetMatchedBlueprintName(matchingDataList);
+                    matchingDataList[i].value = IsExistLastSyllable(blueprintName4) ? "으로" : "로";
                     break;
                 default:
                     break;
             }
 
-            text = text.Replace(keys[i], keyDic[keys[i]]);
+            text = text.Replace(matchingDataList[i].key, matchingDataList[i].value);
         }
         newOrder.ta = new TextAsset(text);
         return newOrder;
@@ -406,5 +472,45 @@ public class OrderTable : ScriptableObject
             }
         }
         return count;
+    }
+
+    private string GetMatchedBlueprintName(List<MatchingData> matchingDataList)
+    {
+        var nounList = matchingDataList.FindAll(x => x.isNoun);
+        if (nounList.Count == 0)
+        {
+            Debug.Log("명사가 없음");
+            return "없음";
+        }
+        else if (nounList.Count == 1)
+        {
+            return nounList[0].value;
+        }
+        else
+        {
+            var orderedList = nounList.OrderBy(x => x.usedCnt).ThenBy(x => x.index).ToList();
+            orderedList[0].usedCnt++;
+            return orderedList[0].value;
+        }
+    }
+
+    private bool IsExistLastSyllable(string word)
+    {
+        char c = word[word.Length - 1];
+        int n = Convert.ToInt32(c);
+
+        if (n < 0xAC00 || n > 0xD7A3)
+        {
+            throw new Exception("한글이 아님");                
+        }
+
+        if((n - 0xAC00) % 28 > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

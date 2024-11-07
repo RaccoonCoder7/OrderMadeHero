@@ -1015,3 +1015,11 @@ MonoBehaviour:
     mappingType: 2
   - mappingKey: "\uC694\uAD6C\uC0AC\uD56D2"
     mappingType: 1
+  - mappingKey: "\uC744"
+    mappingType: 3
+  - mappingKey: "\uC774"
+    mappingType: 4
+  - mappingKey: "\uBA74"
+    mappingType: 5
+  - mappingKey: "\uB85C"
+    mappingType: 6
