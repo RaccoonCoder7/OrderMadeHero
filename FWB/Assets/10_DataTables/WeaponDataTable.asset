@@ -445,7 +445,7 @@ MonoBehaviour:
       howToGet: "\uAD6C\uB9E4\uBD88\uAC00"
       buyPrice: 0
       sellPrice: 0
-      puzzleCsv: {fileID: 4900000, guid: 4b1d989e34d9d044d94d7f8179e2e9ed, type: 3}
+      puzzleCsv: {fileID: 4900000, guid: cc0feac361aed844fa99c8be9f930c53, type: 3}
       orderEnable: 0
       createEnable: 0
       weaponState: 0

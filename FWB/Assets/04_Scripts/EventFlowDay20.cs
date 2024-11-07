@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +8,7 @@ using UnityEngine;
 public class EventFlowDay20 : EventFlow
 {
     private BossBattleManager battleManager;
+    private BossCutScene bossCutScene;
     private string startDialogueKey;
     private string nextDialogueKey;
     private string finalDialogueKey;
@@ -27,7 +29,9 @@ public class EventFlowDay20 : EventFlow
     private void InitializeComponents()
     {
         battleManager = FindObjectOfType<BossBattleManager>();
+        bossCutScene = FindObjectOfType<BossCutScene>();
     }
+
 
     private void RegisterEvents()
     {
@@ -84,15 +88,29 @@ public class EventFlowDay20 : EventFlow
 
     }
 
-    //End Text 
     private void HandleBossBattleEnded(bool success)
     {
-        if (success)
+        if (bossCutScene != null)
         {
-            battleManager.lastWeekStatus = false;
-            mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
+            if(isHero)
+            {
+                bossCutScene.StartCutScene();
+                bossCutScene.OnCutSceneEnd = () =>
+                {
+                    if (success)
+                    {
+                        battleManager.lastWeekStatus = false;
+                        mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
+                    }
+                };
+            }
+            else
+            {
+               
+            }
         }
     }
+
 
     private void EndDay20_3Routine()
     {

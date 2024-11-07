@@ -62,7 +62,6 @@ public class BossDialogueManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             battleManager.HideDialogueBox();
             battleManager.ToggleCanvasInteractable(true);
-            battleManager.isGamePlaying = true;
         }
         else
         {
