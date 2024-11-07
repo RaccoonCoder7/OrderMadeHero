@@ -21,8 +21,8 @@ public class BossBattleManager : MonoBehaviour
     [Header("UI")]
     public RectTransform gageRectTr;
     public RectTransform gage;
-    public Button clearPuzzleButton;
-    public Button failPuzzleButton;
+    //public Button clearPuzzleButton;
+    //public Button failPuzzleButton;
     public RectTransform TeamdialogueBox;
     public Image TeamdialogueBoxImage;
     public RectTransform BossdialogueBox;
@@ -111,19 +111,15 @@ public class BossBattleManager : MonoBehaviour
 
         LeftButton.gameObject.SetActive(false);
         RightButton.gameObject.SetActive(false);
-
-        clearPuzzleButton.onClick.RemoveAllListeners();
-        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
-
-        failPuzzleButton.onClick.RemoveAllListeners();
-        failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
     }
 
     public void SetUIActive(bool isActive)
     {
         gage.gameObject.SetActive(isActive);
+        /*
         clearPuzzleButton.gameObject.SetActive(isActive);
         failPuzzleButton.gameObject.SetActive(isActive);
+        */
         TeamdialogueBox.gameObject.SetActive(isActive);
         BossdialogueBox.gameObject.SetActive(isActive);
     }
@@ -216,6 +212,12 @@ public class BossBattleManager : MonoBehaviour
         {
             Debug.LogError("BossWeapon not found for bossKey: " + bossKey);
         }
+        var chipList = GameMgr.In.chipTable.chipList;
+        foreach (var chip in chipList)
+        {
+            chip.createEnable = true;
+        }
+
     }
 
 
@@ -295,9 +297,6 @@ public class BossBattleManager : MonoBehaviour
                 succeedPuzzleCnt++;
                 break;
             default:
-                resultKey = "fail";
-                failureCount += 2;
-                TeamHP -= 2;
                 break;
         }
         UpdateCharacterPopup(result,false);
@@ -390,13 +389,14 @@ public class BossBattleManager : MonoBehaviour
     }
 
 
-    //for test
+    /* Test Code
     private void ProcessPuzzleResult(int result)
     {
         if (!isGamePlaying) return;
         puzzleMgr.ClearPuzzle();
         OnBossBattleMakingDone(result);
     }
+    */
 
     private void EndBossBattle(bool success)
     {
@@ -404,13 +404,17 @@ public class BossBattleManager : MonoBehaviour
 
         if (success)
         {
-            gameCanvas.gameObject.SetActive(false);
+            CommonTool.In.OpenAlertPanel("보스전 성공!", () => {
+                gameCanvas.gameObject.SetActive(false);
+            });
         }
         else
         {
-            CommonTool.In.OpenAlertPanel("보스전 실패...");
-            ResetGameState();
-            StartCoroutine(StartBossBattle());
+            CommonTool.In.OpenAlertPanel("보스전 실패...", () => {
+                SetBossBattleData();
+                StartCoroutine(StartBossBattle());
+                puzzleMgr.StartPuzzle();
+            });
         }
 
         OnBossBattleEnded?.Invoke(success);
@@ -427,16 +431,21 @@ public class BossBattleManager : MonoBehaviour
         BossHP = 3;
         TeamHP = 3;
 
+        WeaponSetting(bossname, 0);
+
         puzzleMgr.OnMakingDone -= OnBossBattleMakingDone;
+        puzzleMgr.OnMakingDone += OnBossBattleMakingDone;
 
         RestoreOriginalChipColors();
         UpdateGage();
-        UpdateCharacterPopup(-1,true);
+        UpdateCharacterPopup(-1, true);
 
+        /*
         clearPuzzleButton.onClick.RemoveAllListeners();
         clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
         failPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
+        */
     }
 
     private void ResetTimer()

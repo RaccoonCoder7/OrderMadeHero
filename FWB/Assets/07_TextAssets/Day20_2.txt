@@ -2,11 +2,11 @@
 아침부터 이게 무슨 소리야! CCTV! CCTV!
 !next
 헉, 누가 싸우고 있잖아?
-!next !image_히어로B !speaker_히어로B
+!next !image_손님 !speaker_히어로B
 젠장, 몸을 좀 피해야겠어.
 !next !speaker_나비 !speaker_PC나비
 어, 어서오세요…?
-!next !image_히어로B !speaker_히어로B
+!next !image_손님 !speaker_히어로B
 뭐야, AI? 여긴 무기상인가?
 !next
 잘 됐군, 어이! 최대한 잘 드는 걸로…….
@@ -20,7 +20,7 @@
 이 쓰레기 같은 자식, 내가 널 여기서—
 !next !image_퍼펫 !speaker_퍼펫
 그건 안 될 일입니다.
-!next !image_히어로B !speaker_히어로B
+!next !image_손님 !speaker_히어로B
 퍼, 퍼펫, 컥, 커헉.
 !next !speaker_나비 !speaker_PC나비
 히, 히이익!
