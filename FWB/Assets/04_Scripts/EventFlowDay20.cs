@@ -106,7 +106,11 @@ public class EventFlowDay20 : EventFlow
             }
             else
             {
-               
+                if (success)
+                {
+                    battleManager.lastWeekStatus = false;
+                    mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
+                }
             }
         }
     }

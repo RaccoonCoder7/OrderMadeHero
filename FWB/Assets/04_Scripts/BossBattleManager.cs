@@ -6,7 +6,6 @@ using DG.Tweening;
 using System;
 using System.Linq;
 using System.Reflection;
-using static UnityEngine.Networking.UnityWebRequest;
 //보스전
 public class BossBattleManager : MonoBehaviour
 {
@@ -22,7 +21,6 @@ public class BossBattleManager : MonoBehaviour
     [Header("UI")]
     public RectTransform gageRectTr;
     public RectTransform gage;
-    public Text teamDialogue;
     public Button clearPuzzleButton;
     public Button failPuzzleButton;
     public RectTransform TeamdialogueBox;
@@ -477,15 +475,26 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-    public void ShowDialogueBox()
+    public void ShowDialogueBox(string speaker)
     {
-        TeamdialogueBox.DOLocalMoveX(TeamdialogueBoxVisibleX, 1f).SetEase(Ease.OutQuad);
+        if (speaker == "Team")
+        {
+            TeamdialogueBox.gameObject.SetActive(true);
+            TeamdialogueBox.DOLocalMoveX(TeamdialogueBoxVisibleX, 1f).SetEase(Ease.OutQuad);
+        }
+        else if (speaker == "Boss")
+        {
+            BossdialogueBox.gameObject.SetActive(true);
+            BossdialogueBox.DOLocalMoveX(BossdialogueBoxVisibleX, 1f).SetEase(Ease.OutQuad);
+        }
     }
 
     public void HideDialogueBox()
     {
-        TeamdialogueBox.DOLocalMoveX(TeamdialogueBoxHiddenX, 1f).SetEase(Ease.InQuad);
+        TeamdialogueBox.DOLocalMoveX(TeamdialogueBoxHiddenX, 1f).SetEase(Ease.InQuad).OnComplete(() => TeamdialogueBox.gameObject.SetActive(false));
+        BossdialogueBox.DOLocalMoveX(BossdialogueBoxHiddenX, 1f).SetEase(Ease.InQuad).OnComplete(() => BossdialogueBox.gameObject.SetActive(false));
     }
+
 
     private void SaveOriginalChipColors()
     {

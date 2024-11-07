@@ -1,7 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 [System.Serializable]
 public class DialogueEntry
@@ -10,13 +11,14 @@ public class DialogueEntry
     public int bossIndex;
     public int puzzleIndex;
     public string result;
-    public string[] dialogue;
+    public DialogueLine[] dialogueLines;
 }
 
 [System.Serializable]
-public class DialogueData
+public class DialogueLine
 {
-    public List<DialogueEntry> dialogues;
+    public string speaker;
+    public string text;
 }
 
 public class BossDialogueManager : MonoBehaviour
@@ -24,6 +26,8 @@ public class BossDialogueManager : MonoBehaviour
     public TextAsset dialogueDataFile;
     private DialogueData dialogueData;
     public BossBattleManager battleManager;
+    public Text teamDialogue;
+    public Text bossDialogue;
 
     void Awake()
     {
@@ -42,23 +46,31 @@ public class BossDialogueManager : MonoBehaviour
         }
     }
 
-
     public IEnumerator ShowDialogue(string chapter, int bossIndex, int puzzleIndex, string result)
     {
-        var entry = dialogueData.dialogues.Find(
-            d => d.chapter == chapter && d.bossIndex == bossIndex && d.puzzleIndex == puzzleIndex && d.result == result);
+        var entry = dialogueData.dialogues.Find(d => d.chapter == chapter && d.bossIndex == bossIndex && d.puzzleIndex == puzzleIndex && d.result == result);
 
         if (entry != null)
         {
             battleManager.isGamePlaying = false;
             battleManager.ToggleCanvasInteractable(false);
-            battleManager.ShowDialogueBox();
 
-            foreach (var line in entry.dialogue)
+            foreach (var line in entry.dialogueLines)
             {
-                battleManager.teamDialogue.text = line;
-                yield return new WaitForSeconds(2); 
+                battleManager.ShowDialogueBox(line.speaker);
+
+                if (line.speaker == "Team")
+                {
+                    teamDialogue.text = line.text;
+                }
+                else if (line.speaker == "Boss")
+                {
+                    bossDialogue.text = line.text;
+                }
+
+                yield return new WaitForSeconds(2);
             }
+
             yield return new WaitForSeconds(1);
             battleManager.HideDialogueBox();
             battleManager.ToggleCanvasInteractable(true);
@@ -68,16 +80,16 @@ public class BossDialogueManager : MonoBehaviour
             Debug.LogError($"No dialogue entry found for chapter {chapter}, bossIndex {bossIndex}, puzzleIndex {puzzleIndex}, result {result}");
         }
     }
+
     public IEnumerator ShowDialogueAndContinue(string chapter, int bossIndex, int puzzleIndex, string result, Action onDialogueComplete)
     {
         yield return ShowDialogue(chapter, bossIndex, puzzleIndex, result);
         onDialogueComplete?.Invoke();
     }
 
-}
-
-[System.Serializable]
-public class DialogueDataWrapper
-{
-    public DialogueData data;
+    [System.Serializable]
+    public class DialogueData
+    {
+        public List<DialogueEntry> dialogues;
+    }
 }

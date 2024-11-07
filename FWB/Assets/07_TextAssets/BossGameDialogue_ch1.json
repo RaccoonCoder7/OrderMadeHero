@@ -5,11 +5,23 @@
       "bossIndex": 1,
       "puzzleIndex": 0,
       "result": "start",
-      "dialogue": [
-        "저거 보이세요, 사장님? 퍼펫은 저 커다란 낫과 끝을 알 수 없는 검은 기운을 사용해서 공격해요.",
-        "검은 기운도 성가시지만, 지금은 우선 저 낫을 어떻게든 손에서 놓게 하는 게 좋을 것 같습니다.",
-        "아, 이게 뭐죠? 일회용 방어구…?",
-        "감사해요! 하지만 제대로 된 감사 인사는 나중에 다시 하겠습니다. 우선 지금은 가서 녀석을 막을 때에요!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "저거 보이세요, 사장님? 퍼펫은 저 커다란 낫과 끝을 알 수 없는 검은 기운을 사용해서 공격해요."
+        },
+        {
+          "speaker": "Team",
+          "text": "검은 기운도 성가시지만, 지금은 우선 저 낫을 어떻게든 손에서 놓게 하는 게 좋을 것 같습니다."
+        },
+        {
+          "speaker": "Team",
+          "text": "아, 이게 뭐죠? 일회용 방어구…?"
+        },
+        {
+          "speaker": "Team",
+          "text": "감사해요! 하지만 제대로 된 감사 인사는 나중에 다시 하겠습니다. 우선 지금은 가서 녀석을 막을 때에요!"
+        }
       ]
     },
     {
@@ -17,11 +29,23 @@
       "bossIndex": 2,
       "puzzleIndex": 0,
       "result": "start",
-      "dialogue": [
-        "버니브레이브. 날쌘 발이 참으로 거슬리더군요.",
-        "이 응축된 암흑 물질이라면 녀석의 발을 붙잡을 수 있을 겁니다.",
-        "아무리 재빠른 토끼라도, 사방에 놓인 덫까지 피할 수는 없겠지요.",
-        "어디, 얼마나 버틸지 궁금하군요."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "버니브레이브. 날쌘 발이 참으로 거슬리더군요."
+        },
+        {
+          "speaker": "Team",
+          "text": "이 응축된 암흑 물질이라면 녀석의 발을 붙잡을 수 있을 겁니다."
+        },
+        {
+          "speaker": "Team",
+          "text": "아무리 재빠른 토끼라도, 사방에 놓인 덫까지 피할 수는 없겠지요."
+        },
+        {
+          "speaker": "Team",
+          "text": "어디, 얼마나 버틸지 궁금하군요."
+        }
       ]
     },
     {
@@ -29,8 +53,11 @@
       "bossIndex": 1,
       "puzzleIndex": 1,
       "result": "fail",
-      "dialogue": [
-        "크윽, 주, 죽을 뻔했잖아? 더 빠르게 움직여야겠어!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "크윽, 주, 죽을 뻔했잖아? 더 빠르게 움직여야겠어!"
+        }
       ]
     },
     {
@@ -38,8 +65,11 @@
       "bossIndex": 2,
       "puzzleIndex": 1,
       "result": "fail",
-      "dialogue": [
-        "생각보다 더 재빠르군요. 거슬리기는."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "생각보다 더 재빠르군요. 거슬리기는."
+        }
       ]
     },
     {
@@ -47,8 +77,11 @@
       "bossIndex": 1,
       "puzzleIndex": 1,
       "result": "success",
-      "dialogue": [
-        "좋아요, 낫을 멀리 치워 버릴게요!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "좋아요, 낫을 멀리 치워 버릴게요!"
+        }
       ]
     },
     {
@@ -56,8 +89,11 @@
       "bossIndex": 2,
       "puzzleIndex": 1,
       "result": "success",
-      "dialogue": [
-        "녀석의 발끝이 떨리고 있습니다."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "녀석의 발끝이 떨리고 있습니다."
+        }
       ]
     },
     {
@@ -65,8 +101,11 @@
       "bossIndex": 1,
       "puzzleIndex": 1,
       "result": "greatSuccess",
-      "dialogue": [
-        "퍼펫! 당신의 무기는 파괴되었습니다! 항복하세요!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "퍼펫! 당신의 무기는 파괴되었습니다! 항복하세요!"
+        }
       ]
     },
     {
@@ -74,8 +113,11 @@
       "bossIndex": 2,
       "puzzleIndex": 1,
       "result": "greatSuccess",
-      "dialogue": [
-        "…이젠 좀 잘 보이는군요."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "…이젠 좀 잘 보이는군요."
+        }
       ]
     },
     {
@@ -83,12 +125,27 @@
       "bossIndex": 1,
       "puzzleIndex": 2,
       "result": "start",
-      "dialogue": [
-        "아까 근처를 스쳐지나가면서 봤는데, 가슴에 있는 보석이 검은 기운의 근원인 것 같습니다.",
-        "제 무기는 이 깃발뿐이지만, 능력을 최대한 끌어올려서 속도의 도움을 받는다면 유효타를 먹일 수 있을 거예요.",
-        "아, 방어구는 괜찮아요. 차라리 더 빠르게 움직이는 게 나을 것 같습니다.",
-        "후우, 어디 다시 가보자고요!",
-        "퍼펫: 속이 뻔히 보이는군요. 토끼, 제가 가만히 있을 거라 생각했습니까?"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "아까 근처를 스쳐지나가면서 봤는데, 가슴에 있는 보석이 검은 기운의 근원인 것 같습니다."
+        },
+        {
+          "speaker": "Team",
+          "text": "제 무기는 이 깃발뿐이지만, 능력을 최대한 끌어올려서 속도의 도움을 받는다면 유효타를 먹일 수 있을 거예요."
+        },
+        {
+          "speaker": "Team",
+          "text": "아, 방어구는 괜찮아요. 차라리 더 빠르게 움직이는 게 나을 것 같습니다."
+        },
+        {
+          "speaker": "Team",
+          "text": "후우, 어디 다시 가보자고요!"
+        },
+        {
+          "speaker": "Boss",
+          "text": "속이 뻔히 보이는군요. 토끼, 제가 가만히 있을 거라 생각했습니까?"
+        }
       ]
     },
     {
@@ -96,21 +153,40 @@
       "bossIndex": 2,
       "puzzleIndex": 2,
       "result": "start",
-      "dialogue": [
-        "아무래도 아직 힘이 남아 있는 모양입니다.",
-        "허나, 귀가 계속 움직이는 것을 보았습니다. 토끼답군요.",
-        "소리를 듣지 못하도록 귀를 손보는 쪽이 좋겠습니다.",
-        "기왕이면 조금 더 아래를 베는 것도 나쁘지 않겠군요.",
-        "버니: 하, 퍼펫! 고작 이 정도로 날 쫓아올 수 있을 거라 생각해? 어림없다!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "아무래도 아직 힘이 남아 있는 모양입니다."
+        },
+        {
+          "speaker": "Team",
+          "text": "허나, 귀가 계속 움직이는 것을 보았습니다. 토끼답군요."
+        },
+        {
+          "speaker": "Team",
+          "text": "소리를 듣지 못하도록 귀를 손보는 쪽이 좋겠습니다."
+        },
+        {
+          "speaker": "Team",
+          "text": "기왕이면 조금 더 아래를 베는 것도 나쁘지 않겠군요."
+        },
+        {
+          "speaker": "Boss",
+          "text": "하, 퍼펫! 고작 이 정도로 날 쫓아올 수 있을 거라 생각해? 어림없다!"
+        }
       ]
-    },
+    }
+    ,
     {
       "chapter": "chapter1",
       "bossIndex": 1,
       "puzzleIndex": 2,
       "result": "fail",
-      "dialogue": [
-        "뭐야, 이거! 앞이 하나도 안 보이잖아!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "뭐야, 이거! 앞이 하나도 안 보이잖아!"
+        }
       ]
     },
     {
@@ -118,8 +194,11 @@
       "bossIndex": 2,
       "puzzleIndex": 2,
       "result": "fail",
-      "dialogue": [
-        "차라리 포기하는 쪽이 편할 터인데."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "차라리 포기하는 쪽이 편할 터인데."
+        }
       ]
     },
     {
@@ -127,8 +206,11 @@
       "bossIndex": 1,
       "puzzleIndex": 2,
       "result": "success",
-      "dialogue": [
-        "하하, 그 느려터진 움직임으로 절 잡겠다구요?"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "하하, 그 느려터진 움직임으로 절 잡겠다구요?"
+        }
       ]
     },
     {
@@ -136,8 +218,11 @@
       "bossIndex": 2,
       "puzzleIndex": 2,
       "result": "success",
-      "dialogue": [
-        "저런, 스쳤군."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "저런, 스쳤군."
+        }
       ]
     },
     {
@@ -145,8 +230,11 @@
       "bossIndex": 1,
       "puzzleIndex": 2,
       "result": "greatSuccess",
-      "dialogue": [
-        "통했다! 뭔가 크게 깨지는 소리가 들렸어요!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "통했다! 뭔가 크게 깨지는 소리가 들렸어요!"
+        }
       ]
     },
     {
@@ -154,8 +242,11 @@
       "bossIndex": 2,
       "puzzleIndex": 2,
       "result": "greatSuccess",
-      "dialogue": [
-        "귀가 잘렸으니, 이젠 소리를 듣기 힘들 겁니다."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "귀가 잘렸으니, 이젠 소리를 듣기 힘들 겁니다."
+        }
       ]
     },
     {
@@ -163,11 +254,23 @@
       "bossIndex": 1,
       "puzzleIndex": 3,
       "result": "start",
-      "dialogue": [
-        "사장님, 퍼펫이 뭔가 이상하지 않나요? 상당히 괴로워 보이는데…….",
-        "게다가 검은 기운도 마그마처럼 요동치고 있어요. 보석이 깨진 것 때문에 그 안에 있던 감정이랑 기억이 뒤섞이고 있는 것 같아요.",
-        "저번에 저 녀석이랑 싸우면서 봤던 건데, 제 능력이 퍼펫 안에 갇힌 감정을 증폭시키는 것 같아요. 계속 해보죠!",
-        "퍼펫: 이, 이 감정은 뭐지? 이 기억은 또 뭐고…, 머리가, 머리가 너무 아파…! 크아아악—!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "사장님, 퍼펫이 뭔가 이상하지 않나요? 상당히 괴로워 보이는데……."
+        },
+        {
+          "speaker": "Team",
+          "text": "게다가 검은 기운도 마그마처럼 요동치고 있어요. 보석이 깨진 것 때문에 그 안에 있던 감정이랑 기억이 뒤섞이고 있는 것 같아요."
+        },
+        {
+          "speaker": "Team",
+          "text": "저번에 저 녀석이랑 싸우면서 봤던 건데, 제 능력이 퍼펫 안에 갇힌 감정을 증폭시키는 것 같아요. 계속 해보죠!"
+        },
+        {
+          "speaker": "Boss",
+          "text": "이, 이 감정은 뭐지? 이 기억은 또 뭐고…, 머리가, 머리가 너무 아파…! 크아아악—!"
+        }
       ]
     },
     {
@@ -175,12 +278,27 @@
       "bossIndex": 2,
       "puzzleIndex": 3,
       "result": "start",
-      "dialogue": [
-        "아까부터 제 가슴이 끓어오르는 것이, 아무래도 저 시끄러운 목소리가 영향을 끼치는 것 같습니다.",
-        "낫은 방금 던져 버렸지만…….",
-        "이거라면, 이 가위라면 녀석의 목을 꿰뚫는 데 부족함이 없을 것입니다.",
-        "토끼를 궁지로 몰아넣을 시간입니다. 가시지요.",
-        "버니: 절대, 절대로 포기 안 해! 퍼펫! 결판을 내자!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "아까부터 제 가슴이 끓어오르는 것이, 아무래도 저 시끄러운 목소리가 영향을 끼치는 것 같습니다."
+        },
+        {
+          "speaker": "Team",
+          "text": "낫은 방금 던져 버렸지만……."
+        },
+        {
+          "speaker": "Team",
+          "text": "이거라면, 이 가위라면 녀석의 목을 꿰뚫는 데 부족함이 없을 것입니다."
+        },
+        {
+          "speaker": "Team",
+          "text": "토끼를 궁지로 몰아넣을 시간입니다. 가시지요."
+        },
+        {
+          "speaker": "Boss",
+          "text": "절대, 절대로 포기 안 해! 퍼펫! 결판을 내자!"
+        }
       ]
     },
     {
@@ -188,8 +306,11 @@
       "bossIndex": 1,
       "puzzleIndex": 3,
       "result": "fail",
-      "dialogue": [
-        "으윽, 제 기억까지 뒤섞이고 있어요! 머, 머리가 아파요!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "으윽, 제 기억까지 뒤섞이고 있어요! 머, 머리가 아파요!"
+        }
       ]
     },
     {
@@ -197,8 +318,11 @@
       "bossIndex": 2,
       "puzzleIndex": 3,
       "result": "fail",
-      "dialogue": [
-        "…여기가 마지막이기를 바랐거늘."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "…여기가 마지막이기를 바랐거늘."
+        }
       ]
     },
     {
@@ -206,8 +330,11 @@
       "bossIndex": 1,
       "puzzleIndex": 3,
       "result": "success",
-      "dialogue": [
-        "어떻게든, 어떻게든 해낸 것 같아요!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "어떻게든, 어떻게든 해낸 것 같아요!"
+        }
       ]
     },
     {
@@ -215,8 +342,11 @@
       "bossIndex": 2,
       "puzzleIndex": 3,
       "result": "success",
-      "dialogue": [
-        "아직까지도 발은 재빠르군요. 조금 더 해보지요."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "아직까지도 발은 재빠르군요. 조금 더 해보지요."
+        }
       ]
     },
     {
@@ -224,8 +354,11 @@
       "bossIndex": 1,
       "puzzleIndex": 3,
       "result": "greatSuccess",
-      "dialogue": [
-        "좋아, 서, 성공이다! 퍼펫, 이제 그만 포기하세요!"
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "좋아, 서, 성공이다! 퍼펫, 이제 그만 포기하세요!"
+        }
       ]
     },
     {
@@ -233,9 +366,13 @@
       "bossIndex": 2,
       "puzzleIndex": 3,
       "result": "greatSuccess",
-      "dialogue": [
-        "퍼펫: 아, 이제야 좀 조용해졌군요."
+      "dialogueLines": [
+        {
+          "speaker": "Team",
+          "text": "아, 이제야 좀 조용해졌군요."
+        }
       ]
     }
   ]
 }
+    
