@@ -534,7 +534,7 @@ MonoBehaviour:
       - abilityKey: a_strength
         count: 2
       enableChipKeyList:
-      - a_brave
+      - c_brave
     - bluePrintKey: b_Blakthing
       name: "\uC554\uD751 \uBB3C\uC9C8"
       comment: "\uB358\uC9C4 \uACF3\uC5D0 \uB048\uC801\uD55C \uAC80\uC740 \uCD09\uC218\uAC00

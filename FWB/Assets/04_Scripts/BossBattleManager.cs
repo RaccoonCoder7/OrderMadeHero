@@ -93,6 +93,7 @@ public class BossBattleManager : MonoBehaviour
         Initialize();
         HideInfoForBoss.enabled = false;
         isGameCanvasActive = gameCanvas.enabled;
+        SaveOriginalChipColors();
     }
 
     private void Update()
@@ -107,7 +108,6 @@ public class BossBattleManager : MonoBehaviour
     {
         initialGageWidth = gageRectTr.sizeDelta.x;
         initialGagePos = gageRectTr.anchoredPosition;
-        SaveOriginalChipColors();
 
         LeftButton.gameObject.SetActive(false);
         RightButton.gameObject.SetActive(false);
@@ -200,6 +200,14 @@ public class BossBattleManager : MonoBehaviour
                 weaponKey = bossWeapon.weaponKeys[weaponIdx];
                 gameSceneMgr.SetBossWeapon(weaponKey);
 
+                /*테스트용 코드
+                var chipList = GameMgr.In.chipTable.chipList;
+                foreach (var chip in chipList)
+                {
+                    chip.createEnable = true;
+                }
+                */
+                BossChipSetActive();
                 Debug.Log("Key Setting: " + bossKey + ", " + weaponIdx + " with key: " + weaponKey);
                 Debug.Log("Current Blueprint set to: " + GameMgr.In.currentBluePrint.name);
             }
@@ -212,12 +220,6 @@ public class BossBattleManager : MonoBehaviour
         {
             Debug.LogError("BossWeapon not found for bossKey: " + bossKey);
         }
-        var chipList = GameMgr.In.chipTable.chipList;
-        foreach (var chip in chipList)
-        {
-            chip.createEnable = true;
-        }
-
     }
 
 
@@ -242,6 +244,26 @@ public class BossBattleManager : MonoBehaviour
                         bp.createEnable = true;
                     }
                 }
+            }
+        }
+    }
+
+    private void BossChipSetActive()
+    {
+        string chipKeyFirstRound = isHero ? "퍼펫보스전_1차전" : "버니보스전_1차전";
+        var firstRoundChip = GameMgr.In.chipTable.chipList.Find(x => x.howToGet.Equals(chipKeyFirstRound));
+        if (firstRoundChip != null)
+        {
+            firstRoundChip.createEnable = true;
+        }
+
+        if (currentPuzzleIndex == 2)
+        {
+            string chipKeyThirdRound = isHero ? "퍼펫보스전_3차전" : "버니보스전_3차전";
+            var thirdRoundChip = GameMgr.In.chipTable.chipList.Find(x => x.howToGet.Equals(chipKeyThirdRound));
+            if (thirdRoundChip != null)
+            {
+                thirdRoundChip.createEnable = true;
             }
         }
     }
@@ -307,6 +329,11 @@ public class BossBattleManager : MonoBehaviour
         if (result == 2 || result == 3)
         {
             ScreenShake();
+            if (currentPuzzleIndex == maxPuzzleCnt - 1)
+            {
+                EndBossBattle(true);
+                yield break;
+            }
         }
         else
         {
@@ -322,19 +349,21 @@ public class BossBattleManager : MonoBehaviour
             isPuzzleCompleted = true;
             currentPuzzleIndex++;
 
-            if (currentPuzzleIndex >= bossWeaponSettings.bossWeapons.Find(b => b.bossKey == bossname).weaponKeys.Count)
+            if (currentPuzzleIndex < maxPuzzleCnt)
+            {
+                WeaponSetting(bossname, currentPuzzleIndex);
+                gameSceneMgr.gamePanel.SetActive(false);
+                gameSceneMgr.popupPanel.SetActive(true);
+
+                ApplyBossGimmick();
+            }
+            else
             {
                 EndBossBattle(true);
-                return;
             }
-
-            WeaponSetting(bossname, currentPuzzleIndex);
-            gameSceneMgr.gamePanel.SetActive(false);
-            gameSceneMgr.popupPanel.SetActive(true);
-
-            ApplyBossGimmick();
         });
     }
+
 
     private void UpdateCharacterPopup(int result, bool reset = false)
     {
@@ -406,19 +435,20 @@ public class BossBattleManager : MonoBehaviour
         {
             CommonTool.In.OpenAlertPanel("보스전 성공!", () => {
                 gameCanvas.gameObject.SetActive(false);
+                OnBossBattleEnded?.Invoke(success);
             });
         }
         else
         {
             CommonTool.In.OpenAlertPanel("보스전 실패...", () => {
-                SetBossBattleData();
+                ResetGameState();
                 StartCoroutine(StartBossBattle());
                 puzzleMgr.StartPuzzle();
+                OnBossBattleEnded?.Invoke(success);
             });
         }
-
-        OnBossBattleEnded?.Invoke(success);
     }
+
 
     private void ResetGameState()
     {
@@ -431,12 +461,15 @@ public class BossBattleManager : MonoBehaviour
         BossHP = 3;
         TeamHP = 3;
 
+        ResetChipsActivation();
+        puzzleMgr.ClearPuzzle();
         WeaponSetting(bossname, 0);
+        ResetScreen();
+        RestoreOriginalChipColors();
 
         puzzleMgr.OnMakingDone -= OnBossBattleMakingDone;
         puzzleMgr.OnMakingDone += OnBossBattleMakingDone;
 
-        RestoreOriginalChipColors();
         UpdateGage();
         UpdateCharacterPopup(-1, true);
 
@@ -446,6 +479,22 @@ public class BossBattleManager : MonoBehaviour
         failPuzzleButton.onClick.RemoveAllListeners();
         failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
         */
+    }
+
+    private void ResetChipsActivation()
+    {
+        string[] chipKeys = new string[] {
+        "퍼펫보스전_1차전","퍼펫보스전_3차전","버니보스전_1차전","버니보스전_3차전"
+    };
+
+        foreach (var key in chipKeys)
+        {
+            var chip = GameMgr.In.chipTable.chipList.Find(x => x.howToGet.Equals(key));
+            if (chip != null)
+            {
+                chip.createEnable = false;
+            }
+        }
     }
 
     private void ResetTimer()
@@ -481,6 +530,30 @@ public class BossBattleManager : MonoBehaviour
         foreach (var button in gameCanvas.GetComponentsInChildren<Button>())
         {
             button.interactable = isInteractable;
+        }
+
+        foreach (Transform chipSlot in chipsetPanel.transform)
+        {
+            var slotImage = chipSlot.GetComponent<Image>();
+            if (slotImage != null)
+            {
+                slotImage.raycastTarget = isInteractable;
+            }
+
+            if (chipSlot.childCount > 0)
+            {
+                var rawImage = chipSlot.GetChild(0).GetComponent<RawImage>();
+                if (rawImage != null)
+                {
+                    rawImage.raycastTarget = isInteractable;
+                }
+
+                var image = chipSlot.GetChild(0).GetComponent<Image>();
+                if (image != null)
+                {
+                    image.raycastTarget = isInteractable;
+                }
+            }
         }
     }
 

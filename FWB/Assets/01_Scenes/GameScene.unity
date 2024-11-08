@@ -26489,6 +26489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventKey: day20
   mgr: {fileID: 0}
+  MainPanel: {fileID: 964848863}
 --- !u!114 &723337262
 MonoBehaviour:
   m_ObjectHideFlags: 0

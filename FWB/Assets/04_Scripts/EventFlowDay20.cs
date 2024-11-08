@@ -9,11 +9,14 @@ public class EventFlowDay20 : EventFlow
 {
     private BossBattleManager battleManager;
     private BossCutScene bossCutScene;
+    
     private string startDialogueKey;
     private string nextDialogueKey;
     private string finalDialogueKey;
     private bool isHero;
 
+    [SerializeField]
+    private GameObject MainPanel;
     public override void StartFlow()
     {
         InitializeComponents();
@@ -38,9 +41,11 @@ public class EventFlowDay20 : EventFlow
     {
         if (battleManager != null)
         {
+            battleManager.OnBossBattleEnded -= HandleBossBattleEnded;
             battleManager.OnBossBattleEnded += HandleBossBattleEnded;
         }
     }
+
 
     private void DetermineHeroStatus()
     {
@@ -91,27 +96,25 @@ public class EventFlowDay20 : EventFlow
 
     private void HandleBossBattleEnded(bool success)
     {
+        if (!success) return;
+        MainPanel.gameObject.SetActive(false);
         if (bossCutScene != null)
         {
-            if(isHero)
+            if (isHero)
             {
                 bossCutScene.StartCutScene();
                 bossCutScene.OnCutSceneEnd = () =>
                 {
-                    if (success)
-                    {
-                        battleManager.lastWeekStatus = false;
-                        mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
-                    }
+                    battleManager.lastWeekStatus = false;
+                    MainPanel.gameObject.SetActive(false);
+                    mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
                 };
             }
             else
             {
-                if (success)
-                {
-                    battleManager.lastWeekStatus = false;
-                    mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
-                }
+                MainPanel.gameObject.SetActive(false);
+                battleManager.lastWeekStatus = false;
+                mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
             }
         }
     }

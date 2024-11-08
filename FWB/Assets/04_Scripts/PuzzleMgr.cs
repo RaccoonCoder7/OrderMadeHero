@@ -1711,7 +1711,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
     }
 
-    private void ClearPuzzle()
+    public void ClearPuzzle()
     {
         for (int i = puzzleChipParent.childCount - 1; 0 <= i; i--)
         {
