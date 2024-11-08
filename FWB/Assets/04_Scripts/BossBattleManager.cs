@@ -31,8 +31,6 @@ public class BossBattleManager : MonoBehaviour
     public GameObject screenShakeTarget;
     public Transform chipsetPanel;
     public Transform screenTarget;
-    private List<Color> originalChipColors;
-    private List<Color> originalRawChipColors;
     public Image HideInfoForBoss;
     public Button LeftButton;
     public Button RightButton;
@@ -93,7 +91,6 @@ public class BossBattleManager : MonoBehaviour
         Initialize();
         HideInfoForBoss.enabled = false;
         isGameCanvasActive = gameCanvas.enabled;
-        SaveOriginalChipColors();
     }
 
     private void Update()
@@ -577,39 +574,31 @@ public class BossBattleManager : MonoBehaviour
         BossdialogueBox.DOLocalMoveX(BossdialogueBoxHiddenX, 1f).SetEase(Ease.InQuad).OnComplete(() => BossdialogueBox.gameObject.SetActive(false));
     }
 
-
-    private void SaveOriginalChipColors()
-    {
-        originalChipColors = new List<Color>();
-        originalRawChipColors = new List<Color>();
-
-        var images = chipsetPanel.GetComponentsInChildren<Image>();
-        var rawImages = chipsetPanel.GetComponentsInChildren<RawImage>();
-
-        foreach (var image in images)
-        {
-            originalChipColors.Add(image.color);
-        }
-
-        foreach (var rawImage in rawImages)
-        {
-            originalRawChipColors.Add(rawImage.color);
-        }
-    }
-
     private void RestoreOriginalChipColors()
     {
-        var images = chipsetPanel.GetComponentsInChildren<Image>();
-        var rawImages = chipsetPanel.GetComponentsInChildren<RawImage>();
-
-        for (int i = 0; i < images.Length; i++)
+        foreach (Transform chipSlot in chipsetPanel.transform)
         {
-            images[i].color = originalChipColors[i];
-        }
+            var slotImage = chipSlot.GetComponent<Image>();
+            if (slotImage != null)
+            {
+                slotImage.color = Color.white;
+            }
 
-        for (int i = 0; i < rawImages.Length; i++)
-        {
-            rawImages[i].color = originalRawChipColors[i];
+            if (chipSlot.childCount > 0)
+            {
+                var firstChild = chipSlot.GetChild(0);
+                var rawImage = firstChild.GetComponent<RawImage>();
+                if (rawImage != null)
+                {
+                    rawImage.color = Color.white;
+                }
+            }
+
+            if (chipSlot.childCount > 1)
+            {
+                var secondChild = chipSlot.GetChild(1).gameObject;
+                secondChild.SetActive(true);
+            }
         }
     }
 

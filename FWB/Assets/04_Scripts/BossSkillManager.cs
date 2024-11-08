@@ -54,20 +54,26 @@ public class BossSkillManager : MonoBehaviour
     {
         foreach (Transform chipSlot in battleManager.chipsetPanel.transform)
         {
-            var chipSlotImage = chipSlot.GetComponent<Image>();
-            if (chipSlotImage != null)
+            var slotImage = chipSlot.GetComponent<Image>();
+            if (slotImage != null)
             {
-                chipSlotImage.color = Color.black;
+                slotImage.color = Color.black;
             }
 
-            foreach (var image in chipSlot.GetComponentsInChildren<Image>())
+            if (chipSlot.childCount > 0)
             {
-                image.color = Color.black;
+                var firstChild = chipSlot.GetChild(0);
+                var rawImage = firstChild.GetComponent<RawImage>();
+                if (rawImage != null)
+                {
+                    rawImage.color = Color.black;
+                }
             }
 
-            foreach (var rawImage in chipSlot.GetComponentsInChildren<RawImage>())
+            if (chipSlot.childCount > 1)
             {
-                rawImage.color = Color.black;
+                var secondChild = chipSlot.GetChild(1).gameObject;
+                secondChild.SetActive(false);
             }
         }
     }
