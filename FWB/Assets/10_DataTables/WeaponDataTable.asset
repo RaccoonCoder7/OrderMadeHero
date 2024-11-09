@@ -490,7 +490,7 @@ MonoBehaviour:
       orderEnable: 0
       createEnable: 0
       weaponState: 0
-      blueprintSprite: {fileID: 21300000, guid: 789ffc62e02c77740810002f682768b5, type: 3}
+      blueprintSprite: {fileID: 21300000, guid: 2313e9ffa08aa77419930193fba1e8b3, type: 3}
       icon: {fileID: 21300000, guid: fafc1c1fdb0d0de45b2baea3156a14da, type: 3}
       requiredChipAbilityList:
       - abilityKey: a_sound

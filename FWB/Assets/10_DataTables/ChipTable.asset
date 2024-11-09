@@ -257,6 +257,48 @@ MonoBehaviour:
     abilityList:
     - abilityKey: a_divine
       count: 1
+  - chipKey: c_ice
+    chipName: "\uC5BC\uC74C"
+    desc: "\uC774 \uCE69\uC14B\uC740 \uBB34\uAE30\uC5D0 \uC5BC\uC74C\uC18D\uC131\uC744
+      \uCD94\uAC00\uD574\uC90D\uB2C8\uB2E4."
+    howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+    price: 5000
+    createEnable: 0
+    chipState: 0
+    chipSprite: {fileID: 21300000, guid: 13e1246f78402f34da5c93a82f6ac4c0, type: 3}
+    abilityList:
+    - abilityKey: a_cool
+      count: 1
+  - chipKey: c_thin
+    chipName: "\uC587\uC74C"
+    desc: "\uC774 \uCE69\uC14B\uC740 \uBB34\uAE30\uC758 \uC678\uD615\uC744 \uB354
+      \uC587\uC544 \uBCF4\uC774\uAC8C \uB9CC\uB4ED\uB2C8\uB2E4."
+    howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+    price: 5000
+    createEnable: 0
+    chipState: 0
+    chipSprite: {fileID: 21300000, guid: eb1f3086890c64c46bcfc95e9bf33ae1, type: 3}
+    abilityList:
+    - abilityKey: a_weight
+      count: -1
+    - abilityKey: a_cool
+      count: 1
+    - abilityKey: a_durability
+      count: -1
+  - chipKey: c_thick
+    chipName: "\uB450\uAEBC\uC6C0"
+    desc: "\uC774 \uCE69\uC14B\uC740 \uBB34\uAE30\uC758 \uC678\uD615\uC744 \uB354
+      \uB450\uAEBC\uC6CC\uBCF4\uC774\uAC8C \uB9CC\uB4ED\uB2C8\uB2E4."
+    howToGet: "\uC0C1\uC810\uAD6C\uB9E4"
+    price: 500
+    createEnable: 0
+    chipState: 0
+    chipSprite: {fileID: 21300000, guid: 57b93e7e6759b804d9b3380ccfda2ce6, type: 3}
+    abilityList:
+    - abilityKey: a_weight
+      count: 1
+    - abilityKey: a_cool
+      count: -1
   - chipKey: c_brave
     chipName: "\uC6A9\uAE30"
     desc: "\uCC29\uC6A9\uC790\uC5D0\uAC8C \uC6A9\uAE30\uB97C \uB354\uD574\uC900\uB2E4.
@@ -266,7 +308,7 @@ MonoBehaviour:
     price: 0
     createEnable: 0
     chipState: 0
-    chipSprite: {fileID: 0}
+    chipSprite: {fileID: 21300000, guid: 9b3649799486dc74985ad72f10d68562, type: 3}
     abilityList:
     - abilityKey: a_brave
       count: 1
@@ -279,7 +321,7 @@ MonoBehaviour:
     price: 0
     createEnable: 0
     chipState: 0
-    chipSprite: {fileID: 0}
+    chipSprite: {fileID: 21300000, guid: 6e83fc4efb7e14147af16c974513804a, type: 3}
     abilityList:
     - abilityKey: a_sticky
       count: 1
@@ -292,7 +334,7 @@ MonoBehaviour:
     price: 0
     createEnable: 0
     chipState: 0
-    chipSprite: {fileID: 0}
+    chipSprite: {fileID: 21300000, guid: 0077ecb94e67c17479d669b531780ea6, type: 3}
     abilityList:
     - abilityKey: a_durability
       count: 1
@@ -309,7 +351,7 @@ MonoBehaviour:
     price: 0
     createEnable: 0
     chipState: 0
-    chipSprite: {fileID: 0}
+    chipSprite: {fileID: 21300000, guid: b52e7de26a992b143963ff06ddedff96, type: 3}
     abilityList:
     - abilityKey: a_spell
       count: 2
