@@ -1587,6 +1587,23 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 break;
             case 1:
                 fame -= 10;
+                int sellPrice0 = GameMgr.In.currentBluePrint.sellPrice;
+                if (isFeverMode)
+                {
+                    sellPrice0 = (int)(sellPrice0 * 0.4f);
+                }
+                if (!isFeverMode)
+                {
+                    bonus = GetBonusCredit(sellPrice0);
+                    sellPrice0 += bonus;
+                    credit += sellPrice0;
+                }
+                else
+                {
+                    credit += sellPrice0;
+                }
+                credit -= chipPrice;
+                revenue += sellPrice0;
                 if (GameMgr.In.currentOrder.camp == OrderTable.Camp.Hero)
                 {
                     tendency -= 10;
@@ -1595,7 +1612,6 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     tendency += 10;
                 }
-                revenue += chipPrice;
 
                 mgr2.orderState = GameSceneMgr.OrderState.Failed;
                 break;
