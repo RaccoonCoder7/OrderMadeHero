@@ -16801,7 +16801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &447081171
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16987,10 +16987,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chipKey: c_thin
   colNum: 3
-  rowNum: 3
+  rowNum: 1
   row:
-  - col: 00000000000000000000000000000000
-  - col: 000000000000000000000000
   - col: 010000000100000001000000
   posOffset: 000000000000000000000000
   enableOnSpecificBlueprint: 0
@@ -39744,6 +39742,9 @@ MonoBehaviour:
   - {fileID: 1980013827}
   - {fileID: 1590470963}
   - {fileID: 347645891}
+  - {fileID: 139558732}
+  - {fileID: 449442534}
+  - {fileID: 166462768}
   abilityFilterList:
   - {fileID: 97663227}
   - {fileID: 1064151200}
@@ -56039,7 +56040,7 @@ MonoBehaviour:
   bossDialogueMgr: {fileID: 1390976122}
   bossWeaponSettings: {fileID: 11400000, guid: 0c6d4885279645c46bf129ce5b49cdef, type: 2}
   gageRectTr: {fileID: 340375172}
-  gage: {fileID: 340375172}
+  gage: {fileID: 447081171}
   TeamdialogueBox: {fileID: 550692655}
   TeamdialogueBoxImage: {fileID: 550692656}
   BossdialogueBox: {fileID: 422307799}
