@@ -16990,7 +16990,7 @@ MonoBehaviour:
   rowNum: 1
   row:
   - col: 010000000100000001000000
-  posOffset: 000000000000000000000000
+  posOffset: 00000000000000000000000000000000
   enableOnSpecificBlueprint: 0
   originRow: []
   currentRow: []
@@ -28444,7 +28444,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 1
+  startDay: 20
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -29474,10 +29474,10 @@ MonoBehaviour:
   colNum: 3
   rowNum: 4
   row:
-  - col: 01000000010000000000000000000000
-  - col: 00000000010000000100000000000000
-  - col: 00000000010000000100000000000000
-  - col: 01000000010000000000000000000000
+  - col: 010000000100000000000000
+  - col: 000000000100000001000000
+  - col: 000000000100000001000000
+  - col: 010000000100000000000000
   posOffset: 00000000000000000000000000000000
   enableOnSpecificBlueprint: 1
   originRow: []
@@ -45796,7 +45796,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1117632119
 RectTransform:
   m_ObjectHideFlags: 0
@@ -56062,7 +56062,7 @@ MonoBehaviour:
   TeamdialogueBoxVisibleX: -485
   BossdialogueBoxHiddenX: 1500
   BossdialogueBoxVisibleX: 485
-  maxTime: 60
+  maxTime: 10000
   maxPuzzleCnt: 3
   isGamePlaying: 0
   timer: 0
@@ -64156,8 +64156,8 @@ MonoBehaviour:
   colNum: 4
   rowNum: 2
   row:
-  - col: 00000000000000000100000001000000
   - col: 01000000010000000100000001000000
+  - col: 00000000000000000100000001000000
   posOffset: 00000000000000000000000000000000
   enableOnSpecificBlueprint: 1
   originRow: []
@@ -68226,7 +68226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1698415332
 RectTransform:
   m_ObjectHideFlags: 0

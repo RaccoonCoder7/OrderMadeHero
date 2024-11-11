@@ -384,17 +384,17 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 GameMgr.In.day = (GameMgr.Day) day;
 
                 // 테스트용 코드
-                GameMgr.In.credit = 100000;
-                foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
-                {
-                    foreach (var bp in category.bluePrintList)
-                    {
-                        if (bp.orderEnable && bp.createEnable) continue;
-                        bool enable = bp.howToGet.Equals("튜토리얼");
-                        bp.orderEnable = enable;
-                        bp.createEnable = enable;
-                    }
-                }
+                // GameMgr.In.credit = 100000;
+                // foreach (var category in GameMgr.In.weaponDataTable.bluePrintCategoryList)
+                // {
+                //     foreach (var bp in category.bluePrintList)
+                //     {
+                //         if (bp.orderEnable && bp.createEnable) continue;
+                //         bool enable = bp.howToGet.Equals("튜토리얼");
+                //         bp.orderEnable = enable;
+                //         bp.createEnable = enable;
+                //     }
+                // }
                 // 테스트용 코드
             }
             OnBasicUI(startDay);
