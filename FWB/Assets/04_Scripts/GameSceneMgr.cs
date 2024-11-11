@@ -1317,7 +1317,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     foreach (var ability in bluePrintList[i].requiredChipAbilityList)
                     {
                         var targetAbility = GameMgr.In.abilityTable.abilityList.Find(x => x.abilityKey.Equals(ability.abilityKey));
-                        sb.Append(targetAbility.name).Append("+ ").Append(ability.count).Append("\n");
+                        sb.Append(targetAbility.name);
+                        if (ability.count >= 0)
+                        {
+                            sb.Append("+");
+                        }
+                        sb.Append(ability.count).Append("\n");
                     }
                     sb.Length--;
                     item.itemData = sb.ToString();
@@ -1428,7 +1433,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     foreach (var ability in chipList[i].abilityList)
                     {
                         var targetAbility = GameMgr.In.abilityTable.abilityList.Find(x => x.abilityKey.Equals(ability.abilityKey));
-                        sb.Append(targetAbility.name).Append("+ ").Append(ability.count).Append("\n");
+                        sb.Append(targetAbility.name);
+                        if (ability.count >= 0)
+                        {
+                            sb.Append("+");
+                        }
+                        sb.Append(ability.count).Append("\n");
                     }
                     sb.Length--;
                     item.itemData = sb.ToString();
@@ -1901,7 +1911,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     }
                     mainChatPanel.SetActive(false);
                     chatTarget = ChatTarget.None;
-                    GameMgr.In.dayCustomerCnt -= 1;
+                    // GameMgr.In.dayCustomerCnt -= 1;
                     processDone = true;
                 }
                 yield return null;
@@ -2312,7 +2322,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             var abilityData = GameMgr.In.GetAbility(ability.abilityKey);
             if (abilityData != null)
             {
-                result += abilityData.name + "+" + ability.count + "  ";
+                result += abilityData.name;
+                if (ability.count >= 0)
+                {
+                    result += "+";
+                }
+                result += ability.count + "  ";
             }
         }
         essentialCondition.text = result;

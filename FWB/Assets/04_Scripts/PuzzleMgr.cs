@@ -1344,7 +1344,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         foreach (var requiredAbility in bp.requiredChipAbilityList)
         {
             var ability = GameMgr.In.GetAbility(requiredAbility.abilityKey);
-            sb.Append(ability.name).Append("+").Append(requiredAbility.count).Append(" ");
+            sb.Append(ability.name);
+            if (requiredAbility.count >= 0)
+            {
+                sb.Append("+");
+            }
+            sb.Append(requiredAbility.count).Append(" ");
         }
         sb.Length--;
         requiredAbilityText.text = sb.ToString();
@@ -1500,7 +1505,12 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         foreach (var ability in currentAbilityInPuzzleDic.Keys)
         {
-            currAbilitySB.Append(ability.name).Append("+").Append(currentAbilityInPuzzleDic[ability]).Append(" ");
+            currAbilitySB.Append(ability.name);
+            if (currentAbilityInPuzzleDic[ability] >= 0)
+            {
+                currAbilitySB.Append("+");
+            }
+            currAbilitySB.Append(currentAbilityInPuzzleDic[ability]).Append(" ");
         }
 
         if (currAbilitySB.Length > 0)
