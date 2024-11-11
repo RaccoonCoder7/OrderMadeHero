@@ -60,8 +60,8 @@ public class StartSceneMgr : MonoBehaviour
     private void ActiveLoadFeature()
     {
         DataSaveLoad.dataSave.AssignSceneObjects(slots1, slots2, slots3, toLeft, toRight, mainCam);
-        continueBtn.gameObject.SetActive(true);
-        continueBtn.onClick.AddListener(OpenSavePanel);
+        // continueBtn.gameObject.SetActive(true);
+        // continueBtn.onClick.AddListener(OpenSavePanel);
         load.onClick.RemoveAllListeners();
         load.onClick.AddListener(OnClickDataLoad);
         returnBtn.onClick.AddListener(OnClickReturn);
