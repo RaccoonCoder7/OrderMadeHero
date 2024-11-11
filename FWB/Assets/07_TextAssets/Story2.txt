@@ -1,4 +1,2 @@
-!image_무기가게 !image_샤일로
-
-!next
+!image_무기가게 !image_샤일로 !next
 그래, {username}. 내가 꼭 기억하지.
