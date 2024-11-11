@@ -30,7 +30,8 @@ public class BossBattleManager : MonoBehaviour
     public Canvas gameCanvas;
     public GameObject screenShakeTarget;
     public Transform chipsetPanel;
-    public Transform screenTarget;
+    public RectTransform screenTarget;
+    public RectTransform puzzleParentRectTr;
     public Image HideInfoForBoss;
     public Button LeftButton;
     public Button RightButton;
@@ -55,6 +56,7 @@ public class BossBattleManager : MonoBehaviour
 
     private bool isPuzzleCompleted;
     public bool isGamePlaying;
+    public bool isScreenReversed;
     private int succeedPuzzleCnt;
     private int failureCount = 0;
     public float timer;
@@ -609,6 +611,17 @@ public class BossBattleManager : MonoBehaviour
 
     private void ResetScreen()
     {
+        if (!isScreenReversed) return;
+
         screenTarget.rotation = Quaternion.Euler(0, 0, 0);
+
+        var pos = puzzleParentRectTr.anchoredPosition;
+        pos.x -= puzzleMgr.chipSize * 12;
+        pos.y += puzzleMgr.chipSize * 8;
+        puzzleParentRectTr.anchoredPosition = pos;
+
+        puzzleParentRectTr.rotation = Quaternion.Euler(0, 0, 0);
+
+        isScreenReversed = false;
     }
 }

@@ -785,7 +785,30 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 
             chipOffset = Vector3.zero;
-            dragImgRectTr.localEulerAngles = currentSelectedChip.rectTr.localEulerAngles;
+            var chipAngle = currentSelectedChip.rectTr.localEulerAngles;
+            if (BossBattleManager.instance.isScreenReversed)
+            {
+                bool isChipPanel = false;
+                List<RaycastResult> results = new List<RaycastResult>();
+                ped.position = Input.mousePosition;
+                es.RaycastAll(ped, results);
+                if (results.Count > 0)
+                {
+                    foreach (var result in results)
+                    {
+                        if (result.gameObject.name.Contains("ChipPanelRange"))
+                        {
+                            isChipPanel = true;
+                            break;
+                        }
+                    }
+                }
+                if (!isChipPanel)
+                {
+                    chipAngle.z += 180;
+                }
+            }
+            dragImgRectTr.localEulerAngles = chipAngle;
             var angle = dragImgRectTr.localEulerAngles;
             if (angle.z < 1)
             {

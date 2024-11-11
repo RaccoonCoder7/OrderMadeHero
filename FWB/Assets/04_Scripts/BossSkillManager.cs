@@ -47,7 +47,18 @@ public class BossSkillManager : MonoBehaviour
 
     private void InvertScreen()
     {
+        if (battleManager.isScreenReversed) return;
+
         battleManager.screenTarget.rotation = Quaternion.Euler(0, 0, 180);
+
+        var pos = battleManager.puzzleParentRectTr.anchoredPosition;
+        pos.x += battleManager.puzzleMgr.chipSize * 12;
+        pos.y -= battleManager.puzzleMgr.chipSize * 8;
+        battleManager.puzzleParentRectTr.anchoredPosition = pos;
+
+        battleManager.puzzleParentRectTr.localEulerAngles = new Vector3(0, 0, 180);
+
+        battleManager.isScreenReversed = true;
     }
 
     private void HideChipsetInfo()

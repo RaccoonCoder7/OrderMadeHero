@@ -28444,7 +28444,7 @@ MonoBehaviour:
   - {fileID: 1996722499}
   - {fileID: 982148981}
   - {fileID: 801721042}
-  startDay: 20
+  startDay: 1
   weaponCategoryParentTr: {fileID: 878097827}
   deskTr: {fileID: 986865955}
   shopPanelTr: {fileID: 667830077}
@@ -56049,6 +56049,7 @@ MonoBehaviour:
   screenShakeTarget: {fileID: 1669448091}
   chipsetPanel: {fileID: 1523729210}
   screenTarget: {fileID: 1776181468}
+  puzzleParentRectTr: {fileID: 2014718241}
   HideInfoForBoss: {fileID: 1934831119}
   LeftButton: {fileID: 186704639}
   RightButton: {fileID: 1051691287}
@@ -56062,9 +56063,10 @@ MonoBehaviour:
   TeamdialogueBoxVisibleX: -485
   BossdialogueBoxHiddenX: 1500
   BossdialogueBoxVisibleX: 485
-  maxTime: 10000
+  maxTime: 60
   maxPuzzleCnt: 3
   isGamePlaying: 0
+  isScreenReversed: 0
   timer: 0
   lastWeekStatus: 0
   bossIndex: 0
@@ -79202,7 +79204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 91.00006, y: -204}
+  m_AnchoredPosition: {x: 91, y: -204}
   m_SizeDelta: {x: 576, y: 64}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2014718242
