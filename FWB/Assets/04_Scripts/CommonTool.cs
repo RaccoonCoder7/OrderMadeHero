@@ -24,6 +24,10 @@ public class CommonTool : SingletonMono<CommonTool>
     public RectTransform focusMaskRectTr_Right;
     public RectTransform focusMaskRectTr_Top;
     public RectTransform focusMaskRectTr_Bottom;
+    public Image focusMaskImg_Left;
+    public Image focusMaskImg_Right;
+    public Image focusMaskImg_Top;
+    public Image focusMaskImg_Bottom;
     public Text alertText;
     public Text confirmText;
     public Button alertDodgeBtn;
@@ -71,6 +75,11 @@ public class CommonTool : SingletonMono<CommonTool>
             // Use TextAsset
             script.lines = script.ta.text.Split('\n').ToList();
         }
+
+        focusMaskImg_Left = focusMaskRectTr_Left.GetComponent<Image>();
+        focusMaskImg_Right = focusMaskRectTr_Right.GetComponent<Image>();
+        focusMaskImg_Top = focusMaskRectTr_Top.GetComponent<Image>();
+        focusMaskImg_Bottom = focusMaskRectTr_Bottom.GetComponent<Image>();
     }
 
     /// <summary>
@@ -134,7 +143,7 @@ public class CommonTool : SingletonMono<CommonTool>
     /// <summary>
     /// 화면에 포커스를 줌
     /// </summary>
-    public void SetFocus(Vector2 pos, Vector2 size, params RectTransform[] excludeRects)
+    public void SetFocus(Vector2 pos, Vector2 size, bool doInterceptRaycast = false)
     {
         focusPanel.SetActive(true);
 
@@ -154,16 +163,10 @@ public class CommonTool : SingletonMono<CommonTool>
         focusMaskRectTr_Top.sizeDelta = new Vector2(1920, 1080 - (pos.y + size.y));
         focusMaskRectTr_Bottom.sizeDelta = new Vector2(1920, pos.y);
 
-        if (excludeRects != null)
-        {
-            foreach (var excludeRect in excludeRects)
-            {
-                if (excludeRect != null)
-                {
-                    ExcludeRect(excludeRect);
-                }
-            }
-        }
+        focusMaskImg_Left.raycastTarget = doInterceptRaycast;
+        focusMaskImg_Right.raycastTarget = doInterceptRaycast;
+        focusMaskImg_Top.raycastTarget = doInterceptRaycast;
+        focusMaskImg_Bottom.raycastTarget = doInterceptRaycast;
     }
 
     /// <summary>

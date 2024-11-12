@@ -156,7 +156,14 @@ public class OrderTable : ScriptableObject
             newOrder.requiredAbilityList.Add(ra);
         }
 
+        newOrder.condition = targetOrder.condition;
         newOrder.gimmick = targetOrder.gimmick;
+        newOrder.camp = targetOrder.camp;
+
+        foreach (var requestKey in targetOrder.addedRequestKeyList)
+        {
+            newOrder.addedRequestKeyList.Add(string.Copy(requestKey));
+        }
 
         // 기믹 파싱
         var matchingDataList = new List<MatchingData>();

@@ -1995,6 +1995,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void OnFeverModeMakingDone(int result)
     {
+        GameMgr.In.dayCustomerCnt++;
         isPuzzleCompleted = true;
 
         normalParticleParentObj.SetActive(false);

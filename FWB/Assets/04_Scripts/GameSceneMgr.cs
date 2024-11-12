@@ -1772,6 +1772,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     // }
                     // 테스트코드
 
+                    GameMgr.In.dayCustomerCnt--;
                     GameMgr.In.feverModeProbability /= 10;
                     var feverOrder = GameMgr.In.GetRandomNewFeverModeOrder(prevfevermodeOrderKey);
                     prevfevermodeOrderKey = feverOrder.orderKey;
@@ -2109,7 +2110,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                             int height = int.Parse(splittedData[4]);
                             var pos = new Vector2(posX, posY);
                             var size = new Vector2(width, height);
-                            CommonTool.In.SetFocus(pos, size, pcChatPanel.GetComponent<RectTransform>(), chatTargetText.rectTransform);
+                            CommonTool.In.SetFocus(pos, size);
                         }
                     }
                     else if (com.StartsWith("!credit"))
