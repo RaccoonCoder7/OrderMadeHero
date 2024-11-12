@@ -452,6 +452,7 @@ public class BossBattleManager : MonoBehaviour
     private void ResetGameState()
     {
         isGamePlaying = false;
+        maxTime = 60.0f;
         timer = maxTime;
         failureCount = 0;
         succeedPuzzleCnt = 0;

@@ -105,15 +105,13 @@ public class EventFlowDay20 : EventFlow
                 bossCutScene.StartCutScene();
                 bossCutScene.OnCutSceneEnd = () =>
                 {
-                    battleManager.lastWeekStatus = false;
-                    MainPanel.gameObject.SetActive(false);
+                    MainPanel.gameObject.SetActive(true);
                     mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
                 };
             }
             else
             {
-                MainPanel.gameObject.SetActive(false);
-                battleManager.lastWeekStatus = false;
+                MainPanel.gameObject.SetActive(true);
                 mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
             }
         }
@@ -122,15 +120,14 @@ public class EventFlowDay20 : EventFlow
 
     private void EndDay20_3Routine()
     {
+        battleManager.lastWeekStatus = false;
         mgr.EndText();
         mgr.mainChatPanel.SetActive(false);
         foreach (var image in mgr.imageList)
         {
             image.imageObj.SetActive(false);
         }
-        battleManager.lastWeekStatus = false;
-        GameMgr.In.isEventOn = 0;
-        mgr.NextDay();
+        EndFlow();
     }
 
     void OnDestroy()
