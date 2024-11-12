@@ -382,6 +382,13 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 }
                 GameMgr.In.week = week;
                 GameMgr.In.day = (GameMgr.Day) day;
+                
+                if (startDay > 3)
+                {
+                    shopControlBlockingPanel.SetActive(false);
+                    shop.onClick.AddListener(OnClickShop);
+                    shopDodge.onClick.AddListener(OnClickShopDodge);
+                }
 
                 // 테스트용 코드
                 // GameMgr.In.credit = 100000;
@@ -1451,7 +1458,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         item.button.onClick.AddListener(() =>
                         {
                             shopPopupUI.itemName.text = item.contentName.text;
-                            shopPopupUI.no.onClick.AddListener(() => { shopPopupPanel.gameObject.SetActive(false); });
+                            shopPopupUI.no.onClick.AddListener(() =>
+                            {
+                                shopPopupUI.yes.onClick.RemoveAllListeners();
+                                shopPopupUI.no.onClick.RemoveAllListeners();
+                                shopPopupPanel.gameObject.SetActive(false);
+                            });
                             if (item.price <= GameMgr.In.credit)
                             {
                                 shopPopupUI.yes.interactable = true;
