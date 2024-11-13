@@ -127,6 +127,8 @@ public class EventFlowDay20 : EventFlow
 
     private void EndDay20_3Routine()
     {
+        StartCoroutine(QuitGame());
+        /* 
         battleManager.lastWeekStatus = false;
         mgr.EndText();
         mgr.mainChatPanel.SetActive(false);
@@ -135,6 +137,18 @@ public class EventFlowDay20 : EventFlow
             image.imageObj.SetActive(false);
         }
         EndFlow();
+        */
+    }
+
+    private IEnumerator QuitGame()
+    {
+        yield return StartCoroutine(CommonTool.In.FadeOut());
+        yield return new WaitForSeconds(1f);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     void OnDestroy()
