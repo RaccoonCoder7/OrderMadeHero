@@ -1,4 +1,4 @@
-!next !sound_doorbell !wait_100 !speaker_PC나비
+!sound_doorbell !speaker_PC나비 !next
 아침부터 이게 무슨 소리야! CCTV! CCTV!
 !next
 헉, 누가 싸우고 있잖아?

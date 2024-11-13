@@ -28790,7 +28790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventKey: day20
   mgr: {fileID: 0}
-  MainPanel: {fileID: 964848863}
+  MainPanel: {fileID: 986865954}
 --- !u!114 &723337262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44785,6 +44785,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
       propertyPath: dayRentCost
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}
+      propertyPath: dayTendency
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2999492579529503962, guid: 8341ef34588d5a241833bd81fa467b0d, type: 3}

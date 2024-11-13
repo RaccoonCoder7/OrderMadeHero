@@ -125,7 +125,7 @@ public class BossBattleManager : MonoBehaviour
 
     public void DetermineBossAndAlly()
     {
-        if (gameMgr.tendency >= 0)
+        if (GameMgr.In.tendency >= 0)
         {
             isHero = true;
             TeamdialogueBoxImage.sprite = bunnyNormalSprite;
@@ -199,13 +199,6 @@ public class BossBattleManager : MonoBehaviour
                 weaponKey = bossWeapon.weaponKeys[weaponIdx];
                 gameSceneMgr.SetBossWeapon(weaponKey);
 
-                /*테스트용 코드
-                var chipList = GameMgr.In.chipTable.chipList;
-                foreach (var chip in chipList)
-                {
-                    chip.createEnable = true;
-                }
-                */
                 BossChipSetActive();
                 Debug.Log("Key Setting: " + bossKey + ", " + weaponIdx + " with key: " + weaponKey);
                 Debug.Log("Current Blueprint set to: " + GameMgr.In.currentBluePrint.name);

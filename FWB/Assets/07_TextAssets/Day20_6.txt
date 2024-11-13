@@ -38,7 +38,7 @@
 말이 길군요.
 !next !image_버니 !speaker_버니
 뭐—
-!next !image_no !speaker_PC나비
+!next !image_나비 !speaker_나비
 모, 목을…….
 !next !image_퍼펫 !speaker_퍼펫
 처음부터 당신의 이야기에는 관심이 없었습니다. 제 사명을 방해하려 들기에 잡으려 했던 것일 뿐.
@@ -46,17 +46,17 @@
 이런 나약한 몸뚱이로 사명이라는 것을 입에 담고 다녔다니, 건방진 토끼.
 !next
 …당신들, 살아있었군요.
-!next !speaker_PC나비
+!next !image_나비 !speaker_나비
 어, 으, 응.
 !next !image_퍼펫 !speaker_퍼펫
 덕분에 토끼를 죽일 수 있었습니다. 당신의 쓸모에 감사를 표하지요.
 !next
 남은 뒤처리는 제 부하가 할 터이니, 당신은 돌아가도 좋습니다.
-!next !speaker_PC나비
+!next !image_나비 !speaker_나비
 …주인님?
 !next
 가, 가자. 얼른.
-!next !image_no !speaker_PC나비
+!next !image_나비 !speaker_나비
 …….
 !next
 주인님. 괜찮아? 안색이 안 좋아.

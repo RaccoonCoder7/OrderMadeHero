@@ -25,7 +25,6 @@ public class EventFlowDay20 : EventFlow
         startDialogueKey = isHero ? "Day20_1" : "Day20_2";
         nextDialogueKey = isHero ? "Day20_3" : "Day20_4";
         finalDialogueKey = isHero ? "Day20_5" : "Day20_6";
-        mgr.MobSpriteRandomChange();
         mgr.StartText(startDialogueKey, EndDay20_1Routine, EndDay20_1Routine);
     }
 
@@ -49,7 +48,15 @@ public class EventFlowDay20 : EventFlow
 
     private void DetermineHeroStatus()
     {
-        isHero = GameMgr.In.tendency >= 0;
+        if(GameMgr.In.tendency >= 0)
+        {
+            isHero = true;
+        }
+        else
+        {
+            isHero = false;
+            mgr.MobSpriteRandomChange();
+        }
     }
 
     private void EndDay20_1Routine()

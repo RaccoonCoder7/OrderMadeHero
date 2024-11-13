@@ -1,4 +1,4 @@
-!next !sound_doorbell !wait_100 !speaker_PC나비
+!sound_doorbell !speaker_PC나비 !next
 으, 시스템도 안 켰는데 누가 자꾸 문을 두드리는 거야.
 !next !speaker_나비 !image_나비
 주인님, 나비가 나가 볼게.
