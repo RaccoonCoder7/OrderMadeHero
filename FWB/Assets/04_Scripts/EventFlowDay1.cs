@@ -105,7 +105,7 @@ public class EventFlowDay1 : EventFlow
     {
         mgr.EndText();
         mgr.popupChatPanel.SetActive(false);
-        CommonTool.In.SetFocus(new Vector2(285, 620), new Vector2(60, 60));
+        CommonTool.In.SetFocus(new Vector2(285, 620), new Vector2(60, 60), true);
         blueprintButtonBlinkRoutine = StartCoroutine(BlinkBlueprintButton());
         mgr.bluePrintSlotList[0].button.onClick.AddListener(OnClickBlueprintSlot);
     }
@@ -124,7 +124,7 @@ public class EventFlowDay1 : EventFlow
     {
         mgr.EndText();
         mgr.popupChatPanel.SetActive(false);
-        CommonTool.In.SetFocus(new Vector2(950, 170), new Vector2(280, 90));
+        CommonTool.In.SetFocus(new Vector2(950, 170), new Vector2(280, 90), true);
         mgr.weaponCreate.onClick.AddListener(OnClickWeaponCreate);
     }
 
