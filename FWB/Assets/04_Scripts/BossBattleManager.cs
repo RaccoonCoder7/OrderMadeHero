@@ -21,8 +21,6 @@ public class BossBattleManager : MonoBehaviour
     [Header("UI")]
     public RectTransform gageRectTr;
     public RectTransform gage;
-    //public Button clearPuzzleButton;
-    //public Button failPuzzleButton;
     public RectTransform TeamdialogueBox;
     public Image TeamdialogueBoxImage;
     public RectTransform BossdialogueBox;
@@ -87,6 +85,17 @@ public class BossBattleManager : MonoBehaviour
             return instance;
         }
     }
+
+    void Awake()
+    {
+        gameMgr = FindObjectOfType<GameMgr>();
+        if (gameMgr != null)
+        {
+            DontDestroyOnLoad(gameMgr.gameObject); 
+        }
+    }
+
+
     private string resultKey;
     private void Start()
     {
@@ -115,10 +124,6 @@ public class BossBattleManager : MonoBehaviour
     public void SetUIActive(bool isActive)
     {
         gage.gameObject.SetActive(isActive);
-        /*
-        clearPuzzleButton.gameObject.SetActive(isActive);
-        failPuzzleButton.gameObject.SetActive(isActive);
-        */
         TeamdialogueBox.gameObject.SetActive(isActive);
         BossdialogueBox.gameObject.SetActive(isActive);
     }
@@ -147,12 +152,9 @@ public class BossBattleManager : MonoBehaviour
     public void SetBossBattleData()
     {
         ResetGameState();
-        WeaponSetting(bossname, 0);
 
         puzzleMgr.isFeverMode = false;
         puzzleMgr.isTutorial = false;
-
-        puzzleMgr.OnMakingDone += OnBossBattleMakingDone;
     }
 
     public IEnumerator StartBossBattle()
@@ -295,27 +297,34 @@ public class BossBattleManager : MonoBehaviour
 
         switch (result)
         {
+            case 0:
             case 1:
                 resultKey = "fail";
                 failureCount += 2;
-                TeamHP -= 2;
+                TeamHP = Mathf.Max(0, TeamHP - 2);
                 break;
             case 2:
                 resultKey = "success";
                 succeedPuzzleCnt++;
-                failureCount += 1;
-                TeamHP -= 1;
+                failureCount++;
+                TeamHP = Mathf.Max(0, TeamHP - 1);
                 break;
             case 3:
                 resultKey = "greatSuccess";
                 succeedPuzzleCnt++;
                 break;
             default:
+                resultKey = "fail";
+                failureCount += 2;
+                TeamHP = Mathf.Max(0, TeamHP - 2);
                 break;
         }
-        UpdateCharacterPopup(result,false);
+        UpdateCharacterPopup(result, false);
         StartCoroutine(HandleDialogueAndContinue(bossIndex, resultKey, result));
+
+        Debug.Log($"New state after processing: TeamHP={TeamHP}, BossHP={BossHP}, isGamePlaying={isGamePlaying}");
     }
+
     private IEnumerator HandleDialogueAndContinue(int bossIndex, string resultKey, int result)
     {
         if (result == 2 || result == 3)
@@ -409,16 +418,6 @@ public class BossBattleManager : MonoBehaviour
         }
     }
 
-
-    /* Test Code
-    private void ProcessPuzzleResult(int result)
-    {
-        if (!isGamePlaying) return;
-        puzzleMgr.ClearPuzzle();
-        OnBossBattleMakingDone(result);
-    }
-    */
-
     private void EndBossBattle(bool success)
     {
         isGamePlaying = false;
@@ -465,13 +464,6 @@ public class BossBattleManager : MonoBehaviour
 
         UpdateGage();
         UpdateCharacterPopup(-1, true);
-
-        /*
-        clearPuzzleButton.onClick.RemoveAllListeners();
-        clearPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(3));
-        failPuzzleButton.onClick.RemoveAllListeners();
-        failPuzzleButton.onClick.AddListener(() => ProcessPuzzleResult(2));
-        */
     }
 
     private void ResetChipsActivation()
@@ -486,6 +478,7 @@ public class BossBattleManager : MonoBehaviour
             if (chip != null)
             {
                 chip.createEnable = false;
+                Debug.Log($"Deactivating chip: {key}");
             }
         }
     }
@@ -507,7 +500,6 @@ public class BossBattleManager : MonoBehaviour
             EndBossBattle(false);
         }
     }
-
 
     public void UpdateGage()
     {
