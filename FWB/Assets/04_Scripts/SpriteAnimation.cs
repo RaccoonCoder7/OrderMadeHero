@@ -62,6 +62,7 @@ public class SpriteAnimation : MonoBehaviour
             startTime = Time.realtimeSinceStartup;
             if (currentTime < frameChangeTime)
             {
+                InfiniteLoopDetector.Run();
                 yield return null;
                 continue;
             }

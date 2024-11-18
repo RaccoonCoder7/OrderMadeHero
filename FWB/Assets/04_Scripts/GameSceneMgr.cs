@@ -1538,6 +1538,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private void OnClickShop()
     {
         if (isWaitingForText) return;
+        if (isShopAnimating) return;
+
         isShopAnimating = true;
         clickBlockForShop.SetActive(true);
 
