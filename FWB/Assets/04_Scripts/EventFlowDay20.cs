@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,8 @@ public class EventFlowDay20 : EventFlow
     
     private string startDialogueKey;
     private string nextDialogueKey;
-    private string finalDialogueKey;
+    private string beforefinalDialogueKey;
+    private string afterFinalDialogueKey;
     private bool isHero;
 
     [SerializeField]
@@ -24,7 +26,8 @@ public class EventFlowDay20 : EventFlow
         DetermineHeroStatus();
         startDialogueKey = isHero ? "Day20_1" : "Day20_2";
         nextDialogueKey = isHero ? "Day20_3" : "Day20_4";
-        finalDialogueKey = isHero ? "Day20_5" : "Day20_6";
+        beforefinalDialogueKey = isHero ? "Day20_5" : "Day20_6";
+        afterFinalDialogueKey = isHero ? "Day20_7" : "Day20_8";
         mgr.StartText(startDialogueKey, EndDay20_1Routine, EndDay20_1Routine);
     }
 
@@ -63,7 +66,14 @@ public class EventFlowDay20 : EventFlow
     {
         mgr.EndText(false);
         mgr.eventBtntext1.text = "가야지.";
-        mgr.eventBtntext2.text = "반드시 가야지!";
+        if (isHero)
+        {
+            mgr.eventBtntext2.text = "반드시 가야지!";
+        }
+        else
+        {
+            mgr.eventBtntext2.text = "가야지...";
+        }
 
         mgr.eventBtn1.onClick.RemoveAllListeners();
         mgr.eventBtn1.onClick.AddListener(() =>
@@ -105,23 +115,39 @@ public class EventFlowDay20 : EventFlow
     {
         if (!success) return;
         MainPanel.gameObject.SetActive(false);
-        if (bossCutScene != null)
+
+        mgr.StartText(beforefinalDialogueKey, StartCutScene, StartCutScene);
+    }
+
+    private void StartCutScene()
+    {
+        MainPanel.gameObject.SetActive(false);
+        mgr.mainChatPanel.SetActive(false);
+        foreach (var image in mgr.imageList)
         {
-            if (isHero)
-            {
-                bossCutScene.StartCutScene();
-                bossCutScene.OnCutSceneEnd = () =>
-                {
-                    MainPanel.gameObject.SetActive(true);
-                    mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
-                };
-            }
-            else
-            {
-                MainPanel.gameObject.SetActive(true);
-                mgr.StartText(finalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
-            }
+            image.imageObj.SetActive(false);
         }
+        if (isHero)
+        {
+            bossCutScene.StartPuppetCutScene();
+        }
+        else
+        {
+            bossCutScene.StartBunnyCutScene();
+        }
+
+        bossCutScene.OnCutSceneEnd = ContinueAfterCutScene;
+    }
+
+    private void ContinueAfterCutScene()
+    {
+        MainPanel.gameObject.SetActive(true);
+        mgr.mainChatPanel.SetActive(true);
+        foreach (var image in mgr.imageList)
+        {
+            image.imageObj.SetActive(true);
+        }
+        mgr.StartText(afterFinalDialogueKey, EndDay20_3Routine, EndDay20_3Routine);
     }
 
 
