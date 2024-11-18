@@ -12,9 +12,6 @@ using UnityEngine.UI;
 public class StartSceneMgr : MonoBehaviour
 {
     public Button startBtn;
-    public Button continueBtn;
-    public Button bookBtn;
-    public Button settingBtn;
     public Button quitBtn;
     public SpriteAnimation sa;
     
@@ -42,8 +39,6 @@ public class StartSceneMgr : MonoBehaviour
         string filePath = Application.persistentDataPath + "/saves";
         
         startBtn.onClick.AddListener(ChangeToInitScene);
-        bookBtn.onClick.AddListener(OpenAlertPanel);
-        settingBtn.onClick.AddListener(OpenAlertPanel);
         quitBtn.onClick.AddListener(Quit);
         GameMgr.In.initDone = true;
 
