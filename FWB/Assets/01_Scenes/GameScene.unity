@@ -31742,7 +31742,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 140, y: -80}
+  m_AnchoredPosition: {x: 130, y: -100}
   m_SizeDelta: {x: 550, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &771523210
@@ -51425,7 +51425,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 140, y: -80}
+  m_AnchoredPosition: {x: 130, y: -100}
   m_SizeDelta: {x: 550, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1265671009
@@ -56380,9 +56380,9 @@ MonoBehaviour:
   puppetNormalSprite: {fileID: 21300000, guid: 12f4bbb87266b95469894db5a3124c33, type: 3}
   puppetCrackedSprite: {fileID: 21300000, guid: fd0dd178cb022904387175e936130cd2, type: 3}
   puppetBrokenSprite: {fileID: 21300000, guid: b80e03e6bf9d76c48bd7eab3d6ed1c9f, type: 3}
-  bunnyNormalSprite: {fileID: 21300000, guid: c48d9a93b9aa91e499ca0b4b6061bf40, type: 3}
-  bunnyCrackedSprite: {fileID: 21300000, guid: 6f4b2429dc351df4d9f0e58c45d9fceb, type: 3}
-  bunnyBrokenSprite: {fileID: 21300000, guid: e37e4706fbb4dc84bb21abb3c46ee749, type: 3}
+  bunnyNormalSprite: {fileID: 21300000, guid: 6d5551e03e27ed748b45b6d3e41b9415, type: 3}
+  bunnyCrackedSprite: {fileID: 21300000, guid: 41ada6c749666c440b3e36321a610078, type: 3}
+  bunnyBrokenSprite: {fileID: 21300000, guid: b775a4b68bf806142a518e52485c42a8, type: 3}
   TeamdialogueBoxHiddenX: -1500
   TeamdialogueBoxVisibleX: -485
   BossdialogueBoxHiddenX: 1500
