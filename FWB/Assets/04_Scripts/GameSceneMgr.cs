@@ -107,6 +107,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject weaponDatasBlock;
     public GameObject renomUIBlock;
     public GameObject tendencyUIBlock;
+    public GameObject clickBlockForShop;
     public List<GameObject> mobAvatarList = new List<GameObject>();
     public ShopUISlot shopUiSlotPrefab;
     public ShopUISlot shopUiSlotSoldOutPrefab;
@@ -126,6 +127,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Sprite newsLeftBox;
     public Sprite newsRightBox;
     public bool inNews = false;
+    public bool isShopAnimating;
     public Text yesText;
     public Text noText;
     public Text eventBtntext1;
@@ -220,7 +222,6 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private Coroutine emojiRoutine;
     private Point cursorPos = new Point();
     private bool visible;
-    private bool isShopAnimating;
     private bool isShopTutorial = true;
     private Image shopBlueprintTabImg;
     private Image shopChipsetTabImg;
@@ -913,6 +914,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public void OnClickShopDodge()
     {
         if (isShopAnimating) return;
+        clickBlockForShop.SetActive(false);
         isShopAnimating = true;
         StartCoroutine(StartShopOutAnim());
     }
@@ -1127,19 +1129,18 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         for (int i = 0; i < 9; i++)
         {
             int tempNum = i;
-            if (category.bluePrintList.Count <= i)
+            if (category.bluePrintList.Count <= i || !category.bluePrintList[i].createEnable)
             {
+                if (i == 0)
+                {
+                    weaponDatasBlock.SetActive(false);
+                    weaponCreate.interactable = false;
+                }
                 SetEmptySlot(bluePrintSlotList[i]);
                 continue;
             }
 
             var bp = category.bluePrintList[i];
-            if (!bp.createEnable)
-            {
-                SetEmptySlot(bluePrintSlotList[i]);
-                continue;
-            }
-
             bluePrintSlotList[i].key = bp.bluePrintKey;
             bluePrintSlotList[i].innerImage.sprite = bp.icon;
             bluePrintSlotList[i].innerImage.color = Vector4.one;
@@ -1152,6 +1153,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             {
                 bluePrintSlotList[i].spriteChange.SetOnSprite();
                 bluePrintSlotList[i].button.onClick.Invoke();
+                weaponDatasBlock.SetActive(true);
+                weaponCreate.interactable = true;
             }
         }
     }
@@ -1535,6 +1538,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private void OnClickShop()
     {
         if (isWaitingForText) return;
+        isShopAnimating = true;
+        clickBlockForShop.SetActive(true);
 
         switch (chatTarget)
         {
@@ -1970,6 +1975,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
         shopPanelTr.gameObject.SetActive(true);
         shopPanelTr.transform.DOScale(Vector3.one, 0.5f);
+        isShopAnimating = false;
     }
 
     public IEnumerator StartShopOutAnim()
