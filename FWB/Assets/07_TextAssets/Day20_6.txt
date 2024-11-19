@@ -1,30 +1,30 @@
-!next !image_퍼펫 !speaker_퍼펫
+!next !image_버니컷씬1 !speaker_full_퍼펫
 참으로 긴 악연이었습니다. 토끼.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 크윽…….
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 죽지 않은 당신의 동료들은 모두 도망쳤습니다. 두려움이라는 감정에 지배되어서 말입니다. 참으로 우스운 일이 아니지 않습니까?
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 아니, 너는 틀렸어. 내 동료들은 도망간 게 아니야, 곧 지원군과 함께 날 구하고 널 심판하러 돌아올 거다!
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 당신은 거짓말을 하고 있습니다.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 뭐라고?
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 사람은 감정이 눈동자에 드러납니다. 그것은 당신도 다를 바 없더군요.
 !next
 두려움, 걱정, 슬픔, 고통, 그리고…….
 !next
 외로움.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 …아.
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 크나큰 외로움이 당신을 얽매고 있군요. 동료들에게서 버림받았다는 외로움.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 아니야.
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 당신들은 진실된 관계가 아니었군요. 처음부터 당신은 혼자였던 겁니다. 가엾은 토끼.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 아니야! 아니라고!
 !next
 그, 그리고 설마 그렇더라도, 그런 건 중요하지 않아!
@@ -34,7 +34,7 @@
 내 목숨이 다할 때까지 그 사실은 변하지 않아. 그게, 내 사명이니까! 너 같은 사악한 놈은 죽었다 깨어나도 모르겠지!
 !next
 그래, 내가 지금은 혼자일지 몰라도—
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 말이 길군요.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 뭐—

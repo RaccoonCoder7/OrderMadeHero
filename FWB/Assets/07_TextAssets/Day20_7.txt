@@ -1,6 +1,6 @@
-!next !image_퍼펫 !speaker_퍼펫
+!next !image_퍼펫컷씬2 !speaker_full_퍼펫
 아…….
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 감정이 쏟아져 나오고 있군요.
 !next
 감정은 쏟아낼 수 있을 때 쏟아내야 합니다. 슬프면 슬프다고, 기쁘면 기쁘다고 해야 해요.

@@ -17,6 +17,8 @@ public class EventFlowDay20 : EventFlow
     private string afterFinalDialogueKey;
     private bool isHero;
 
+    private GameObject bunny;
+
     [SerializeField]
     private GameObject MainPanel;
     public override void StartFlow()
@@ -60,6 +62,7 @@ public class EventFlowDay20 : EventFlow
             isHero = false;
             mgr.MobSpriteRandomChange();
         }
+        bossCutScene.SetBossImage(isHero);
     }
 
     private void EndDay20_1Routine()
@@ -108,41 +111,33 @@ public class EventFlowDay20 : EventFlow
         battleManager.SetBossBattleData();
         mgr.popupPanel.SetActive(true);
         battleManager.SetUIActive(true);
-
     }
 
     private void HandleBossBattleEnded(bool success)
     {
         if (!success) return;
         MainPanel.gameObject.SetActive(false);
-
-        mgr.StartText(beforefinalDialogueKey, StartCutScene, StartCutScene);
+        mgr.StartText(beforefinalDialogueKey, starteffect, starteffect);
     }
 
-    private void StartCutScene()
+    private void starteffect()
     {
         MainPanel.gameObject.SetActive(false);
         mgr.mainChatPanel.SetActive(false);
-        foreach (var image in mgr.imageList)
-        {
-            image.imageObj.SetActive(false);
-        }
         if (isHero)
         {
-            bossCutScene.StartPuppetCutScene();
+            bossCutScene.StartFlagAnimation(() => {
+                bossCutScene.StartFlashEffect(ContinueAfterCutScene);
+            });
         }
         else
         {
-            bossCutScene.StartBunnyCutScene();
+            bossCutScene.StartAttackEffect(ContinueAfterCutScene);
         }
-
-        bossCutScene.OnCutSceneEnd = ContinueAfterCutScene;
     }
 
     private void ContinueAfterCutScene()
     {
-        MainPanel.gameObject.SetActive(true);
-        mgr.mainChatPanel.SetActive(true);
         foreach (var image in mgr.imageList)
         {
             image.imageObj.SetActive(true);

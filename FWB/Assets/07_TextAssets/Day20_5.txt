@@ -1,26 +1,26 @@
-!next !image_버니 !speaker_버니
+!next !image_퍼펫컷씬1 !speaker_full_버니
 …헉, 헉. 퍼펫 씨. 이제 다 끝났습니다.
-!next !image_퍼펫 !speaker_퍼펫 
+!next !speaker_full_퍼펫
 …….
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 당신의 부하들은 모두 제압되거나 사망했습니다. 당신이 마지막이에요. 후우, 소란을 피우지 않겠다고 약속하면 정중히 데려가겠습니다. 항복하세요.
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 아니, 죽여라.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 싫습니다.
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 죽여라. 감옥에 갇혀서 사명도 이루지 못할 거라면 살 이유가 없다.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 사명?
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 그래, 사명.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 하, 웃기지도 않는군요. 아이들의 감정을 뺏고, 버프를 주는 히어로를 죽이고 다니는 게 당신의 사명입니까?
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 난 아이들이 다치지 않는 미래를 바랐을 뿐이다.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 무슨 말도 안 되는 소리를…….
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 …한 아이.
 !next
 한 아이가 있었다. 검은 털이 부드럽고, 꼬리가 크고, 붉은 눈이 반짝이고, 뭇 남자아이처럼 활발한 성격을 가진 여자아이가.
@@ -28,11 +28,11 @@
 그 아이는 잘 웃고 잘 우는, 감정이 굉장히 풍부한 아이였다. 허나 그 아이의 어머니가 몹쓸 병에 걸리게 되자 그 이후로는 잘 웃지 않게 되었지. 의사 말로는 우울증이라더군.
 !next
 그러던 어느 날, 그 아이가 히어로와 빌런의 싸움에 휘말리게 되었다. 몸이 다친 것은 아니었지만, 가까이 있던 히어로의 버프를 받게 되었지.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 그럼 좋은 거 아닙니까?
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 그 버프는 주변 사람의 감정을 격앙시키는 버프였다. 투지를 불태울 용도였겠지만, 공포와 우울에 질려 있던 그 아이에게는 역효과였지. 그 탓에 그 아이의 우울증은 더 심해졌고, 자신의 어머니는 물론이고 자신조차 감정을 감당하기 힘든 지경에 이르렀다.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 제가 그 히어로처럼 버프를 준다는 이유로 저를 공격한 겁니까?
 !next
 그래, 네가 살아있다면 또 다른 피해자를 만들 터였겠지. 그래서 죽이려 했다.
@@ -40,21 +40,21 @@
 정말 어처구니없는 이유군요.
 !next
 뭐, 됐습니다. 당신은 이젠 아무것도 할 수 없을 테니. 그 아이는 어떻게 됐습니까? 지금은 건강한가요?
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 아니, 죽었다. 빌딩에서 스스로 몸을 던졌어. 열여섯의 나이였지.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 …그건 안타깝게 됐습니다. 시민을 수호하는 히어로로써 깊은 통감을 느낍니다. 하지만 그렇다고 해서 당신이 히어로와 시민을 공격했던 것이 정당화되지는 않아요.
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 …….
 !next
 그 아이는 내 딸이었다.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 …!
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 그리고 며칠 뒤 아내도 그 뒤를 따랐다. 자신이 병에 걸린 것 때문에 딸이 죽었다고 생각한 거지.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 …….
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 나 역시 가족을 따라 죽고 싶었다. 허나 내가 스스로 목숨을 끊으려 할 때마다 이 검은 기운이 막더군. 빌딩에서 몸을 던지고, 목을 조르고, 가슴을 찌르고, 심지어 머리에 방아쇠를 당겨도 봤지만 소용없었지. 그렇게 이 능력이 증오스러웠던 적이 없었어.
 !next
 그런데 어느 날, 한 고아원에서 싸우고 있는 두 아이를 보았다. 한 아이는 하얀 털이 발개질 정도로 화를 내고 있었고, 다른 아이는 세상이 떠나가라 울고 있었지.
@@ -68,13 +68,13 @@
 삼킨 감정의 소용돌이가 가슴에 똬리를 틀고 잔잔히 내려앉을 때쯤, 나는 그제야 내가 죽지 않고 살아있는 이유를 깨닫게 되었다.
 !next
 그래서 그 길로 고아원 원장을 죽이고 아이들의 감정을 흡수하기 시작했지.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 미쳤군요.
-!next !image_퍼펫 !speaker_퍼펫
+!next !speaker_full_퍼펫
 나는 미치지 않았다. 거둔 아이들이 많아지고, 가슴에 삼킨 감정이 끓는 용광로처럼 심장을 불태웠지만 내 정신은 그럴 때마다 더욱 맑아져만 갔어.
 !next
 …내게는 더 많은 아이들을 구원해야 한다는 사명이 있었으니까.
-!next !image_버니 !speaker_버니
+!next !speaker_full_버니
 아뇨, 당신은 미쳤습니다. 그건 구원이 아니에요. 당신은 아이들의 감정을 빼앗고, 납치하고, 멀쩡한 사람들을 죽인 미친 범죄자일 뿐입니다.
 !next
 후우, 더는 듣지 않겠습니다.
