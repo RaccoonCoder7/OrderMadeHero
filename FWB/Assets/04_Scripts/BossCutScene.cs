@@ -46,25 +46,31 @@ public class BossCutScene : MonoBehaviour
     public void StartAttackEffect(Action onComplete)
     {
         attackEffect.SetActive(true);
-        attackEffectAnimator.speed = attackEffectAnimator.GetCurrentAnimatorStateInfo(0).length / effectDuration;
-
         bossImage.SetActive(true);
         attackEffectAnimator.Play("BossEffect");
-        float animationLength = attackEffectAnimator.GetCurrentAnimatorStateInfo(0).length;
 
-        DOVirtual.DelayedCall(animationLength + 1.2f, () =>
+        StartCoroutine(AdjustAnimationSpeedAndComplete(effectDuration, onComplete));
+    }
+
+    private IEnumerator AdjustAnimationSpeedAndComplete(float targetDuration, Action onComplete)
+    {
+        yield return null;
+
+        float currentClipLength = attackEffectAnimator.GetCurrentAnimatorStateInfo(0).length;
+        attackEffectAnimator.speed = currentClipLength / targetDuration;
+
+        yield return new WaitForSeconds(targetDuration + 0.6f);
+
+        SpriteRenderer spriteRenderer = attackEffect.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
         {
-            SpriteRenderer spriteRenderer = attackEffect.GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
+            spriteRenderer.DOFade(0, effectDuration).OnComplete(() =>
             {
-                spriteRenderer.DOFade(0, effectDuration).OnComplete(() =>
-                {
-                    attackEffect.SetActive(false);
-                    bossImage.SetActive(false);
-                    onComplete?.Invoke();
-                });
-            }
-        });
+                attackEffect.SetActive(false);
+                bossImage.SetActive(false);
+                onComplete?.Invoke();
+            });
+        }
     }
 
     public void StartFlashEffect(Action onComplete)
