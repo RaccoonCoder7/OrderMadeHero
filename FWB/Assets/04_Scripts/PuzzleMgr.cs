@@ -1837,6 +1837,7 @@ public class PuzzleMgr : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private bool IsOrderRequirementSatisfied()
     {
         if (isFeverMode) return true;
+        if (BossBattleManager.instance.lastWeekStatus) return true;
 
         // check blueprint
         if (GameMgr.In.currentOrder.requiredBlueprintKeyList.Count > 0)
