@@ -726,6 +726,10 @@ MonoBehaviour:
   focusMaskRectTr_Right: {fileID: 1638406998017155914}
   focusMaskRectTr_Top: {fileID: 4129109224101629057}
   focusMaskRectTr_Bottom: {fileID: 3084935124038707406}
+  focusMaskImg_Left: {fileID: 0}
+  focusMaskImg_Right: {fileID: 0}
+  focusMaskImg_Top: {fileID: 0}
+  focusMaskImg_Bottom: {fileID: 0}
   alertText: {fileID: 3087253591335596372}
   confirmText: {fileID: 3087253590767613929}
   alertDodgeBtn: {fileID: 3087253591733638115}
@@ -917,6 +921,12 @@ MonoBehaviour:
     lines: []
   - key: Day20_6
     ta: {fileID: 4900000, guid: 8d8f513767885a644956c3cee7a2ca33, type: 3}
+    lines: []
+  - key: Day20_7
+    ta: {fileID: 4900000, guid: b00cf1e81f2bdd74ea416b0b95e1d2b8, type: 3}
+    lines: []
+  - key: Day20_8
+    ta: {fileID: 4900000, guid: 0956faf1b1b0498409bb2a0221fe843c, type: 3}
     lines: []
   canvas: {fileID: 0}
 --- !u!82 &3087253590899327246
