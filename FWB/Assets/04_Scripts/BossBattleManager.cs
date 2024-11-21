@@ -33,6 +33,7 @@ public class BossBattleManager : MonoBehaviour
     public Image HideInfoForBoss;
     public Button LeftButton;
     public Button RightButton;
+    public Button CancleButton;
 
     [Header("Sprites")]
     public Sprite puppetNormalSprite;
@@ -119,6 +120,7 @@ public class BossBattleManager : MonoBehaviour
 
         LeftButton.gameObject.SetActive(false);
         RightButton.gameObject.SetActive(false);
+        CancleButton.gameObject.SetActive(false);
     }
 
     public void SetUIActive(bool isActive)
@@ -302,21 +304,25 @@ public class BossBattleManager : MonoBehaviour
                 resultKey = "fail";
                 failureCount += 2;
                 TeamHP = Mathf.Max(0, TeamHP - 2);
+                Debug.Log($"Result: {resultKey}, Failure Count: {failureCount}, Team HP reduced to: {TeamHP}");
                 break;
             case 2:
                 resultKey = "success";
                 succeedPuzzleCnt++;
                 failureCount++;
                 TeamHP = Mathf.Max(0, TeamHP - 1);
+                Debug.Log($"Result: {resultKey}, Success Count: {succeedPuzzleCnt}, Failure Count: {failureCount}, Team HP reduced to: {TeamHP}");
                 break;
             case 3:
                 resultKey = "greatSuccess";
                 succeedPuzzleCnt++;
+                Debug.Log($"Result: {resultKey}, Great Success, Success Count: {succeedPuzzleCnt}");
                 break;
             default:
                 resultKey = "fail";
                 failureCount += 2;
                 TeamHP = Mathf.Max(0, TeamHP - 2);
+                Debug.Log($"Result: {resultKey}, Unexpected result, Failure Count: {failureCount}, Team HP reduced to: {TeamHP}");
                 break;
         }
         UpdateCharacterPopup(result, false);
@@ -324,6 +330,7 @@ public class BossBattleManager : MonoBehaviour
 
         Debug.Log($"New state after processing: TeamHP={TeamHP}, BossHP={BossHP}, isGamePlaying={isGamePlaying}");
     }
+
 
     private IEnumerator HandleDialogueAndContinue(int bossIndex, string resultKey, int result)
     {
@@ -338,7 +345,7 @@ public class BossBattleManager : MonoBehaviour
         }
         else
         {
-            if (failureCount >= 3)
+            if (failureCount >= 3 || currentPuzzleIndex == maxPuzzleCnt - 1)
             {
                 EndBossBattle(false);
                 yield break;

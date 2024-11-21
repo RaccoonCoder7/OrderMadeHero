@@ -56474,6 +56474,7 @@ MonoBehaviour:
   HideInfoForBoss: {fileID: 1934831119}
   LeftButton: {fileID: 186704639}
   RightButton: {fileID: 1051691287}
+  CancleButton: {fileID: 1477556755}
   puppetNormalSprite: {fileID: 21300000, guid: 12f4bbb87266b95469894db5a3124c33, type: 3}
   puppetCrackedSprite: {fileID: 21300000, guid: fd0dd178cb022904387175e936130cd2, type: 3}
   puppetBrokenSprite: {fileID: 21300000, guid: b80e03e6bf9d76c48bd7eab3d6ed1c9f, type: 3}
