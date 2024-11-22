@@ -285,7 +285,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             OnClickChatBox();
         }
@@ -861,6 +861,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     {
         if (!isOnConversation) return;
         if (isWaitingForText) return;
+
+        if (Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.Mouse0)) return;
 
         if (isTextFlowing)
         {
