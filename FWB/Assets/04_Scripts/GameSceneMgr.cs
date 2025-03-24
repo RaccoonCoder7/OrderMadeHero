@@ -26,6 +26,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Button popupDodge;
     public Button save;
     public Button dataSave;
+    public Button dataDelete;
     public Button load;
     public Button ok;
     public Button yes;
@@ -60,6 +61,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public Button dictionaryDodge;
     public Button deskPowerBtn;
     public Text chatName;
+    public GameObject settingObj;
     public GameObject mainChatPanel;
     public GameObject pcChatPanel;
     public GameObject popupChatPanel;
@@ -71,12 +73,14 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     public GameObject popUpDim;
     public GameObject saveOverPopup;
     public GameObject noDataPopup;
+    public GameObject deletePopup;
     public GameObject newsPanel;
     public GameObject dictionaryPanel;
     public List<Button> newsHintButtons;
     public static bool isSavePopupActive = false;
     public Sprite selectedSaveSlot;
     public Sprite defaultSaveSlot;
+    public Sprite noDataSaveSlot;
     public GameObject slots1, slots2, slots3;
     public Button toLeft, toRight;
     public Camera mainCam;
@@ -234,6 +238,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private int previousMobAvatarIndex = 0;
     private string saveSlot;
     private bool isSaving;
+    private bool isDeleting = false;
     private bool showWhat = true;
     private Texture2D currentScreen;
     private GameObject lastSelectedSlot = null;
@@ -311,6 +316,8 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         weaponRight.onClick.AddListener(OnClickWeaponRight);
         weaponCreate.onClick.AddListener(OnClickWeaponCreate);
         save.onClick.AddListener(OnClickSave);
+        dataDelete.onClick.RemoveAllListeners();
+        dataDelete.onClick.AddListener(OnClickDelete);
         dataSave.onClick.RemoveAllListeners();
         dataSave.onClick.AddListener(OnClickDataSave);
         load.onClick.RemoveAllListeners();
@@ -525,6 +532,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
     private IEnumerator StartEventSequence(int eventStartDay)
     {
         Debug.Log("Start Event Sequence");
+        StartCoroutine(SaveBtnOn(save, 3f));
         for (int i = eventStartDay; i <= GameMgr.In.endDay; i++)
         {
             if (doDaySkip)
@@ -710,6 +718,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
 
     public void OnClickSave()
     {
+        if (settingObj.activeSelf)
+        {
+            settingObj.SetActive(false);
+        }
         isPcChatOn = pcChatPanel.activeSelf;
         isPopupChatOn = popupChatPanel.activeSelf;
         currentScreen = DataSaveLoad.dataSave.MakeScreenShot();
@@ -788,6 +800,21 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             StartCoroutine(NoDataBlinker());
         }
     }
+    
+    public void OnClickDelete()
+    {
+        isDeleting = true;
+        if (File.Exists(Application.persistentDataPath + "/saves" + "/" + saveSlot + ".json"))
+        {
+            popUpDim.SetActive(true);
+            deletePopup.SetActive(true);
+        }
+        else
+        {
+            popUpDim.SetActive(true);
+            StartCoroutine(NoDataBlinker());
+        }
+    }
 
     private IEnumerator NoDataBlinker()
     {
@@ -815,16 +842,28 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             DataSaveLoad.dataSave.SaveSS(currentScreen, saveSlot);
             savePopup.SetActive(false);
             saveOverPopup.SetActive(false);
+            isSavePopupActive = false;
+        }
+        else if (isDeleting)
+        {
+            DataSaveLoad.dataSave.DeleteData(saveSlot);
+            deletePopup.SetActive(false);
+            DataSaveLoad.dataSave.DeleteSS(saveSlot);
+            GameObject slotGo = GameObject.Find(saveSlot);
+            Image prevImage = slotGo.transform.Find("Mask/Preview").GetComponent<Image>();
+            prevImage.sprite = noDataSaveSlot;
         }
         else
         {
             DataSaveLoad.dataSave.LoadData(saveSlot);
             loadPopup.SetActive(false);
+            isSavePopupActive = false;
         }
         popUpDim.SetActive(false);
-        isSavePopupActive = false;
         GameObject slotObj = GameObject.Find(saveSlot);
         slotObj.GetComponent<SaveSlot>().CallSlotInfo();
+        isSaving = false;
+        isDeleting = false;
     }
 
     public void OnClickSetting()
@@ -855,6 +894,9 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         savePopup.SetActive(false);
         loadPopup.SetActive(false);
         saveOverPopup.SetActive(false);
+        deletePopup.SetActive(false);
+        isSaving = false;
+        isDeleting = false;
     }
 
     public void OnClickChatBox()
@@ -2452,6 +2494,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         yield return new WaitForSeconds(1f);
         emoji.gameObject.SetActive(false);
     }
+    
+    private IEnumerator SaveBtnOn(Button btn, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        btn.interactable = true;
+    }
 
     public IEnumerator FadeToNextDay()
     {
@@ -2472,6 +2520,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(true));
             }
         }
+        save.gameObject.GetComponent<Button>().interactable = false;
         isEventFlowing = false;
     }
 

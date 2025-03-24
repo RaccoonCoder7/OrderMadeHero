@@ -116,6 +116,7 @@ public class DataSaveLoad : MonoBehaviour
     public GameObject slots1, slots2, slots3;
     public Button toLeft, toRight;
     public Camera mainCam;
+    public Button delete;
 
     public WeaponDataTable weaponDataTable;
     public ChipTable chipTable;
@@ -327,6 +328,16 @@ public class DataSaveLoad : MonoBehaviour
         }
         return null;
     }
+    
+    public Texture2D DeleteSS(string fileName)
+    {
+        string filePath = folderPath + "/" + fileName + "_screenshot.png";
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+        return null;
+    }
 
     public void SaveData(string fileName)
     {
@@ -428,6 +439,32 @@ public class DataSaveLoad : MonoBehaviour
         else
         {
             Debug.LogError("no data");
+        }
+    }
+    
+    public void DeleteData(string fileName)
+    {
+        string filePath = folderPath + "/" + fileName + ".json";
+        string unlockedFilePath = folderPath + "/" + fileName + "_unlocked_info.json";
+
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            Debug.Log("Save file deleted: " + filePath);
+        }
+        else
+        {
+            Debug.LogWarning("Save file not found: " + filePath);
+        }
+
+        if (File.Exists(unlockedFilePath))
+        {
+            File.Delete(unlockedFilePath);
+            Debug.Log("Unlocked info deleted: " + unlockedFilePath);
+        }
+        else
+        {
+            Debug.LogWarning("Unlocked info file not found: " + unlockedFilePath);
         }
     }
 }

@@ -14,24 +14,30 @@ public class StartSceneMgr : MonoBehaviour
     public Button startBtn;
     public Button quitBtn;
     public SpriteAnimation sa;
-    
+
+    public Button continueBtn;
     public GameObject saveLoadPanel;
     public GameObject slots1, slots2, slots3;
     public Button toLeft, toRight;
     public Camera mainCam;
     public Button load;
+    public Button delete;
     public Button returnBtn;
-    public Button popupYes;
-    public Button popupNo;
+    public List<Button> popupYes = new List<Button>();
+    public List<Button> popupNo = new List<Button>();
     public List<Button> saveLoadButtons = new List<Button>();
     public Sprite selectedSaveSlot;
     public Sprite defaultSaveSlot;
+    public Sprite noDataSaveSlot;
     public GameObject loadPopup;
+    public GameObject deletePopup;
     public GameObject popUpDim;
     public GameObject noDataPopup;
     private string saveSlot;
     private Image lastSelectedSlotImage = null;
     public static bool isSavePopupActive = false;
+    private bool isLoading = false;
+    private bool isDeleting = false;
 
 
     void Start()
@@ -55,15 +61,22 @@ public class StartSceneMgr : MonoBehaviour
     private void ActiveLoadFeature()
     {
         DataSaveLoad.dataSave.AssignSceneObjects(slots1, slots2, slots3, toLeft, toRight, mainCam);
-        // continueBtn.gameObject.SetActive(true);
-        // continueBtn.onClick.AddListener(OpenSavePanel);
+        continueBtn.gameObject.SetActive(true);
+        continueBtn.onClick.AddListener(OpenSavePanel);
         load.onClick.RemoveAllListeners();
         load.onClick.AddListener(OnClickDataLoad);
-        returnBtn.onClick.AddListener(OnClickReturn);
-        popupYes.onClick.RemoveAllListeners();
-        popupYes.onClick.AddListener(OnClickPopupYes);
-        popupNo.onClick.RemoveAllListeners();
-        popupNo.onClick.AddListener(OnClickPopupNo);
+        delete.onClick.RemoveAllListeners();
+        delete.onClick.AddListener(OnClickDelete);
+        returnBtn.onClick.AddListener(OnClickReturn);foreach (var btn in popupYes)
+        {
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(OnClickPopupYes);
+        }
+        foreach (var btn in popupNo)
+        {
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(OnClickPopupNo);
+        }
         foreach (var btn in saveLoadButtons)
         {
             btn.onClick.RemoveAllListeners();
@@ -99,6 +112,7 @@ public class StartSceneMgr : MonoBehaviour
     {
         if (File.Exists(Application.persistentDataPath + "/saves" + "/" + saveSlot + ".json"))
         {
+            isLoading = true;
             popUpDim.SetActive(true);
             loadPopup.SetActive(true);
         }
@@ -109,20 +123,52 @@ public class StartSceneMgr : MonoBehaviour
         }
     }
     
+    public void OnClickDelete()
+    {
+        if (File.Exists(Application.persistentDataPath + "/saves" + "/" + saveSlot + ".json"))
+        {
+            isDeleting = true;
+            popUpDim.SetActive(true);
+            deletePopup.SetActive(true);
+        }
+        else
+        {
+            popUpDim.SetActive(true);
+            StartCoroutine(NoDataBlinker());
+        }
+    }
+    
     private void OnClickPopupYes()
     {
-        DataSaveLoad.dataSave.LoadData(saveSlot);
-        loadPopup.SetActive(false);
+        if (isDeleting)
+        {
+            DataSaveLoad.dataSave.DeleteData(saveSlot);
+            deletePopup.SetActive(false);
+            DataSaveLoad.dataSave.DeleteSS(saveSlot);
+            GameObject slotGo = GameObject.Find(saveSlot);
+            Image prevImage = slotGo.transform.Find("Mask/Preview").GetComponent<Image>();
+            prevImage.sprite = noDataSaveSlot;
+        }
+        else
+        {
+            DataSaveLoad.dataSave.LoadData(saveSlot);
+            loadPopup.SetActive(false);
+            isSavePopupActive = false;
+        }
         popUpDim.SetActive(false);
-        isSavePopupActive = false;
         GameObject slotObj = GameObject.Find(saveSlot);
         slotObj.GetComponent<SaveSlot>().CallSlotInfo();
+        isLoading = false;
+        isDeleting = false;
     }
     
     private void OnClickPopupNo()
     {
         popUpDim.SetActive(false);
         loadPopup.SetActive(false);
+        deletePopup.SetActive(false);
+        isLoading = false;
+        isDeleting = false;
     }
 
     private void OnClickReturn()
