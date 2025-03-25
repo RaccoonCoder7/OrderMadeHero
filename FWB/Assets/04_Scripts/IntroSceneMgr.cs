@@ -75,6 +75,10 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
         yield return StartCoroutine(CommonTool.In.FadeIn());
         isOnConversation = true;
         onEndText = PlayerNameRoutine();
+        if (textFlowCoroutine != null)
+        {
+            StopCoroutine(textFlowCoroutine);
+        }
         textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
         StartCoroutine(BlinkCoroutine());
@@ -115,10 +119,12 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
     {
         if (!isOnConversation) return;
 
+        if (Input.GetKeyDown(KeyCode.Space) && Input.GetKeyUp(KeyCode.Mouse0)) return;
+
         if (isTextFlowing)
         {
-            // SkipCurrLine();
-            // StartNextLine();
+            SkipCurrLine();
+            StartNextLine();
             return;
         }
 
@@ -259,6 +265,10 @@ public class IntroSceneMgr : MonoBehaviour, IDialogue
         paper.gameObject.SetActive(false);
         historyText.text = string.Empty;
         lines = CommonTool.In.GetText("Story2");
+        if (textFlowCoroutine != null)
+        {
+            StopCoroutine(textFlowCoroutine);
+        }
         StartCoroutine(StartTextFlow());
         yield return new WaitForSeconds(0.75f);
 

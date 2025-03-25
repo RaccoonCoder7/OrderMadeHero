@@ -904,12 +904,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         if (!isOnConversation) return;
         if (isWaitingForText) return;
 
-        if (Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.Mouse0)) return;
+        if (Input.GetKeyDown(KeyCode.Space) && Input.GetKeyUp(KeyCode.Mouse0)) return;
 
         if (isTextFlowing)
         {
-            // SkipCurrLine();
-            // StartNextLine();
+            SkipCurrLine();
+            StartNextLine();
             return;
         }
 
@@ -1002,6 +1002,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         isOnConversation = true;
         this.onEndText = onEndText;
         this.onSkip = onSkip;
+        if (textFlowCoroutine != null)
+        {
+            StopCoroutine(textFlowCoroutine);
+        }
         textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
     }
@@ -1670,6 +1674,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             lineCnt = -1;
             lines = additionalTextList;
             this.onEndText = null;
+            if (textFlowCoroutine != null)
+            {
+                StopCoroutine(textFlowCoroutine);
+            }
             textFlowCoroutine = StartCoroutine(StartTextFlow());
             StartNextLine();
         });
@@ -1877,6 +1885,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     }
 
                     isOnConversation = true;
+                    if (textFlowCoroutine != null)
+                    {
+                        StopCoroutine(textFlowCoroutine);
+                    }
                     textFlowCoroutine = StartCoroutine(StartTextFlow());
                     StartNextLine();
 
@@ -1927,6 +1939,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                     isOnConversation = true;
                     this.onEndText = EndOrder;
                     emojiRoutine = StartCoroutine(ShowEmoji());
+                    if (textFlowCoroutine != null)
+                    {
+                        StopCoroutine(textFlowCoroutine);
+                    }
                     textFlowCoroutine = StartCoroutine(StartTextFlow());
                     StartNextLine();
                     break;
@@ -1961,6 +1977,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         lines = orderState == OrderState.Succeed ? successTextList : failTextList;
                         this.onEndText = EndOrder;
                         emojiRoutine = StartCoroutine(ShowEmoji());
+                        if (textFlowCoroutine != null)
+                        {
+                            StopCoroutine(textFlowCoroutine);
+                        }
                         textFlowCoroutine = StartCoroutine(StartTextFlow());
                         StartNextLine();
                     }
@@ -2446,6 +2466,10 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
         }
 
         prevChatTarget = ChatTarget.None;
+        if (textFlowCoroutine != null)
+        {
+            StopCoroutine(textFlowCoroutine);
+        }
         textFlowCoroutine = StartCoroutine(StartTextFlow());
         StartNextLine();
     }
