@@ -435,14 +435,29 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 if ((int)GameMgr.In.day > 3)
                 {
                     shopControlBlockingPanel.SetActive(false);
+                    clickBlockForShop.SetActive(false);
                     shop.onClick.AddListener(OnClickShop);
                     shopDodge.onClick.AddListener(OnClickShopDodge);
                 }
                 else if((int)GameMgr.In.day == 3 && GameMgr.In.isEventOn == 0)
                 {
                     shopControlBlockingPanel.SetActive(false);
+                    clickBlockForShop.SetActive(false);
                     shop.onClick.AddListener(OnClickShop);
                     shopDodge.onClick.AddListener(OnClickShopDodge);
+                }
+                if (GameMgr.In.week > 1 || GameMgr.In.day == GameMgr.Day.일)
+                {
+                    if (GameMgr.In.tendency < 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Hero)
+                    {
+                        GameMgr.In.tendencyType = GameMgr.TendencyType.Villain;
+                        StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(false));
+                    }
+                    else if (GameMgr.In.tendency >= 0 && GameMgr.In.tendencyType == GameMgr.TendencyType.Villain)
+                    {
+                        GameMgr.In.tendencyType = GameMgr.TendencyType.Hero;
+                        StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(true));
+                    }
                 }
 
                 if (GameMgr.In.dayCustomerCnt <= 0 && GameMgr.In.isEventOn == 0)
@@ -463,10 +478,12 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                         {
                             if (GameMgr.In.isBankrupt)
                             {
+                                save.gameObject.GetComponent<Button>().interactable = false;
                                 Bankrupt();
                             }
                             else
                             {
+                                save.gameObject.GetComponent<Button>().interactable = false;
                                 StartCoroutine(FadeToNextDay());
                                 StartCoroutine(StartEventSequence(startDay));
                             }
@@ -566,6 +583,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
             }
             if (i < GameMgr.In.endDay && GameMgr.In.isBankrupt == false)
             {
+                save.gameObject.GetComponent<Button>().interactable = false;
                 Debug.Log("Next Day");
                 yield return StartCoroutine(NextDay());
             }
@@ -2544,7 +2562,7 @@ public class GameSceneMgr : MonoBehaviour, IDialogue
                 StartCoroutine(tendencyChangeMgr.TendencyChangeAnimation(true));
             }
         }
-        save.gameObject.GetComponent<Button>().interactable = false;
+        StartCoroutine(SaveBtnOn(save, 5f));
         isEventFlowing = false;
     }
 
